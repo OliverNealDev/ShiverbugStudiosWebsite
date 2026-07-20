@@ -555,6 +555,19 @@ h1, h2, h3 {
 .badge--active::before { background: var(--leaf); }
 .badge--former::before { background: rgba(20,23,28,.35); }
 .profile__section { margin-bottom: 2.2rem; max-width: 60ch; }
+.profile__about.is-clamped {
+  max-height: 15rem; overflow: hidden; position: relative;
+}
+.profile__about.is-clamped::after {
+  content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 5rem;
+  background: linear-gradient(to bottom, transparent, var(--paper));
+}
+.profile__more {
+  background: none; border: none; padding: 0; cursor: pointer;
+  font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+  color: var(--sea-deep); margin-top: .5rem;
+}
+.profile__more:hover { text-decoration: underline; }
 .profile__section h2 {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
   color: var(--sea-deep); margin-bottom: .8rem;

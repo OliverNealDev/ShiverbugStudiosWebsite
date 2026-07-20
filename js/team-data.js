@@ -92,15 +92,26 @@ window.TEAM = {
 
   'sarah': {
     name: 'Sarah Childs',
-    role: '2D Concept Artist',
+    role: 'Character Concept Artist',
     photo: 'assets/img/team-sarah.jpg',
     initials: 'SC',
     pronouns: 'she/her',
-    tagline: null,
-    about: null,
-    favourite: null,
+    tagline: 'Never give up on a dream because of the time it takes. The time will pass anyway.',
+    about: [
+      "I specialise in fantasy, historical and RPG character designs that express gameplay mechanics and world-building narratives through research informed visual design. I have a drive to learn about the world and people around me, and love expressing their stories in my art to create believable and iconic casts of characters.",
+      "I am inspired by games that combine narrative, music, and visuals together to create immersive worlds: from my first game, Zelda Ocarina of Time on the N64, through every Final Fantasy, to my current obsession with the Kingdom Come: Deliverance series.",
+      "Graduated with First Class Honours in Concept Art BA at Teesside University. Awarded The Leni Oglesby Prize and Dean's Award for Best Graduating Student 2025. Twice winner of Best in Concept Art at Expo Tees. Graduated from David Ko's Riot Games Stylized Character Design Mentorship at CG Verse. Artist and author of The Chronicles of Gyzra graphic novel series. Over 10 years of professional art experience, including exhibiting artist at MCM London, EGX, and others.",
+      "In May 2026, I joined Shiverbug Studios to help bring their characters to life!"
+    ],
+    favourite: 'turtle',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'ArtStation', url: 'https://www.artstation.com/gyzra' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/gyzra/' },
+      { label: 'Website', url: 'https://gyzra.com' },
+      { label: 'Bluesky', url: 'https://bsky.app/profile/gyzra.bsky.social' },
+      { label: 'Instagram', url: 'https://www.instagram.com/gyzra/' }
+    ]
   },
 
   'connor': {
@@ -209,15 +220,22 @@ window.TEAM = {
   'madi': {
     name: 'Madi Freck',
     role: 'Social Media',
-    photo: null,            // TODO: photo -> assets/img/team-madi.jpg
+    photo: 'assets/img/team-madi.png',
     initials: 'MF',
     pronouns: 'they/them',
     status: 'active',
     tagline: null,
-    about: null,
-    favourite: null,
+    about: [
+      "Hello, I'm Madi Freck, a 2nd Year 2D Animation and Stop-motion student at Teesside University.",
+      "I specialise in stop-motion puppet making, frame-by-frame animation and creating 2D character rigs."
+    ],
+    favourite: 'seagull',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'Website', url: 'https://madifreck.github.io/WebsitePortfolio' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/madi-freck-b45116370' },
+      { label: 'Instagram', url: 'https://www.instagram.com/madi.freck' }
+    ]
   },
 
   'max': {

@@ -48,9 +48,12 @@
     ? `<p class="profile__tagline">“${person.tagline}”</p>`
     : `<p class="profile__tagline">${firstName} hasn't picked a tagline yet. We're on it.</p>`;
 
-  // --- about ---
-  const about = person.about && person.about.length
-    ? person.about.map(p => `<p>${p}</p>`).join('')
+  // --- about (long bios get clamped with a "Read more" toggle) ---
+  const aboutParas = person.about && person.about.length ? person.about : null;
+  const aboutLong = aboutParas && aboutParas.join(' ').length > 600;
+  const about = aboutParas
+    ? `<div class="profile__about${aboutLong ? ' is-clamped' : ''}" id="aboutText">${aboutParas.map(p => `<p>${p}</p>`).join('')}</div>` +
+      (aboutLong ? `<button class="profile__more" id="aboutMore" aria-expanded="false" aria-controls="aboutText">Read more</button>` : '')
     : `<p class="is-placeholder">We're still squeezing a bio out of ${firstName}. Check back soon.</p>`;
 
   // --- ask me about ---
@@ -99,4 +102,15 @@
       <a class="is-back" href="index.html#team">All shiverbugs</a>
       <a href="team-member.html?p=${next}">${window.TEAM[next].name.split(' ')[0]} →</a>
     </nav>`;
+
+  // --- "Read more" toggle for clamped abouts ---
+  const moreBtn = document.getElementById('aboutMore');
+  if (moreBtn) {
+    const text = document.getElementById('aboutText');
+    moreBtn.addEventListener('click', () => {
+      const open = !text.classList.toggle('is-clamped');
+      moreBtn.textContent = open ? 'Show less' : 'Read more';
+      moreBtn.setAttribute('aria-expanded', String(open));
+    });
+  }
 })();
