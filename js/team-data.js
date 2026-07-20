@@ -16,7 +16,8 @@
 
 window.TEAM_ORDER = [
   'lewis', 'garrett', 'ryan', 'oliver', 'sarah',
-  'connor', 'josh', 'nathan', 'charlie-a', 'charlie-p', 'martin'
+  'connor', 'josh', 'nathan', 'charlie-a', 'charlie-p', 'martin',
+  'max'
 ];
 
 window.TEAM = {
@@ -146,6 +147,18 @@ window.TEAM = {
     role: '3D Artist',
     photo: 'assets/img/team-martin.png',
     initials: 'MW',
+    tagline: null,
+    about: null,
+    favourite: null,
+    askMeAbout: null,
+    socials: null
+  },
+
+  'max': {
+    name: 'Max',            // TODO: surname
+    role: 'Character Artist',
+    photo: null,            // TODO: photo -> assets/img/team-max.jpg
+    initials: 'M',
     tagline: null,
     about: null,
     favourite: null,
