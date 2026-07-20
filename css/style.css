@@ -384,7 +384,7 @@ h1, h2, h3 {
 
 /* ---------- team ---------- */
 .team { background: var(--paper-2); }
-.team__pool-head { margin-top: clamp(3.5rem, 7vw, 5.5rem); }
+.team__pool-head { margin-top: clamp(6rem, 11vw, 9rem); }
 .team__grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.3rem;
 }
