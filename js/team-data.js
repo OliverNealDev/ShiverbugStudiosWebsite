@@ -264,7 +264,10 @@ window.TEAM = {
     pronouns: 'he/him',
     status: 'former',
     tagline: "Always pay attention to the small things, because they're the ones that bring the magic",
-    about: null,
+    about: [
+      "I'm a British sound designer with a First Class BA (with Hons) in Digital Music from Solent University and an MA with a distinction in Sound Design from Manchester Metropolitan University. After finishing some work on another game, I joined Shiverbug Studios as a sound designer.",
+      "I love adventure games, card games, and anything with a whimsical vibe. I am the first to point out when I recognise a sound popping up across different games or movies."
+    ],
     favourite: null,
     askMeAbout: null,
     socials: [
