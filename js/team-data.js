@@ -63,11 +63,19 @@ window.TEAM = {
     role: 'Gameplay Programmer',
     photo: 'assets/img/team-oliver.jpg',
     initials: 'ON',
-    tagline: null,
-    about: null,
+    tagline: 'Programming Department',
+    about: [
+      "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, and joined Shiverbug Studios as a gameplay programmer straight after.",
+      "The part of games I enjoy most is the systems layer: state machines driving enemy AI, multiplayer netcode, and the optimisation that lets thousands of entities simulate without dropping frames."
+    ],
     favourite: 'turtle',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'Website', url: 'https://oliverneal.dev' },
+      { label: 'GitHub', url: 'https://github.com/OliverNealDev' },
+      { label: 'itch.io', url: 'https://olivernealdev.itch.io' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/oliver-neal-197b74290' }
+    ]
   },
 
   'sarah': {
@@ -91,7 +99,10 @@ window.TEAM = {
     about: null,
     favourite: null,
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'ArtStation', url: 'https://www.artstation.com/cmilburn3d' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/connor-milburn-0399a1224/' }
+    ]
   },
 
   'josh': {

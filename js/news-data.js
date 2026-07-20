@@ -2,9 +2,9 @@
 // News section: LinkedIn post embeds
 //
 // Each entry below matches one card in the news grid, in order
-// (1st = Develop:Brighton wrap, 2nd = GameNext, 3rd = Gamebridge).
+// (all three are placeholder cards for now).
 //
-// Leave an entry as null and the hand-written card stays.
+// Leave an entry as null and the placeholder card stays.
 // Paste a LinkedIn embed URL and the card is replaced by the
 // real post, straight from LinkedIn.
 //
@@ -22,7 +22,7 @@
 // ============================================================
 
 window.LINKEDIN_EMBEDS = [
-  null,  // TODO: Develop:Brighton wrap post embed URL
-  null,  // TODO: GameNext post embed URL
-  null   // TODO: Gamebridge / new faces post embed URL
+  null,  // TODO: 1st post embed URL
+  null,  // TODO: 2nd post embed URL
+  null   // TODO: 3rd post embed URL
 ];
