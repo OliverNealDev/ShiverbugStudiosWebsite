@@ -17,7 +17,7 @@
 // ============================================================
 
 window.TEAM_ORDER = [
-  'lewis', 'garrett', 'ryan', 'oliver', 'sarah',
+  'lewis', 'ryan', 'garrett', 'oliver', 'sarah',
   'connor', 'josh', 'nathan', 'charlie-a', 'charlie-p', 'martin',
   'evan'
 ];
@@ -25,7 +25,7 @@ window.TEAM_ORDER = [
 // Talent pool: guest contributors and former core members.
 // Profiles live in window.TEAM below like everyone else.
 window.TALENT_ORDER = [
-  'madi', 'max', 'aiden'
+  'madi', 'max', 'aidan', 'hollie'
 ];
 
 window.TEAM = {
@@ -218,7 +218,7 @@ window.TEAM = {
   'madi': {
     name: 'Madi Freck',
     role: 'Social Media',
-    photo: 'assets/img/team-madi.png',
+    photo: 'assets/img/team-madi.jpg',
     initials: 'MF',
     pronouns: 'they/them',
     status: 'active',
@@ -256,12 +256,30 @@ window.TEAM = {
     ]
   },
 
-  'aiden': {
-    name: 'Aiden Hendry',
+  'aidan': {
+    name: 'Aidan Hendry',
     role: 'Sound Designer',
-    photo: null,            // TODO: photo -> assets/img/team-aiden.jpg
+    photo: 'assets/img/team-aidan.jpg',
     initials: 'AH',
     pronouns: 'he/him',
+    status: 'former',
+    tagline: "Always pay attention to the small things, because they're the ones that bring the magic",
+    about: null,
+    favourite: null,
+    askMeAbout: null,
+    socials: [
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/aidan-hendry-9805b0b6/' },
+      { label: 'Instagram', url: 'https://www.instagram.com/honeydewdsound' },
+      { label: 'X', url: 'https://x.com/honeydewdsound' }
+    ]
+  },
+
+  'hollie': {
+    name: 'Hollie',          // TODO: surname
+    role: '3D Animator',
+    photo: null,             // TODO: photo -> assets/img/team-hollie.jpg
+    initials: 'H',
+    pronouns: null,          // TODO: confirm
     status: 'former',
     tagline: null,
     about: null,

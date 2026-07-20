@@ -55,15 +55,6 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach((el) => el.classList.add('is-visible'));
 }
 
-// ----- news: swap cards for real LinkedIn post embeds when URLs are set -----
-const embeds = window.LINKEDIN_EMBEDS || [];
-document.querySelectorAll('.news__grid .post').forEach((post, i) => {
-  const url = embeds[i];
-  if (!url) return;
-  post.classList.add('post--embed');
-  post.innerHTML = `<iframe src="${url}" title="LinkedIn post" loading="lazy" allowfullscreen></iframe>`;
-});
-
 // ----- footer year -----
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
