@@ -49,7 +49,7 @@ window.TEAM = {
   'ryan': {
     name: 'Ryan Hughes',
     role: 'CFO · Co-Founder',
-    photo: null,          // TODO: photo -> assets/img/team-ryan.jpg
+    photo: 'assets/img/team-ryan.jpg',
     initials: 'RH',
     tagline: null,
     about: null,
@@ -120,7 +120,7 @@ window.TEAM = {
   'nathan': {
     name: 'Nathan Hopwood',
     role: '3D Artist',
-    photo: 'assets/img/team-nathan.png',
+    photo: 'assets/img/team-nathan.jpg',
     initials: 'NH',
     tagline: null,
     about: null,
@@ -134,11 +134,18 @@ window.TEAM = {
     role: 'Level Designer',
     photo: 'assets/img/team-charlie-a.png',
     initials: 'CA',
-    tagline: null,
-    about: null,
-    favourite: null,
+    tagline: "Neurospicy, with lots of flavor",
+    about: [
+      "I'm a level designer that works in Unreal and Unity. I graduated from Teesside University in July 2025 with First Class Honours in Game Design, and am currently studying a masters in Game Design. I joined Shiverbug in May of 2026 as a level designer.",
+      "Some of my favourite games are Sonic X Shadow Generations, Resident Evil and Hades 1/2. My favourite part of games is the level design and creating different worlds and levels for players to explore and be guided through.",
+      "Outside of games, I also like to take part in the One Piece TCG (a revolutionary Army player) and explore different pieces of media."
+    ],
+    favourite: 'turtle',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'Portfolio', url: 'https://charlieashall7.wixsite.com/rephrase-and-suggest' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/charlie-ashall-designer/' }
+    ]
   },
 
   'charlie-p': {
@@ -166,15 +173,21 @@ window.TEAM = {
   },
 
   'max': {
-    name: 'Max',            // TODO: surname
+    name: 'Max Breeze',
     role: 'Character Artist',
-    photo: null,            // TODO: photo -> assets/img/team-max.jpg
-    initials: 'M',
-    tagline: null,
-    about: null,
-    favourite: null,
+    photo: 'assets/img/team-max.jpg',
+    initials: 'MB',
+    tagline: "I've always loved living in other worlds",
+    about: [
+      "I care a lot about games. I've been playing since I was 5, starting with Oddworld: Stranger's Wrath, and I've always loved living in other worlds and being able to create worlds of my own.",
+      "I do a lot of GDD work and always chip in when it comes to games. Big fan of knights, vikings and fantasy stuff."
+    ],
+    favourite: 'turtle',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'ArtStation', url: 'https://www.artstation.com/maxbreeze' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/max-breeze-b2b593281/' }
+    ]
   }
 
 };
