@@ -60,7 +60,10 @@
     : `<p class="is-placeholder" style="font-style:italic;color:#9a9284;">Links on the way.</p>`;
 
   // --- prev / next ---
-  const order = window.TEAM_ORDER || Object.keys(window.TEAM);
+  const talentOrder = window.TALENT_ORDER || [];
+  const order = talentOrder.includes(slug)
+    ? talentOrder
+    : (window.TEAM_ORDER || Object.keys(window.TEAM));
   const i = order.indexOf(slug);
   const prev = order[(i - 1 + order.length) % order.length];
   const next = order[(i + 1) % order.length];
@@ -69,8 +72,8 @@
     <div class="profile__inner">
       <figure class="profile__photo">${photo}</figure>
       <div>
-        <p class="kicker kicker--sea profile__role">${person.role}</p>
         <h1 class="profile__name">${person.name}</h1>
+        <p class="kicker kicker--sea profile__role">${person.role}${person.pronouns ? ` · ${person.pronouns}` : ''}</p>
         ${tagline}
         <div class="profile__badges">${favBadge}</div>
         <section class="profile__section">

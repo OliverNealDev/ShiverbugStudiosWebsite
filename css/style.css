@@ -384,6 +384,7 @@ h1, h2, h3 {
 
 /* ---------- team ---------- */
 .team { background: var(--paper-2); }
+.team__pool-head { margin-top: clamp(3.5rem, 7vw, 5.5rem); }
 .team__grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.3rem;
 }
@@ -519,8 +520,8 @@ h1, h2, h3 {
   font-family: var(--font-display); font-weight: 800; font-size: 4.5rem;
   color: rgba(20,23,28,.3);
 }
-.profile__role { margin-bottom: .4rem; }
-.profile__name { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: .9rem; }
+.profile__role { margin-bottom: .9rem; }
+.profile__name { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: .4rem; }
 .profile__tagline {
   font-size: 1.25rem; font-style: italic; color: var(--text-soft);
   border-left: 3px solid var(--sand); padding-left: 1rem;

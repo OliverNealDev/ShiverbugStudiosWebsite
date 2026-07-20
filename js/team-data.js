@@ -5,6 +5,7 @@
 // Fields per person:
 //   name       required
 //   role       required ("Role TBC" is fine for now)
+//   pronouns   e.g. 'he/him', shown next to the role
 //   photo      path to portrait, or null for an initials tile
 //   initials   shown when photo is null
 //   tagline    one-liner in their own words, or null
@@ -17,7 +18,13 @@
 window.TEAM_ORDER = [
   'lewis', 'garrett', 'ryan', 'oliver', 'sarah',
   'connor', 'josh', 'nathan', 'charlie-a', 'charlie-p', 'martin',
-  'max'
+  'evan'
+];
+
+// Talent pool: volunteers, guest contributors and former core members.
+// Profiles live in window.TEAM below like everyone else.
+window.TALENT_ORDER = [
+  'madi', 'max', 'aiden'
 ];
 
 window.TEAM = {
@@ -27,6 +34,7 @@ window.TEAM = {
     role: 'CEO · Co-Founder',
     photo: 'assets/img/team-lewis.jpg',
     initials: 'LM',
+    pronouns: 'he/him',
     tagline: null,          // TODO: get from Lewis
     about: null,            // TODO: get from Lewis
     favourite: 'turtle',
@@ -39,6 +47,7 @@ window.TEAM = {
     role: 'Lead Artist · Co-Founder',
     photo: 'assets/img/team-garrett.jpg',
     initials: 'GW',
+    pronouns: 'he/him',
     tagline: null,
     about: null,
     favourite: null,
@@ -51,6 +60,7 @@ window.TEAM = {
     role: 'CFO · Co-Founder',
     photo: 'assets/img/team-ryan.jpg',
     initials: 'RH',
+    pronouns: 'he/him',
     tagline: null,
     about: null,
     favourite: 'seagull',
@@ -63,6 +73,7 @@ window.TEAM = {
     role: 'Gameplay Programmer',
     photo: 'assets/img/team-oliver.jpg',
     initials: 'ON',
+    pronouns: 'he/him',
     tagline: 'Programming Department',
     about: [
       "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, and joined Shiverbug Studios as a gameplay programmer straight after.",
@@ -83,6 +94,7 @@ window.TEAM = {
     role: '2D Concept Artist',
     photo: 'assets/img/team-sarah.jpg',
     initials: 'SC',
+    pronouns: 'she/her',
     tagline: null,
     about: null,
     favourite: null,
@@ -95,6 +107,7 @@ window.TEAM = {
     role: '3D Artist',
     photo: 'assets/img/team-connor.jpg',
     initials: 'CM',
+    pronouns: 'he/him',
     tagline: null,
     about: null,
     favourite: null,
@@ -110,6 +123,7 @@ window.TEAM = {
     role: '3D Artist',
     photo: 'assets/img/team-josh.jpg',
     initials: 'JC',
+    pronouns: 'he/him',
     tagline: null,
     about: null,
     favourite: null,
@@ -122,6 +136,7 @@ window.TEAM = {
     role: '3D Artist',
     photo: 'assets/img/team-nathan.jpg',
     initials: 'NH',
+    pronouns: 'he/him',
     tagline: null,
     about: null,
     favourite: null,
@@ -134,6 +149,7 @@ window.TEAM = {
     role: 'Level Designer',
     photo: 'assets/img/team-charlie-a.png',
     initials: 'CA',
+    pronouns: 'he/him',
     tagline: "Neurospicy, with lots of flavor",
     about: [
       "I'm a level designer that works in Unreal and Unity. I graduated from Teesside University in July 2025 with First Class Honours in Game Design, and am currently studying a masters in Game Design. I joined Shiverbug in May of 2026 as a level designer.",
@@ -153,6 +169,7 @@ window.TEAM = {
     role: 'Narrative Designer',
     photo: null,          // TODO: photo -> assets/img/team-charlie-p.jpg
     initials: 'CP',
+    pronouns: 'he/him',
     tagline: null,
     about: null,
     favourite: null,
@@ -165,6 +182,35 @@ window.TEAM = {
     role: '3D Artist',
     photo: 'assets/img/team-martin.png',
     initials: 'MW',
+    pronouns: 'he/him',
+    tagline: null,
+    about: null,
+    favourite: null,
+    askMeAbout: null,
+    socials: null
+  },
+
+  'evan': {
+    name: 'Evan',           // TODO: surname
+    role: 'Character Artist',
+    photo: null,            // TODO: photo -> assets/img/team-evan.jpg
+    initials: 'E',
+    pronouns: 'he/him',
+    tagline: null,
+    about: null,
+    favourite: null,
+    askMeAbout: null,
+    socials: null
+  },
+
+  // --- talent pool ---
+
+  'madi': {
+    name: 'Madi Freck',
+    role: 'Social Media',
+    photo: null,            // TODO: photo -> assets/img/team-madi.jpg
+    initials: 'MF',
+    pronouns: 'they/them',
     tagline: null,
     about: null,
     favourite: null,
@@ -177,6 +223,7 @@ window.TEAM = {
     role: 'Character Artist',
     photo: 'assets/img/team-max.jpg',
     initials: 'MB',
+    pronouns: 'he/him',
     tagline: "I've always loved living in other worlds",
     about: [
       "I care a lot about games. I've been playing since I was 5, starting with Oddworld: Stranger's Wrath, and I've always loved living in other worlds and being able to create worlds of my own.",
@@ -188,6 +235,19 @@ window.TEAM = {
       { label: 'ArtStation', url: 'https://www.artstation.com/maxbreeze' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/max-breeze-b2b593281/' }
     ]
+  },
+
+  'aiden': {
+    name: 'Aiden Hendry',
+    role: 'Sound Designer',
+    photo: null,            // TODO: photo -> assets/img/team-aiden.jpg
+    initials: 'AH',
+    pronouns: 'he/him',
+    tagline: null,
+    about: null,
+    favourite: null,
+    askMeAbout: null,
+    socials: null
   }
 
 };
