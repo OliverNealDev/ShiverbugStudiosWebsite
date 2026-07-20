@@ -66,7 +66,7 @@ window.TEAM = {
     tagline: 'Programming Department',
     about: [
       "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, and joined Shiverbug Studios as a gameplay programmer straight after.",
-      "The part of games I enjoy most is the systems layer: state machines driving enemy AI, multiplayer netcode, and the optimisation that lets thousands of entities simulate without dropping frames."
+      "I love automation games, tactical shooters like Valorant, and a good co-op session. Beyond playing them, I really enjoy game design itself and thinking about what makes games fun."
     ],
     favourite: 'seagull',
     askMeAbout: null,
