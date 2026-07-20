@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team | Shiverbug Studios</title>
+  <meta name="description" content="Meet the people behind Shiverbug Studios and Out of Water.">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ======= NAV ======= -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html" aria-label="Shiverbug Studios, home">
+        <img src="assets/img/logo.jpg" alt="" class="nav__logo">
+        <span class="nav__name">Shiverbug<em>Studios</em></span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="index.html#game">Out of Water</a>
+        <a href="index.html#services">Co-Dev</a>
+        <a href="index.html#studio">Studio</a>
+        <a href="index.html#team">Team</a>
+        <a href="index.html#news">News</a>
+        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+      </nav>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="profile">
+    <div class="container" id="profileRoot">
+      <!-- filled in by js/member.js -->
+      <noscript>
+        <div class="profile__missing">
+          <h1>Meet the team</h1>
+          <p>This page needs JavaScript to load a profile. Head back to the team section instead.</p>
+          <a class="btn btn--ink" href="index.html#team">Back to the team</a>
+        </div>
+      </noscript>
+    </div>
+  </main>
+
+  <footer class="footer footer--mini">
+    <div class="container">
+      <div class="footer__meta">
+        <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK</p>
+        <p class="footer__tag">Bringing family game night back to the sofa.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/team-data.js"></script>
+  <script src="js/member.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
