@@ -159,12 +159,8 @@ h1, h2, h3 {
 .nav.is-scrolled .nav__inner { box-shadow: 0 12px 30px -12px rgba(0,0,0,.5); }
 
 .nav__brand { display: flex; align-items: center; gap: .65rem; }
-.nav__logo { width: 34px; height: 34px; border-radius: var(--radius-sm); object-fit: cover; }
-.nav__name {
-  font-family: var(--font-display); font-weight: 800; font-size: 1.02rem;
-  color: #fff; letter-spacing: .01em;
-}
-.nav__name em { font-style: normal; color: var(--sea); margin-left: .3em; }
+.nav__logo { width: 38px; height: 38px; object-fit: contain; }
+.nav__wordmark { height: 30px; width: auto; display: block; }
 
 .nav__links { display: flex; align-items: center; gap: .25rem; }
 .nav__links a {
@@ -390,10 +386,25 @@ h1, h2, h3 {
 }
 .member {
   display: block; min-width: 0;
+  position: relative;
   text-align: center;
   padding-bottom: .4rem;
   transition: transform .25s var(--ease-out);
 }
+.member__status {
+  position: absolute; top: .6rem; left: .6rem; z-index: 1;
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--font-display); font-weight: 700; font-size: .72rem;
+  letter-spacing: .04em;
+  padding: .25rem .6rem; border-radius: 999px;
+  border: 2px solid var(--ink);
+  background: #fff; color: var(--ink);
+}
+.member__status::before {
+  content: ""; width: .5rem; height: .5rem; border-radius: 50%; flex-shrink: 0;
+}
+.member__status--active::before { background: var(--leaf); }
+.member__status--former::before { background: rgba(20,23,28,.35); }
 .member:hover { transform: translateY(-5px); }
 .member__photo {
   border-radius: var(--radius);
@@ -538,6 +549,11 @@ h1, h2, h3 {
 .badge--turtle { background: var(--leaf); color: #fff; }
 .badge--seagull { background: var(--sea); color: #fff; }
 .badge--crab { background: var(--sand); color: var(--ink); }
+.badge--active::before, .badge--former::before {
+  content: ""; width: .6rem; height: .6rem; border-radius: 50%; flex-shrink: 0;
+}
+.badge--active::before { background: var(--leaf); }
+.badge--former::before { background: rgba(20,23,28,.35); }
 .profile__section { margin-bottom: 2.2rem; max-width: 60ch; }
 .profile__section h2 {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
@@ -606,7 +622,7 @@ h1, h2, h3 {
   .nav__links a { padding: .8rem 1rem; }
   .nav__links .nav__cta { margin: .35rem 0 0; text-align: center; justify-content: center; }
   .nav__burger { display: flex; }
-  .nav__name em { display: none; }
+  .nav__wordmark { height: 26px; }
 }
 
 @media (max-width: 760px) {

@@ -6,6 +6,7 @@
 //   name       required
 //   role       required ("Role TBC" is fine for now)
 //   pronouns   e.g. 'he/him', shown next to the role
+//   status     talent pool only: 'active' | 'former'
 //   photo      path to portrait, or null for an initials tile
 //   initials   shown when photo is null
 //   tagline    one-liner in their own words, or null
@@ -211,6 +212,7 @@ window.TEAM = {
     photo: null,            // TODO: photo -> assets/img/team-madi.jpg
     initials: 'MF',
     pronouns: 'they/them',
+    status: 'active',
     tagline: null,
     about: null,
     favourite: null,
@@ -224,6 +226,7 @@ window.TEAM = {
     photo: 'assets/img/team-max.jpg',
     initials: 'MB',
     pronouns: 'he/him',
+    status: 'active',
     tagline: "I've always loved living in other worlds",
     about: [
       "I care a lot about games. I've been playing since I was 5, starting with Oddworld: Stranger's Wrath, and I've always loved living in other worlds and being able to create worlds of my own.",
@@ -243,6 +246,7 @@ window.TEAM = {
     photo: null,            // TODO: photo -> assets/img/team-aiden.jpg
     initials: 'AH',
     pronouns: 'he/him',
+    status: 'former',
     tagline: null,
     about: null,
     favourite: null,

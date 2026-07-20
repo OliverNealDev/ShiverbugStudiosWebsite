@@ -31,6 +31,13 @@
     ? `<span class="badge ${fav.cls}">${fav.text}</span>`
     : `<span class="badge">Turtle or seagull? Undecided.</span>`;
 
+  // --- talent pool status badge ---
+  const statusBadge = person.status === 'active'
+    ? `<span class="badge badge--active">Actively contributing</span>`
+    : person.status === 'former'
+      ? `<span class="badge badge--former">Former shiverbug</span>`
+      : '';
+
   // --- photo ---
   const photo = person.photo
     ? `<img src="${person.photo}" alt="${person.name}">`
@@ -75,7 +82,7 @@
         <h1 class="profile__name">${person.name}</h1>
         <p class="kicker kicker--sea profile__role">${person.role}${person.pronouns ? ` · ${person.pronouns}` : ''}</p>
         ${tagline}
-        <div class="profile__badges">${favBadge}</div>
+        <div class="profile__badges">${favBadge}${statusBadge}</div>
         <section class="profile__section">
           <h2>About</h2>
           ${about}
