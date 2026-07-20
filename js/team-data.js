@@ -22,7 +22,7 @@ window.TEAM_ORDER = [
   'evan'
 ];
 
-// Talent pool: volunteers, guest contributors and former core members.
+// Talent pool: guest contributors and former core members.
 // Profiles live in window.TEAM below like everyone else.
 window.TALENT_ORDER = [
   'madi', 'max', 'aiden'
@@ -98,10 +98,8 @@ window.TEAM = {
     pronouns: 'she/her',
     tagline: 'Never give up on a dream because of the time it takes. The time will pass anyway.',
     about: [
-      "I specialise in fantasy, historical and RPG character designs that express gameplay mechanics and world-building narratives through research informed visual design. I have a drive to learn about the world and people around me, and love expressing their stories in my art to create believable and iconic casts of characters.",
-      "I am inspired by games that combine narrative, music, and visuals together to create immersive worlds: from my first game, Zelda Ocarina of Time on the N64, through every Final Fantasy, to my current obsession with the Kingdom Come: Deliverance series.",
-      "Graduated with First Class Honours in Concept Art BA at Teesside University. Awarded The Leni Oglesby Prize and Dean's Award for Best Graduating Student 2025. Twice winner of Best in Concept Art at Expo Tees. Graduated from David Ko's Riot Games Stylized Character Design Mentorship at CG Verse. Artist and author of The Chronicles of Gyzra graphic novel series. Over 10 years of professional art experience, including exhibiting artist at MCM London, EGX, and others.",
-      "In May 2026, I joined Shiverbug Studios to help bring their characters to life!"
+      "Specialist in fantasy, historical and RPG character designs that express gameplay mechanics and world-building through research-informed visuals. I love learning about the world and people around me, and expressing their stories through my art. I'm inspired by games that combine narrative, music, and art to create immersive worlds such as Zelda OOT, Final Fantasy X, and Kingdom Come: Deliverance.",
+      "Over 10 years of professional art experience. First Class Honours Graduate in Concept Art BA at Teesside University. Awarded The Leni Oglesby Prize and Dean's Award for Best Graduating Student 2025. Twice winner of Best in Concept Art at Expo Tees. Graduate of David Ko's Riot Games Stylized Character Mentorship. Creator of The Chronicles of Gyzra graphic novels. In May 2026, I joined Shiverbug Studios to help bring their characters to life!"
     ],
     favourite: 'turtle',
     askMeAbout: null,

@@ -580,7 +580,21 @@ h1, h2, h3 {
   padding: .4rem .9rem; border-radius: var(--radius-sm);
   border: 1px solid rgba(20,23,28,.25);
 }
-.profile__socials { display: flex; flex-wrap: wrap; gap: .8rem; }
+.profile__socials { display: flex; flex-wrap: wrap; gap: 1.1rem; }
+.social {
+  display: flex; flex-direction: column; align-items: center; gap: .4rem;
+  min-width: 52px;
+}
+.social__icon {
+  width: 46px; height: 46px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 2px solid var(--ink); background: #fff; color: var(--ink);
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+}
+.social__icon svg { width: 21px; height: 21px; }
+.social:hover .social__icon { transform: translateY(-3px); box-shadow: 0 6px 0 var(--ink); }
+.social__label { font-size: .74rem; font-weight: 600; color: var(--text-soft); }
 .profile__nav {
   border-top: 1px solid rgba(20,23,28,.15);
   margin-top: clamp(2rem, 5vw, 3.5rem);
