@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shiverbug Studios — Bringing Family Game Night Back to the Sofa</title>
+  <meta name="description" content="Shiverbug Studios is an indie game development studio in North East England making games for the whole sofa, including our debut title, Out of Water.">
+  <meta property="og:title" content="Shiverbug Studios">
+  <meta property="og:description" content="Bringing family game night back to the sofa. Indie studio behind Out of Water, a 2-player split-screen collectathon platformer.">
+  <meta property="og:image" content="assets/img/out-of-water-screenshot.jpg">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/jpeg" href="assets/img/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#game">Skip to content</a>
+
+  <!-- ======= NAV ======= -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="#top" aria-label="Shiverbug Studios, home">
+        <img src="assets/img/logo.jpg" alt="" class="nav__logo">
+        <span class="nav__name">Shiverbug<em>Studios</em></span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="#game">Out of Water</a>
+        <a href="#services">Co-Dev</a>
+        <a href="#studio">Studio</a>
+        <a href="#team">Team</a>
+        <a href="#news">News</a>
+        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+      </nav>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ======= HERO ======= -->
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="hero__copy">
+          <p class="hero__eyebrow"><span class="dot"></span> Indie game studio · North East England</p>
+          <h1 class="hero__title">
+            Bringing family game night <span class="squiggle">back&nbsp;to the&nbsp;sofa.</span>
+          </h1>
+          <p class="hero__sub">
+            We make games the whole household can pile onto the sofa for.
+            When we're not doing that, we help other studios ship theirs:
+            co-dev, environment art and concept art.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--sand" href="#game">
+              Meet Out of Water
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn--ghost" href="#services">Work with us</a>
+          </div>
+        </div>
+
+        <div class="hero__art">
+          <figure class="hero__frame">
+            <img src="assets/img/out-of-water-screenshot.jpg" alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove of crates and palm trees">
+            <figcaption class="sticker sticker--sand">In development</figcaption>
+            <figcaption class="sticker sticker--sea">2-player co-op</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- wave divider -->
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,90 L0,90 Z" fill="var(--paper)"/></svg>
+      </div>
+    </section>
+
+    <!-- ======= TICKER ======= -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" id="tickerTrack">
+        <span>Out of Water</span><i>✦</i>
+        <span>Co-development</span><i>✦</i>
+        <span>Stylized environment art</span><i>✦</i>
+        <span>Concept art</span><i>✦</i>
+        <span>Game &amp; level design</span><i>✦</i>
+        <span>Player experience</span><i>✦</i>
+      </div>
+    </div>
+
+    <!-- ======= GAME ======= -->
+    <section class="section game" id="game">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker kicker--sea">Our debut title</p>
+          <h2>Out of <span class="underline-sea">Water</span></h2>
+          <p class="section__lede">
+            A 2-player split-screen collectathon platformer. One of you is a turtle.
+            The other is a seagull. Together you explore a colourful world full of
+            charm, clever challenges and an army of crabs.
+          </p>
+        </header>
+
+        <div class="game__player reveal">
+          <video id="trailer" poster="assets/img/out-of-water-screenshot.jpg" preload="metadata" playsinline controls>
+            <source src="assets/video/out-of-water-trailer.mp4" type="video/mp4">
+          </video>
+          <button class="game__play" id="playBtn" aria-label="Play trailer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+          </button>
+        </div>
+
+        <ul class="game__features">
+          <li class="reveal"><strong>Two players, one sofa</strong>Split-screen co-op made for couch play. Siblings, parents, grandparents, whoever's around.</li>
+          <li class="reveal"><strong>A turtle &amp; a seagull</strong>Two very different heroes with two very different ways of getting about.</li>
+          <li class="reveal"><strong>Collect everything</strong>A proper collectathon in the spirit of the classics we grew up on.</li>
+          <li class="reveal"><strong>An army of crabs</strong>Yes, an army. Of crabs.</li>
+        </ul>
+
+        <div class="game__cta reveal">
+          <div>
+            <p class="game__status"><span class="dot dot--pulse"></span> Release date: TBD</p>
+            <p class="game__note">Publisher curious about Out of Water? Our inbox is very much open.</p>
+          </div>
+          <div class="game__cta-buttons">
+            <!-- TODO: replace href with your Steam page when it's live -->
+            <a class="btn btn--ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
+            <a class="btn btn--sand" href="mailto:contact@shiverbugstudios.com?subject=Out%20of%20Water">Talk publishing</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= SERVICES ======= -->
+    <section class="section services" id="services">
+      <div class="container">
+        <header class="section__head section__head--light reveal">
+          <p class="kicker kicker--sand">Co-development &amp; work-for-hire</p>
+          <h2>Extra firepower for <span class="underline-sand">your</span> project</h2>
+          <p class="section__lede">
+            We also take on co-dev and work-for-hire. Small team, quick to slot in,
+            and very fussy about how things feel to play.
+          </p>
+        </header>
+
+        <div class="services__grid">
+          <article class="card reveal">
+            <div class="card__num">01</div>
+            <h3>Stylized environment art</h3>
+            <p>Vibrant, readable 3D worlds with personality, from blockout to final polish. The kind of style that sells a game at first glance.</p>
+          </article>
+          <article class="card reveal">
+            <div class="card__num">02</div>
+            <h3>Thoughtful concept art</h3>
+            <p>Characters and places with real charm. Exploration, iteration, and production-ready sheets your team can actually build from.</p>
+          </article>
+          <article class="card reveal">
+            <div class="card__num">03</div>
+            <h3>Design &amp; dev support</h3>
+            <p>Game design, level design and player experience. We shape systems, refine feel, and give your project that extra edge.</p>
+          </article>
+        </div>
+
+        <div class="services__cta reveal">
+          <p>Got a project that needs a hand?</p>
+          <a class="btn btn--paper" href="mailto:contact@shiverbugstudios.com?subject=Co-development">Start a conversation</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= STUDIO / MISSION ======= -->
+    <section class="section studio" id="studio">
+      <div class="container studio__inner">
+        <figure class="studio__photo reveal">
+          <img src="assets/img/founders.jpg" alt="Three Shiverbug Studios team members on Brighton seafront in studio t-shirts">
+          <figcaption class="sticker sticker--sand">Develop:Brighton 2026</figcaption>
+        </figure>
+        <div class="studio__copy reveal">
+          <p class="kicker kicker--leaf">The studio</p>
+          <h2>Games are better <span class="underline-leaf">together</span></h2>
+          <p>
+            Shiverbug started with a simple idea: games should be joyful, shared,
+            and welcoming for players of all ages. The kind of thing a whole
+            household can pile onto the sofa for.
+          </p>
+          <p>
+            We're designers, artists and programmers based in North East England.
+            You'll find us at Gamebridge, GameNext, and anywhere else the region's
+            dev scene gets together. Occasionally we even venture down south.
+          </p>
+          <ul class="studio__facts">
+            <li><strong>12</strong><span>people &amp; growing</span></li>
+            <li><strong>NE</strong><span>England, UK</span></li>
+            <li><strong>1</strong><span>debut title in the works</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= TEAM ======= -->
+    <section class="section team" id="team">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker kicker--leaf">The shiverbugs</p>
+          <h2>Meet the <span class="underline-leaf">team</span></h2>
+          <p class="section__lede">Suspiciously well rested. Click anyone to say hello properly.</p>
+        </header>
+
+        <div class="team__grid">
+          <a class="member reveal" href="team-member.html?p=lewis">
+            <div class="member__photo"><img src="assets/img/team-lewis.jpg" alt="" loading="lazy"></div>
+            <h3>Lewis Mennim</h3><p>CEO · Co-Founder</p>
+          </a>
+          <a class="member reveal" href="team-member.html?p=garrett">
+            <div class="member__photo"><img src="assets/img/team-garrett.jpg" alt="" loading="lazy"></div>
+            <h3>Garrett Windus</h3><p>Lead Artist · Co-Founder</p>
+          </a>
+          <a class="member member--placeholder reveal" href="team-member.html?p=ryan">
+            <div class="member__photo member__photo--empty" aria-hidden="true"><span>RH</span></div>
+            <h3>Ryan Hughes</h3><p>Co-Founder</p>
+          </a>
+          <a class="member reveal" href="team-member.html?p=oliver">
+            <div class="member__photo"><img src="assets/img/team-oliver.jpg" alt="" loading="lazy"></div>
+            <h3>Oliver Neal</h3><p>Gameplay Programmer</p>
+          </a>
+          <a class="member reveal" href="team-member.html?p=sarah">
+            <div class="member__photo"><img src="assets/img/team-sarah.jpg" alt="" loading="lazy"></div>
+            <h3>Sarah Childs</h3><p>2D Concept Artist</p>
+          </a>
+          <a class="member reveal" href="team-member.html?p=connor">
+            <div class="member__photo"><img src="assets/img/team-connor.jpg" alt="" loading="lazy"></div>
+            <h3>Connor Milburn</h3><p>3D Artist</p>
+          </a>
+          <a class="member reveal" href="team-member.html?p=josh">
+            <div class="member__photo"><img src="assets/img/team-josh.jpg" alt="" loading="lazy"></div>
+            <h3>Josh Cairns</h3><p>3D Artist</p>
+          </a>
+          <a class="member member--placeholder reveal" href="team-member.html?p=nathan">
+            <div class="member__photo member__photo--empty" aria-hidden="true"><span>NH</span></div>
+            <h3>Nathan Hopwood</h3><p>Role TBC</p>
+          </a>
+          <a class="member member--placeholder reveal" href="team-member.html?p=charlie-a">
+            <div class="member__photo member__photo--empty" aria-hidden="true"><span>CA</span></div>
+            <h3>Charlie Ashall</h3><p>Role TBC</p>
+          </a>
+          <a class="member member--placeholder reveal" href="team-member.html?p=charlie-p">
+            <div class="member__photo member__photo--empty" aria-hidden="true"><span>CP</span></div>
+            <h3>Charlie Pelling</h3><p>Role TBC</p>
+          </a>
+          <a class="member member--placeholder reveal" href="team-member.html?p=martin">
+            <div class="member__photo member__photo--empty" aria-hidden="true"><span>MW</span></div>
+            <h3>Martin Wilkinson</h3><p>Role TBC</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= NEWS ======= -->
+    <section class="section news" id="news">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker kicker--sand">From the logbook</p>
+          <h2>Latest from the <span class="underline-sand">studio</span></h2>
+        </header>
+
+        <div class="news__grid">
+          <article class="post reveal">
+            <a class="post__img" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+              <img src="assets/img/brighton-2026.jpg" alt="" loading="lazy">
+            </a>
+            <div class="post__body">
+              <time datetime="2026-07">July 2026</time>
+              <h3>Develop:Brighton is a wrap</h3>
+              <p>Record temperatures, brilliant conversations and far too much coffee by the sea. We came home buzzing with ideas, and a few sunburns.</p>
+            </div>
+          </article>
+          <article class="post reveal">
+            <a class="post__img post__img--logo" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+              <img src="assets/img/logo.jpg" alt="" loading="lazy">
+            </a>
+            <div class="post__body">
+              <time datetime="2026">2026</time>
+              <h3>GameNext, Gateshead</h3>
+              <p>The North East dev scene is something special. Talks, fireside chats and lightning rounds at The Glasshouse. No trek down south required.</p>
+            </div>
+          </article>
+          <article class="post reveal">
+            <a class="post__img" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+              <img src="assets/img/out-of-water-screenshot.jpg" alt="" loading="lazy">
+            </a>
+            <div class="post__body">
+              <time datetime="2026">2026</time>
+              <h3>New faces &amp; Gamebridge</h3>
+              <p>Three talented Teesside University alumni joined the team, and we sponsored Gamebridge, where Out of Water met its players.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="news__more reveal">
+          <a class="btn btn--ghost-ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow along on socials</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= CONTACT / FOOTER ======= -->
+    <footer class="footer" id="contact">
+      <div class="wave wave--top" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
+      </div>
+      <div class="container footer__inner">
+        <div class="footer__main reveal">
+          <img class="footer__logo" src="assets/img/logo.jpg" alt="Shiverbug Studios logo: an ornate moth with a skull motif">
+          <h2>Let's make something <span class="squiggle">joyful.</span></h2>
+          <p>Developer, publisher, platform holder, or you just fancy chatting about games. We'd love to hear from you.</p>
+          <a class="footer__email" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+          <div class="footer__social">
+            <a class="btn btn--ghost" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">All our socials ↗</a>
+          </div>
+        </div>
+        <div class="footer__meta">
+          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK</p>
+          <p class="footer__tag">Bringing family game night back to the sofa.</p>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
