@@ -350,6 +350,35 @@ h1, h2, h3 {
 }
 .newsletter__form input[type="email"]:focus { outline: none; border-color: var(--sea-deep); }
 
+.form-note {
+  font-family: var(--font-display); font-weight: 700; font-size: .98rem;
+  border-radius: var(--radius);
+  padding: .8rem 1.2rem;
+  margin-bottom: 1rem;
+}
+.form-sent {
+  color: var(--leaf-deep);
+  background: color-mix(in srgb, var(--leaf) 14%, transparent);
+  border: 2px solid var(--leaf-deep);
+}
+.form-error {
+  color: var(--crab-deep);
+  background: color-mix(in srgb, var(--crab) 12%, transparent);
+  border: 2px solid var(--crab-deep);
+}
+.footer .form-sent {
+  color: #b9e8c3;
+  background: rgba(85,179,104,.15);
+  border-color: rgba(85,179,104,.6);
+  max-width: 480px; margin-inline: auto;
+}
+.footer .form-error {
+  color: #f3b0a7;
+  background: rgba(224,88,74,.15);
+  border-color: rgba(224,88,74,.6);
+  max-width: 480px; margin-inline: auto;
+}
+
 /* ---------- footer contact form ---------- */
 .footer__form {
   max-width: 480px; margin: 0 auto 2.4rem;

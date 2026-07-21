@@ -65,6 +65,39 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   carousel.querySelector('.carousel__btn--next')?.addEventListener('click', () => track.scrollBy({ left: step(), behavior }));
 });
 
+// ----- contact form: submit to Formspree in the background -----
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('button[type="submit"]');
+    contactForm.parentNode.querySelector('.form-note')?.remove();
+    btn.disabled = true;
+    const note = document.createElement('p');
+    note.setAttribute('role', 'status');
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        note.className = 'form-note form-sent';
+        note.textContent = "Message sent! We'll get back to you soon.";
+        contactForm.reset();
+      } else {
+        note.className = 'form-note form-error';
+        note.textContent = "Hmm, that didn't send. Try again, or email us directly above.";
+      }
+    } catch (err) {
+      note.className = 'form-note form-error';
+      note.textContent = "Hmm, that didn't send. Try again, or email us directly above.";
+    }
+    contactForm.parentNode.insertBefore(note, contactForm);
+    btn.disabled = false;
+  });
+}
+
 // ----- footer year -----
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
