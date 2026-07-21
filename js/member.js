@@ -31,6 +31,12 @@
     ? `<span class="badge ${fav.cls}">${fav.text}</span>`
     : `<span class="badge">Turtle or seagull? Undecided.</span>`;
 
+  // --- founder badge (role keeps "Co-Founder" in the data; the badge shows it, the role line doesn't) ---
+  const founderBadge = /co-founder/i.test(person.role)
+    ? `<span class="badge badge--founder">★ Co-Founder</span>`
+    : '';
+  const roleDisplay = person.role.replace(/\s*·\s*Co-Founder/i, '');
+
   // --- talent pool status badge ---
   const statusBadge = person.status === 'active'
     ? `<span class="badge badge--active">Actively contributing</span>`
@@ -102,9 +108,9 @@
       <figure class="profile__photo">${photo}</figure>
       <div>
         <h1 class="profile__name">${person.name}</h1>
-        <p class="kicker kicker--sea profile__role">${person.role}${person.pronouns ? ` · ${person.pronouns}` : ''}</p>
+        <p class="kicker kicker--sea profile__role">${roleDisplay}${person.pronouns ? ` · ${person.pronouns}` : ''}</p>
         ${tagline}
-        <div class="profile__badges">${favBadge}${statusBadge}</div>
+        <div class="profile__badges">${founderBadge}${favBadge}${statusBadge}</div>
         <section class="profile__section">
           <h2>About</h2>
           ${about}
