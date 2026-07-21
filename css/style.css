@@ -280,6 +280,13 @@ h1, h2, h3 {
   transition: transform .2s var(--ease-out), background .2s;
 }
 .game__play svg { width: 38px; height: 38px; margin-left: 4px; }
+.game__player .sticker { top: 14px; left: 14px; z-index: 2; }
+.game__player.is-playing .sticker { display: none; }
+.game__trailer-note {
+  text-align: center; font-size: .93rem; font-style: italic;
+  color: var(--text-soft);
+  margin: -1rem auto 2.5rem; max-width: 60ch;
+}
 .game__play:hover { transform: scale(1.08); background: var(--sand-deep); }
 .game__player.is-playing .game__play { display: none; }
 
@@ -592,6 +599,8 @@ h1, h2, h3 {
   color: var(--sea-deep); margin-bottom: .8rem;
 }
 .profile__section p { color: var(--text-soft); margin-bottom: .9rem; }
+.profile__section p a { color: var(--sea-deep); font-weight: 600; }
+.profile__section p a:hover { text-decoration: underline; }
 .profile__section p.is-placeholder { font-style: italic; color: #9a9284; }
 .profile__chips { display: flex; flex-wrap: wrap; gap: .6rem; }
 .chip {

@@ -84,7 +84,8 @@ window.TEAM = {
     pronouns: 'he/him',
     tagline: 'Programming Department',
     about: [
-      "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, and joined Shiverbug Studios as a gameplay programmer straight after.",
+      "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, where my final-year project won the Best Games Programming award, and I joined Shiverbug Studios as a gameplay programmer straight after.",
+      "At Shiverbug I write the gameplay: player systems, AI, and the general plumbing that makes the game feel good to play. I also built this website, and I co-run our social media with <a href='team-member.html?p=madi'>Madi Freck</a>.",
       "I love automation games, tactical shooters like Valorant, and a good co-op session. Beyond playing them, I really enjoy game design itself and thinking about what makes games fun."
     ],
     favourite: 'seagull',
@@ -237,10 +238,10 @@ window.TEAM = {
     initials: 'MF',
     pronouns: 'they/them',
     status: 'active',
-    tagline: null,
+    tagline: 'Sweet treat provider',
     about: [
-      "Hello, I'm Madi Freck, a 2nd Year 2D Animation and Stop-motion student at Teesside University.",
-      "I specialise in stop-motion puppet making, frame-by-frame animation and creating 2D character rigs."
+      "Hello, I'm Madi Freck, a 3rd Year 2D Animation and Stop-motion student at Teesside University.",
+      "I specialise in stop-motion puppet making, frame-by-frame animation and creating 2D character rigs. I'm currently using my background in graphics design to co-run Shiverbug's social media and branding with <a href='team-member.html?p=oliver'>Oliver Neal</a>."
     ],
     favourite: 'seagull',
     askMeAbout: null,
