@@ -97,6 +97,7 @@
   const next = order[(i + 1) % order.length];
 
   root.innerHTML = `
+    <a class="profile__back" href="index.html#team" id="backLink">&larr; Back</a>
     <div class="profile__inner">
       <figure class="profile__photo">${photo}</figure>
       <div>
@@ -120,6 +121,14 @@
       <a class="is-back" href="index.html#team">All shiverbugs</a>
       <a href="team-member.html?p=${next}">${window.TEAM[next].name.split(' ')[0]} →</a>
     </nav>`;
+
+  // --- back button: real history.back() when the visitor came from our own site ---
+  const backLink = document.getElementById('backLink');
+  let cameFromSite = false;
+  try { cameFromSite = document.referrer && new URL(document.referrer).origin === location.origin; } catch (e) {}
+  if (backLink && cameFromSite && history.length > 1) {
+    backLink.addEventListener('click', (e) => { e.preventDefault(); history.back(); });
+  }
 
   // --- "Read more" toggle for clamped abouts ---
   const moreBtn = document.getElementById('aboutMore');
