@@ -216,10 +216,10 @@ window.TEAM = {
   },
 
   'evan': {
-    name: 'Evan',           // TODO: surname
+    name: 'Evan Atherton-Elphick',
     role: 'Character Artist',
-    photo: null,            // TODO: photo -> assets/img/team-evan.webp
-    initials: 'E',
+    photo: 'assets/img/team-evan.jpg',
+    initials: 'EA',
     pronouns: 'he/him',
     tagline: null,
     about: null,

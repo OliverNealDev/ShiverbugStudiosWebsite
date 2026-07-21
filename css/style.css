@@ -17,6 +17,8 @@
   --leaf-deep: #3e9451;
   --sand: #eda14d;
   --sand-deep: #d3822a;
+  --crab: #e0584a;
+  --crab-deep: #c14033;
   --text-ink: #2b2f36;
   --text-soft: #5c6068;
   --text-paper: #f2ecdd;
@@ -295,7 +297,7 @@ h1, h2, h3 {
 .game__features li:nth-child(1) { border-top-color: var(--sea); }
 .game__features li:nth-child(2) { border-top-color: var(--leaf); }
 .game__features li:nth-child(3) { border-top-color: var(--sand); }
-.game__features li:nth-child(4) { border-top-color: var(--sea); }
+.game__features li:nth-child(4) { border-top-color: var(--crab); }
 .game__features strong {
   display: block; font-family: var(--font-display); font-weight: 700;
   color: var(--ink); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
@@ -565,7 +567,7 @@ h1, h2, h3 {
 }
 .badge--turtle { background: var(--leaf); color: #fff; }
 .badge--seagull { background: var(--sea); color: #fff; }
-.badge--crab { background: var(--sand); color: var(--ink); }
+.badge--crab { background: var(--crab); color: #fff; }
 .badge--active::before, .badge--former::before {
   content: ""; width: .6rem; height: .6rem; border-radius: 50%; flex-shrink: 0;
 }
@@ -773,7 +775,7 @@ h1, h2, h3 {
 .step:nth-child(1) { border-top-color: var(--sea); }
 .step:nth-child(2) { border-top-color: var(--sand); }
 .step:nth-child(3) { border-top-color: var(--leaf); }
-.step:nth-child(4) { border-top-color: var(--sea); }
+.step:nth-child(4) { border-top-color: var(--crab); }
 .step__num {
   font-family: var(--font-display); font-weight: 800; font-size: .85rem;
   letter-spacing: .1em; color: var(--sand-deep); display: block; margin-bottom: .6rem;
@@ -783,6 +785,18 @@ h1, h2, h3 {
   font-size: 1.15rem; margin-bottom: .5rem; line-height: 1.25;
 }
 .step p { font-size: .95rem; color: var(--text-soft); }
+
+.codev__note {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: 1.2rem 1.5rem;
+  background: var(--paper-2);
+  border-left: 3px solid var(--sand);
+  border-radius: var(--radius-sm);
+  color: var(--text-soft);
+  max-width: 62ch;
+}
+.codev__note a { font-weight: 600; color: var(--sea-deep); }
+.codev__note a:hover { text-decoration: underline; }
 
 .tools { margin-top: clamp(2.8rem, 5vw, 4rem); }
 .tools__label {
