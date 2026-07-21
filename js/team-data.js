@@ -222,11 +222,17 @@ window.TEAM = {
     photo: 'assets/img/team-evan.jpg',
     initials: 'EA',
     pronouns: 'he/him',
-    tagline: null,
-    about: null,
-    favourite: null,
+    tagline: 'I always stay curious!',
+    about: [
+      "Recent graduate from Teesside University with First Class Honours, I have a passion for 3D art and creating fun, interesting, and expressive stuff! I'm always trying to improve my skills and display my ideas in the most comprehensive ways possible.",
+      "Also a big fan of cinema and games as an artform, I always stay curious!"
+    ],
+    favourite: 'seagull',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'ArtStation', url: 'https://www.artstation.com/atherton-elphick' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/evan-atherton-elphick-74759a2a2/' }
+    ]
   },
 
   // --- talent pool ---
