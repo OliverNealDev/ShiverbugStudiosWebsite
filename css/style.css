@@ -420,13 +420,13 @@ h1, h2, h3 {
 }
 .member:hover .member__photo img { transform: scale(1.05); }
 /* Zoom in on thumbnails where the subject is small in a wide shot.
-   Tune per photo with --zx/--zy inline (shift right = +zx, shift up = -zy). */
+   Tune per photo with --zx/--zy/--zs inline (shift right = +zx, shift up = -zy, zoom = --zs). */
 .member__photo img.is-zoomed {
-  --zx: 0%; --zy: -7%;
-  transform: translate(var(--zx), var(--zy)) scale(1.5);
+  --zx: 0%; --zy: -7%; --zs: 1.5;
+  transform: translate(var(--zx), var(--zy)) scale(var(--zs));
   transform-origin: 50% 20%;
 }
-.member:hover .member__photo img.is-zoomed { transform: translate(var(--zx), var(--zy)) scale(1.56); }
+.member:hover .member__photo img.is-zoomed { transform: translate(var(--zx), var(--zy)) scale(calc(var(--zs) + .06)); }
 .member__photo--empty {
   display: grid; place-items: center;
   background:

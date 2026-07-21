@@ -36,11 +36,17 @@ window.TEAM = {
     photo: 'assets/img/team-lewis.webp',
     initials: 'LM',
     pronouns: 'he/him',
-    tagline: null,          // TODO: get from Lewis
-    about: null,            // TODO: get from Lewis
+    tagline: 'Turtles go brrrrr…',
+    about: [
+      "Turtle-obsessed CEO. I founded the studio back at the start of 2025, and I'll do anything to make it successful.",
+      "The first game I remember playing was Spyro: Year of the Dragon, and I spent ages in the skateboard levels. Hence the tattoo."
+    ],
     favourite: 'turtle',
-    askMeAbout: null,       // e.g. ['Publishing', 'The NE dev scene', 'Coffee']
-    socials: null           // e.g. [{ label: 'LinkedIn', url: 'https://...' }]
+    askMeAbout: null,
+    socials: [
+      { label: 'LinkedIn', url: 'https://uk.linkedin.com/in/lewis-mennim' },
+      { label: 'X', url: 'https://x.com/lewismennim' }
+    ]
   },
 
   'garrett': {
