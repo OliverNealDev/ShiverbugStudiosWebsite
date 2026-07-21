@@ -192,7 +192,7 @@ window.TEAM = {
     pronouns: 'he/him',
     tagline: null,
     about: null,
-    favourite: null,
+    favourite: 'turtle',
     askMeAbout: null,
     socials: null
   },
