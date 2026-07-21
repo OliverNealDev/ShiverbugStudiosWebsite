@@ -774,6 +774,14 @@ h1, h2, h3 {
   .press__media { grid-template-columns: 1fr; }
 }
 
+/* ---------- legal pages ---------- */
+.legal .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
+.legal__body { max-width: 68ch; }
+.legal__body p { color: var(--text-soft); margin-bottom: .9rem; }
+.legal__body p a { color: var(--sea-deep); font-weight: 600; }
+.legal__body p a:hover { text-decoration: underline; }
+.legal__body strong { color: var(--text-ink); }
+
 /* footer (mini) for profile pages */
 .footer--mini { padding-top: 3rem; }
 .footer--mini .footer__meta { border-top: 0; padding-top: 0; }
