@@ -39,6 +39,7 @@ window.TEAM = {
     tagline: 'Turtles go brrrrr…',
     about: [
       "Turtle-obsessed CEO. I founded the studio back at the start of 2025, and I'll do anything to make it successful.",
+      "Before Shiverbug I managed a bar and restaurant, which turns out to be decent training for running a games studio: tight margins, a busy team, and everyone wanting something at once.",
       "The first game I remember playing was Spyro: Year of the Dragon, and I spent ages in the skateboard levels. Hence the tattoo."
     ],
     favourite: 'turtle',
