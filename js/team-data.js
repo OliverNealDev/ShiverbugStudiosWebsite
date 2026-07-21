@@ -33,7 +33,7 @@ window.TEAM = {
   'lewis': {
     name: 'Lewis Mennim',
     role: 'CEO · Co-Founder',
-    photo: 'assets/img/team-lewis.jpg',
+    photo: 'assets/img/team-lewis.webp',
     initials: 'LM',
     pronouns: 'he/him',
     tagline: null,          // TODO: get from Lewis
@@ -46,7 +46,7 @@ window.TEAM = {
   'garrett': {
     name: 'Garrett Windus',
     role: 'Lead Artist · Co-Founder',
-    photo: 'assets/img/team-garrett.jpg',
+    photo: 'assets/img/team-garrett.webp',
     initials: 'GW',
     pronouns: 'he/him',
     tagline: null,
@@ -59,7 +59,7 @@ window.TEAM = {
   'ryan': {
     name: 'Ryan Hughes',
     role: 'CFO · Co-Founder',
-    photo: 'assets/img/team-ryan.jpg',
+    photo: 'assets/img/team-ryan.webp',
     initials: 'RH',
     pronouns: 'he/him',
     tagline: null,
@@ -72,7 +72,7 @@ window.TEAM = {
   'oliver': {
     name: 'Oliver Neal',
     role: 'Gameplay Programmer',
-    photo: 'assets/img/team-oliver.jpg',
+    photo: 'assets/img/team-oliver.webp',
     initials: 'ON',
     pronouns: 'he/him',
     tagline: 'Programming Department',
@@ -93,7 +93,7 @@ window.TEAM = {
   'sarah': {
     name: 'Sarah Childs',
     role: 'Character Concept Artist',
-    photo: 'assets/img/team-sarah.jpg',
+    photo: 'assets/img/team-sarah.webp',
     initials: 'SC',
     pronouns: 'she/her',
     tagline: 'Never give up on a dream because of the time it takes. The time will pass anyway.',
@@ -115,7 +115,7 @@ window.TEAM = {
   'connor': {
     name: 'Connor Milburn',
     role: '3D Artist',
-    photo: 'assets/img/team-connor.jpg',
+    photo: 'assets/img/team-connor.webp',
     initials: 'CM',
     pronouns: 'he/him',
     tagline: 'I need a whiskey',
@@ -134,7 +134,7 @@ window.TEAM = {
   'josh': {
     name: 'Josh Cairns',
     role: '3D Artist',
-    photo: 'assets/img/team-josh.jpg',
+    photo: 'assets/img/team-josh.webp',
     initials: 'JC',
     pronouns: 'he/him',
     tagline: null,
@@ -147,7 +147,7 @@ window.TEAM = {
   'nathan': {
     name: 'Nathan Hopwood',
     role: '3D Artist',
-    photo: 'assets/img/team-nathan.jpg',
+    photo: 'assets/img/team-nathan.webp',
     initials: 'NH',
     pronouns: 'he/him',
     tagline: null,
@@ -160,7 +160,7 @@ window.TEAM = {
   'charlie-a': {
     name: 'Charlie Ashall',
     role: 'Level Designer',
-    photo: 'assets/img/team-charlie-a.png',
+    photo: 'assets/img/team-charlie-a.webp',
     initials: 'CA',
     pronouns: 'he/him',
     tagline: "Neurospicy, with lots of flavor",
@@ -180,7 +180,7 @@ window.TEAM = {
   'charlie-p': {
     name: 'Charlie Pelling',
     role: 'Narrative Designer',
-    photo: null,          // TODO: photo -> assets/img/team-charlie-p.jpg
+    photo: null,          // TODO: photo -> assets/img/team-charlie-p.webp
     initials: 'CP',
     pronouns: 'he/him',
     tagline: null,
@@ -193,7 +193,7 @@ window.TEAM = {
   'martin': {
     name: 'Martin Wilkinson',
     role: '3D Artist',
-    photo: 'assets/img/team-martin.jpg',
+    photo: 'assets/img/team-martin.webp',
     initials: 'MW',
     pronouns: 'he/him',
     tagline: 'A great world invites players to explore.',
@@ -211,7 +211,7 @@ window.TEAM = {
   'evan': {
     name: 'Evan',           // TODO: surname
     role: 'Character Artist',
-    photo: null,            // TODO: photo -> assets/img/team-evan.jpg
+    photo: null,            // TODO: photo -> assets/img/team-evan.webp
     initials: 'E',
     pronouns: 'he/him',
     tagline: null,
@@ -226,7 +226,7 @@ window.TEAM = {
   'madi': {
     name: 'Madi Freck',
     role: 'Social Media',
-    photo: 'assets/img/team-madi.jpg',
+    photo: 'assets/img/team-madi.webp',
     initials: 'MF',
     pronouns: 'they/them',
     status: 'active',
@@ -247,7 +247,7 @@ window.TEAM = {
   'max': {
     name: 'Max Breeze',
     role: 'Character Artist',
-    photo: 'assets/img/team-max.jpg',
+    photo: 'assets/img/team-max.webp',
     initials: 'MB',
     pronouns: 'he/him',
     status: 'active',
@@ -267,7 +267,7 @@ window.TEAM = {
   'aidan': {
     name: 'Aidan Hendry',
     role: 'Sound Designer',
-    photo: 'assets/img/team-aidan.jpg',
+    photo: 'assets/img/team-aidan.webp',
     initials: 'AH',
     pronouns: 'he/him',
     status: 'former',
@@ -288,7 +288,7 @@ window.TEAM = {
   'hollie': {
     name: 'Hollie',          // TODO: surname
     role: '3D Animator',
-    photo: null,             // TODO: photo -> assets/img/team-hollie.jpg
+    photo: null,             // TODO: photo -> assets/img/team-hollie.webp
     initials: 'H',
     pronouns: null,          // TODO: confirm
     status: 'former',

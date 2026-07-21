@@ -1,13 +1,14 @@
 # Minimal static file server for local preview (no Node/Python needed)
 $root = Split-Path -Parent $PSScriptRoot
+$port = if ($env:PORT) { $env:PORT } else { 5173 }
 $listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add('http://localhost:5173/')
+$listener.Prefixes.Add("http://localhost:$port/")
 $listener.Start()
-Write-Host "Serving $root at http://localhost:5173/"
+Write-Host "Serving $root at http://localhost:$port/"
 
 $mime = @{
   '.html'='text/html'; '.css'='text/css'; '.js'='text/javascript'
-  '.jpg'='image/jpeg'; '.jpeg'='image/jpeg'; '.png'='image/png'
+  '.jpg'='image/jpeg'; '.jpeg'='image/jpeg'; '.png'='image/png'; '.webp'='image/webp'
   '.svg'='image/svg+xml'; '.mp4'='video/mp4'; '.ico'='image/x-icon'
   '.woff2'='font/woff2'; '.json'='application/json'
 }
