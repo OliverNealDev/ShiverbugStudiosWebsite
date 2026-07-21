@@ -419,6 +419,14 @@ h1, h2, h3 {
   transition: transform .4s var(--ease-out);
 }
 .member:hover .member__photo img { transform: scale(1.05); }
+/* Zoom in on thumbnails where the subject is small in a wide shot.
+   Tune per photo with --zx/--zy inline (shift right = +zx, shift up = -zy). */
+.member__photo img.is-zoomed {
+  --zx: 0%; --zy: -7%;
+  transform: translate(var(--zx), var(--zy)) scale(1.5);
+  transform-origin: 50% 20%;
+}
+.member:hover .member__photo img.is-zoomed { transform: translate(var(--zx), var(--zy)) scale(1.56); }
 .member__photo--empty {
   display: grid; place-items: center;
   background:
@@ -519,7 +527,7 @@ h1, h2, h3 {
   box-shadow: var(--shadow-pop);
   transform: rotate(-1.5deg);
 }
-.profile__photo img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+.profile__photo img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center 10%; }
 .profile__photo--empty {
   aspect-ratio: 3/4;
   display: grid; place-items: center;

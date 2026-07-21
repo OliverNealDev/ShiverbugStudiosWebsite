@@ -118,9 +118,12 @@ window.TEAM = {
     photo: 'assets/img/team-connor.jpg',
     initials: 'CM',
     pronouns: 'he/him',
-    tagline: null,
-    about: null,
-    favourite: null,
+    tagline: 'I need a whiskey',
+    about: [
+      "I'm a dedicated 3D Artist who likes to specialise in Environment Art and Props, I primarily use Blender, ZBrush, the Substance Suite, Unreal Engine and now Unity. One of my favourite things about being a 3D Artist is that I get to create awesome models and environments for games, it's just awe-inspiring seeing worlds come to life. As part of this, I love to make modular assets as a root back to my love for architecture. Whether it's an old Victorian building with a beautiful façade or a modern office building with interesting shapes, my interest will always be piqued.",
+      "Also, as I'm part of the game development world, I must have a favourite kind of game... well I love loads of games but growing up I was always hooked on the Assassin's Creed franchise, and well basically any game released by Ubisoft (Watch Dogs, Rainbow 6)."
+    ],
+    favourite: 'seagull',
     askMeAbout: null,
     socials: [
       { label: 'ArtStation', url: 'https://www.artstation.com/cmilburn3d' },
@@ -190,14 +193,19 @@ window.TEAM = {
   'martin': {
     name: 'Martin Wilkinson',
     role: '3D Artist',
-    photo: 'assets/img/team-martin.png',
+    photo: 'assets/img/team-martin.jpg',
     initials: 'MW',
     pronouns: 'he/him',
-    tagline: null,
-    about: null,
-    favourite: null,
+    tagline: 'A great world invites players to explore.',
+    about: [
+      "I've been passionate about games for as long as I can remember, and they've always inspired me to create worlds of my own. I specialise in environment art, with a particular love for stylised games, strong silhouettes, and creating places that players enjoy exploring."
+    ],
+    favourite: 'turtle',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'ArtStation', url: 'https://www.artstation.com/martinwilkinson' },
+      { label: 'LinkedIn', url: 'https://uk.linkedin.com/in/martin-wilkinson-' }
+    ]
   },
 
   'evan': {
@@ -268,7 +276,7 @@ window.TEAM = {
       "I'm a British sound designer with a First Class BA (with Hons) in Digital Music from Solent University and an MA with a distinction in Sound Design from Manchester Metropolitan University. After finishing some work on another game, I joined Shiverbug Studios as a sound designer.",
       "I love adventure games, card games, and anything with a whimsical vibe. I am the first to point out when I recognise a sound popping up across different games or movies."
     ],
-    favourite: null,
+    favourite: 'turtle',
     askMeAbout: null,
     socials: [
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/aidan-hendry-9805b0b6/' },
