@@ -11,6 +11,7 @@ $mime = @{
   '.jpg'='image/jpeg'; '.jpeg'='image/jpeg'; '.png'='image/png'; '.webp'='image/webp'
   '.svg'='image/svg+xml'; '.mp4'='video/mp4'; '.ico'='image/x-icon'
   '.woff2'='font/woff2'; '.json'='application/json'
+  '.xml'='application/xml'; '.txt'='text/plain'; '.zip'='application/zip'
 }
 
 while ($listener.IsListening) {

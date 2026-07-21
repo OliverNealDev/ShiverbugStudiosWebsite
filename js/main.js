@@ -55,6 +55,16 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach((el) => el.classList.add('is-visible'));
 }
 
+// ----- gallery carousels: arrow buttons scroll the track -----
+document.querySelectorAll('.carousel').forEach((carousel) => {
+  const track = carousel.querySelector('.carousel__track');
+  if (!track) return;
+  const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  const step = () => Math.max(track.clientWidth * 0.8, 200);
+  carousel.querySelector('.carousel__btn--prev')?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior }));
+  carousel.querySelector('.carousel__btn--next')?.addEventListener('click', () => track.scrollBy({ left: step(), behavior }));
+});
+
 // ----- footer year -----
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();

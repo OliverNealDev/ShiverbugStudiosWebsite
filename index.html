@@ -15,6 +15,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Shiverbug Studios",
+    "legalName": "Shiverbug Studios Ltd",
+    "url": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/",
+    "logo": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/press/shiverbug-logo.png",
+    "email": "contact@shiverbugstudios.com",
+    "foundingDate": "2025",
+    "description": "Indie game development studio in North East England making couch co-op games, including debut title Out of Water, and offering co-development services.",
+    "address": { "@type": "PostalAddress", "addressRegion": "North East England", "addressCountry": "GB" },
+    "sameAs": ["https://linktr.ee/shiverbugstudios"]
+  }
+  </script>
 </head>
 <body>
 
@@ -32,6 +47,7 @@
         <a href="co-dev.html">Co-Dev</a>
         <a href="#studio">Studio</a>
         <a href="#team">Team</a>
+        <a href="press.html">Press</a>
         <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
@@ -134,6 +150,21 @@
             <a class="btn btn--ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
             <a class="btn btn--sand" href="mailto:contact@shiverbugstudios.com?subject=Out%20of%20Water">Talk publishing</a>
           </div>
+        </div>
+
+        <div class="newsletter reveal">
+          <div class="newsletter__copy">
+            <h3>Hear it from us first</h3>
+            <p>Leave your email and we'll write when there's real Out of Water news. No spam, no weekly waffle.</p>
+          </div>
+          <form class="newsletter__form" action="https://formsubmit.co/contact@shiverbugstudios.com" method="POST">
+            <input type="hidden" name="_subject" value="Newsletter signup">
+            <input type="hidden" name="_next" value="https://olivernealdev.github.io/ShiverbugStudiosWebsite/index.html#game">
+            <input type="hidden" name="form" value="newsletter">
+            <label class="visually-hidden" for="newsEmail">Email address</label>
+            <input id="newsEmail" type="email" name="email" placeholder="you@example.com" required>
+            <button class="btn btn--ink" type="submit">Keep me posted</button>
+          </form>
         </div>
       </div>
     </section>
@@ -316,12 +347,25 @@
           <h2>Let's make something <span class="squiggle">joyful.</span></h2>
           <p>Developer, publisher, platform holder, or you just fancy chatting about games. We'd love to hear from you.</p>
           <a class="footer__email" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+
+          <form class="footer__form" action="https://formsubmit.co/contact@shiverbugstudios.com" method="POST">
+            <input type="hidden" name="_subject" value="Website contact form">
+            <input type="hidden" name="_next" value="https://olivernealdev.github.io/ShiverbugStudiosWebsite/index.html#contact">
+            <label class="visually-hidden" for="cfName">Your name</label>
+            <input id="cfName" type="text" name="name" placeholder="Your name" required>
+            <label class="visually-hidden" for="cfEmail">Your email</label>
+            <input id="cfEmail" type="email" name="email" placeholder="Your email" required>
+            <label class="visually-hidden" for="cfMsg">Message</label>
+            <textarea id="cfMsg" name="message" rows="4" placeholder="Tell us what you're thinking about…" required></textarea>
+            <button class="btn btn--sand" type="submit">Send it our way</button>
+          </form>
+
           <div class="footer__social">
             <a class="btn btn--ghost" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">All our socials ↗</a>
           </div>
         </div>
         <div class="footer__meta">
-          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK</p>
+          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a></p>
           <p class="footer__tag">Bringing family game night back to the sofa.</p>
         </div>
       </div>
