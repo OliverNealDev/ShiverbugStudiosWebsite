@@ -874,32 +874,71 @@ h1, h2, h3 {
 .carousel__track {
   display: flex; gap: 1rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   padding-bottom: .5rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(20,23,28,.25) transparent;
+  cursor: grab;
 }
+.carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 .carousel__slot {
   flex: 0 0 clamp(180px, 24vw, 260px);
   aspect-ratio: 4 / 3;
   scroll-snap-align: start;
-  border: 2px dashed rgba(20,23,28,.25);
+  border: 2px dashed rgba(255,255,255,.25);
   border-radius: var(--radius);
-  background: var(--paper-2);
+  background: var(--ink-2);
   display: grid; place-items: center; align-content: center; gap: .25rem;
 }
+.carousel__slot a { display: block; width: 100%; height: 100%; }
 .carousel__slot img {
   width: 100%; height: 100%; object-fit: cover; display: block;
+  background: var(--ink);
+  border-radius: calc(var(--radius) - 2px);
+  -webkit-user-drag: none;
+}
+.carousel__slot video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  background: var(--ink);
   border-radius: calc(var(--radius) - 2px);
 }
-.carousel__slot:has(img) { border-style: solid; border-color: rgba(20,23,28,.12); background: #fff; padding: 0; }
+.carousel__slot a:not(.carousel__credit), .carousel__slot video { cursor: pointer; }
+/* design & dev gallery holds widescreen gameplay shots: 16:9 tiles crop less */
+.svc:nth-of-type(3) .carousel__slot { aspect-ratio: 16 / 9; }
+.carousel__slot:has(img), .carousel__slot:has(video) {
+  display: block;   /* the link and media fill the tile even before the image loads */
+  border-style: solid; border-color: var(--ink);
+  background: var(--ink); padding: 0;
+  position: relative;
+  transition: transform .25s var(--ease-out), box-shadow .25s;
+}
+.carousel__slot:has(img):hover, .carousel__slot:has(video):hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); }
+
+/* artist credit chip on gallery art */
+.carousel__slot .carousel__credit {
+  position: absolute; left: .55rem; bottom: .55rem; z-index: 1;
+  width: auto; height: auto;
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .2rem .7rem .2rem .25rem;
+  background: rgba(10, 12, 15, .72);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3); border-radius: 999px;
+  font-size: .72rem; font-weight: 600; color: #fff;
+  text-decoration: none; white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.carousel__slot .carousel__credit img {
+  width: 22px; height: 22px; border-radius: 50%;
+  object-fit: cover; background: transparent;
+}
+.carousel__slot .carousel__credit:hover { background: rgba(10,12,15,.92); border-color: #fff; }
 .carousel__num {
   font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
-  color: rgba(20,23,28,.22);
+  color: rgba(255,255,255,.3);
 }
 .carousel__hint {
   font-size: .68rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .12em; color: rgba(20,23,28,.35);
+  letter-spacing: .12em; color: rgba(255,255,255,.4);
 }
 .carousel__btn {
   position: absolute; top: 50%; transform: translateY(-50%);
@@ -908,9 +947,13 @@ h1, h2, h3 {
   font-size: 1.5rem; line-height: 1; display: grid; place-items: center;
   cursor: pointer; z-index: 2;
   box-shadow: 0 3px 0 var(--ink);
-  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), opacity .2s;
 }
 .carousel__btn:hover { transform: translateY(calc(-50% - 2px)); box-shadow: 0 5px 0 var(--ink); }
+.carousel__btn:disabled {
+  opacity: 0; pointer-events: none; cursor: default;
+  transform: translateY(-50%); box-shadow: 0 3px 0 var(--ink);
+}
 .carousel__btn--prev { left: -12px; }
 .carousel__btn--next { right: -12px; }
 
@@ -1009,6 +1052,50 @@ h1, h2, h3 {
   font-family: var(--font-display); font-weight: 700; font-size: .92rem;
   padding: .5rem 1.05rem; border-radius: 999px;
   background: #fff; border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
+}
+
+/* lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: center; gap: 1.1rem;
+  padding: 2rem;
+  background: rgba(10, 12, 15, .82);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .25s, visibility .25s;
+}
+.lightbox.is-open { opacity: 1; visibility: visible; }
+/* fixed stage: every piece renders in the same box, so the arrows never move */
+.lightbox__figure { width: min(1100px, 86vw); text-align: center; }
+.lightbox__img, .lightbox__video {
+  width: 100%; height: 74vh; object-fit: contain;
+  background: var(--ink);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,.8);
+}
+/* the base reset's `img, video { display: block }` would defeat the hidden attribute */
+.lightbox__img[hidden], .lightbox__video[hidden] { display: none; }
+.lightbox__caption { margin-top: .8rem; color: var(--text-paper-soft); font-size: .92rem; }
+.lightbox__cap-text { display: block; }
+.lightbox__credit {
+  display: inline-block; margin-top: .35rem;
+  color: #fff; font-size: .85rem; font-weight: 600;
+  text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.4);
+}
+.lightbox__credit:hover { border-color: #fff; }
+.lightbox__btn, .lightbox__close {
+  width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,.4);
+  background: rgba(255,255,255,.08); color: #fff;
+  font-size: 1.7rem; line-height: 1;
+  display: grid; place-items: center; cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.lightbox__btn:hover, .lightbox__close:hover { background: rgba(255,255,255,.18); border-color: #fff; }
+.lightbox__close { position: absolute; top: 18px; right: 18px; font-size: 1.5rem; }
+@media (max-width: 700px) {
+  .lightbox { padding: 3.5rem .6rem 1rem; gap: .5rem; }
+  .lightbox__btn { width: 40px; height: 40px; font-size: 1.4rem; }
 }
 
 /* faq */
