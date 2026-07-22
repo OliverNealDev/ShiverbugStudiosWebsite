@@ -56,11 +56,19 @@ window.TEAM = {
     photo: 'assets/img/team-garrett.webp',
     initials: 'GW',
     pronouns: 'he/him',
-    tagline: null,
-    about: null,
-    favourite: null,
+    tagline: "Shhhh, Don't tell Lewis!",
+    about: [
+      "Before <a href='team-member.html?p=lewis'>Lewis</a> reached out about starting a studio, I was a Realistic Vehicle artist and had to quickly adapt to making stylised environments.",
+      "My favourite games are Minecraft and Terraria."
+    ],
+    favourite: 'seagull',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'ArtStation', url: 'https://www.artstation.com/gazz_3d' },
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/garrett-windus/' },
+      { label: 'Sketchfab', url: 'https://sketchfab.com/garrett.windus1' },
+      { label: 'itch.io', url: 'https://garrett-windus.itch.io/' }
+    ]
   },
 
   'ryan': {
@@ -69,11 +77,17 @@ window.TEAM = {
     photo: 'assets/img/team-ryan.webp',
     initials: 'RH',
     pronouns: 'he/him',
-    tagline: null,
-    about: null,
+    tagline: 'The one that always has to say no',
+    about: [
+      "Video games became so much more than just a hobby for me very early on. There's just no other medium like it. One day you're playing a deeply gripping interactive story, the next you're locked into tight, super engaging gameplay mechanics, or even just relaxing with a simple incremental game that scratches that exact spot in the monkey brain where \"number go up.\" Being in a position where we get to create our own games at Shiverbug is such a privilege, and I love being able to give other players those same thrilling, memorable experiences.",
+      "Growing up, though, I played Call of Duty: Zombies almost every single day. I was completely fascinated by a side mode that almost didn't even make the cut in World at War. On the surface, it looks like a simple round-based horde mode: buy off the wall, spin the Mystery Box and survive as the rounds get longer and longer.",
+      "But once you look a little deeper, you realise just how much is packed under the surface. There's a massive, universe-spanning storyline hidden behind intricate main quest Easter eggs, radio logs, and cryptic ciphers, some of which literally took the community over ten years to solve. Balancing that deep puzzle-solving with having to constantly adapt your survival strategy on the fly just to make it to the next round on the leaderboards was pure magic, and it's a huge reason I view game design the way I do today."
+    ],
     favourite: 'seagull',
     askMeAbout: null,
-    socials: null
+    socials: [
+      { label: 'LinkedIn', url: 'https://www.linkedin.com/in/ryan-hughes-655127287/' }
+    ]
   },
 
   'oliver': {
