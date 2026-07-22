@@ -882,8 +882,9 @@ h1, h2, h3 {
 }
 .carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 .carousel__slot {
-  flex: 0 0 clamp(180px, 24vw, 260px);
-  aspect-ratio: 4 / 3;
+  flex: 0 0 auto;
+  height: clamp(150px, 19vw, 205px);
+  aspect-ratio: 4 / 3;   /* placeholders; art tiles carry their image's real ratio inline */
   scroll-snap-align: start;
   border: 2px dashed rgba(255,255,255,.25);
   border-radius: var(--radius);
@@ -903,8 +904,6 @@ h1, h2, h3 {
   border-radius: calc(var(--radius) - 2px);
 }
 .carousel__slot a:not(.carousel__credit), .carousel__slot video { cursor: pointer; }
-/* design & dev gallery holds widescreen gameplay shots: 16:9 tiles crop less */
-.svc:nth-of-type(3) .carousel__slot { aspect-ratio: 16 / 9; }
 .carousel__slot:has(img), .carousel__slot:has(video) {
   display: block;   /* the link and media fill the tile even before the image loads */
   border-style: solid; border-color: var(--ink);
