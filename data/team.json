@@ -1,0 +1,352 @@
+{
+  "_readme": "Single source of truth for the team. Edit this, then run tools/build-team.ps1 to regenerate team/*.html, the team grids in index.html and sitemap.xml. Fields: id (legacy ?p= slug, keeps old links alive), slug (page filename), name, role, photo, initials, pronouns, tagline, about (array of paragraphs, may contain HTML; links to other profiles are sibling-relative e.g. 'lewis-mennim.html'), favourite ('turtle'|'seagull'|'crab'|null), askMeAbout (array|null), socials (array of {label,url}|null), status (talent only: 'active'|'former'), thumbClass/thumbStyle (optional thumbnail framing on the index grid).",
+
+  "team": [
+    {
+      "id": "lewis",
+      "slug": "lewis-mennim",
+      "name": "Lewis Mennim",
+      "role": "CEO · Co-Founder",
+      "photo": "assets/img/team-lewis.webp",
+      "initials": "LM",
+      "pronouns": "he/him",
+      "tagline": "Turtles go brrrrr…",
+      "about": [
+        "Turtle-obsessed CEO. I founded the studio back at the start of 2025, and I'll do anything to make it successful.",
+        "Before Shiverbug I managed a bar and restaurant, which turns out to be decent training for running a games studio: tight margins, a busy team, and everyone wanting something at once.",
+        "The first game I remember playing was Spyro: Year of the Dragon, and I spent ages in the skateboard levels. Hence the tattoo."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "LinkedIn", "url": "https://uk.linkedin.com/in/lewis-mennim" },
+        { "label": "X", "url": "https://x.com/lewismennim" }
+      ],
+      "thumbClass": "is-zoomed",
+      "thumbStyle": "--zy:-15%"
+    },
+    {
+      "id": "ryan",
+      "slug": "ryan-hughes",
+      "name": "Ryan Hughes",
+      "role": "CFO · Co-Founder",
+      "photo": "assets/img/team-ryan.webp",
+      "initials": "RH",
+      "pronouns": "he/him",
+      "tagline": "The one that always has to say no",
+      "about": [
+        "Video games became so much more than just a hobby for me very early on. There's just no other medium like it. One day you're playing a deeply gripping interactive story, the next you're locked into tight, super engaging gameplay mechanics, or even just relaxing with a simple incremental game that scratches that exact spot in the monkey brain where \"number go up.\" Being in a position where we get to create our own games at Shiverbug is such a privilege, and I love being able to give other players those same thrilling, memorable experiences.",
+        "Growing up, though, I played Call of Duty: Zombies almost every single day. I was completely fascinated by a side mode that almost didn't even make the cut in World at War. On the surface, it looks like a simple round-based horde mode: buy off the wall, spin the Mystery Box and survive as the rounds get longer and longer.",
+        "But once you look a little deeper, you realise just how much is packed under the surface. There's a massive, universe-spanning storyline hidden behind intricate main quest Easter eggs, radio logs, and cryptic ciphers, some of which literally took the community over ten years to solve. Balancing that deep puzzle-solving with having to constantly adapt your survival strategy on the fly just to make it to the next round on the leaderboards was pure magic, and it's a huge reason I view game design the way I do today."
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/ryan-hughes-655127287/" }
+      ],
+      "thumbClass": "is-zoomed",
+      "thumbStyle": null
+    },
+    {
+      "id": "garrett",
+      "slug": "garrett-windus",
+      "name": "Garrett Windus",
+      "role": "Lead Artist · Co-Founder",
+      "photo": "assets/img/team-garrett.webp",
+      "initials": "GW",
+      "pronouns": "he/him",
+      "tagline": "Shhhh, Don't tell Lewis!",
+      "about": [
+        "Before <a href='lewis-mennim.html'>Lewis</a> reached out about starting a studio, I was a Realistic Vehicle artist and had to quickly adapt to making stylised environments.",
+        "My favourite games are Minecraft and Terraria."
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/gazz_3d" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/garrett-windus/" },
+        { "label": "Sketchfab", "url": "https://sketchfab.com/garrett.windus1" },
+        { "label": "itch.io", "url": "https://garrett-windus.itch.io/" }
+      ],
+      "thumbClass": "is-zoomed",
+      "thumbStyle": "--zy:-22%"
+    },
+    {
+      "id": "oliver",
+      "slug": "oliver-neal",
+      "name": "Oliver Neal",
+      "role": "Gameplay Programmer",
+      "photo": "assets/img/team-oliver.webp",
+      "initials": "ON",
+      "pronouns": "he/him",
+      "tagline": "Programming Department",
+      "about": [
+        "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, where my final-year project won the Best Games Programming award, and I joined Shiverbug Studios as a gameplay programmer straight after.",
+        "At Shiverbug I write the gameplay: player systems, AI, and the general plumbing that makes the game feel good to play. I also built this website, and I co-run our social media with <a href='madi-freck.html'>Madi Freck</a>.",
+        "I love automation games, tactical shooters like Valorant, and a good co-op session. Beyond playing them, I really enjoy game design itself and thinking about what makes games fun."
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "Website", "url": "https://oliverneal.dev" },
+        { "label": "GitHub", "url": "https://github.com/OliverNealDev" },
+        { "label": "itch.io", "url": "https://olivernealdev.itch.io" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/oliver-neal-197b74290" }
+      ],
+      "thumbClass": "is-zoomed",
+      "thumbStyle": "--zx:6%; --zy:-20%"
+    },
+    {
+      "id": "sarah",
+      "slug": "sarah-childs",
+      "name": "Sarah Childs",
+      "role": "Character Concept Artist",
+      "photo": "assets/img/team-sarah.webp",
+      "initials": "SC",
+      "pronouns": "she/her",
+      "tagline": "Never give up on a dream because of the time it takes. The time will pass anyway.",
+      "about": [
+        "Specialist in fantasy, historical and RPG character designs that express gameplay mechanics and world-building through research-informed visuals. I love learning about the world and people around me, and expressing their stories through my art. I'm inspired by games that combine narrative, music, and art to create immersive worlds such as Zelda OOT, Final Fantasy X, and Kingdom Come: Deliverance.",
+        "Over 10 years of professional art experience. First Class Honours Graduate in Concept Art BA at Teesside University. Awarded The Leni Oglesby Prize and Dean's Award for Best Graduating Student 2025. Twice winner of Best in Concept Art at Expo Tees. Graduate of David Ko's Riot Games Stylized Character Mentorship. Creator of The Chronicles of Gyzra graphic novels. In May 2026, I joined Shiverbug Studios to help bring their characters to life!"
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/gyzra" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/gyzra/" },
+        { "label": "Website", "url": "https://gyzra.com" },
+        { "label": "Bluesky", "url": "https://bsky.app/profile/gyzra.bsky.social" },
+        { "label": "Instagram", "url": "https://www.instagram.com/gyzra/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "connor",
+      "slug": "connor-milburn",
+      "name": "Connor Milburn",
+      "role": "3D Artist",
+      "photo": "assets/img/team-connor.webp",
+      "initials": "CM",
+      "pronouns": "he/him",
+      "tagline": "I need a whiskey",
+      "about": [
+        "I'm a dedicated 3D Artist who likes to specialise in Environment Art and Props, I primarily use Blender, ZBrush, the Substance Suite, Unreal Engine and now Unity. One of my favourite things about being a 3D Artist is that I get to create awesome models and environments for games, it's just awe-inspiring seeing worlds come to life. As part of this, I love to make modular assets as a root back to my love for architecture. Whether it's an old Victorian building with a beautiful façade or a modern office building with interesting shapes, my interest will always be piqued.",
+        "Also, as I'm part of the game development world, I must have a favourite kind of game... well I love loads of games but growing up I was always hooked on the Assassin's Creed franchise, and well basically any game released by Ubisoft (Watch Dogs, Rainbow 6)."
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/cmilburn3d" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/connor-milburn-0399a1224/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "josh",
+      "slug": "josh-cairns",
+      "name": "Josh Cairns",
+      "role": "3D Artist",
+      "photo": "assets/img/team-josh.webp",
+      "initials": "JC",
+      "pronouns": "he/him",
+      "tagline": null,
+      "about": null,
+      "favourite": null,
+      "askMeAbout": null,
+      "socials": null,
+      "thumbClass": "is-zoomed",
+      "thumbStyle": "--zy:-16%; --zs:2.1"
+    },
+    {
+      "id": "nathan",
+      "slug": "nathan-hopwood",
+      "name": "Nathan Hopwood",
+      "role": "3D Artist",
+      "photo": "assets/img/team-nathan.webp",
+      "initials": "NH",
+      "pronouns": "he/him",
+      "tagline": null,
+      "about": null,
+      "favourite": null,
+      "askMeAbout": null,
+      "socials": null,
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "charlie-a",
+      "slug": "charlie-ashall",
+      "name": "Charlie Ashall",
+      "role": "Level Designer",
+      "photo": "assets/img/team-charlie-a.webp",
+      "initials": "CA",
+      "pronouns": "he/him",
+      "tagline": "Neurospicy, with lots of flavor",
+      "about": [
+        "I'm a level designer that works in Unreal and Unity. I graduated from Teesside University in July 2025 with First Class Honours in Game Design, and am currently studying a masters in Game Design. I joined Shiverbug in May of 2026 as a level designer.",
+        "Some of my favourite games are Sonic X Shadow Generations, Resident Evil and Hades 1/2. My favourite part of games is the level design and creating different worlds and levels for players to explore and be guided through.",
+        "Outside of games, I also like to take part in the One Piece TCG (a revolutionary Army player) and explore different pieces of media."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "Portfolio", "url": "https://charlieashall7.wixsite.com/rephrase-and-suggest" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/charlie-ashall-designer/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": "object-position: center 10%"
+    },
+    {
+      "id": "charlie-p",
+      "slug": "charlie-pelling",
+      "name": "Charlie Pelling",
+      "role": "Narrative Designer",
+      "photo": null,
+      "initials": "CP",
+      "pronouns": "he/him",
+      "tagline": null,
+      "about": null,
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": null,
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "martin",
+      "slug": "martin-wilkinson",
+      "name": "Martin Wilkinson",
+      "role": "3D Artist",
+      "photo": "assets/img/team-martin.webp",
+      "initials": "MW",
+      "pronouns": "he/him",
+      "tagline": "A great world invites players to explore.",
+      "about": [
+        "I've been passionate about games for as long as I can remember, and they've always inspired me to create worlds of my own. I specialise in environment art, with a particular love for stylised games, strong silhouettes, and creating places that players enjoy exploring."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/martinwilkinson" },
+        { "label": "LinkedIn", "url": "https://uk.linkedin.com/in/martin-wilkinson-" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "evan",
+      "slug": "evan-atherton-elphick",
+      "name": "Evan Atherton-Elphick",
+      "role": "Character Artist",
+      "photo": "assets/img/team-evan.jpg",
+      "initials": "EA",
+      "pronouns": "he/him",
+      "tagline": "I always stay curious!",
+      "about": [
+        "Recent graduate from Teesside University with First Class Honours, I have a passion for 3D art and creating fun, interesting, and expressive stuff! I'm always trying to improve my skills and display my ideas in the most comprehensive ways possible.",
+        "Also a big fan of cinema and games as an artform, I always stay curious!"
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/atherton-elphick" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/evan-atherton-elphick-74759a2a2/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    }
+  ],
+
+  "talent": [
+    {
+      "id": "madi",
+      "slug": "madi-freck",
+      "name": "Madi Freck",
+      "role": "Social Media",
+      "photo": "assets/img/team-madi.webp",
+      "initials": "MF",
+      "pronouns": "they/them",
+      "status": "active",
+      "tagline": "Sweet treat provider",
+      "about": [
+        "Hello, I'm Madi Freck, a 3rd Year 2D Animation and Stop-motion student at Teesside University.",
+        "I specialise in stop-motion puppet making, frame-by-frame animation and creating 2D character rigs. I'm currently using my background in graphics design to co-run Shiverbug's social media and branding with <a href='oliver-neal.html'>Oliver Neal</a>."
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "Website", "url": "https://madifreck.github.io/WebsitePortfolio" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/madi-freck-b45116370" },
+        { "label": "Instagram", "url": "https://www.instagram.com/madi.freck" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "max",
+      "slug": "max-breeze",
+      "name": "Max Breeze",
+      "role": "Character Artist",
+      "photo": "assets/img/team-max.webp",
+      "initials": "MB",
+      "pronouns": "he/him",
+      "status": "active",
+      "tagline": "I've always loved living in other worlds",
+      "about": [
+        "I care a lot about games. I've been playing since I was 5, starting with Oddworld: Stranger's Wrath, and I've always loved living in other worlds and being able to create worlds of my own.",
+        "I do a lot of GDD work and always chip in when it comes to games. Big fan of knights, vikings and fantasy stuff."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/maxbreeze" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/max-breeze-b2b593281/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "aidan",
+      "slug": "aidan-hendry",
+      "name": "Aidan Hendry",
+      "role": "Sound Designer",
+      "photo": "assets/img/team-aidan.webp",
+      "initials": "AH",
+      "pronouns": "he/him",
+      "status": "former",
+      "tagline": "Always pay attention to the small things, because they're the ones that bring the magic",
+      "about": [
+        "I'm a British sound designer with a First Class BA (with Hons) in Digital Music from Solent University and an MA with a distinction in Sound Design from Manchester Metropolitan University. After finishing some work on another game, I joined Shiverbug Studios as a sound designer.",
+        "I love adventure games, card games, and anything with a whimsical vibe. I am the first to point out when I recognise a sound popping up across different games or movies."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/aidan-hendry-9805b0b6/" },
+        { "label": "Instagram", "url": "https://www.instagram.com/honeydewdsound" },
+        { "label": "X", "url": "https://x.com/honeydewdsound" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "hollie",
+      "slug": "hollie",
+      "name": "Hollie",
+      "role": "3D Animator",
+      "photo": null,
+      "initials": "H",
+      "pronouns": null,
+      "status": "former",
+      "tagline": null,
+      "about": null,
+      "favourite": null,
+      "askMeAbout": null,
+      "socials": null,
+      "thumbClass": null,
+      "thumbStyle": null
+    }
+  ]
+}
