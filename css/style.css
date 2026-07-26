@@ -1,5 +1,5 @@
 /* ============================================================
-   Shiverbug Studios — stylesheet
+   Shiverbug Studios stylesheet
    Palette: ink (logo black), warm paper, sea blue / turtle
    green / sandy-shores orange
    Type:    Bricolage Grotesque (display) + Instrument Sans (body)
@@ -19,6 +19,22 @@
   --sand-deep: #d3822a;
   --crab: #e0584a;
   --crab-deep: #c14033;
+
+  /* Accessible tier. The accents above are tuned for decoration - underlines,
+     borders, dots, section washes - where WCAG asks for 3:1 or nothing at all.
+     As *text* on paper they fail 1.4.3 badly (--sand is 2.44:1). These are the
+     same hue and saturation, darkened until they clear 4.5:1 on --paper-2, the
+     darker of the two light backgrounds, so they pass on both.
+     Use --*-ink for type on light. Use --*-chip for a filled block carrying
+     white text. Never swap these into borders or backgrounds - that's what the
+     originals are for, and the brand depends on them staying put. */
+  --sea-ink: #0b737c;
+  --leaf-ink: #347441;
+  --sand-ink: #945b1d;
+  --crab-ink: #b93d31;
+  --sea-chip: #0c828d;
+  --leaf-chip: #3c854a;
+  --crab-chip: #db3b2b;
   --text-ink: #2b2f36;
   --text-soft: #5c6068;
   --text-paper: #f2ecdd;
@@ -73,6 +89,20 @@ h1, h2, h3 {
 }
 .skip-link:focus { top: 12px; }
 
+/* 2.4.7 Focus Visible + 1.4.11 Non-text Contrast: one unmistakable ring
+   everywhere, rather than relying on the browser default (which disappears
+   against the ink sections). Both colours clear 3:1 on their own backdrop.
+   Component-level rules with higher specificity still win where they exist. */
+:focus-visible {
+  outline: 3px solid var(--sea-chip);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.nav :focus-visible, .hero :focus-visible, .services :focus-visible,
+.proof :focus-visible, .footer :focus-visible, .lightbox :focus-visible {
+  outline-color: var(--sand);
+}
+
 ::selection { background: var(--sand); color: var(--ink); }
 
 /* ---------- buttons ---------- */
@@ -107,9 +137,12 @@ h1, h2, h3 {
   margin-bottom: 1rem;
 }
 .kicker::before { content: ""; width: 26px; height: 3px; border-radius: 2px; background: currentColor; }
-.kicker--sea { color: var(--sea-deep); }
+.kicker--sea { color: var(--sea-ink); }
+/* --sand stays bright: every kicker--sand on the site sits on an ink background
+   (the services band, the co-dev hero, the proof band), where a darkened sand
+   would fail instead of pass. On a light section use kicker--sea or --leaf. */
 .kicker--sand { color: var(--sand-deep); }
-.kicker--leaf { color: var(--leaf-deep); }
+.kicker--leaf { color: var(--leaf-ink); }
 
 /* marker-style underline accents */
 [class^="underline-"] { position: relative; white-space: nowrap; z-index: 0; display: inline-block; }
@@ -147,8 +180,8 @@ h1, h2, h3 {
   transform: rotate(-4deg);
 }
 .sticker--sand { background: var(--sand); color: var(--ink); }
-.sticker--sea { background: var(--sea); color: #fff; }
-.sticker--leaf { background: var(--leaf); color: #fff; }
+.sticker--sea { background: var(--sea-chip); color: #fff; }
+.sticker--leaf { background: var(--leaf-chip); color: #fff; }
 
 /* ---------- nav ---------- */
 .nav {
@@ -168,7 +201,8 @@ h1, h2, h3 {
 }
 .nav.is-scrolled .nav__inner { box-shadow: 0 12px 30px -12px rgba(0,0,0,.5); }
 
-.nav__brand { display: flex; align-items: center; gap: .65rem; }
+/* 2.5.5 Target Size (Enhanced), AAA: every non-inline target is at least 44x44. */
+.nav__brand { display: flex; align-items: center; gap: .65rem; min-height: 44px; }
 .nav__logo { width: 38px; height: 38px; object-fit: contain; }
 .nav__wordmark { height: 30px; width: auto; display: block; }
 
@@ -177,6 +211,7 @@ h1, h2, h3 {
   color: var(--text-paper-soft); font-weight: 500; font-size: .95rem;
   padding: .5rem .85rem; border-radius: var(--radius-sm);
   white-space: nowrap;
+  display: inline-flex; align-items: center; min-height: 44px;
   transition: color .15s, background .15s;
 }
 .nav__links a:hover { color: #fff; background: rgba(255,255,255,.08); }
@@ -245,12 +280,38 @@ h1, h2, h3 {
 
 /* ---------- ticker ---------- */
 .ticker {
+  position: relative;
   background: var(--paper);
   padding: 1.1rem 0 .4rem;
   overflow: hidden;
+}
+/* The fade at both edges has to sit on the track, not the bar: masking the bar
+   would fade the pause button out with it. */
+.ticker__track {
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
           mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
+
+/* 2.2.2 Pause, Stop, Hide: the ticker scrolls and the gallery clips loop, both
+   for longer than 5s and both starting on their own. This is the mechanism that
+   stops them. It pauses every looping thing on the page, not just the ticker. */
+.ticker__pause {
+  position: absolute; right: max(4vw, 12px); top: 50%; transform: translateY(-50%);
+  z-index: 2;
+  display: grid; place-items: center;
+  width: 44px; height: 44px; padding: 0;
+  border: 2px solid rgba(20,23,28,.3); border-radius: 50%;
+  background: var(--paper); color: var(--ink);
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.ticker__pause:hover { border-color: var(--ink); background: #fff; }
+.ticker__pause svg { width: 14px; height: 14px; }
+.ticker__pause .icon-play { display: none; }
+.motion-paused .ticker__pause .icon-play { display: block; }
+.motion-paused .ticker__pause .icon-pause { display: none; }
+.motion-paused .ticker__track { animation-play-state: paused; }
+.motion-paused .dot--pulse { animation-play-state: paused; }
 .ticker__track {
   display: flex; align-items: center; gap: 2.2rem;
   width: max-content;
@@ -282,26 +343,16 @@ h1, h2, h3 {
   box-shadow: var(--shadow-pop);
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
-.game__player video { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-.game__play {
-  position: absolute; inset: 0; margin: auto;
-  width: 92px; height: 92px; border-radius: 50%;
-  border: 0; cursor: pointer;
-  background: var(--sand); color: var(--ink);
-  display: grid; place-items: center;
-  box-shadow: 0 10px 40px -8px rgba(237, 161, 77, .8), 0 0 0 8px rgba(255,255,255,.18);
-  transition: transform .2s var(--ease-out), background .2s;
-}
-.game__play svg { width: 38px; height: 38px; margin-left: 4px; }
+/* Holds a still while the new trailer is being cut. The video rule stays so the
+   player drops straight back in when it lands. */
+.game__player video,
+.game__player img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
 .game__player .sticker { top: 14px; left: 14px; z-index: 2; }
-.game__player.is-playing .sticker { display: none; }
 .game__trailer-note {
   text-align: center; font-size: .93rem; font-style: italic;
   color: var(--text-soft);
-  margin: -1rem auto 2.5rem; max-width: 60ch;
+  margin: 1rem auto 2.5rem; max-width: 60ch;
 }
-.game__play:hover { transform: scale(1.08); background: var(--sand-deep); }
-.game__player.is-playing .game__play { display: none; }
 
 /* features: plain editorial list, no boxes */
 .game__features {
@@ -357,7 +408,7 @@ h1, h2, h3 {
   background: #fff; color: var(--text-ink);
 }
 .newsletter__form input[type="email"]:focus-visible {
-  border-color: var(--sea-deep);
+  border-color: var(--sea-ink);
   outline: 3px solid var(--sea-deep); outline-offset: 2px;
 }
 
@@ -369,12 +420,12 @@ h1, h2, h3 {
   margin-bottom: 1rem;
 }
 .form-sent {
-  color: var(--leaf-deep);
+  color: var(--leaf-ink);
   background: color-mix(in srgb, var(--leaf) 14%, transparent);
   border: 2px solid var(--leaf-deep);
 }
 .form-error {
-  color: var(--crab-deep);
+  color: var(--crab-ink);
   background: color-mix(in srgb, var(--crab) 12%, transparent);
   border: 2px solid var(--crab-deep);
 }
@@ -485,7 +536,7 @@ h1, h2, h3 {
 }
 .studio__facts li { display: flex; flex-direction: column; }
 .studio__facts strong {
-  font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: var(--sea-deep);
+  font-family: var(--font-display); font-weight: 800; font-size: 2rem; color: var(--sea-ink);
   line-height: 1.1;
 }
 .studio__facts span { font-size: .92rem; color: var(--text-soft); }
@@ -529,7 +580,7 @@ h1, h2, h3 {
 .team__label {
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   text-transform: uppercase; letter-spacing: .14em;
-  color: var(--sand-deep); text-align: center;
+  color: var(--sand-ink); text-align: center;
   margin-bottom: 1.2rem;
 }
 .member:hover { transform: translateY(-5px); }
@@ -562,11 +613,11 @@ h1, h2, h3 {
 }
 .member__photo--empty span {
   font-family: var(--font-display); font-weight: 800; font-size: 2.4rem;
-  color: rgba(20,23,28,.3);
+  color: rgba(20,23,28,.55);
 }
 .member h3 { font-size: 1.1rem; margin-bottom: .15rem; }
 .member p { font-size: .88rem; color: var(--text-soft); }
-.member--placeholder p { color: var(--sea-deep); font-weight: 500; }
+.member--placeholder p { color: var(--sea-ink); font-weight: 500; }
 
 .team__more { text-align: center; margin-top: clamp(2rem, 4vw, 3rem); }
 
@@ -591,7 +642,7 @@ h1, h2, h3 {
 .post__body { padding: 1.2rem .2rem 0; }
 .post__body time {
   font-family: var(--font-display); font-weight: 700; font-size: .8rem;
-  text-transform: uppercase; letter-spacing: .1em; color: var(--sand-deep);
+  text-transform: uppercase; letter-spacing: .1em; color: var(--sand-ink);
 }
 .post__body h3 { font-size: 1.25rem; margin: .5rem 0 .55rem; }
 .post__body p { font-size: .95rem; color: var(--text-soft); }
@@ -645,6 +696,21 @@ h1, h2, h3 {
 .footer__press { text-decoration: underline; text-underline-offset: 3px; }
 .footer__press:hover { color: #fff; }
 
+/* breadcrumb trail (2.4.8 Location) */
+.crumbs { padding-top: .4rem; margin-bottom: .2rem; }
+.crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; font-size: .85rem; }
+.crumbs li { display: flex; align-items: center; gap: .4rem; color: var(--text-soft); }
+.crumbs li + li::before { content: "/"; color: var(--text-soft); opacity: .6; }
+/* 44px in BOTH directions: "Home" and "Team" are only ~36px wide at this size,
+   and a breadcrumb link isn't covered by the inline-in-a-sentence exception. */
+.crumbs a, .crumbs [aria-current="page"] {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; min-width: 44px;
+}
+.crumbs a { color: var(--sea-ink); text-decoration: underline; text-underline-offset: 3px; }
+.crumbs a:hover { color: var(--ink); }
+.crumbs [aria-current="page"] { color: var(--text-soft); }
+
 /* ---------- profile pages ---------- */
 .profile {
   background: var(--paper);
@@ -683,7 +749,7 @@ h1, h2, h3 {
 }
 .profile__photo--empty span {
   font-family: var(--font-display); font-weight: 800; font-size: 4.5rem;
-  color: rgba(20,23,28,.3);
+  color: rgba(20,23,28,.55);
 }
 .profile__role { margin-bottom: .9rem; }
 .profile__name { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: .4rem; }
@@ -700,9 +766,9 @@ h1, h2, h3 {
   border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
   background: #fff; color: var(--ink);
 }
-.badge--turtle { background: var(--leaf); color: #fff; }
-.badge--seagull { background: var(--sea); color: #fff; }
-.badge--crab { background: var(--crab); color: #fff; }
+.badge--turtle { background: var(--leaf-chip); color: #fff; }
+.badge--seagull { background: var(--sea-chip); color: #fff; }
+.badge--crab { background: var(--crab-chip); color: #fff; }
 .badge--founder { background: var(--sand); }
 .badge--active::before, .badge--former::before {
   content: ""; width: .6rem; height: .6rem; border-radius: 50%; flex-shrink: 0;
@@ -720,23 +786,25 @@ h1, h2, h3 {
 .profile__more {
   background: none; border: none; padding: 0; cursor: pointer;
   font-family: var(--font-display); font-weight: 700; font-size: .95rem;
-  color: var(--sea-deep); margin-top: .5rem;
+  color: var(--sea-ink); margin-top: .5rem;
 }
 .profile__more:hover { text-decoration: underline; }
 .profile__section h2 {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--sea-deep); margin-bottom: .8rem;
+  color: var(--sea-ink); margin-bottom: .8rem;
 }
 .profile__section p { color: var(--text-soft); margin-bottom: .9rem; }
-.profile__section p a { color: var(--sea-deep); font-weight: 600; }
+.profile__section p a { color: var(--sea-ink); font-weight: 600; }
 .profile__section p a:hover { text-decoration: underline; }
-.profile__section p.is-placeholder { font-style: italic; color: #9a9284; }
+/* "bio coming soon" text. Muted, but #9a9284 was only 2.5:1 - this clears 4.5:1. */
+.profile__section p.is-placeholder { font-style: italic; color: #6e675a; }
 .profile__chips { display: flex; flex-wrap: wrap; gap: .6rem; }
 .chip {
   font-size: .9rem; font-weight: 500;
   padding: .4rem .9rem; border-radius: var(--radius-sm);
   border: 1px solid rgba(20,23,28,.25);
 }
+.profile__socials p.is-placeholder { font-style: italic; color: #6e675a; }
 .profile__socials { display: flex; flex-wrap: wrap; gap: 1.1rem; }
 .social {
   display: flex; flex-direction: column; align-items: center; gap: .4rem;
@@ -759,8 +827,8 @@ h1, h2, h3 {
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
   font-family: var(--font-display); font-weight: 700;
 }
-.profile__nav a { transition: color .15s; }
-.profile__nav a:hover { color: var(--sea-deep); }
+.profile__nav a { transition: color .15s; display: inline-flex; align-items: center; min-height: 44px; }
+.profile__nav a:hover { color: var(--sea-ink); }
 .profile__nav .is-back { color: var(--text-soft); }
 .profile__nav .is-back:hover { color: var(--ink); }
 .profile__missing { text-align: center; padding: 4rem 0; }
@@ -771,19 +839,19 @@ h1, h2, h3 {
 .press .section__head { max-width: 68ch; }
 .press .section__head h1,
 .press .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
-.press .section__head a:not(.btn) { color: var(--sea-deep); font-weight: 600; }
+.press .section__head a:not(.btn) { color: var(--sea-ink); font-weight: 600; }
 .press .section__head .btn { margin-top: 1.4rem; }
 .press__h {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--sea-deep); margin: 2.4rem 0 .9rem;
+  color: var(--sea-ink); margin: 2.4rem 0 .9rem;
 }
 .press section > p { color: var(--text-soft); margin-bottom: .9rem; max-width: 68ch; }
-.press section > p a { color: var(--sea-deep); font-weight: 600; }
+.press section > p a { color: var(--sea-ink); font-weight: 600; }
 .press__grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); }
 .press__facts dl { display: grid; grid-template-columns: auto 1fr; gap: .55rem 1.2rem; }
 .press__facts dt { font-family: var(--font-display); font-weight: 700; font-size: .92rem; white-space: nowrap; }
 .press__facts dd { color: var(--text-soft); font-size: .95rem; }
-.press__facts dd a { color: var(--sea-deep); font-weight: 600; }
+.press__facts dd a { color: var(--sea-ink); font-weight: 600; }
 .press__note { font-size: .92rem; font-style: italic; }
 .press__media { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
 .press__media a {
@@ -818,7 +886,7 @@ h1, h2, h3 {
 .legal .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .legal__body { max-width: 68ch; }
 .legal__body p { color: var(--text-soft); margin-bottom: .9rem; }
-.legal__body p a { color: var(--sea-deep); font-weight: 600; }
+.legal__body p a { color: var(--sea-ink); font-weight: 600; }
 .legal__body p a:hover { text-decoration: underline; }
 .legal__body strong { color: var(--text-ink); }
 
@@ -870,8 +938,6 @@ h1, h2, h3 {
   .team__grid--founders { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
   .game__features { grid-template-columns: 1fr; gap: 1.4rem; }
   .game__cta { flex-direction: column; align-items: flex-start; }
-  .game__play { width: 72px; height: 72px; }
-  .game__play svg { width: 30px; height: 30px; }
   .footer__meta { justify-content: center; text-align: center; }
 }
 
@@ -891,7 +957,7 @@ h1, h2, h3 {
 .svc:nth-of-type(3) { border-top-color: var(--leaf); }
 .svc__num {
   font-family: var(--font-display); font-weight: 800; font-size: .9rem;
-  color: var(--sand-deep); letter-spacing: .1em; margin-bottom: .9rem;
+  color: var(--sand-ink); letter-spacing: .1em; margin-bottom: .9rem;
 }
 .svc h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: .9rem; }
 .svc__body > p { color: var(--text-soft); margin-bottom: 1.3rem; max-width: 54ch; }
@@ -958,7 +1024,9 @@ h1, h2, h3 {
   position: absolute; left: .55rem; bottom: .55rem; z-index: 1;
   width: auto; height: auto;
   display: inline-flex; align-items: center; gap: .45rem;
-  padding: .2rem .7rem .2rem .25rem;
+  /* 2.5.5: the credit chip is a link, so it needs 44px of height too */
+  min-height: 44px;
+  padding: .45rem .8rem .45rem .3rem;
   background: rgba(10, 12, 15, .72);
   -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,.3); border-radius: 999px;
@@ -973,15 +1041,15 @@ h1, h2, h3 {
 .carousel__slot .carousel__credit:hover { background: rgba(10,12,15,.92); border-color: #fff; }
 .carousel__num {
   font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
-  color: rgba(255,255,255,.3);
+  color: rgba(255,255,255,.62);
 }
 .carousel__hint {
   font-size: .68rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .12em; color: rgba(255,255,255,.4);
+  letter-spacing: .12em; color: rgba(255,255,255,.82);
 }
 .carousel__btn {
   position: absolute; top: 50%; transform: translateY(-50%);
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
   border: 2px solid var(--ink); background: #fff; color: var(--ink);
   font-size: 1.5rem; line-height: 1; display: grid; place-items: center;
   cursor: pointer; z-index: 2;
@@ -1060,7 +1128,7 @@ h1, h2, h3 {
 .step:nth-child(4) { border-top-color: var(--crab); }
 .step__num {
   font-family: var(--font-display); font-weight: 800; font-size: .85rem;
-  letter-spacing: .1em; color: var(--sand-deep); display: block; margin-bottom: .6rem;
+  letter-spacing: .1em; color: var(--sand-ink); display: block; margin-bottom: .6rem;
 }
 .step strong {
   display: block; font-family: var(--font-display); font-weight: 700;
@@ -1077,7 +1145,7 @@ h1, h2, h3 {
   color: var(--text-soft);
   max-width: 62ch;
 }
-.codev__note a { font-weight: 600; color: var(--sea-deep); }
+.codev__note a { font-weight: 600; color: var(--sea-ink); }
 .codev__note a:hover { text-decoration: underline; }
 
 .tools { margin-top: clamp(2.8rem, 5vw, 4rem); }
@@ -1153,7 +1221,7 @@ h1, h2, h3 {
 .faq__list summary::after {
   content: "+"; position: absolute; right: .3rem; top: 50%;
   transform: translateY(-50%);
-  font-size: 1.5rem; font-weight: 400; color: var(--sea-deep);
+  font-size: 1.5rem; font-weight: 400; color: var(--sea-ink);
   transition: transform .2s var(--ease-out);
 }
 .faq__list details[open] summary::after { transform: translateY(-50%) rotate(45deg); }

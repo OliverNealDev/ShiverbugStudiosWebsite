@@ -18,8 +18,8 @@ $baseUrl = 'https://olivernealdev.github.io/ShiverbugStudiosWebsite'
 
 # GitHub Pages cannot send HTTP headers, so the policy travels in a meta tag.
 # Keep this in step with the identical tag in index.html, co-dev.html, press.html,
-# privacy.html, 404.html and team-member.html.
-# Note: frame-ancestors is ignored in a meta tag - it only works as a real header.
+# privacy.html, accessibility.html, 404.html and team-member.html.
+# Note: frame-ancestors is ignored in a meta tag, it only works as a real header.
 $csp = "default-src 'self'; " +
        "script-src 'self' https://gc.zgo.at; " +
        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
@@ -134,13 +134,13 @@ $template = @'
   <title>{{NAME}} | Shiverbug Studios</title>
   <meta name="description" content="{{DESC}}">
   <link rel="canonical" href="{{CANONICAL}}">
-  <meta property="og:title" content="{{NAME}} &#8212; {{ROLE}} | Shiverbug Studios">
+  <meta property="og:title" content="{{NAME}}, {{ROLE}} | Shiverbug Studios">
   <meta property="og:description" content="{{DESC}}">
   <meta property="og:image" content="{{OGIMAGE}}">
   <meta property="og:url" content="{{CANONICAL}}">
   <meta property="og:type" content="profile">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{NAME}} &#8212; {{ROLE}} | Shiverbug Studios">
+  <meta name="twitter:title" content="{{NAME}}, {{ROLE}} | Shiverbug Studios">
   <meta name="twitter:description" content="{{DESC}}">
   <meta name="twitter:image" content="{{OGIMAGE}}">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
@@ -210,7 +210,7 @@ $template = @'
   <footer class="footer footer--mini">
     <div class="container">
       <div class="footer__meta">
-        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a></p>
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
         <p class="footer__tag">Bringing family game night back to the sofa.</p>
         <p class="footer__legal">{{LEGAL}}</p>
       </div>
@@ -317,7 +317,7 @@ foreach ($list in @($team, $talent)) {
         '<span class="social__label">' + (HtmlEnc $_.label) + '</span></a>'
       }) -join "`n            "
     } else {
-      $socials = '<p class="is-placeholder" style="font-style:italic;color:#9a9284;">Links on the way.</p>'
+      $socials = '<p class="is-placeholder">Links on the way.</p>'
     }
 
     # --- prev / next, wrapping inside this person's own list ---
@@ -428,7 +428,7 @@ $founders = @($team | Where-Object { $_.role -match '(?i)co-founder' })
 $rest     = @($team | Where-Object { $_.role -notmatch '(?i)co-founder' })
 
 $teamBlock = @()
-$teamBlock += '        <p class="team__label reveal">Founders</p>'
+$teamBlock += '        <h2 class="team__label reveal">Founders</h2>'
 $teamBlock += '        <div class="team__grid team__grid--founders">'
 $teamBlock += (@($founders | ForEach-Object { MemberTile $_ $false }) -join "`n")
 $teamBlock += '        </div>'
@@ -564,12 +564,12 @@ $teamIndexTemplate = @'
         </p>
       </header>
 
-      <p class="team__label">Founders</p>
+      <h2 class="team__label">Founders</h2>
       <div class="team__grid team__grid--founders">
 {{FOUNDERS}}
       </div>
 
-      <p class="team__label">The studio</p>
+      <h2 class="team__label">The studio</h2>
       <div class="team__grid">
 {{CORE}}
       </div>
@@ -589,7 +589,7 @@ $teamIndexTemplate = @'
   <footer class="footer footer--mini">
     <div class="container">
       <div class="footer__meta">
-        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a></p>
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
         <p class="footer__tag">Bringing family game night back to the sofa.</p>
         <p class="footer__legal">{{LEGAL}}</p>
       </div>
@@ -672,6 +672,7 @@ $llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
 $llms += ("- [Co-development and work-for-hire]({0}/co-dev.html): services, process, rates approach, FAQ" -f $baseUrl)
 $llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
 $llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
+$llms += ("- [Accessibility statement]({0}/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem" -f $baseUrl)
 $llms += ''
 $llms += '## Team'
 $llms += ''
@@ -770,7 +771,8 @@ $pages = @(
   @{ loc = "$baseUrl/co-dev.html";   pri = '0.9' },
   @{ loc = "$baseUrl/team/";         pri = '0.8' },
   @{ loc = "$baseUrl/press.html";    pri = '0.7' },
-  @{ loc = "$baseUrl/privacy.html";  pri = '0.3' }
+  @{ loc = "$baseUrl/privacy.html";  pri = '0.3' },
+  @{ loc = "$baseUrl/accessibility.html"; pri = '0.3' }
 )
 foreach ($p in $all) { $pages += @{ loc = "$baseUrl/team/$($p.slug).html"; pri = '0.5' } }
 

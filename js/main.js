@@ -1,4 +1,4 @@
-// Shiverbug Studios — site interactions
+// Shiverbug Studios site interactions
 
 // ----- nav: scrolled state + mobile menu -----
 const nav = document.getElementById('nav');
@@ -25,19 +25,29 @@ navLinks.addEventListener('click', (e) => {
 const track = document.getElementById('tickerTrack');
 if (track) track.innerHTML += track.innerHTML;
 
-// ----- trailer: big play button overlay -----
-const player = document.querySelector('.game__player');
-const video = document.getElementById('trailer');
-const playBtn = document.getElementById('playBtn');
-
-if (video && playBtn) {
-  playBtn.addEventListener('click', () => video.play());
-  video.addEventListener('play', () => player.classList.add('is-playing'));
-  video.addEventListener('pause', () => {
-    if (video.ended) player.classList.remove('is-playing');
+// ----- 2.2.2 Pause, Stop, Hide -----
+// The ticker scrolls and the gallery clips loop, both for well over five seconds
+// and both without being asked. This is the single control that stops the lot.
+// Deliberately not persisted: remembering it would mean writing to the visitor's
+// device, and the privacy policy promises we store nothing.
+let motionPaused = false;
+const motionToggle = document.getElementById('motionToggle');
+if (motionToggle) {
+  const label = motionToggle.querySelector('.visually-hidden');
+  motionToggle.addEventListener('click', () => {
+    motionPaused = !motionPaused;
+    document.documentElement.classList.toggle('motion-paused', motionPaused);
+    motionToggle.setAttribute('aria-pressed', String(motionPaused));
+    label.textContent = motionPaused ? 'Resume moving content' : 'Pause moving content';
+    document.querySelectorAll('.carousel video').forEach((v) => {
+      if (motionPaused) v.pause();
+      else if (v.dataset.onScreen === 'true') v.play().catch(() => {});
+    });
   });
-  video.addEventListener('ended', () => player.classList.remove('is-playing'));
 }
+
+// The trailer player lived here. It's a still image while the new trailer is cut;
+// restore this block from git history when the video goes back in.
 
 // ----- reveal on scroll -----
 const revealEls = document.querySelectorAll('.reveal');
@@ -67,7 +77,9 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   if (vids.length && !reduceMotion && 'IntersectionObserver' in window) {
     const vio = new IntersectionObserver((entries) => {
       entries.forEach(({ isIntersecting, target }) => {
-        if (isIntersecting) target.play().catch(() => {});
+        // remembered so the pause control knows which clips to resume
+        target.dataset.onScreen = String(isIntersecting);
+        if (isIntersecting && !motionPaused) target.play().catch(() => {});
         else target.pause();
       });
     }, { threshold: 0.25 });
@@ -304,7 +316,7 @@ enhanceForm(
 
 enhanceForm(
   document.getElementById('newsletterForm'),
-  'Almost there — check your inbox and confirm your address.',
+  'Almost there. Check your inbox and confirm your address.',
   "Hmm, that didn't go through. Give it another go in a moment."
 );
 

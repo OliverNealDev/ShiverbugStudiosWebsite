@@ -1,6 +1,6 @@
 # tools
 
-Two PowerShell scripts. No Node, no npm, no install step — they run on the
+Two PowerShell scripts. No Node, no npm, no install step. They run on the
 Windows PowerShell that's already on the machine.
 
 ## build-team.ps1
@@ -24,14 +24,14 @@ powershell -ExecutionPolicy Bypass -File tools/build-team.ps1
 
 **To add or change someone:** edit `data/team.json`, run the script, commit
 the result. Never hand-edit anything in `team/`, or the `BUILD:` blocks in
-`index.html` — the next build overwrites them.
+`index.html`. The next build overwrites them.
 
 Notes:
 - Bio paragraphs may contain HTML. Links to other profiles are sibling-relative,
   e.g. `<a href='lewis-mennim.html'>Lewis</a>`, because they render inside `team/`.
 - `role` keeps `· Co-Founder`; the badge shows it, the role line strips it.
 - Keep this file **pure ASCII**. Windows PowerShell 5.1 reads a BOM-less `.ps1`
-  as ANSI, so a literal `·` or `—` in the source arrives mangled. Use
+  as ANSI, so a literal middot or em dash character in the source arrives mangled. Use
   `[char]0x00B7` or an HTML entity instead.
 
 ## validate-site.ps1

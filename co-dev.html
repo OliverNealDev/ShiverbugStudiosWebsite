@@ -142,8 +142,8 @@
     </section>
 
     <!-- ======= TICKER ======= -->
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker__track" id="tickerTrack">
+    <div class="ticker">
+      <div class="ticker__track" id="tickerTrack" aria-hidden="true">
         <span>Concept art &amp; 3D art</span><i>🏖️</i>
         <span>Character concept art</span><i>🐢</i>
         <span>Level design</span><i>🌊</i>
@@ -151,7 +151,11 @@
         <span>Narrative design</span><i>🐢</i>
         <span>Unity &amp; Unreal</span><i>🌊</i>
       </div>
-    </div>
+      <button class="ticker__pause" id="motionToggle" type="button" aria-pressed="false">
+        <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="4" height="12" rx="1" fill="currentColor"/><rect x="9" y="2" width="4" height="12" rx="1" fill="currentColor"/></svg>
+        <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>
+        <span class="visually-hidden">Pause moving content</span>
+      </button>    </div>
 
     <!-- ======= SERVICES ======= -->
     <section class="section codev" id="services">
@@ -415,8 +419,12 @@
       </div>
     </section>
 
-    <!-- ======= CONTACT / FOOTER ======= -->
-    <footer class="footer" id="contact">
+  </main>
+
+  <!-- ======= CONTACT / FOOTER ======= -->
+  <!-- outside <main> on purpose: a <footer> nested in main is not exposed as a
+       contentinfo landmark, so screen reader users lose 'skip to footer'. -->
+  <footer class="footer" id="contact">
       <div class="wave wave--top" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
       </div>
@@ -431,14 +439,12 @@
           </div>
         </div>
         <div class="footer__meta">
-          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a></p>
+          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a> &middot; <a class="footer__press" href="accessibility.html">Accessibility</a></p>
           <p class="footer__tag">Bringing family game night back to the sofa.</p>
           <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
         </div>
       </div>
-    </footer>
-
-  </main>
+  </footer>
 
   <script src="js/main.js"></script>
   <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->

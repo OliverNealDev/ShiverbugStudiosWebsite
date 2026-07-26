@@ -10,6 +10,7 @@ Team of 12 people plus a talent pool of 4 regular collaborators. Contact: contac
 - [Co-development and work-for-hire](https://olivernealdev.github.io/ShiverbugStudiosWebsite/co-dev.html): services, process, rates approach, FAQ
 - [Press kit](https://olivernealdev.github.io/ShiverbugStudiosWebsite/press.html): fact sheet, logos, screenshots, trailer
 - [Privacy policy](https://olivernealdev.github.io/ShiverbugStudiosWebsite/privacy.html)
+- [Accessibility statement](https://olivernealdev.github.io/ShiverbugStudiosWebsite/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem
 
 ## Team
 

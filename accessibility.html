@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://oliverneal04.goatcounter.com; media-src 'self'; connect-src 'self' https://formspree.io https://buttondown.com https://oliverneal04.goatcounter.com; form-action https://formspree.io https://buttondown.com; base-uri 'none'; object-src 'none'">
+  <title>Accessibility | Shiverbug Studios</title>
+  <meta name="description" content="How accessible the Shiverbug Studios website is, what we've tested, what we know isn't perfect yet, and how to tell us if something doesn't work for you.">
+  <link rel="canonical" href="https://olivernealdev.github.io/ShiverbugStudiosWebsite/accessibility.html">
+  <meta property="og:title" content="Accessibility | Shiverbug Studios">
+  <meta property="og:description" content="How accessible this site is, what we've tested, and what we're still fixing.">
+  <meta property="og:image" content="https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/out-of-water-screenshot.jpg">
+  <meta property="og:url" content="https://olivernealdev.github.io/ShiverbugStudiosWebsite/accessibility.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Accessibility | Shiverbug Studios">
+  <meta name="twitter:description" content="How accessible this site is, what we've tested, and what we're still fixing.">
+  <meta name="twitter:image" content="https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/out-of-water-screenshot.jpg">
+  <meta property="og:site_name" content="Shiverbug Studios">
+  <meta name="theme-color" content="#14171c">
+  <link rel="apple-touch-icon" href="assets/img/favicon.png">
+  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</head>
+<body>
+
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <!-- ======= NAV ======= -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="index.html" aria-label="Shiverbug Studios, home">
+        <img src="assets/img/nav-logo.webp" alt="" class="nav__logo">
+        <img src="assets/img/nav-wordmark.webp" alt="" class="nav__wordmark">
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="index.html#game">Out of Water</a>
+        <a href="co-dev.html">Co-Dev</a>
+        <a href="index.html#studio">Studio</a>
+        <a href="index.html#team">Team</a>
+        <a href="press.html">Press</a>
+        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+      </nav>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top" class="profile legal">
+    <div class="container">
+
+      <header class="section__head">
+        <p class="kicker kicker--sea">The other boring but important page</p>
+        <h1>Accessibility <span class="underline-sea">Statement</span></h1>
+        <p class="section__lede">
+          We want this site to work for everyone who lands on it, including people
+          using a keyboard, a screen reader, magnification, or a browser set to cut
+          out motion. Here's where we actually are. Last updated 26 July 2026.
+        </p>
+      </header>
+
+      <div class="legal__body">
+        <h2 class="press__h">How Accessible This Site Is</h2>
+        <p>
+          We aim to meet <a href="https://www.w3.org/TR/WCAG22/" target="_blank" rel="noopener">WCAG 2.2 Level AA</a>,
+          the international standard for web accessibility.
+        </p>
+        <p>
+          <strong>Every page on this site meets Level AA</strong> as far as our own
+          testing shows. We've assessed this ourselves rather than commissioning an
+          external audit, so if you find something we've missed, we'd genuinely like
+          to know.
+        </p>
+
+        <h2 class="press__h">What We've Done</h2>
+        <p>
+          Every page works with a keyboard alone, with a visible outline showing where
+          you are and a skip link so you can jump past the menu. The gallery viewer
+          keeps focus inside itself while open, closes on <kbd>Esc</kbd>, and puts you
+          back where you started.
+        </p>
+        <p>
+          Text meets the 4.5:1 contrast ratio the standard asks for. Pages reflow to a
+          320px screen without sideways scrolling, cope with doubled text size and
+          increased letter spacing, and every image either has alternative text or is
+          marked as decorative. Buttons and links are at least 44 by 44 pixels, apart
+          from links inside a sentence.
+        </p>
+        <p>
+          If your device is set to reduce motion, the ticker, the scroll animations and
+          the looping gallery clips stop on their own. If it isn't, the pause button on
+          the moving strip stops everything that moves.
+        </p>
+
+        <h2 class="press__h">What Isn't Right Yet</h2>
+        <p>
+          <strong>A few team profiles are unfinished</strong>, showing placeholder text
+          where a photo or biography will go.
+        </p>
+        <p>
+          <strong>There's no video on the site yet.</strong> A trailer is on the way,
+          and when it goes up it will have captions and a written description of what
+          it shows.
+        </p>
+        <p>
+          <strong>We've only tested with one screen reader</strong>, NVDA on Windows.
+          We haven't tried JAWS or VoiceOver, and they don't always behave the same
+          way. We also haven't tested Windows High Contrast Mode.
+        </p>
+
+        <h2 class="press__h">How We Tested This</h2>
+        <p>
+          We checked all 24 pages rather than a sample. Contrast, heading order,
+          alternative text, form labelling, link naming, target sizes and focus
+          behaviour were measured on every page; keyboard operation and the gallery
+          viewer were tested by hand; and the site was read through with NVDA. This is
+          our own assessment, not an independent audit.
+        </p>
+
+        <h2 class="press__h">Tell Us If Something Doesn't Work</h2>
+        <p>
+          If any part of this site gets in your way, email
+          <a href="mailto:contact@shiverbugstudios.com?subject=Accessibility">contact@shiverbugstudios.com</a>
+          and tell us what happened and what you were using. We'll reply and fix what
+          we can, and if you need something here in a different format, just ask.
+          We're a small studio, so that's a real person reading it.
+        </p>
+
+        <h2 class="press__h">The Legal Bit</h2>
+        <p>
+          Shiverbug Studios Ltd is a private company, so the Public Sector Bodies
+          (Websites and Mobile Applications) Accessibility Regulations 2018 don't apply
+          to us. We still have duties under the Equality Act 2010 to make reasonable
+          adjustments, and we'd want to do this regardless. This statement is
+          voluntary, and written to be honest rather than flattering.
+        </p>
+        <p>
+          Statement prepared on 26 July 2026. We'll revise it whenever we change
+          something that affects the answers above.
+        </p>      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer footer--mini">
+    <div class="container">
+      <div class="footer__meta">
+        <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a> · <a class="footer__press" href="accessibility.html" aria-current="page">Accessibility</a></p>
+        <p class="footer__tag">Bringing family game night back to the sofa.</p>
+        <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
