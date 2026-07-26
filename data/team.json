@@ -155,7 +155,9 @@
       "about": null,
       "favourite": null,
       "askMeAbout": null,
-      "socials": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/joshuacairnsenvironmentartist" }
+      ],
       "thumbClass": "is-zoomed",
       "thumbStyle": "--zy:-16%; --zs:2.1"
     },
@@ -171,7 +173,9 @@
       "about": null,
       "favourite": null,
       "askMeAbout": null,
-      "socials": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/nathan_hopwood" }
+      ],
       "thumbClass": null,
       "thumbStyle": null
     },

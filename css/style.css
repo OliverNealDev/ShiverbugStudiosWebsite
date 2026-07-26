@@ -1185,8 +1185,14 @@ h1, h2, h3 {
 }
 /* the base reset's `img, video { display: block }` would defeat the hidden attribute */
 .lightbox__img[hidden], .lightbox__video[hidden] { display: none; }
-.lightbox__caption { margin-top: .8rem; color: var(--text-paper-soft); font-size: .92rem; }
-.lightbox__cap-text { display: block; }
+.lightbox__caption { margin-top: .8rem; color: var(--text-paper-soft); font-size: .92rem; max-width: 70ch; margin-inline: auto; }
+/* Optional piece title and write-up, from data-title / data-desc on the slot.
+   Without them the caption falls back to the image's alt text, as before. */
+.lightbox__cap-title {
+  display: block; margin-bottom: .3rem;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: #fff;
+}
+.lightbox__cap-text { display: block; line-height: 1.55; }
 .lightbox__credit {
   display: inline-block; margin-top: .35rem;
   color: #fff; font-size: .85rem; font-weight: 600;

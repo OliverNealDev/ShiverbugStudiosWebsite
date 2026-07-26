@@ -1,0 +1,25 @@
+# Everything committed here is published: GitHub Pages serves the whole repo at
+# a guessable URL, so a file dropped in "just to look at" goes public the moment
+# it is pushed. Working documents stay out of the repo entirely.
+#
+# The co-dev gallery images are exported copies in assets/img/art/ and are
+# committed on purpose. It is the source documents that must not be.
+
+# Decks, contracts, exports, anything sent over for reference
+*.pdf
+*.pptx
+*.ppt
+*.docx
+*.doc
+*.xlsx
+
+# Project files that sometimes get dragged in alongside art exports
+*.blend
+*.blend1
+*.psd
+*.ztl
+
+# OS clutter
+Thumbs.db
+desktop.ini
+.DS_Store

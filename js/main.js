@@ -143,7 +143,7 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
     <figure class="lightbox__figure">
       <img class="lightbox__img" src="" alt="">
       <video class="lightbox__video" controls loop playsinline hidden></video>
-      <figcaption class="lightbox__caption"><span class="lightbox__cap-text"></span><a class="lightbox__credit" href="" hidden></a></figcaption>
+      <figcaption class="lightbox__caption"><strong class="lightbox__cap-title" hidden></strong><span class="lightbox__cap-text"></span><a class="lightbox__credit" href="" hidden></a></figcaption>
     </figure>
     <button class="lightbox__btn lightbox__btn--next" type="button" aria-label="Next piece">&rsaquo;</button>`;
   document.body.appendChild(overlay);
@@ -151,6 +151,7 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   const imgEl = overlay.querySelector('.lightbox__img');
   const vidEl = overlay.querySelector('.lightbox__video');
   const capEl = overlay.querySelector('.lightbox__cap-text');
+  const titleEl = overlay.querySelector('.lightbox__cap-title');
   const creditEl = overlay.querySelector('.lightbox__credit');
   let items = [], index = 0, lastFocus = null;
 
@@ -168,7 +169,10 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
       imgEl.src = item.href;
       imgEl.alt = item.alt;
     }
-    capEl.textContent = item.alt;
+    titleEl.textContent = item.title || '';
+    titleEl.hidden = !item.title;
+    // the write-up if the piece has one, otherwise the plain visual description
+    capEl.textContent = item.desc || item.alt;
     if (item.credit) {
       creditEl.textContent = 'Work by ' + item.credit;
       creditEl.href = item.creditHref;
@@ -251,7 +255,9 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
         const credit = slot.querySelector('.carousel__credit');
         const base = {
           credit: credit ? credit.textContent.trim() : '',
-          creditHref: credit ? credit.getAttribute('href') : ''
+          creditHref: credit ? credit.getAttribute('href') : '',
+          title: slot.dataset.title || '',
+          desc: slot.dataset.desc || ''
         };
         const art = slot.querySelector('a[href]:not(.carousel__credit)');
         const clip = slot.querySelector('video');
