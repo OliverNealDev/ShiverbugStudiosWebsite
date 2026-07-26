@@ -1,6 +1,6 @@
 # Shiverbug Studios
 
-> Independent video game studio in North East England, founded early 2025. Building Out of Water, a 2-player split-screen collectathon platformer, and taking on co-development and work-for-hire: concept art, 3D art, level design and gameplay programming.
+> Independent video game studio in North East England, founded in 2025. Building Out of Water, a 2-player split-screen collectathon platformer, and taking on co-development and work-for-hire: concept art, 3D art, level design and gameplay programming.
 
 Team of 12 people plus a talent pool of 4 regular collaborators. Contact: contact@shiverbugstudios.com
 
@@ -13,8 +13,8 @@ Team of 12 people plus a talent pool of 4 regular collaborators. Contact: contac
 
 ## Team
 
-- [All 16 team members](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/): the full roster
-- [Lewis Mennim - CEO](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/lewis-mennim.html): Turtle-obsessed CEO. I founded the studio back at the start of 2025, and I'll do anything to make it successful.
+- [Full roster](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/): all 16 people, 12 in the studio plus 4 in the talent pool
+- [Lewis Mennim - CEO](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/lewis-mennim.html): Turtle-obsessed CEO. I founded the studio back in 2025, and I'll do anything to make it successful.
 - [Ryan Hughes - CFO](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html): Video games became so much more than just a hobby for me very early on. There's just no other medium like it. One day you're playing a deeply...
 - [Garrett Windus - 3D Artist](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/garrett-windus.html): Before Lewis reached out about starting a studio, I was a Realistic Vehicle artist and had to quickly adapt to making stylised environments.
 - [Oliver Neal - Gameplay Programmer](https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/oliver-neal.html): I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games...

@@ -165,16 +165,40 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
       creditEl.hidden = true;
     }
   };
+  // everything you can tab to inside the viewer, in document order
+  const focusables = () => [...overlay.querySelectorAll('button, [href], video[controls]')]
+    .filter((el) => !el.hidden && el.offsetParent !== null);
+
+  // while the viewer is open the rest of the page is inert: no tabbing behind it,
+  // and screen readers skip it too
+  let inerted = [];
+  const setBackgroundInert = (on) => {
+    if (on) {
+      inerted = [...document.body.children].filter((el) => el !== overlay && !el.inert);
+      inerted.forEach((el) => { el.inert = true; });
+    } else {
+      inerted.forEach((el) => { el.inert = false; });
+      inerted = [];
+    }
+  };
+
   const open = (list, i, fromEl) => {
     items = list; lastFocus = fromEl;
     show(i);
     overlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    setBackgroundInert(true);
+    // .lightbox is visibility:hidden until .is-open lands, and you can't focus what
+    // isn't visible yet. Reading a layout property forces the style recalc right now
+    // so the focus sticks. (requestAnimationFrame is too early: it runs before the
+    // recalc, so the button is still hidden when the callback fires.)
+    void overlay.offsetWidth;
     overlay.querySelector('.lightbox__close').focus();
   };
   const close = () => {
     overlay.classList.remove('is-open');
     document.body.style.overflow = '';
+    setBackgroundInert(false);
     imgEl.src = '';
     vidEl.pause();
     if (lastFocus) lastFocus.focus();
@@ -189,6 +213,15 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
     if (e.key === 'Escape') close();
     else if (e.key === 'ArrowLeft') show(index - 1);
     else if (e.key === 'ArrowRight') show(index + 1);
+    else if (e.key === 'Tab') {
+      // keep focus looping inside the viewer
+      const els = focusables();
+      if (!els.length) return;
+      const first = els[0], last = els[els.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      else if (!overlay.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+    }
   });
 
   carousels.forEach((carousel) => {
@@ -228,38 +261,52 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   });
 })();
 
-// ----- contact form: submit to Formspree in the background -----
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-  contactForm.addEventListener('submit', async (e) => {
+// ----- forms: post in the background so nobody gets bounced off the site -----
+// Both endpoints send Access-Control-Allow-Origin, so we can read the result.
+// Without JS the forms still submit natively, which is why the action stays on them.
+const enhanceForm = (form, sentMsg, errorMsg) => {
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = contactForm.querySelector('button[type="submit"]');
-    contactForm.parentNode.querySelector('.form-note')?.remove();
+    const btn = form.querySelector('button[type="submit"]');
+    form.parentNode.querySelector('.form-note')?.remove();
     btn.disabled = true;
     const note = document.createElement('p');
     note.setAttribute('role', 'status');
     try {
-      const res = await fetch(contactForm.action, {
+      const res = await fetch(form.action, {
         method: 'POST',
-        body: new FormData(contactForm),
+        body: new FormData(form),
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
         note.className = 'form-note form-sent';
-        note.textContent = "Message sent! We'll get back to you soon.";
-        contactForm.reset();
+        note.textContent = sentMsg;
+        form.reset();
       } else {
         note.className = 'form-note form-error';
-        note.textContent = "Hmm, that didn't send. Try again, or email us directly above.";
+        note.textContent = errorMsg;
       }
     } catch (err) {
       note.className = 'form-note form-error';
-      note.textContent = "Hmm, that didn't send. Try again, or email us directly above.";
+      note.textContent = errorMsg;
     }
-    contactForm.parentNode.insertBefore(note, contactForm);
+    form.parentNode.insertBefore(note, form);
     btn.disabled = false;
   });
-}
+};
+
+enhanceForm(
+  document.getElementById('contactForm'),
+  "Message sent! We'll get back to you soon.",
+  "Hmm, that didn't send. Try again, or email us directly above."
+);
+
+enhanceForm(
+  document.getElementById('newsletterForm'),
+  'Almost there — check your inbox and confirm your address.',
+  "Hmm, that didn't go through. Give it another go in a moment."
+);
 
 // ----- footer year -----
 const year = document.getElementById('year');

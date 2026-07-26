@@ -16,6 +16,9 @@ $ErrorActionPreference = 'Stop'
 
 $root    = Split-Path -Parent $PSScriptRoot
 $baseUrl = 'https://olivernealdev.github.io/ShiverbugStudiosWebsite'
+# '/ShiverbugStudiosWebsite' - the path every site-absolute reference must carry
+# while we're on a project Pages site. Becomes '' on a custom domain.
+$sitePrefix = ([uri]$baseUrl).AbsolutePath.TrimEnd('/')
 $errors  = New-Object System.Collections.ArrayList
 $warns   = New-Object System.Collections.ArrayList
 
@@ -23,7 +26,7 @@ function Fail([string]$m) { [void]$errors.Add($m) }
 function Warn([string]$m) { [void]$warns.Add($m) }
 
 # Pages that are deliberately not indexed and so need no canonical.
-$noIndex = @('404.html', 'team-member.html', 'privacy.html')
+$noIndex = @('404.html', 'team-member.html')
 
 $htmlFiles = Get-ChildItem -Path $root -Filter *.html -Recurse |
              Where-Object { $_.FullName -notmatch '\\_originals\\' -and $_.FullName -notmatch '\\.git\\' }
@@ -53,6 +56,21 @@ foreach ($f in $htmlFiles) {
   if ($html -notmatch 'goatcounter') { Warn "$rel : no analytics tag" }
   if ($html -match '<!--\s*<script data-goatcounter') { Fail "$rel : analytics tag is still commented out" }
 
+  # ---- security + legal boilerplate that must not drift between pages ----
+  if ($html -notmatch 'http-equiv="Content-Security-Policy"') {
+    Fail "$rel : missing the Content-Security-Policy meta tag"
+  }
+  if ($html -notmatch 'company no\. 16485763') {
+    Fail "$rel : missing the Companies Act trading disclosure in the footer"
+  }
+  # An inline <script> would be blocked by our own CSP. JSON-LD is data, not script,
+  # and is left alone.
+  foreach ($m in [regex]::Matches($html, '(?s)<script(?![^>]*\ssrc=)([^>]*)>(.*?)</script>')) {
+    if ($m.Groups[1].Value -notmatch 'application/ld\+json') {
+      Fail "$rel : inline <script> will be blocked by the page's own CSP - move it to a .js file"
+    }
+  }
+
   # ---- JSON-LD blocks parse ----
   foreach ($m in [regex]::Matches($html, '(?s)<script type="application/ld\+json">(.*?)</script>')) {
     $raw = $m.Groups[1].Value
@@ -73,7 +91,19 @@ foreach ($f in $htmlFiles) {
     if ($ref -match '^(https?:|mailto:|data:|//|#)') { continue }
     $clean = ($ref -split '[?#]')[0]
     if ([string]::IsNullOrWhiteSpace($clean)) { continue }
-    $target = Join-Path $dir ($clean -replace '/', '\')
+    if ($clean.StartsWith('/')) {
+      # Site-absolute, as used by 404.html (which GitHub Pages serves at any depth).
+      # Resolve from the repo root, and insist the project prefix is present.
+      if ($sitePrefix -and -not $clean.StartsWith("$sitePrefix/")) {
+        Fail "$rel : site-absolute reference is missing the $sitePrefix prefix -> $ref"
+        continue
+      }
+      $rootRel = $clean.Substring($sitePrefix.Length).TrimStart('/')
+      if ($rootRel -eq '') { $rootRel = 'index.html' }
+      $target = Join-Path $root ($rootRel -replace '/', '\')
+    } else {
+      $target = Join-Path $dir ($clean -replace '/', '\')
+    }
     if (Test-Path $target -PathType Container) { $target = Join-Path $target 'index.html' }
     if (-not (Test-Path $target)) { Fail "$rel : broken reference -> $ref" }
   }

@@ -17,7 +17,13 @@ $mime = @{
 while ($listener.IsListening) {
   $ctx = $listener.GetContext()
   $reqPath = [System.Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath)
-  if ($reqPath -eq '/') { $reqPath = '/index.html' }
+  # GitHub Pages serves this project under /ShiverbugStudiosWebsite/, and 404.html
+  # uses site-absolute paths because of it. Accept the prefix here too so local
+  # preview resolves those the same way production does.
+  if ($reqPath -eq '/ShiverbugStudiosWebsite' -or $reqPath.StartsWith('/ShiverbugStudiosWebsite/')) {
+    $reqPath = $reqPath.Substring('/ShiverbugStudiosWebsite'.Length)
+  }
+  if ($reqPath -eq '' -or $reqPath -eq '/') { $reqPath = '/index.html' }
   $file = Join-Path $root ($reqPath -replace '/', '\')
   # match GitHub Pages: a directory request serves its index.html
   if (Test-Path $file -PathType Container) { $file = Join-Path $file 'index.html' }

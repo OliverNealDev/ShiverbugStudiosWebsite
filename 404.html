@@ -3,31 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://oliverneal04.goatcounter.com; media-src 'self'; connect-src 'self' https://formspree.io https://buttondown.com https://oliverneal04.goatcounter.com; form-action https://formspree.io https://buttondown.com; base-uri 'none'; object-src 'none'">
   <title>Page not found | Shiverbug Studios</title>
   <meta name="description" content="That page isn't here. Head back to Shiverbug Studios: our debut game Out of Water, the team, and co-development services.">
   <meta name="robots" content="noindex">
-  <link rel="icon" type="image/png" href="assets/img/favicon.png">
+  <!-- GitHub Pages serves this file for a missing path at ANY depth, keeping the
+       requested URL in the address bar. Relative paths would then resolve against
+       that path (/team/css/style.css), so every reference here must be absolute.
+       On a custom-domain move these become plain "/..." - see $baseUrl in
+       tools/build-team.ps1 for the other place the repo prefix is hardcoded. -->
+  <link rel="icon" type="image/png" href="/ShiverbugStudiosWebsite/assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/ShiverbugStudiosWebsite/css/style.css">
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
 </head>
 <body>
 
+  <a class="skip-link" href="#top">Skip to content</a>
+
   <!-- ======= NAV ======= -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a class="nav__brand" href="index.html" aria-label="Shiverbug Studios, home">
-        <img src="assets/img/nav-logo.webp" alt="" class="nav__logo">
-        <img src="assets/img/nav-wordmark.webp" alt="" class="nav__wordmark">
+      <a class="nav__brand" href="/ShiverbugStudiosWebsite/" aria-label="Shiverbug Studios, home">
+        <img src="/ShiverbugStudiosWebsite/assets/img/nav-logo.webp" alt="" class="nav__logo">
+        <img src="/ShiverbugStudiosWebsite/assets/img/nav-wordmark.webp" alt="" class="nav__wordmark">
       </a>
       <nav class="nav__links" id="navLinks" aria-label="Primary">
-        <a href="index.html#game">Out of Water</a>
-        <a href="co-dev.html">Co-Dev</a>
-        <a href="index.html#studio">Studio</a>
-        <a href="index.html#team">Team</a>
-        <a href="press.html">Press</a>
+        <a href="/ShiverbugStudiosWebsite/#game">Out of Water</a>
+        <a href="/ShiverbugStudiosWebsite/co-dev.html">Co-Dev</a>
+        <a href="/ShiverbugStudiosWebsite/#studio">Studio</a>
+        <a href="/ShiverbugStudiosWebsite/#team">Team</a>
+        <a href="/ShiverbugStudiosWebsite/press.html">Press</a>
         <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
@@ -36,12 +44,12 @@
     </div>
   </header>
 
-  <main class="profile">
+  <main class="profile" id="top">
     <div class="container">
       <div class="profile__missing">
         <h1>This Page Swam Off Somewhere.</h1>
         <p>Whatever you were after isn't here. Maybe the crabs took it.</p>
-        <a class="btn btn--ink" href="index.html">Back to shore</a>
+        <a class="btn btn--ink" href="/ShiverbugStudiosWebsite/">Back to shore</a>
       </div>
     </div>
   </main>
@@ -49,13 +57,14 @@
   <footer class="footer footer--mini">
     <div class="container">
       <div class="footer__meta">
-        <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a></p>
+        <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="/ShiverbugStudiosWebsite/press.html">Press kit</a> · <a class="footer__press" href="/ShiverbugStudiosWebsite/privacy.html">Privacy</a></p>
         <p class="footer__tag">Bringing family game night back to the sofa.</p>
+        <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
       </div>
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="/ShiverbugStudiosWebsite/js/main.js"></script>
   <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
   <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>

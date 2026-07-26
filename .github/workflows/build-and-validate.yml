@@ -26,6 +26,14 @@ jobs:
       - name: Fail if generated files are out of date
         shell: bash
         run: |
+          # git diff only sees tracked files, so a brand-new generated file would
+          # slip through uncommitted and 404 in production. Check for those first.
+          untracked=$(git ls-files --others --exclude-standard)
+          if [ -n "$untracked" ]; then
+            echo "::error::The build produced files that were never committed:"
+            echo "$untracked"
+            exit 1
+          fi
           # sitemap carries a lastmod of "today", so a date-only change is expected
           # and not a real drift. Ignore it; everything else must match.
           if ! git diff --quiet -- . ':(exclude)sitemap.xml'; then

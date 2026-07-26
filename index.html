@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://oliverneal04.goatcounter.com; media-src 'self'; connect-src 'self' https://formspree.io https://buttondown.com https://oliverneal04.goatcounter.com; form-action https://formspree.io https://buttondown.com; base-uri 'none'; object-src 'none'">
   <title>Shiverbug Studios | Bringing Family Game Night Back to the Sofa</title>
   <meta name="description" content="Shiverbug Studios is an indie game development studio in North East England making games for the whole sofa, including our debut title, Out of Water.">
   <link rel="canonical" href="https://olivernealdev.github.io/ShiverbugStudiosWebsite/">
@@ -254,7 +255,8 @@
           <figure class="hero__frame">
             <img src="assets/img/out-of-water-screenshot.webp" alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove of crates and palm trees" width="1916" height="1080" fetchpriority="high" decoding="async">
             <figcaption class="sticker sticker--sand">In development</figcaption>
-            <figcaption class="sticker sticker--sea">2-player co-op</figcaption>
+            <!-- a <figure> may hold only one <figcaption>, so the second sticker is a plain span -->
+            <span class="sticker sticker--sea">2-player co-op</span>
           </figure>
         </div>
       </div>
@@ -317,7 +319,6 @@
             <p class="game__note">Publisher curious about Out of Water? Our inbox is very much open.</p>
           </div>
           <div class="game__cta-buttons">
-            <!-- TODO: replace href with your Steam page when it's live -->
             <a class="btn btn--ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
             <a class="btn btn--sand" href="mailto:contact@shiverbugstudios.com?subject=Out%20of%20Water">Talk publishing</a>
           </div>
@@ -328,10 +329,11 @@
             <h3>Hear It From Us First</h3>
             <p>Leave your email and we'll write when there's real Out of Water news. No spam, no weekly waffle.</p>
           </div>
-          <form class="newsletter__form" action="https://buttondown.com/api/emails/embed-subscribe/oliverjn04" method="POST">
+          <form class="newsletter__form" id="newsletterForm" action="https://buttondown.com/api/emails/embed-subscribe/oliverjn04" method="POST">
             <label class="visually-hidden" for="newsEmail">Email address</label>
-            <input id="newsEmail" type="email" name="email" placeholder="you@example.com" required>
+            <input id="newsEmail" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
             <button class="btn btn--ink" type="submit">Keep me posted</button>
+            <p class="form-privacy">Your address goes to Buttondown, who send our emails. Unsubscribe any time — see our <a href="privacy.html">privacy policy</a>.</p>
           </form>
         </div>
       </div>
@@ -472,9 +474,8 @@
         </div>
         <!-- BUILD:TEAM:END -->
 
-        <p class="team__more reveal"><a class="btn btn--ghost-ink" href="team/">Every profile in one place
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a></p>
+        <!-- No link to /team/ on purpose. Every person is already on this page, and
+             the hub is a plain roster kept for crawlers and llms.txt, not for people. -->
 
         <header class="section__head reveal team__pool-head" id="talent-pool">
           <p class="kicker kicker--sea">The talent pool</p>
@@ -523,13 +524,16 @@
 
           <form class="footer__form" id="contactForm" action="https://formspree.io/f/xgogzlpv" method="POST">
             <input type="hidden" name="_subject" value="Website contact form">
+            <!-- honeypot: hidden from people, catnip to bots. Formspree drops anything that fills it. -->
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden">
             <label class="visually-hidden" for="cfName">Your name</label>
-            <input id="cfName" type="text" name="name" placeholder="Your name" required>
+            <input id="cfName" type="text" name="name" placeholder="Your name" autocomplete="name" required>
             <label class="visually-hidden" for="cfEmail">Your email</label>
-            <input id="cfEmail" type="email" name="email" placeholder="Your email" required>
+            <input id="cfEmail" type="email" name="email" placeholder="Your email" autocomplete="email" required>
             <label class="visually-hidden" for="cfMsg">Message</label>
             <textarea id="cfMsg" name="message" rows="4" placeholder="Tell us what you're thinking about…" required></textarea>
             <button class="btn btn--sand" type="submit">Send it our way</button>
+            <p class="form-privacy">We'll only use this to reply to you. Messages reach us via Formspree — see our <a href="privacy.html">privacy policy</a>.</p>
           </form>
 
           <div class="footer__social">
@@ -539,6 +543,7 @@
         <div class="footer__meta">
           <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a></p>
           <p class="footer__tag">Bringing family game night back to the sofa.</p>
+          <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
         </div>
       </div>
     </footer>

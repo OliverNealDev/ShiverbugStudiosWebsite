@@ -266,8 +266,12 @@ h1, h2, h3 {
 .section__head { max-width: 62ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
 .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .section__lede { font-size: 1.13rem; color: var(--text-soft); }
+/* smaller print under a lede: provenance, caveats, the honest asterisk.
+   No opacity dimming here - it drops --text-soft under the 4.5:1 AA threshold. */
+.section__note { font-size: .95rem; color: var(--text-soft); margin-top: .8rem; }
 .section__head--light h2 { color: #fff; }
 .section__head--light .section__lede { color: var(--text-paper-soft); }
+.section__head--light .section__note { color: var(--text-paper-soft); }
 
 /* ---------- game ---------- */
 .game { background: var(--paper); padding-top: 3.5rem; }
@@ -352,8 +356,12 @@ h1, h2, h3 {
   border: 2px solid rgba(20,23,28,.25); border-radius: var(--radius);
   background: #fff; color: var(--text-ink);
 }
-.newsletter__form input[type="email"]:focus { outline: none; border-color: var(--sea-deep); }
+.newsletter__form input[type="email"]:focus-visible {
+  border-color: var(--sea-deep);
+  outline: 3px solid var(--sea-deep); outline-offset: 2px;
+}
 
+.newsletter .form-note { flex-basis: 100%; margin-bottom: 0; }
 .form-note {
   font-family: var(--font-display); font-weight: 700; font-size: .98rem;
   border-radius: var(--radius);
@@ -395,11 +403,29 @@ h1, h2, h3 {
   resize: vertical;
 }
 .footer__form input::placeholder, .footer__form textarea::placeholder { color: var(--text-paper-soft); }
-.footer__form input:focus, .footer__form textarea:focus {
-  outline: none; border-color: var(--sand);
+.footer__form input:focus-visible, .footer__form textarea:focus-visible {
+  border-color: var(--sand);
   background: rgba(255,255,255,.1);
+  outline: 3px solid var(--sand); outline-offset: 2px;
 }
 .footer__form .btn { justify-self: center; }
+/* honeypot: in the DOM for bots, genuinely zero-size for people. Without this the
+   shared input padding above would inflate it back to a 36x31 box. */
+.footer__form input[name="_gotcha"] { padding: 0; border: 0; }
+
+/* short "where this goes" note under each form, next to the submit button */
+.form-privacy {
+  flex-basis: 100%;
+  font-size: .82rem; line-height: 1.5;
+  color: var(--text-soft);
+  max-width: 46ch; margin-top: -.1rem;
+}
+.form-privacy a { text-decoration: underline; text-underline-offset: 2px; }
+.footer__form .form-privacy {
+  color: var(--text-paper-soft);
+  text-align: center; max-width: none; margin-top: -.4rem;
+}
+.footer__form .form-privacy a:hover { color: #fff; }
 
 /* ---------- services (dark band) ---------- */
 .services {
@@ -610,6 +636,12 @@ h1, h2, h3 {
   font-size: .9rem; color: var(--text-paper-soft);
 }
 .footer__tag { font-style: italic; }
+/* Companies Act trading disclosure - required, so quiet but present on every page */
+.footer__legal {
+  flex-basis: 100%;
+  font-size: .78rem; line-height: 1.5;
+  color: var(--text-paper-soft); opacity: .75;
+}
 .footer__press { text-decoration: underline; text-underline-offset: 3px; }
 .footer__press:hover { color: #fff; }
 
@@ -1071,7 +1103,10 @@ h1, h2, h3 {
   opacity: 0; visibility: hidden;
   transition: opacity .25s, visibility .25s;
 }
-.lightbox.is-open { opacity: 1; visibility: visible; }
+/* Opening drops visibility from the transition so it flips to visible immediately
+   and the close button can take focus in the same tick. Closing keeps the base
+   rule's visibility transition, so the overlay stays put while it fades out. */
+.lightbox.is-open { opacity: 1; visibility: visible; transition: opacity .25s; }
 /* fixed stage: every piece renders in the same box, so the arrows never move */
 .lightbox__figure { width: min(1100px, 86vw); text-align: center; }
 .lightbox__img, .lightbox__video {
