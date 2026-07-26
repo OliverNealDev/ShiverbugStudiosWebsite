@@ -24,20 +24,65 @@
   <script type="application/ld+json">
 {
     "@context":  "https://schema.org",
-    "@type":  "Person",
-    "name":  "Martin Wilkinson",
-    "jobTitle":  "3D Artist",
-    "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/martin-wilkinson.html",
-    "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-martin.webp",
-    "description":  "Martin Wilkinson - 3D Artist at Shiverbug Studios. I\u0027ve been passionate about games for as long as I can remember, and they\u0027ve always inspired me to create worlds of my own. I specialise in...",
-    "worksFor":  {
-                     "@type":  "Organization",
-                     "name":  "Shiverbug Studios",
-                     "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
-                 },
-    "sameAs":  [
-                   "https://www.artstation.com/martinwilkinson",
-                   "https://uk.linkedin.com/in/martin-wilkinson-"
+    "@graph":  [
+                   {
+                       "@type":  "ProfilePage",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/martin-wilkinson.html",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/martin-wilkinson.html",
+                       "name":  "Martin Wilkinson | Shiverbug Studios",
+                       "mainEntity":  {
+                                          "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/martin-wilkinson.html#person"
+                                      },
+                       "breadcrumb":  {
+                                          "@type":  "BreadcrumbList",
+                                          "itemListElement":  [
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  1,
+                                                                      "name":  "Shiverbug Studios",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  2,
+                                                                      "name":  "Team",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  3,
+                                                                      "name":  "Martin Wilkinson"
+                                                                  }
+                                                              ]
+                                      },
+                       "isPartOf":  {
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#website"
+                                    }
+                   },
+                   {
+                       "@type":  "Person",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/martin-wilkinson.html#person",
+                       "name":  "Martin Wilkinson",
+                       "jobTitle":  "3D Artist",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/martin-wilkinson.html",
+                       "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-martin.webp",
+                       "description":  "Martin Wilkinson - 3D Artist at Shiverbug Studios. I\u0027ve been passionate about games for as long as I can remember, and they\u0027ve always inspired me to create worlds of my own. I specialise in...",
+                       "knowsAbout":  [
+                                          "Video Game Development",
+                                          "3D Art",
+                                          "Environment Art"
+                                      ],
+                       "worksFor":  {
+                                        "@type":  "Organization",
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#studio",
+                                        "name":  "Shiverbug Studios",
+                                        "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                    },
+                       "sameAs":  [
+                                      "https://www.artstation.com/martinwilkinson",
+                                      "https://uk.linkedin.com/in/martin-wilkinson-"
+                                  ]
+                   }
                ]
 }
   </script>
@@ -110,7 +155,7 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
-  <!-- Analytics (GoatCounter): create a free account at goatcounter.com with the code "shiverbug", then uncomment. Cookieless and GDPR-friendly, no banner needed. -->
-  <!-- <script data-goatcounter="https://shiverbug.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script> -->
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

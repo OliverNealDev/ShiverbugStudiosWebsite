@@ -1,0 +1,51 @@
+name: Build and validate
+
+# The team pages, index grids, llms.txt and sitemap are all generated from
+# data/team.json. This job regenerates them and fails if the committed output
+# doesn't match, so the site can never drift from its source of truth.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerate team pages, llms.txt and sitemap
+        shell: powershell
+        run: .\tools\build-team.ps1
+
+      - name: Fail if generated files are out of date
+        shell: bash
+        run: |
+          # sitemap carries a lastmod of "today", so a date-only change is expected
+          # and not a real drift. Ignore it; everything else must match.
+          if ! git diff --quiet -- . ':(exclude)sitemap.xml'; then
+            echo "::error::Generated files are out of date. Run tools/build-team.ps1 and commit the result."
+            git --no-pager diff --stat -- . ':(exclude)sitemap.xml'
+            git --no-pager diff -- . ':(exclude)sitemap.xml'
+            exit 1
+          fi
+          if ! git diff --quiet -- sitemap.xml; then
+            changed=$(git --no-pager diff -U0 -- sitemap.xml | grep -c '^[+-][^+-]' || true)
+            dates=$(git --no-pager diff -U0 -- sitemap.xml | grep -c '^[+-].*<lastmod>' || true)
+            if [ "$changed" -ne "$dates" ]; then
+              echo "::error::sitemap.xml is out of date beyond its lastmod dates."
+              git --no-pager diff -- sitemap.xml
+              exit 1
+            fi
+            echo "sitemap.xml differs only by lastmod dates - fine."
+          fi
+          echo "Generated files are up to date."
+
+      - name: Validate the site
+        shell: powershell
+        run: .\tools\validate-site.ps1

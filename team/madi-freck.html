@@ -24,21 +24,65 @@
   <script type="application/ld+json">
 {
     "@context":  "https://schema.org",
-    "@type":  "Person",
-    "name":  "Madi Freck",
-    "jobTitle":  "Social Media",
-    "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/madi-freck.html",
-    "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-madi.webp",
-    "description":  "Madi Freck - Social Media at Shiverbug Studios. Hello, I\u0027m Madi Freck, a 3rd Year 2D Animation and Stop-motion student at Teesside University.",
-    "worksFor":  {
-                     "@type":  "Organization",
-                     "name":  "Shiverbug Studios",
-                     "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
-                 },
-    "sameAs":  [
-                   "https://madifreck.github.io/WebsitePortfolio",
-                   "https://www.linkedin.com/in/madi-freck-b45116370",
-                   "https://www.instagram.com/madi.freck"
+    "@graph":  [
+                   {
+                       "@type":  "ProfilePage",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/madi-freck.html",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/madi-freck.html",
+                       "name":  "Madi Freck | Shiverbug Studios",
+                       "mainEntity":  {
+                                          "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/madi-freck.html#person"
+                                      },
+                       "breadcrumb":  {
+                                          "@type":  "BreadcrumbList",
+                                          "itemListElement":  [
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  1,
+                                                                      "name":  "Shiverbug Studios",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  2,
+                                                                      "name":  "Team",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  3,
+                                                                      "name":  "Madi Freck"
+                                                                  }
+                                                              ]
+                                      },
+                       "isPartOf":  {
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#website"
+                                    }
+                   },
+                   {
+                       "@type":  "Person",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/madi-freck.html#person",
+                       "name":  "Madi Freck",
+                       "jobTitle":  "Social Media",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/madi-freck.html",
+                       "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-madi.webp",
+                       "description":  "Madi Freck - Social Media at Shiverbug Studios. Hello, I\u0027m Madi Freck, a 3rd Year 2D Animation and Stop-motion student at Teesside University.",
+                       "knowsAbout":  [
+                                          "Video Game Development",
+                                          "Social Media Marketing"
+                                      ],
+                       "worksFor":  {
+                                        "@type":  "Organization",
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#studio",
+                                        "name":  "Shiverbug Studios",
+                                        "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                    },
+                       "sameAs":  [
+                                      "https://madifreck.github.io/WebsitePortfolio",
+                                      "https://www.linkedin.com/in/madi-freck-b45116370",
+                                      "https://www.instagram.com/madi.freck"
+                                  ]
+                   }
                ]
 }
   </script>
@@ -113,7 +157,7 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
-  <!-- Analytics (GoatCounter): create a free account at goatcounter.com with the code "shiverbug", then uncomment. Cookieless and GDPR-friendly, no banner needed. -->
-  <!-- <script data-goatcounter="https://shiverbug.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script> -->
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

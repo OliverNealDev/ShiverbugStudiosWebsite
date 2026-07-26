@@ -24,20 +24,65 @@
   <script type="application/ld+json">
 {
     "@context":  "https://schema.org",
-    "@type":  "Person",
-    "name":  "Connor Milburn",
-    "jobTitle":  "3D Artist",
-    "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/connor-milburn.html",
-    "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-connor.webp",
-    "description":  "Connor Milburn - 3D Artist at Shiverbug Studios. I\u0027m a dedicated 3D Artist who likes to specialise in Environment Art and Props, I primarily use Blender, ZBrush, the Substance Suite, Unreal Engine...",
-    "worksFor":  {
-                     "@type":  "Organization",
-                     "name":  "Shiverbug Studios",
-                     "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
-                 },
-    "sameAs":  [
-                   "https://www.artstation.com/cmilburn3d",
-                   "https://www.linkedin.com/in/connor-milburn-0399a1224/"
+    "@graph":  [
+                   {
+                       "@type":  "ProfilePage",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/connor-milburn.html",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/connor-milburn.html",
+                       "name":  "Connor Milburn | Shiverbug Studios",
+                       "mainEntity":  {
+                                          "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/connor-milburn.html#person"
+                                      },
+                       "breadcrumb":  {
+                                          "@type":  "BreadcrumbList",
+                                          "itemListElement":  [
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  1,
+                                                                      "name":  "Shiverbug Studios",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  2,
+                                                                      "name":  "Team",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  3,
+                                                                      "name":  "Connor Milburn"
+                                                                  }
+                                                              ]
+                                      },
+                       "isPartOf":  {
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#website"
+                                    }
+                   },
+                   {
+                       "@type":  "Person",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/connor-milburn.html#person",
+                       "name":  "Connor Milburn",
+                       "jobTitle":  "3D Artist",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/connor-milburn.html",
+                       "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-connor.webp",
+                       "description":  "Connor Milburn - 3D Artist at Shiverbug Studios. I\u0027m a dedicated 3D Artist who likes to specialise in Environment Art and Props, I primarily use Blender, ZBrush, the Substance Suite, Unreal Engine...",
+                       "knowsAbout":  [
+                                          "Video Game Development",
+                                          "3D Art",
+                                          "Environment Art"
+                                      ],
+                       "worksFor":  {
+                                        "@type":  "Organization",
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#studio",
+                                        "name":  "Shiverbug Studios",
+                                        "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                    },
+                       "sameAs":  [
+                                      "https://www.artstation.com/cmilburn3d",
+                                      "https://www.linkedin.com/in/connor-milburn-0399a1224/"
+                                  ]
+                   }
                ]
 }
   </script>
@@ -111,7 +156,7 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
-  <!-- Analytics (GoatCounter): create a free account at goatcounter.com with the code "shiverbug", then uncomment. Cookieless and GDPR-friendly, no banner needed. -->
-  <!-- <script data-goatcounter="https://shiverbug.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script> -->
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

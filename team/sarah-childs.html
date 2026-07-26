@@ -24,23 +24,68 @@
   <script type="application/ld+json">
 {
     "@context":  "https://schema.org",
-    "@type":  "Person",
-    "name":  "Sarah Childs",
-    "jobTitle":  "Character Concept Artist",
-    "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/sarah-childs.html",
-    "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-sarah.webp",
-    "description":  "Sarah Childs - Character Concept Artist at Shiverbug Studios. Specialist in fantasy, historical and RPG character designs that express gameplay mechanics and world-building through research-informed...",
-    "worksFor":  {
-                     "@type":  "Organization",
-                     "name":  "Shiverbug Studios",
-                     "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
-                 },
-    "sameAs":  [
-                   "https://www.artstation.com/gyzra",
-                   "https://www.linkedin.com/in/gyzra/",
-                   "https://gyzra.com",
-                   "https://bsky.app/profile/gyzra.bsky.social",
-                   "https://www.instagram.com/gyzra/"
+    "@graph":  [
+                   {
+                       "@type":  "ProfilePage",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/sarah-childs.html",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/sarah-childs.html",
+                       "name":  "Sarah Childs | Shiverbug Studios",
+                       "mainEntity":  {
+                                          "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/sarah-childs.html#person"
+                                      },
+                       "breadcrumb":  {
+                                          "@type":  "BreadcrumbList",
+                                          "itemListElement":  [
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  1,
+                                                                      "name":  "Shiverbug Studios",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  2,
+                                                                      "name":  "Team",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  3,
+                                                                      "name":  "Sarah Childs"
+                                                                  }
+                                                              ]
+                                      },
+                       "isPartOf":  {
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#website"
+                                    }
+                   },
+                   {
+                       "@type":  "Person",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/sarah-childs.html#person",
+                       "name":  "Sarah Childs",
+                       "jobTitle":  "Character Concept Artist",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/sarah-childs.html",
+                       "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-sarah.webp",
+                       "description":  "Sarah Childs - Character Concept Artist at Shiverbug Studios. Specialist in fantasy, historical and RPG character designs that express gameplay mechanics and world-building through research-informed...",
+                       "knowsAbout":  [
+                                          "Video Game Development",
+                                          "Concept Art",
+                                          "Character Design"
+                                      ],
+                       "worksFor":  {
+                                        "@type":  "Organization",
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#studio",
+                                        "name":  "Shiverbug Studios",
+                                        "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                    },
+                       "sameAs":  [
+                                      "https://www.artstation.com/gyzra",
+                                      "https://www.linkedin.com/in/gyzra/",
+                                      "https://gyzra.com",
+                                      "https://bsky.app/profile/gyzra.bsky.social",
+                                      "https://www.instagram.com/gyzra/"
+                                  ]
+                   }
                ]
 }
   </script>
@@ -117,7 +162,7 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
-  <!-- Analytics (GoatCounter): create a free account at goatcounter.com with the code "shiverbug", then uncomment. Cookieless and GDPR-friendly, no banner needed. -->
-  <!-- <script data-goatcounter="https://shiverbug.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script> -->
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

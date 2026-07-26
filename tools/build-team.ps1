@@ -50,6 +50,33 @@ function RoleDisplay($person) {
   return [regex]::Replace($person.role, '\s*' + $middot + '\s*Co-Founder', '', 'IgnoreCase')
 }
 
+# Topics for schema.org knowsAbout - this is what an AI agent reads to answer
+# "who at this studio does X?". Derived from the role title only, so it stays
+# truthful; add a "knowsAbout" array in team.json to override for anyone.
+$disciplines = @(
+  @{ match = 'gameplay programmer|programmer'; topics = @('Gameplay Programming', 'Game Programming') },
+  @{ match = 'character concept artist';       topics = @('Concept Art', 'Character Design') },
+  @{ match = 'concept artist';                 topics = @('Concept Art') },
+  @{ match = 'character artist';               topics = @('Character Art', '3D Art') },
+  @{ match = 'lead artist';                    topics = @('Art Direction', '3D Art') },
+  @{ match = '3d artist';                      topics = @('3D Art', 'Environment Art') },
+  @{ match = '3d animator|animator';           topics = @('3D Animation') },
+  @{ match = 'level designer';                 topics = @('Level Design', 'Game Design') },
+  @{ match = 'narrative designer';             topics = @('Narrative Design', 'Game Writing') },
+  @{ match = 'sound designer';                 topics = @('Sound Design', 'Game Audio') },
+  @{ match = 'social media';                   topics = @('Social Media Marketing') },
+  @{ match = 'ceo|cfo';                        topics = @('Game Studio Management') }
+)
+
+function KnowsAbout($person) {
+  if ($person.knowsAbout -and @($person.knowsAbout).Count -gt 0) { return @($person.knowsAbout) }
+  $topics = @('Video Game Development')
+  foreach ($d in $disciplines) {
+    if ($person.role -match ('(?i)' + $d.match)) { $topics += $d.topics; break }
+  }
+  return @($topics)
+}
+
 function WriteFileUtf8([string]$path, [string]$text) {
   # UTF-8 without BOM, CRLF endings to match the rest of the working tree
   $text = $text.Replace("`r`n", "`n").Replace("`n", "`r`n")
@@ -171,8 +198,8 @@ $template = @'
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
-  <!-- Analytics (GoatCounter): create a free account at goatcounter.com with the code "shiverbug", then uncomment. Cookieless and GDPR-friendly, no banner needed. -->
-  <!-- <script data-goatcounter="https://shiverbug.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script> -->
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
 '@
@@ -276,25 +303,53 @@ foreach ($list in @($team, $talent)) {
     $prev = $order[(($i - 1 + $order.Count) % $order.Count)]
     $next = $order[(($i + 1) % $order.Count)]
 
-    # --- JSON-LD ---
-    $ld = [ordered]@{
-      '@context'    = 'https://schema.org'
+    # --- JSON-LD: ProfilePage wrapping a Person, plus a breadcrumb trail.
+    #     The @id refs let a crawler stitch person -> studio -> other people. ---
+    $person = [ordered]@{
       '@type'       = 'Person'
+      '@id'         = "$canonical#person"
       'name'        = $p.name
       'jobTitle'    = $roleDisp
       'url'         = $canonical
       'image'       = $ogImage
       'description' = (StripTags $desc)
+      'knowsAbout'  = @(KnowsAbout $p)
       'worksFor'    = [ordered]@{
         '@type' = 'Organization'
+        '@id'   = "$baseUrl/#studio"
         'name'  = 'Shiverbug Studios'
         'url'   = "$baseUrl/"
       }
     }
     if ($p.socials -and @($p.socials).Count -gt 0) {
-      $ld['sameAs'] = @(@($p.socials) | ForEach-Object { $_.url })
+      $person['sameAs'] = @(@($p.socials) | ForEach-Object { $_.url })
     }
-    $jsonld = ($ld | ConvertTo-Json -Depth 6).Replace('<', '<')
+
+    $crumbs = [ordered]@{
+      '@type'           = 'BreadcrumbList'
+      'itemListElement' = @(
+        [ordered]@{ '@type' = 'ListItem'; 'position' = 1; 'name' = 'Shiverbug Studios'; 'item' = "$baseUrl/" },
+        [ordered]@{ '@type' = 'ListItem'; 'position' = 2; 'name' = 'Team'; 'item' = "$baseUrl/team/" },
+        [ordered]@{ '@type' = 'ListItem'; 'position' = 3; 'name' = $p.name }
+      )
+    }
+
+    $ld = [ordered]@{
+      '@context' = 'https://schema.org'
+      '@graph'   = @(
+        [ordered]@{
+          '@type'      = 'ProfilePage'
+          '@id'        = $canonical
+          'url'        = $canonical
+          'name'       = "$($p.name) | Shiverbug Studios"
+          'mainEntity' = @{ '@id' = "$canonical#person" }
+          'breadcrumb' = $crumbs
+          'isPartOf'   = @{ '@id' = "$baseUrl/#website" }
+        },
+        $person
+      )
+    }
+    $jsonld = ($ld | ConvertTo-Json -Depth 12).Replace('<', '<')
 
     $html = $template.
       Replace('{{NAME}}',      (HtmlEnc $p.name)).
@@ -405,11 +460,273 @@ $shim = ReplaceIn $shim 'REDIRECT-LIST' $listHtml '      '
 WriteFileUtf8 $shimPath $shim
 Write-Host "Updated the legacy ?p= redirect map in team-member.html"
 
+# ---------- team/index.html : a real hub page at a clean URL ----------
+
+$teamIndexTemplate = @'
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Team | Shiverbug Studios</title>
+  <meta name="description" content="{{DESC}}">
+  <link rel="canonical" href="{{BASE}}/team/">
+  <meta property="og:title" content="The Team | Shiverbug Studios">
+  <meta property="og:description" content="{{DESC}}">
+  <meta property="og:image" content="{{BASE}}/assets/img/founders.jpg">
+  <meta property="og:url" content="{{BASE}}/team/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The Team | Shiverbug Studios">
+  <meta name="twitter:description" content="{{DESC}}">
+  <meta name="twitter:image" content="{{BASE}}/assets/img/founders.jpg">
+  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+  <script type="application/ld+json">
+{{JSONLD}}
+  </script>
+</head>
+<body>
+
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <!-- ======= NAV ======= -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="../index.html" aria-label="Shiverbug Studios, home">
+        <img src="../assets/img/nav-logo.webp" alt="" class="nav__logo">
+        <img src="../assets/img/nav-wordmark.webp" alt="" class="nav__wordmark">
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Primary">
+        <a href="../index.html#game">Out of Water</a>
+        <a href="../co-dev.html">Co-Dev</a>
+        <a href="../index.html#studio">Studio</a>
+        <a href="index.html" aria-current="page">Team</a>
+        <a href="../press.html">Press</a>
+        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+      </nav>
+      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="profile team" id="top">
+    <div class="container">
+      <header class="section__head">
+        <p class="kicker kicker--leaf">The shiverbugs</p>
+        <h1>Meet the <span class="underline-leaf">Team</span></h1>
+        <p class="section__lede">
+          {{LEDE}}
+        </p>
+      </header>
+
+      <p class="team__label">Founders</p>
+      <div class="team__grid team__grid--founders">
+{{FOUNDERS}}
+      </div>
+
+      <p class="team__label">The studio</p>
+      <div class="team__grid">
+{{CORE}}
+      </div>
+
+      <header class="section__head team__pool-head">
+        <p class="kicker kicker--sea">The talent pool</p>
+        <h2>Friends of the <span class="underline-sea">Studio</span></h2>
+        <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
+      </header>
+
+      <div class="team__grid">
+{{TALENT}}
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer--mini">
+    <div class="container">
+      <div class="footer__meta">
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a></p>
+        <p class="footer__tag">Bringing family game night back to the sofa.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
+'@
+
+$teamCount = @($team).Count
+$talentCount = @($talent).Count
+$hubDesc = "The $teamCount designers, artists and programmers building Out of Water at Shiverbug Studios in North East England, plus $talentCount friends of the studio. Every profile lists their discipline, portfolio and contact links."
+$hubLede = "Everyone who makes Shiverbug work. Click anyone to read their story, see their portfolio and find them elsewhere."
+
+# ItemList of every person, so one fetch of /team/ gives a crawler the whole roster
+$listItems = @()
+$pos = 0
+foreach ($p in $all) {
+  $pos++
+  $listItems += [ordered]@{
+    '@type'    = 'ListItem'
+    'position' = $pos
+    'item'     = [ordered]@{
+      '@type'    = 'Person'
+      '@id'      = "$baseUrl/team/$($p.slug).html#person"
+      'name'     = $p.name
+      'jobTitle' = (RoleDisplay $p)
+      'url'      = "$baseUrl/team/$($p.slug).html"
+    }
+  }
+}
+$hubLd = [ordered]@{
+  '@context'   = 'https://schema.org'
+  '@type'      = 'CollectionPage'
+  '@id'        = "$baseUrl/team/"
+  'url'        = "$baseUrl/team/"
+  'name'       = 'The Team | Shiverbug Studios'
+  'description' = $hubDesc
+  'isPartOf'   = @{ '@id' = "$baseUrl/#website" }
+  'about'      = @{ '@id' = "$baseUrl/#studio" }
+  'mainEntity' = [ordered]@{
+    '@type'           = 'ItemList'
+    'numberOfItems'   = $all.Count
+    'itemListElement' = $listItems
+  }
+}
+
+$hubHtml = $teamIndexTemplate.
+  Replace('{{BASE}}',   $baseUrl).
+  Replace('{{DESC}}',   (HtmlEnc $hubDesc)).
+  Replace('{{LEDE}}',   (HtmlEnc $hubLede)).
+  Replace('{{JSONLD}}', (($hubLd | ConvertTo-Json -Depth 12).Replace('<', '<'))).
+  Replace('{{FOUNDERS}}', (@($founders | ForEach-Object { MemberTile $_ $false }) -join "`n")).
+  Replace('{{CORE}}',     (@($rest     | ForEach-Object { MemberTile $_ $false }) -join "`n")).
+  Replace('{{TALENT}}',   (@($talent   | ForEach-Object { MemberTile $_ $true  }) -join "`n"))
+
+# MemberTile emits root-relative paths for index.html; inside team/ they need one level up
+$hubHtml = $hubHtml.Replace('href="team/', 'href="').Replace('src="assets/', 'src="../assets/')
+WriteFileUtf8 (Join-Path $teamDir 'index.html') $hubHtml
+Write-Host "Wrote the team hub page at team/index.html"
+
+# ---------- llms.txt : a curated map for AI agents ----------
+
+$llms = @()
+$llms += '# Shiverbug Studios'
+$llms += ''
+$llms += '> Independent video game studio in North East England, founded early 2025. Building Out of Water, a 2-player split-screen collectathon platformer, and taking on co-development and work-for-hire: concept art, 3D art, level design and gameplay programming.'
+$llms += ''
+$llms += ("Team of {0} people plus a talent pool of {1} regular collaborators. Contact: contact@shiverbugstudios.com" -f $teamCount, $talentCount)
+$llms += ''
+$llms += '## Studio'
+$llms += ''
+$llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
+$llms += ("- [Co-development and work-for-hire]({0}/co-dev.html): services, process, rates approach, FAQ" -f $baseUrl)
+$llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
+$llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
+$llms += ''
+$llms += '## Team'
+$llms += ''
+$llms += ("- [All {0} team members]({1}/team/): the full roster" -f $all.Count, $baseUrl)
+foreach ($p in $team) {
+  $bio = ''
+  if ($p.about -and @($p.about).Count -gt 0) { $bio = ': ' + (Truncate (StripTags (@($p.about)[0])) 150) }
+  $llms += ("- [{0} - {1}]({2}/team/{3}.html){4}" -f $p.name, (RoleDisplay $p), $baseUrl, $p.slug, $bio)
+}
+$llms += ''
+$llms += '## Talent pool'
+$llms += ''
+foreach ($p in $talent) {
+  $state = if ($p.status -eq 'former') { 'former shiverbug' } else { 'active contributor' }
+  $bio = ''
+  if ($p.about -and @($p.about).Count -gt 0) { $bio = ': ' + (Truncate (StripTags (@($p.about)[0])) 150) }
+  $llms += ("- [{0} - {1}]({2}/team/{3}.html) ({4}){5}" -f $p.name, (RoleDisplay $p), $baseUrl, $p.slug, $state, $bio)
+}
+$llms += ''
+WriteFileUtf8 (Join-Path $root 'llms.txt') (($llms -join "`n") + "`n")
+Write-Host "Wrote llms.txt"
+
+# ---------- index.html structured data graph ----------
+
+$employees = @()
+foreach ($p in $team) {
+  $employees += [ordered]@{
+    '@type'    = 'Person'
+    '@id'      = "$baseUrl/team/$($p.slug).html#person"
+    'name'     = $p.name
+    'jobTitle' = (RoleDisplay $p)
+    'url'      = "$baseUrl/team/$($p.slug).html"
+  }
+}
+$foundersLd = @()
+foreach ($p in $founders) {
+  $foundersLd += @{ '@id' = "$baseUrl/team/$($p.slug).html#person" }
+}
+
+$siteLd = [ordered]@{
+  '@context' = 'https://schema.org'
+  '@graph'   = @(
+    [ordered]@{
+      '@type'       = 'Organization'
+      '@id'         = "$baseUrl/#studio"
+      'name'        = 'Shiverbug Studios'
+      'legalName'   = 'Shiverbug Studios Ltd'
+      'url'         = "$baseUrl/"
+      'logo'        = "$baseUrl/assets/press/shiverbug-logo.png"
+      'image'       = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
+      'email'       = 'contact@shiverbugstudios.com'
+      'foundingDate' = '2025'
+      'description' = 'Indie game development studio in North East England making couch co-op games, including debut title Out of Water, and offering co-development services: concept art, 3D art, level design and gameplay programming.'
+      'address'     = [ordered]@{ '@type' = 'PostalAddress'; 'addressRegion' = 'North East England'; 'addressCountry' = 'GB' }
+      'numberOfEmployees' = [ordered]@{ '@type' = 'QuantitativeValue'; 'value' = $teamCount }
+      'knowsAbout'  = @('Video Game Development', 'Concept Art', '3D Art', 'Level Design', 'Gameplay Programming', 'Unity', 'Unreal Engine', 'Co-development')
+      'founder'     = $foundersLd
+      'employee'    = $employees
+      'sameAs'      = @('https://linktr.ee/shiverbugstudios')
+    },
+    [ordered]@{
+      '@type'       = 'WebSite'
+      '@id'         = "$baseUrl/#website"
+      'url'         = "$baseUrl/"
+      'name'        = 'Shiverbug Studios'
+      'publisher'   = @{ '@id' = "$baseUrl/#studio" }
+      'inLanguage'  = 'en-GB'
+    },
+    [ordered]@{
+      '@type'       = 'VideoGame'
+      '@id'         = "$baseUrl/#out-of-water"
+      'name'        = 'Out of Water'
+      'url'         = "$baseUrl/#game"
+      'description' = 'A 2-player split-screen collectathon platformer. One player is a turtle, the other a seagull, exploring a colourful world full of charm, clever challenges and an army of crabs.'
+      'image'       = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
+      'genre'       = @('Platform game', 'Collectathon', 'Cooperative video game')
+      'playMode'    = 'CoOp'
+      'numberOfPlayers' = [ordered]@{ '@type' = 'QuantitativeValue'; 'minValue' = 2; 'maxValue' = 2 }
+      'author'      = @{ '@id' = "$baseUrl/#studio" }
+      'publisher'   = @{ '@id' = "$baseUrl/#studio" }
+      'inLanguage'  = 'en'
+    }
+  )
+}
+$siteLdJson = ($siteLd | ConvertTo-Json -Depth 12).Replace('<', '<')
+
+$index = Get-Content $indexPath -Raw -Encoding UTF8
+$index = ReplaceBlock $index 'SCHEMA' ('  <script type="application/ld+json">' + "`n" + $siteLdJson + "`n" + '  </script>')
+WriteFileUtf8 $indexPath $index
+Write-Host "Updated the structured data graph in index.html"
+
 # ---------- sitemap ----------
 
 $pages = @(
   @{ loc = "$baseUrl/";              pri = '1.0' },
   @{ loc = "$baseUrl/co-dev.html";   pri = '0.9' },
+  @{ loc = "$baseUrl/team/";         pri = '0.8' },
   @{ loc = "$baseUrl/press.html";    pri = '0.7' }
 )
 foreach ($p in $all) { $pages += @{ loc = "$baseUrl/team/$($p.slug).html"; pri = '0.5' } }

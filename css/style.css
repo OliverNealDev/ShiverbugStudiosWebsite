@@ -50,6 +50,10 @@ body {
   overflow-x: hidden;
 }
 img, video, svg { display: block; max-width: 100%; }
+/* width/height attributes on <img> reserve space and stop layout shift, but they
+   also set a presentational height that would beat any CSS aspect-ratio.
+   height:auto hands sizing back to the stylesheet. */
+img { height: auto; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
 h1, h2, h3 {
@@ -538,6 +542,8 @@ h1, h2, h3 {
 .member p { font-size: .88rem; color: var(--text-soft); }
 .member--placeholder p { color: var(--sea-deep); font-weight: 500; }
 
+.team__more { text-align: center; margin-top: clamp(2rem, 4vw, 3rem); }
+
 /* ---------- news ---------- */
 .news { background: var(--paper); }
 .news__grid {
@@ -731,6 +737,7 @@ h1, h2, h3 {
 
 /* ---------- press kit page ---------- */
 .press .section__head { max-width: 68ch; }
+.press .section__head h1,
 .press .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .press .section__head a:not(.btn) { color: var(--sea-deep); font-weight: 600; }
 .press .section__head .btn { margin-top: 1.4rem; }
@@ -775,6 +782,7 @@ h1, h2, h3 {
 }
 
 /* ---------- legal pages ---------- */
+.legal .section__head h1,
 .legal .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .legal__body { max-width: 68ch; }
 .legal__body p { color: var(--text-soft); margin-bottom: .9rem; }

@@ -19,6 +19,8 @@ while ($listener.IsListening) {
   $reqPath = [System.Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath)
   if ($reqPath -eq '/') { $reqPath = '/index.html' }
   $file = Join-Path $root ($reqPath -replace '/', '\')
+  # match GitHub Pages: a directory request serves its index.html
+  if (Test-Path $file -PathType Container) { $file = Join-Path $file 'index.html' }
   try {
     if ((Test-Path $file -PathType Leaf) -and ((Resolve-Path $file).Path.StartsWith($root))) {
       $bytes = [System.IO.File]::ReadAllBytes($file)

@@ -24,19 +24,63 @@
   <script type="application/ld+json">
 {
     "@context":  "https://schema.org",
-    "@type":  "Person",
-    "name":  "Ryan Hughes",
-    "jobTitle":  "CFO",
-    "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html",
-    "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-ryan.webp",
-    "description":  "Ryan Hughes - CFO at Shiverbug Studios. Video games became so much more than just a hobby for me very early on. There\u0027s just no other medium like it. One day you\u0027re playing a deeply gripping...",
-    "worksFor":  {
-                     "@type":  "Organization",
-                     "name":  "Shiverbug Studios",
-                     "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
-                 },
-    "sameAs":  [
-                   "https://www.linkedin.com/in/ryan-hughes-655127287/"
+    "@graph":  [
+                   {
+                       "@type":  "ProfilePage",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html",
+                       "name":  "Ryan Hughes | Shiverbug Studios",
+                       "mainEntity":  {
+                                          "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html#person"
+                                      },
+                       "breadcrumb":  {
+                                          "@type":  "BreadcrumbList",
+                                          "itemListElement":  [
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  1,
+                                                                      "name":  "Shiverbug Studios",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  2,
+                                                                      "name":  "Team",
+                                                                      "item":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/"
+                                                                  },
+                                                                  {
+                                                                      "@type":  "ListItem",
+                                                                      "position":  3,
+                                                                      "name":  "Ryan Hughes"
+                                                                  }
+                                                              ]
+                                      },
+                       "isPartOf":  {
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#website"
+                                    }
+                   },
+                   {
+                       "@type":  "Person",
+                       "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html#person",
+                       "name":  "Ryan Hughes",
+                       "jobTitle":  "CFO",
+                       "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/team/ryan-hughes.html",
+                       "image":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/team-ryan.webp",
+                       "description":  "Ryan Hughes - CFO at Shiverbug Studios. Video games became so much more than just a hobby for me very early on. There\u0027s just no other medium like it. One day you\u0027re playing a deeply gripping...",
+                       "knowsAbout":  [
+                                          "Video Game Development",
+                                          "Game Studio Management"
+                                      ],
+                       "worksFor":  {
+                                        "@type":  "Organization",
+                                        "@id":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#studio",
+                                        "name":  "Shiverbug Studios",
+                                        "url":  "https://olivernealdev.github.io/ShiverbugStudiosWebsite/"
+                                    },
+                       "sameAs":  [
+                                      "https://www.linkedin.com/in/ryan-hughes-655127287/"
+                                  ]
+                   }
                ]
 }
   </script>
@@ -110,7 +154,7 @@
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
-  <!-- Analytics (GoatCounter): create a free account at goatcounter.com with the code "shiverbug", then uncomment. Cookieless and GDPR-friendly, no banner needed. -->
-  <!-- <script data-goatcounter="https://shiverbug.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script> -->
+  <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
+  <script data-goatcounter="https://oliverneal04.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
