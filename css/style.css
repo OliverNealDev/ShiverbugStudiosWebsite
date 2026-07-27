@@ -464,6 +464,69 @@ h1, h2, h3 {
    shared input padding above would inflate it back to a 36x31 box. */
 .footer__form input[name="_gotcha"] { padding: 0; border: 0; }
 
+/* ---------- co-dev enquiry form ----------
+   Wider than the general contact form and split into two columns, because it
+   asks the qualifying questions we would otherwise have to email back for:
+   discipline, engine, timeline. Labels are visible rather than placeholder-only:
+   this form is long enough that a placeholder disappearing on focus loses the
+   question, and 3.3.2 wants the label to survive typing. */
+.codev-form {
+  max-width: 640px; margin: 0 auto 2.4rem;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem; text-align: left;
+}
+.codev-form .field { display: grid; gap: .35rem; min-width: 0; }
+.codev-form .field--wide { grid-column: 1 / -1; }
+.codev-form label {
+  font-family: var(--font-display); font-weight: 700; font-size: .82rem;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--text-paper-soft);
+}
+.codev-form .label-optional { font-weight: 400; text-transform: none; letter-spacing: 0; opacity: .8; }
+.codev-form input, .codev-form select, .codev-form textarea {
+  font: inherit; padding: .8rem 1rem; width: 100%;
+  border: 2px solid rgba(255,255,255,.18); border-radius: var(--radius);
+  background: rgba(255,255,255,.06); color: var(--text-paper);
+  resize: vertical;
+}
+.codev-form input::placeholder, .codev-form textarea::placeholder { color: var(--text-paper-soft); }
+.codev-form input:focus-visible, .codev-form select:focus-visible, .codev-form textarea:focus-visible {
+  border-color: var(--sand); background: rgba(255,255,255,.1);
+  outline: 3px solid var(--sand); outline-offset: 2px;
+}
+/* the native menu is painted by the OS, so its options need a dark-on-light
+   pairing of their own or they render as invisible text on Windows */
+.codev-form select option { background: var(--ink-2); color: var(--text-paper); }
+.codev-form .field--check {
+  grid-column: 1 / -1;
+  display: flex; align-items: flex-start; gap: .7rem;
+  /* 2.5.5: the whole row is the target, not just the 20px box */
+  min-height: 44px; padding: .5rem 0;
+}
+.codev-form .field--check input {
+  width: 24px; height: 24px; flex-shrink: 0; padding: 0;
+  accent-color: var(--sand);
+}
+/* 2.5.5 again: a 24px box is the drawn control, not the target. Clicking the
+   label toggles it too, so the label carries the row's full 44px height and the
+   two together are comfortably tappable. */
+.codev-form .field--check label {
+  font-family: var(--font-body); font-weight: 400; font-size: .92rem;
+  text-transform: none; letter-spacing: 0; line-height: 1.5;
+  display: flex; align-items: center; min-height: 44px;
+}
+.codev-form .btn { grid-column: 1 / -1; justify-self: center; }
+.codev-form .form-privacy {
+  grid-column: 1 / -1;
+  color: var(--text-paper-soft); text-align: center; max-width: none; margin-top: -.4rem;
+}
+.codev-form .form-privacy a:hover { color: #fff; }
+.codev-form input[name="_gotcha"] { padding: 0; border: 0; }
+.footer .codev-form + .form-sent, .footer .codev-form + .form-error { max-width: 640px; }
+@media (max-width: 620px) {
+  .codev-form { grid-template-columns: 1fr; }
+}
+
 /* short "where this goes" note under each form, next to the submit button */
 .form-privacy {
   flex-basis: 100%;
@@ -618,6 +681,42 @@ h1, h2, h3 {
 .member h3 { font-size: 1.1rem; margin-bottom: .15rem; }
 .member p { font-size: .88rem; color: var(--text-soft); }
 .member--placeholder p { color: var(--sea-ink); font-weight: 500; }
+
+/* ---------- profiles with nothing written up yet ---------- */
+/* These tiles are a <div>, not a link: there is no page worth landing on. JS
+   turns them into buttons that reveal the note; until then they sit still, so
+   the hover lift that promises "this goes somewhere" is dialled right back. */
+.member--unfinished { cursor: default; }
+.member--unfinished:hover { transform: none; }
+.member--unfinished .member__photo { opacity: .72; }
+.member--unfinished:hover .member__photo { border-color: rgba(20,23,28,.12); box-shadow: none; }
+.member--unfinished:hover .member__photo img { transform: none; }
+.member--unfinished:hover .member__photo img.is-zoomed {
+  transform: translate(var(--zx), var(--zy)) scale(var(--zs));
+}
+/* only once JS has made it operable does it start behaving like a control */
+.member--unfinished[role="button"] { cursor: pointer; }
+.member--unfinished[role="button"]:hover .member__photo { opacity: .88; }
+.member__soon {
+  margin-top: .5rem;
+  font-size: .82rem !important; line-height: 1.45;
+  color: var(--text-ink) !important;
+  background: #fff;
+  border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  box-shadow: 0 3px 0 var(--ink);
+  padding: .5rem .7rem;
+}
+.member__soon[hidden] { display: none; }
+
+/* the same idea on the co-dev crew chips and artwork credits */
+.person--unfinished { cursor: default; }
+.person--unfinished:hover { transform: none; box-shadow: 0 3px 0 var(--ink); }
+.person--unfinished[role="button"] { cursor: pointer; }
+/* The artwork credit is attribution, not a way in, so it stays a plain label.
+   Click-through keeps the whole tile opening the viewer instead of leaving a
+   dead patch where the chip sits. */
+.carousel__credit--unfinished { pointer-events: none; }
+.svc__crew-note { max-width: 42ch; margin-top: .8rem; }
 
 .team__more { text-align: center; margin-top: clamp(2rem, 4vw, 3rem); }
 

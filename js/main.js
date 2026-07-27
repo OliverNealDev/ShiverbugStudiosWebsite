@@ -78,6 +78,82 @@ if ('IntersectionObserver' in window) {
   revealEls.forEach((el) => el.classList.add('is-visible'));
 }
 
+// ----- tiles for people whose profile isn't written yet -----
+// The build emits these as plain <div>/<span>, never links, so there is no dead
+// end to walk into with or without JS. Here we upgrade them into real buttons
+// that reveal a short note, the same bargain the gallery viewer makes: the
+// affordance only appears once something is behind it.
+(() => {
+  let n = 0;
+  const wire = (el, note) => {
+    note.id = note.id || ('soon-' + (++n));
+    el.setAttribute('role', 'button');
+    el.setAttribute('tabindex', '0');
+    el.setAttribute('aria-expanded', 'false');
+    el.setAttribute('aria-controls', note.id);
+    const toggle = () => {
+      const open = note.hidden;
+      note.hidden = !open;
+      el.setAttribute('aria-expanded', String(open));
+    };
+    el.addEventListener('click', toggle);
+    el.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();   // stop Space scrolling the page out from under it
+      toggle();
+    });
+  };
+
+  // team grids: the note is already in the markup, under the name and role
+  document.querySelectorAll('.member--unfinished').forEach((tile) => {
+    const note = tile.querySelector('.member__soon');
+    if (note) wire(tile, note);
+  });
+
+  // co-dev crew chips: a chip is too small to hold the note, so each crew row
+  // gets one shared line beneath it. Several chips share that one note, so this
+  // can't use the plain toggle above: clicking a second person has to swap the
+  // note over to them, not close it.
+  document.querySelectorAll('.svc__crew').forEach((row) => {
+    const chips = [...row.querySelectorAll('.person--unfinished')];
+    if (!chips.length) return;
+    const note = document.createElement('p');
+    note.className = 'member__soon svc__crew-note';
+    note.hidden = true;
+    note.id = 'crew-soon-' + (++n);
+    row.insertAdjacentElement('afterend', note);
+
+    let openChip = null;
+    const setOpen = (chip) => {
+      openChip = chip;
+      chips.forEach((c) => c.setAttribute('aria-expanded', String(c === chip)));
+      note.hidden = !chip;
+      if (chip) {
+        const first = chip.querySelector('strong').textContent.trim().split(' ')[0];
+        // Built from its code point rather than typed: this file is otherwise
+        // pure ASCII, and a classic script only inherits the page's encoding.
+        const rs = String.fromCharCode(8217);
+        note.textContent = 'We haven' + rs + 't written up ' + first + rs +
+                           's profile yet. Check back soon.';
+      }
+    };
+
+    chips.forEach((chip) => {
+      chip.setAttribute('role', 'button');
+      chip.setAttribute('tabindex', '0');
+      chip.setAttribute('aria-expanded', 'false');
+      chip.setAttribute('aria-controls', note.id);
+      const activate = () => setOpen(openChip === chip ? null : chip);
+      chip.addEventListener('click', activate);
+      chip.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        e.preventDefault();
+        activate();
+      });
+    });
+  });
+})();
+
 // ----- gallery carousels: arrows, drag-to-flick -----
 document.querySelectorAll('.carousel').forEach((carousel) => {
   const track = carousel.querySelector('.carousel__track');
@@ -188,7 +264,11 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
     capEl.textContent = item.desc || item.alt;
     if (item.credit) {
       creditEl.textContent = 'Work by ' + item.credit;
-      creditEl.href = item.creditHref;
+      // Credits for people without a written-up profile are plain labels, so
+      // there is no href to hang on them. An <a> without one isn't focusable,
+      // which is exactly right: it goes nowhere.
+      if (item.creditHref) creditEl.href = item.creditHref;
+      else creditEl.removeAttribute('href');
       creditEl.hidden = false;
     } else {
       creditEl.hidden = true;
@@ -351,6 +431,12 @@ const enhanceForm = (form, sentMsg, errorMsg) => {
 enhanceForm(
   document.getElementById('contactForm'),
   "Message sent! We'll get back to you soon.",
+  "Hmm, that didn't send. Try again, or email us directly above."
+);
+
+enhanceForm(
+  document.getElementById('codevForm'),
+  "Thanks. That's with us, and you'll hear back within a couple of working days.",
   "Hmm, that didn't send. Try again, or email us directly above."
 );
 

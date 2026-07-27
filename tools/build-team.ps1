@@ -62,6 +62,14 @@ function Truncate([string]$s, [int]$max) {
   return $cut.TrimEnd(',', '.', ';', ':') + '...'
 }
 
+# A profile is "finished" once it has a written bio. Anything without one is a
+# placeholder page, so the grids render it as a dead tile with a short note
+# instead of a link, and the prev/next chain steps over it. Keeping the page
+# itself means old links and the ?p= shim carry on working.
+function IsFinished($person) {
+  return [bool]($person.about -and @($person.about).Count -gt 0)
+}
+
 function RoleDisplay($person) {
   # NB: keep this file pure ASCII - PowerShell 5.1 reads a BOM-less .ps1 as ANSI,
   # so a literal middot here would arrive mangled. Build it from its code point.
@@ -326,8 +334,18 @@ foreach ($list in @($team, $talent)) {
     }
 
     # --- prev / next, wrapping inside this person's own list ---
-    $prev = $order[(($i - 1 + $order.Count) % $order.Count)]
-    $next = $order[(($i + 1) % $order.Count)]
+    # Step over anyone whose profile is still a placeholder, so walking the team
+    # never dumps you on a page with nothing on it. Falls back to the immediate
+    # neighbour if this list has no finished people to point at.
+    function NeighbourAt($list, [int]$from, [int]$step) {
+      for ($n = 1; $n -lt $list.Count; $n++) {
+        $cand = $list[(($from + ($step * $n)) % $list.Count + $list.Count) % $list.Count]
+        if (IsFinished $cand) { return $cand }
+      }
+      return $list[(($from + $step) % $list.Count + $list.Count) % $list.Count]
+    }
+    $prev = NeighbourAt $order $i -1
+    $next = NeighbourAt $order $i 1
 
     # --- JSON-LD: ProfilePage wrapping a Person, plus a breadcrumb trail.
     #     The @id refs let a crawler stitch person -> studio -> other people. ---
@@ -455,9 +473,19 @@ $thumbSizesZoomed = '(max-width: 760px) 92vw, (max-width: 980px) 60vw, (max-widt
 $founderSizesZoomed = '(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px'
 
 function MemberTile($p, [bool]$withStatus, [string]$grid = 'main') {
+  $finished = IsFinished $p
+  $firstName = ($p.name -split ' ')[0]
   $cls = 'member reveal'
   if (-not $p.photo) { $cls = 'member member--placeholder reveal' }
-  $out = '          <a class="' + $cls + '" href="team/' + $p.slug + '.html">' + "`n"
+  # An unfinished profile is a <div>, not an <a>: there is nothing worth landing
+  # on, and a link to a placeholder page is a dead end. js/main.js upgrades it
+  # into a button that reveals the note below. Without JS it is simply inert,
+  # which is the same bargain the gallery viewer makes.
+  if ($finished) {
+    $out = '          <a class="' + $cls + '" href="team/' + $p.slug + '.html">' + "`n"
+  } else {
+    $out = '          <div class="' + $cls + ' member--unfinished">' + "`n"
+  }
   if ($withStatus -and $p.status) {
     $label = if ($p.status -eq 'active') { 'Active' } else { 'Former' }
     $out += '            <span class="member__status member__status--' + $p.status + '">' + $label + '</span>' + "`n"
@@ -485,7 +513,12 @@ function MemberTile($p, [bool]$withStatus, [string]$grid = 'main') {
     $out += '            <div class="member__photo member__photo--empty" aria-hidden="true"><span>' + (HtmlEnc $p.initials) + '</span></div>' + "`n"
   }
   $out += '            <h3>' + (HtmlEnc $p.name) + '</h3><p>' + (HtmlEnc (RoleDisplay $p)) + '</p>' + "`n"
-  $out += '          </a>'
+  if ($finished) {
+    $out += '          </a>'
+  } else {
+    $out += '            <p class="member__soon" hidden>We haven&rsquo;t written up ' + (HtmlEnc $firstName) + '&rsquo;s profile yet. Check back soon.</p>' + "`n"
+    $out += '          </div>'
+  }
   return $out
 }
 
