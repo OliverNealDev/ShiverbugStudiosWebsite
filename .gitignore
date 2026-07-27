@@ -5,6 +5,15 @@
 # The co-dev gallery images are exported copies in assets/img/art/ and are
 # committed on purpose. It is the source documents that must not be.
 
+# Full-resolution sources: team photos and art before they were resized into
+# assets/. Around 145 MB, and every byte of it used to be committed. It was kept
+# off the public site only by an accident of naming: with no .nojekyll file,
+# GitHub Pages runs Jekyll, and Jekyll drops any directory starting with "_".
+# Adding .nojekyll - a normal thing to do to speed up a static site - would have
+# published the lot. Untracked now, so neither the site nor a clone carries it.
+# Keep the originals somewhere backed up; they are not in this repo any more.
+_originals/
+
 # Decks, contracts, exports, anything sent over for reference
 *.pdf
 *.pptx

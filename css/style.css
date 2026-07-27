@@ -181,7 +181,6 @@ h1, h2, h3 {
 }
 .sticker--sand { background: var(--sand); color: var(--ink); }
 .sticker--sea { background: var(--sea-chip); color: #fff; }
-.sticker--leaf { background: var(--leaf-chip); color: #fff; }
 
 /* ---------- nav ---------- */
 .nav {
@@ -718,41 +717,6 @@ h1, h2, h3 {
 .carousel__credit--unfinished { pointer-events: none; }
 .svc__crew-note { max-width: 42ch; margin-top: .8rem; }
 
-.team__more { text-align: center; margin-top: clamp(2rem, 4vw, 3rem); }
-
-/* ---------- news ---------- */
-.news { background: var(--paper); }
-.news__grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
-  margin-bottom: 2.8rem;
-}
-.post { display: flex; flex-direction: column; }
-.post__img {
-  aspect-ratio: 16/9; overflow: hidden;
-  border-radius: var(--radius);
-  border: 2px solid rgba(20,23,28,.12);
-  transition: border-color .25s, box-shadow .25s;
-}
-.post:hover .post__img { border-color: var(--ink); box-shadow: var(--shadow-pop); }
-.post__img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s var(--ease-out); }
-.post:hover .post__img img { transform: scale(1.04); }
-.post__img--logo { background: var(--ink); }
-.post__img--logo img { object-fit: contain; padding: 1.2rem; }
-.post__body { padding: 1.2rem .2rem 0; }
-.post__body time {
-  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
-  text-transform: uppercase; letter-spacing: .1em; color: var(--sand-ink);
-}
-.post__body h3 { font-size: 1.25rem; margin: .5rem 0 .55rem; }
-.post__body p { font-size: .95rem; color: var(--text-soft); }
-.news__more { text-align: center; }
-.post--embed iframe {
-  width: 100%; height: 560px; border: 0;
-  border-radius: var(--radius);
-  border: 2px solid rgba(20,23,28,.12);
-  background: #fff;
-}
-
 /* ---------- footer ---------- */
 .footer {
   position: relative;
@@ -795,7 +759,9 @@ h1, h2, h3 {
 .footer__press { text-decoration: underline; text-underline-offset: 3px; }
 .footer__press:hover { color: #fff; }
 
-/* breadcrumb trail (2.4.8 Location) */
+/* breadcrumb trail (2.4.8 Location). Every page below the home page carries one;
+   the two dark-hero pages (home, co-dev) don't, since these colours are tuned
+   for paper and a crumb above the fold there would fight the hero. */
 .crumbs { padding-top: .4rem; margin-bottom: .2rem; }
 .crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; font-size: .85rem; }
 .crumbs li { display: flex; align-items: center; gap: .4rem; color: var(--text-soft); }
@@ -816,15 +782,6 @@ h1, h2, h3 {
   padding: clamp(7.5rem, 14vh, 10rem) 0 clamp(3rem, 6vw, 5rem);
   min-height: 60vh;
 }
-.profile__back {
-  display: inline-block;
-  font-family: var(--font-display); font-weight: 700; font-size: .98rem;
-  color: var(--text-soft);
-  margin-bottom: 1.6rem;
-  transition: color .15s, transform .2s var(--ease-out);
-}
-.profile__back:hover { color: var(--ink); transform: translateX(-3px); }
-
 .profile__inner {
   display: grid; grid-template-columns: .8fr 1.2fr;
   gap: clamp(2.5rem, 6vw, 5rem);
@@ -1138,14 +1095,6 @@ h1, h2, h3 {
   object-fit: cover; background: transparent;
 }
 .carousel__slot .carousel__credit:hover { background: rgba(10,12,15,.92); border-color: #fff; }
-.carousel__num {
-  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
-  color: rgba(255,255,255,.62);
-}
-.carousel__hint {
-  font-size: .68rem; font-weight: 600; text-transform: uppercase;
-  letter-spacing: .12em; color: rgba(255,255,255,.82);
-}
 .carousel__btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%;
@@ -1177,15 +1126,9 @@ h1, h2, h3 {
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
 .person:hover { transform: translateY(-3px); box-shadow: 0 6px 0 var(--ink); }
-.person img, .person__initials {
+.person img {
   width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: center 20%;
   flex-shrink: 0;
-}
-.person__initials {
-  display: grid; place-items: center;
-  background: radial-gradient(40px 40px at 70% 20%, rgba(15,163,177,.25), transparent 70%), var(--paper-2);
-  font-family: var(--font-display); font-weight: 800; font-size: .8rem;
-  color: rgba(20,23,28,.45);
 }
 .person strong { font-family: var(--font-display); font-weight: 700; font-size: .92rem; line-height: 1.1; display: block; }
 .person span { font-size: .74rem; color: var(--text-soft); display: block; line-height: 1.2; }

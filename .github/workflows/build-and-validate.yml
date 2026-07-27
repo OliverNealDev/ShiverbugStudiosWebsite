@@ -18,6 +18,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # sitemap lastmod comes from each file's last commit date, so the build
+          # needs real history. The default shallow clone would date every page
+          # to the tip commit and the drift check below would fire every run.
+          fetch-depth: 0
 
       - name: Regenerate team pages, llms.txt and sitemap
         shell: powershell
@@ -34,8 +39,10 @@ jobs:
             echo "$untracked"
             exit 1
           fi
-          # sitemap carries a lastmod of "today", so a date-only change is expected
-          # and not a real drift. Ignore it; everything else must match.
+          # sitemap lastmod is each file's last commit date. Committing an edit
+          # moves that date, so the value generated here can legitimately differ
+          # from the one committed alongside the edit. A date-only change is
+          # expected; everything else must match.
           if ! git diff --quiet -- . ':(exclude)sitemap.xml'; then
             echo "::error::Generated files are out of date. Run tools/build-team.ps1 and commit the result."
             git --no-pager diff --stat -- . ':(exclude)sitemap.xml'

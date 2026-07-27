@@ -142,7 +142,7 @@ $template = @'
   <meta http-equiv="Content-Security-Policy" content="{{CSP}}">
   <title>{{NAME}} | Shiverbug Studios</title>
   <meta name="description" content="{{DESC}}">
-  <link rel="canonical" href="{{CANONICAL}}">
+{{ROBOTS}}  <link rel="canonical" href="{{CANONICAL}}">
   <meta property="og:title" content="{{NAME}}, {{ROLE}} | Shiverbug Studios">
   <meta property="og:description" content="{{DESC}}">
   <meta property="og:image" content="{{OGIMAGE}}">
@@ -193,7 +193,13 @@ $template = @'
 
   <main class="profile" id="top">
     <div class="container">
-      <a class="profile__back" href="../index.html#team" id="backLink">&larr; Back</a>
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="index.html">Team</a></li>
+          <li><span aria-current="page">{{NAME}}</span></li>
+        </ol>
+      </nav>
       <div class="profile__inner">
         <figure class="profile__photo">{{PHOTO}}</figure>
         <div>
@@ -395,7 +401,16 @@ foreach ($list in @($team, $talent)) {
     }
     $jsonld = ($ld | ConvertTo-Json -Depth 12).Replace('<', '\u003c')
 
+    # A profile with no bio has nothing worth ranking, and nothing on the site
+    # links to it any more. Keep the page (old links, the ?p= shim) but tell
+    # crawlers to skip it, and follow so the links out of it still count.
+    $robots = ''
+    if (-not (IsFinished $p)) {
+      $robots = '  <meta name="robots" content="noindex, follow">' + "`n"
+    }
+
     $html = $template.
+      Replace('{{ROBOTS}}',    $robots).
       Replace('{{CSP}}',       (HtmlEnc $csp)).
       Replace('{{LEGAL}}',     (HtmlEnc $legal)).
       Replace('{{NAME}}',      (HtmlEnc $p.name)).
@@ -472,8 +487,13 @@ $founderSizes = '(max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px'
 $thumbSizesZoomed = '(max-width: 760px) 92vw, (max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px'
 $founderSizesZoomed = '(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px'
 
-function MemberTile($p, [bool]$withStatus, [string]$grid = 'main') {
-  $finished = IsFinished $p
+# $forceLink is for team-member.html only. That page exists to catch old ?p=
+# links and point them at the page that replaced them, and those pages do exist.
+# Turning them into inert tiles there would strand anyone arriving on an old
+# link with JavaScript off: the redirect can't run, and the note explaining the
+# dead tile needs JS to appear.
+function MemberTile($p, [bool]$withStatus, [string]$grid = 'main', [bool]$forceLink = $false) {
+  $finished = (IsFinished $p) -or $forceLink
   $firstName = ($p.name -split ' ')[0]
   $cls = 'member reveal'
   if (-not $p.photo) { $cls = 'member member--placeholder reveal' }
@@ -582,7 +602,7 @@ Write-Host "Wrote js/legacy-redirect.js"
 
 $listHtml = @(
   '      <div class="team__grid">',
-  (@($all | ForEach-Object { MemberTile $_ $false }) -join "`n"),
+  (@($all | ForEach-Object { MemberTile $_ $false 'main' $true }) -join "`n"),
   '      </div>'
 ) -join "`n"
 
@@ -661,6 +681,12 @@ $teamIndexTemplate = @'
 
   <main class="profile team" id="top">
     <div class="container">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><span aria-current="page">Team</span></li>
+        </ol>
+      </nav>
       <header class="section__head">
         <p class="kicker kicker--leaf">The shiverbugs</p>
         <h1>Meet the <span class="underline-leaf">Team</span></h1>
@@ -786,19 +812,27 @@ $llms += ''
 $llms += '## Team'
 $llms += ''
 $llms += ("- [Full roster]({0}/team/): all {1} people, {2} in the studio plus {3} in the talent pool" -f $baseUrl, $all.Count, $teamCount, $talentCount)
+# Unfinished profiles stay on the roster - they are real people on the team -
+# but without a link, because the page behind it is noindexed and empty.
 foreach ($p in $team) {
-  $bio = ''
-  if ($p.about -and @($p.about).Count -gt 0) { $bio = ': ' + (Truncate (StripTags (@($p.about)[0])) 150) }
-  $llms += ("- [{0} - {1}]({2}/team/{3}.html){4}" -f $p.name, (RoleDisplay $p), $baseUrl, $p.slug, $bio)
+  if (IsFinished $p) {
+    $bio = ': ' + (Truncate (StripTags (@($p.about)[0])) 150)
+    $llms += ("- [{0} - {1}]({2}/team/{3}.html){4}" -f $p.name, (RoleDisplay $p), $baseUrl, $p.slug, $bio)
+  } else {
+    $llms += ("- {0} - {1} (no profile written up yet)" -f $p.name, (RoleDisplay $p))
+  }
 }
 $llms += ''
 $llms += '## Talent pool'
 $llms += ''
 foreach ($p in $talent) {
   $state = if ($p.status -eq 'former') { 'former shiverbug' } else { 'active contributor' }
-  $bio = ''
-  if ($p.about -and @($p.about).Count -gt 0) { $bio = ': ' + (Truncate (StripTags (@($p.about)[0])) 150) }
-  $llms += ("- [{0} - {1}]({2}/team/{3}.html) ({4}){5}" -f $p.name, (RoleDisplay $p), $baseUrl, $p.slug, $state, $bio)
+  if (IsFinished $p) {
+    $bio = ': ' + (Truncate (StripTags (@($p.about)[0])) 150)
+    $llms += ("- [{0} - {1}]({2}/team/{3}.html) ({4}){5}" -f $p.name, (RoleDisplay $p), $baseUrl, $p.slug, $state, $bio)
+  } else {
+    $llms += ("- {0} - {1} ({2}, no profile written up yet)" -f $p.name, (RoleDisplay $p), $state)
+  }
 }
 $llms += ''
 WriteFileUtf8 (Join-Path $root 'llms.txt') (($llms -join "`n") + "`n")
@@ -876,21 +910,38 @@ Write-Host "Updated the structured data graph in index.html"
 # ---------- sitemap ----------
 
 $pages = @(
-  @{ loc = "$baseUrl/";              pri = '1.0' },
-  @{ loc = "$baseUrl/co-dev.html";   pri = '0.9' },
-  @{ loc = "$baseUrl/team/";         pri = '0.8' },
-  @{ loc = "$baseUrl/press.html";    pri = '0.7' },
-  @{ loc = "$baseUrl/privacy.html";  pri = '0.3' },
-  @{ loc = "$baseUrl/accessibility.html"; pri = '0.3' }
+  @{ loc = "$baseUrl/";              pri = '1.0'; file = 'index.html' },
+  @{ loc = "$baseUrl/co-dev.html";   pri = '0.9'; file = 'co-dev.html' },
+  @{ loc = "$baseUrl/team/";         pri = '0.8'; file = 'team/index.html' },
+  @{ loc = "$baseUrl/press.html";    pri = '0.7'; file = 'press.html' },
+  @{ loc = "$baseUrl/privacy.html";  pri = '0.3'; file = 'privacy.html' },
+  @{ loc = "$baseUrl/accessibility.html"; pri = '0.3'; file = 'accessibility.html' }
 )
-foreach ($p in $all) { $pages += @{ loc = "$baseUrl/team/$($p.slug).html"; pri = '0.5' } }
+# Only finished profiles go in. The rest carry a noindex, and listing a page you
+# have asked not to be indexed just sends a crawler somewhere to be turned away.
+foreach ($p in $all) {
+  if (-not (IsFinished $p)) { continue }
+  $pages += @{ loc = "$baseUrl/team/$($p.slug).html"; pri = '0.5'; file = "team/$($p.slug).html" }
+}
 
+# lastmod from the file's own last commit, not "today". Stamping every URL with
+# the build date on every build tells search engines the whole site changed
+# daily, which is the fastest way to have them ignore the field altogether.
+# Falls back to today if git can't answer (shallow clone, or a brand-new file).
 $today = (Get-Date).ToString('yyyy-MM-dd')
+function LastCommitDate([string]$relPath) {
+  try {
+    $d = & git -C $root log -1 --format=%cs -- $relPath 2>$null
+    if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($d)) { return $d.Trim() }
+  } catch { }
+  return $today
+}
+
 $sm = @('<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 foreach ($pg in $pages) {
   $sm += '  <url>'
   $sm += '    <loc>' + $pg.loc + '</loc>'
-  $sm += '    <lastmod>' + $today + '</lastmod>'
+  $sm += '    <lastmod>' + (LastCommitDate $pg.file) + '</lastmod>'
   $sm += '    <priority>' + $pg.pri + '</priority>'
   $sm += '  </url>'
 }

@@ -24,14 +24,8 @@
     });
   }
 
-  // ----- back link: a real history.back() when the visitor came from our own site -----
-  const backLink = document.getElementById('backLink');
-  if (!backLink) return;
-  let cameFromSite = false;
-  try {
-    cameFromSite = document.referrer && new URL(document.referrer).origin === location.origin;
-  } catch (e) { /* opaque or malformed referrer: fall through to the plain link */ }
-  if (cameFromSite && history.length > 1) {
-    backLink.addEventListener('click', (e) => { e.preventDefault(); history.back(); });
-  }
+  // The "Back" link that used to sit here was replaced by the breadcrumb trail,
+  // which says where you are as well as where it goes. history.back() went with
+  // it: a crumb labelled "Team" has to lead to the team, not to wherever you
+  // happened to arrive from.
 })();

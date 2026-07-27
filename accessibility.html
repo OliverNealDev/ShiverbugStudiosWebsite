@@ -55,6 +55,13 @@
   <main id="top" class="profile legal">
     <div class="container">
 
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li><span aria-current="page">Accessibility statement</span></li>
+        </ol>
+      </nav>
+
       <header class="section__head">
         <p class="kicker kicker--sea">The other boring but important page</p>
         <h1>Accessibility <span class="underline-sea">Statement</span></h1>
@@ -81,7 +88,9 @@
         <h2 class="press__h">What We've Done</h2>
         <p>
           Every page works with a keyboard alone, with a visible outline showing where
-          you are and a skip link so you can jump past the menu. The gallery viewer
+          you are and a skip link so you can jump past the menu. Pages below the home
+          page carry a breadcrumb trail, so you can always tell where you've landed and
+          step back up. The gallery viewer
           keeps focus inside itself while open, closes on <kbd>Esc</kbd>, and puts you
           back where you started.
         </p>
@@ -100,8 +109,12 @@
 
         <h2 class="press__h">What Isn't Right Yet</h2>
         <p>
-          <strong>A few team profiles are unfinished</strong>, showing placeholder text
-          where a photo or biography will go.
+          <strong>A few team profiles are unfinished.</strong> Where we haven't written
+          someone up yet, their tile on the team pages isn't a link. Selecting it shows
+          a short note saying so instead of taking you to an empty page. Those tiles work
+          with a keyboard and announce themselves as buttons, but if you have JavaScript
+          turned off they are simply not selectable, and the note stays hidden. The
+          original profile pages still exist so older links keep working.
         </p>
         <p>
           <strong>The looping clips in the co-development galleries have no captions.</strong>

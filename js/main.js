@@ -391,10 +391,38 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   });
 })();
 
+// ----- analytics: count the handful of moments that actually matter -----
+// GoatCounter events, on the same cookieless endpoint as the page view. Nothing
+// here identifies anyone: it is a label and a count, so it stays inside what the
+// privacy policy promises and still needs no consent banner. count.js loads
+// async, so every call is guarded rather than assumed.
+// NB: not `track` - that name is already taken by the ticker element above, and
+// this file is one script scope, so reusing it is a SyntaxError that takes the
+// whole file down.
+const countEvent = (name) => {
+  const gc = window.goatcounter;
+  if (gc && typeof gc.count === 'function') {
+    gc.count({ path: name, title: name, event: true });
+  }
+};
+
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href]');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  if (a.hasAttribute('download')) {
+    countEvent('download-' + href.split('/').pop());
+  } else if (href.startsWith('mailto:')) {
+    // the ?subject= is what tells co-dev enquiries apart from press and general
+    const subject = href.split('subject=')[1] || 'general';
+    countEvent('mailto-' + decodeURIComponent(subject).toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+  }
+});
+
 // ----- forms: post in the background so nobody gets bounced off the site -----
 // Both endpoints send Access-Control-Allow-Origin, so we can read the result.
 // Without JS the forms still submit natively, which is why the action stays on them.
-const enhanceForm = (form, sentMsg, errorMsg) => {
+const enhanceForm = (form, sentMsg, errorMsg, eventName) => {
   if (!form) return;
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -414,6 +442,7 @@ const enhanceForm = (form, sentMsg, errorMsg) => {
         note.className = 'form-note form-sent';
         note.textContent = sentMsg;
         form.reset();
+        if (eventName) countEvent(eventName);
       } else {
         note.className = 'form-note form-error';
         note.textContent = errorMsg;
@@ -431,19 +460,22 @@ const enhanceForm = (form, sentMsg, errorMsg) => {
 enhanceForm(
   document.getElementById('contactForm'),
   "Message sent! We'll get back to you soon.",
-  "Hmm, that didn't send. Try again, or email us directly above."
+  "Hmm, that didn't send. Try again, or email us directly above.",
+  'contact-form-sent'
 );
 
 enhanceForm(
   document.getElementById('codevForm'),
   "Thanks. That's with us, and you'll hear back within a couple of working days.",
-  "Hmm, that didn't send. Try again, or email us directly above."
+  "Hmm, that didn't send. Try again, or email us directly above.",
+  'codev-enquiry-sent'
 );
 
 enhanceForm(
   document.getElementById('newsletterForm'),
   'Almost there. Check your inbox and confirm your address.',
-  "Hmm, that didn't go through. Give it another go in a moment."
+  "Hmm, that didn't go through. Give it another go in a moment.",
+  'newsletter-signup'
 );
 
 // ----- footer year -----
