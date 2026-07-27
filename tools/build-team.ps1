@@ -113,6 +113,7 @@ $icons = @{
   'bluesky'    = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.913 8.686 7.954 4.747 5.202 2.805 2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg>'
   'itchio'     = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 12h.01M10 10v4M8 12h4"/><path d="M17.5 10.5h.01M15.5 13.5h.01"/><path d="M7.2 6h9.6c2.3 0 4.1 1.8 4.2 4.1l.4 5.2a3.6 3.6 0 0 1-6.3 2.7l-1-1.2a2.6 2.6 0 0 0-4.2 0l-1 1.2A3.6 3.6 0 0 1 2.6 15.3l.4-5.2C3.1 7.8 4.9 6 7.2 6z"/></svg>'
   'x'          = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>'
+  'sketchfab'  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.3 20.5 7v10L12 21.7 3.5 17V7z"/><path d="M12 21.7V12M12 12 3.5 7M12 12l8.5-5"/></svg>'
   'website'    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/></svg>'
 }
 
@@ -139,11 +140,15 @@ $template = @'
   <meta property="og:image" content="{{OGIMAGE}}">
   <meta property="og:url" content="{{CANONICAL}}">
   <meta property="og:type" content="profile">
+  <meta property="og:site_name" content="Shiverbug Studios">
+  <meta property="og:locale" content="en_GB">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{NAME}}, {{ROLE}} | Shiverbug Studios">
   <meta name="twitter:description" content="{{DESC}}">
   <meta name="twitter:image" content="{{OGIMAGE}}">
+  <meta name="theme-color" content="#14171c">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -402,7 +407,54 @@ Write-Host "Wrote $($written.Count) team pages to team/"
 
 # ---------- index.html team grids ----------
 
-function MemberTile($p, [bool]$withStatus) {
+# ---------- responsive thumbnails ----------
+#
+# tools/make-variants.ps1 writes assets/img/<name>-<width>.<ext> beside each
+# original. A grid tile is never wider than ~274 CSS px, so handing it the
+# 900px original was costing roughly ten times the bytes it could use.
+#
+# The srcset is built from whatever is actually on disk: the narrower portraits
+# (Charlie A at 610px, Connor at 676px) have no 640 variant, and nothing here
+# should have to know that.
+# A plain tile is at most 274 CSS px, so 480 already covers a 2x desktop screen
+# and is 2.7x what a 390px phone shows it at. Offering 640 as well only meant
+# every 3x phone pulled it, for a difference nobody can see on a 100px thumbnail.
+# The .is-zoomed tiles do keep it: CSS paints those at up to 2.1x their box.
+$thumbWidths       = @(240, 320, 480)
+$thumbWidthsZoomed = @(240, 320, 480, 640)
+
+function VariantPath($photo, [int]$w) {
+  # 'assets/img/team-lewis.webp' -> 'assets/img/team-lewis-480.webp'
+  $ext = [System.IO.Path]::GetExtension($photo)
+  return ($photo.Substring(0, $photo.Length - $ext.Length) + '-' + $w + $ext)
+}
+
+function SrcSetFor($photo, [int[]]$widths) {
+  $parts = @()
+  $largest = $null
+  foreach ($w in $widths) {
+    $rel = VariantPath $photo $w
+    if (Test-Path (Join-Path $root ($rel -replace '/', '\'))) {
+      $parts += "$rel ${w}w"
+      $largest = $rel
+    }
+  }
+  if ($parts.Count -eq 0) { return $null }
+  return @{ srcset = ($parts -join ', '); src = $largest }
+}
+
+# The main grid: 2 columns under 760px, 3 under 980px, 4 above, inside a
+# min(1160px, 92vw) container with a 1.3rem gap.
+$thumbSizes = '(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px'
+# The founders row is 3 columns at every width - it never drops to 2 - and above
+# 980px it is narrowed so its tiles match the 4-column grid exactly.
+$founderSizes = '(max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px'
+# .is-zoomed paints the photo at 1.5x-2.1x its box, and `sizes` only describes
+# the box, so the zoomed tiles are told to ask for roughly double.
+$thumbSizesZoomed = '(max-width: 760px) 92vw, (max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px'
+$founderSizesZoomed = '(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px'
+
+function MemberTile($p, [bool]$withStatus, [string]$grid = 'main') {
   $cls = 'member reveal'
   if (-not $p.photo) { $cls = 'member member--placeholder reveal' }
   $out = '          <a class="' + $cls + '" href="team/' + $p.slug + '.html">' + "`n"
@@ -415,7 +467,20 @@ function MemberTile($p, [bool]$withStatus) {
     if ($p.thumbClass) { $imgCls = ' class="' + $p.thumbClass + '"' }
     $imgStyle = ''
     if ($p.thumbStyle) { $imgStyle = ' style="' + $p.thumbStyle + '"' }
-    $out += '            <div class="member__photo"><img src="' + $p.photo + '" alt="" loading="lazy"' + $imgCls + $imgStyle + '></div>' + "`n"
+    $zoomed = $p.thumbClass -match 'is-zoomed'
+    $set = SrcSetFor $p.photo $(if ($zoomed) { $thumbWidthsZoomed } else { $thumbWidths })
+    $src = $p.photo
+    $responsive = ''
+    if ($set) {
+      $src = $set.src
+      $sizes = if ($grid -eq 'founders') {
+        if ($zoomed) { $founderSizesZoomed } else { $founderSizes }
+      } else {
+        if ($zoomed) { $thumbSizesZoomed } else { $thumbSizes }
+      }
+      $responsive = ' srcset="' + $set.srcset + '" sizes="' + $sizes + '"'
+    }
+    $out += '            <div class="member__photo"><img src="' + $src + '"' + $responsive + ' alt="" loading="lazy"' + $imgCls + $imgStyle + '></div>' + "`n"
   } else {
     $out += '            <div class="member__photo member__photo--empty" aria-hidden="true"><span>' + (HtmlEnc $p.initials) + '</span></div>' + "`n"
   }
@@ -430,9 +495,12 @@ $rest     = @($team | Where-Object { $_.role -notmatch '(?i)co-founder' })
 $teamBlock = @()
 $teamBlock += '        <h2 class="team__label reveal">Founders</h2>'
 $teamBlock += '        <div class="team__grid team__grid--founders">'
-$teamBlock += (@($founders | ForEach-Object { MemberTile $_ $false }) -join "`n")
+$teamBlock += (@($founders | ForEach-Object { MemberTile $_ $false 'founders' }) -join "`n")
 $teamBlock += '        </div>'
 $teamBlock += ''
+# Without this second label the nine studio tiles below sit under "Founders" in
+# the heading outline, which is what a screen reader announces them as.
+$teamBlock += '        <h2 class="team__label reveal">The studio</h2>'
 $teamBlock += '        <div class="team__grid">'
 $teamBlock += (@($rest | ForEach-Object { MemberTile $_ $false }) -join "`n")
 $teamBlock += '        </div>'
@@ -515,11 +583,15 @@ $teamIndexTemplate = @'
   <meta property="og:image" content="{{BASE}}/assets/img/founders.jpg">
   <meta property="og:url" content="{{BASE}}/team/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Shiverbug Studios">
+  <meta property="og:locale" content="en_GB">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="The Team | Shiverbug Studios">
   <meta name="twitter:description" content="{{DESC}}">
   <meta name="twitter:image" content="{{BASE}}/assets/img/founders.jpg">
+  <meta name="theme-color" content="#14171c">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -648,12 +720,16 @@ $hubHtml = $teamIndexTemplate.
   Replace('{{DESC}}',   (HtmlEnc $hubDesc)).
   Replace('{{LEDE}}',   (HtmlEnc $hubLede)).
   Replace('{{JSONLD}}', (($hubLd | ConvertTo-Json -Depth 12).Replace('<', '\u003c'))).
-  Replace('{{FOUNDERS}}', (@($founders | ForEach-Object { MemberTile $_ $false }) -join "`n")).
+  Replace('{{FOUNDERS}}', (@($founders | ForEach-Object { MemberTile $_ $false 'founders' }) -join "`n")).
   Replace('{{CORE}}',     (@($rest     | ForEach-Object { MemberTile $_ $false }) -join "`n")).
   Replace('{{TALENT}}',   (@($talent   | ForEach-Object { MemberTile $_ $true  }) -join "`n"))
 
-# MemberTile emits root-relative paths for index.html; inside team/ they need one level up
-$hubHtml = $hubHtml.Replace('href="team/', 'href="').Replace('src="assets/', 'src="../assets/')
+# MemberTile emits root-relative paths for index.html; inside team/ they need one
+# level up. A srcset holds several of them, so the comma-separated entries after
+# the first need the same treatment as the one in the attribute's opening quote.
+$hubHtml = $hubHtml.Replace('href="team/', 'href="').
+                    Replace('="assets/', '="../assets/').
+                    Replace(', assets/', ', ../assets/')
 WriteFileUtf8 (Join-Path $teamDir 'index.html') $hubHtml
 Write-Host "Wrote the team hub page at team/index.html"
 

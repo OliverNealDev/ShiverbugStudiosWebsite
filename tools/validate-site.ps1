@@ -87,6 +87,14 @@ foreach ($f in $htmlFiles) {
   # ---- internal links and assets resolve ----
   $refs = @()
   $refs += [regex]::Matches($html, '(?:href|src)="([^"#][^"]*)"') | ForEach-Object { $_.Groups[1].Value }
+  # Responsive candidates: srcset="a-360.jpg 360w, a-560.jpg 560w" and the
+  # imagesrcset on a preload. The plain href|src pass above cannot see these,
+  # so a typo in a variant name would 404 silently on exactly the screen sizes
+  # nobody tests on.
+  foreach ($m in [regex]::Matches($html, '(?:image)?srcset="([^"]+)"')) {
+    $refs += ($m.Groups[1].Value -split ',') | ForEach-Object { ($_.Trim() -split '\s+')[0] } |
+             Where-Object { $_ }
+  }
   foreach ($ref in ($refs | Sort-Object -Unique)) {
     if ($ref -match '^(https?:|mailto:|data:|//|#)') { continue }
     $clean = ($ref -split '[?#]')[0]

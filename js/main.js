@@ -9,16 +9,29 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('is-scrolled', window.scrollY > 10);
 }, { passive: true });
 
-burger.addEventListener('click', () => {
-  const open = nav.classList.toggle('is-open');
+const setMenu = (open) => {
+  nav.classList.toggle('is-open', open);
   burger.setAttribute('aria-expanded', String(open));
-});
+};
+
+burger.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
 
 navLinks.addEventListener('click', (e) => {
-  if (e.target.tagName === 'A') {
-    nav.classList.remove('is-open');
-    burger.setAttribute('aria-expanded', 'false');
+  if (e.target.tagName === 'A') setMenu(false);
+});
+
+// The menu overlays the page, so it has to be dismissable without hunting for
+// the burger again: Escape (focus goes back to the button that opened it), or a
+// tap anywhere outside it.
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+    setMenu(false);
+    burger.focus();
   }
+});
+
+document.addEventListener('pointerdown', (e) => {
+  if (nav.classList.contains('is-open') && !nav.contains(e.target)) setMenu(false);
 });
 
 // ----- ticker: duplicate track content so the loop is seamless -----
@@ -243,6 +256,25 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   carousels.forEach((carousel) => {
     const track = carousel.querySelector('.carousel__track');
     if (!track) return;
+
+    // Artwork tiles are links, so they already tab. Clip tiles are a bare
+    // <video> with no control on them, which left them mouse-only: 2.1.1 wants
+    // the same viewer reachable from the keyboard. The role and tabindex go on
+    // here rather than in the markup because without JS there is no viewer to
+    // open, and advertising a button that does nothing is worse than neither.
+    track.querySelectorAll('.carousel__slot > video').forEach((v) => {
+      v.setAttribute('role', 'button');
+      v.setAttribute('tabindex', '0');
+      if (!v.hasAttribute('aria-label')) v.setAttribute('aria-label', 'Open clip in the gallery viewer');
+    });
+    track.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const v = e.target.closest('video[role="button"]');
+      if (!v) return;
+      e.preventDefault();
+      v.click();
+    });
+
     track.addEventListener('click', (e) => {
       const a = e.target.closest('a[href]');
       if (a && a.classList.contains('carousel__credit')) return; // credit chips navigate normally
@@ -289,8 +321,9 @@ const enhanceForm = (form, sentMsg, errorMsg) => {
     const btn = form.querySelector('button[type="submit"]');
     form.parentNode.querySelector('.form-note')?.remove();
     btn.disabled = true;
+    // Success is polite, failure is assertive: a send that didn't go through is
+    // the one thing the visitor has to act on.
     const note = document.createElement('p');
-    note.setAttribute('role', 'status');
     try {
       const res = await fetch(form.action, {
         method: 'POST',
@@ -309,6 +342,7 @@ const enhanceForm = (form, sentMsg, errorMsg) => {
       note.className = 'form-note form-error';
       note.textContent = errorMsg;
     }
+    note.setAttribute('role', note.classList.contains('form-error') ? 'alert' : 'status');
     form.parentNode.insertBefore(note, form);
     btn.disabled = false;
   });

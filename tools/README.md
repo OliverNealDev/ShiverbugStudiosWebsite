@@ -1,7 +1,16 @@
 # tools
 
-Two PowerShell scripts. No Node, no npm, no install step. They run on the
-Windows PowerShell that's already on the machine.
+Three PowerShell scripts. The two that run in CI need nothing installed: they
+use the Windows PowerShell that's already on the machine. The third,
+`make-variants.ps1`, resizes images and is the one exception — see below.
+
+**Order matters when you add art:**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/make-variants.ps1   # only if images changed
+powershell -ExecutionPolicy Bypass -File tools/build-team.ps1
+powershell -ExecutionPolicy Bypass -File tools/validate-site.ps1
+```
 
 ## build-team.ps1
 
@@ -34,6 +43,38 @@ Notes:
   as ANSI, so a literal middot or em dash character in the source arrives mangled. Use
   `[char]0x00B7` or an HTML entity instead.
 
+## make-variants.ps1
+
+Writes `assets/.../<name>-<width>.<ext>` next to each source image. Every
+`srcset` on the site is built from what this leaves on disk, so a full-size
+photo is never sent to a 130px thumbnail.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/make-variants.ps1
+powershell -ExecutionPolicy Bypass -File tools/make-variants.ps1 -Only codev-3d
+```
+
+It skips variants that already exist, so re-running it is cheap; pass `-Force`
+to rebuild. A variant that comes out no smaller than its source is discarded
+rather than committed, because the browser would pick it on a narrow screen and
+download *more*.
+
+Notes:
+- **This is the one script that needs something installed**: the .NET SDK. It
+  builds a throwaway console app in `%TEMP%` against SixLabors.ImageSharp. CI
+  does not run it — variants are committed like any other asset.
+- The width list per image group lives at the top of the script. Two team widths
+  are conditional and are read from where the condition actually lives: `640`
+  from the `is-zoomed` entries in `data/team.json`, `160` from the avatar chips
+  in `co-dev.html`. Nothing generates a file no page can request.
+- **It cannot resize animated GIFs** — ImageSharp flattens them to one frame.
+  `assets/img/art/codev-char-shell-sockets.gif` is therefore still full size at
+  1.8 MB, and wants converting to a silent looping MP4 with ffmpeg instead.
+
+**After adding art:** run this, then `build-team.ps1`, then `validate-site.ps1`.
+The validator checks every `srcset` candidate resolves, so a missing variant
+fails the build instead of 404ing on one screen size in production.
+
 ## validate-site.ps1
 
 Checks every `.html` in the repo and exits non-zero on failure, so CI can gate
@@ -43,6 +84,7 @@ on it:
 - exactly one `<h1>`, plus a title, description and `lang`
 - canonical, `twitter:card` and `og:image` on every indexable page
 - every JSON-LD block parses and has an `@type` or `@graph`
+- every `srcset` and `imagesrcset` candidate points at a file that exists
 - sitemap URLs correspond to real files, and indexable pages are listed
 - the analytics tag is present and not commented out
 
