@@ -43,6 +43,9 @@ $groups = @(
   # scrapers fetch whole. Resizing them would just publish files nothing loads.
   @{ path = 'assets\img';      match = '^founders\.webp$'; widths = @(400, 600, 800, 1080) },
   @{ path = 'assets\img';      match = '^out-of-water-screenshot\.webp$'; widths = @(480, 760, 1100, 1520) },
+  # 260 is the footer mark; the source itself (400px) is the hero logo, which is
+  # why the hero paints it at 400 CSS px and no wider. Nothing bigger exists in
+  # webp - assets/press/shiverbug-logo-mark.png is 600px if it ever needs to be.
   @{ path = 'assets\img';      match = '^logo\.webp$';     widths = @(260) },
   # Gallery tiles are ~450 CSS px at most; the full-size file is what the link
   # and the lightbox open, so nothing here needs to go near the original.
@@ -70,9 +73,11 @@ foreach ($p in (@($team.team) + @($team.talent))) {
   if ($p.photo -and $p.thumbClass -match 'is-zoomed') { AddExtra $p.photo 640 }
 }
 
-# 160: the avatar chips on co-dev, 34px on a crew chip and 22px on a gallery
-# credit. Only the people who actually appear there need one.
-$codev = Get-Content (Join-Path $root 'co-dev.html') -Raw -Encoding UTF8
+# 160: the avatar chips beside each co-dev service, 34px on a crew chip and 22px
+# on a gallery credit. Only the people who actually appear there need one. These
+# used to live on co-dev.html; that page folded into the home page, and reading
+# the old file here would have silently stopped generating every 160px avatar.
+$codev = Get-Content (Join-Path $root 'index.html') -Raw -Encoding UTF8
 foreach ($m in [regex]::Matches($codev, 'assets/img/(team-[a-z\-]+?)(?:-\d{2,4})?\.(webp|jpg)')) {
   AddExtra ($m.Groups[1].Value + '.' + $m.Groups[2].Value) 160
 }

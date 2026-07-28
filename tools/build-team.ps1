@@ -17,7 +17,7 @@ $teamDir = Join-Path $root 'team'
 $baseUrl = 'https://olivernealdev.github.io/ShiverbugStudiosWebsite'
 
 # GitHub Pages cannot send HTTP headers, so the policy travels in a meta tag.
-# Keep this in step with the identical tag in index.html, co-dev.html, press.html,
+# Keep this in step with the identical tag in index.html, games.html, press.html,
 # privacy.html, accessibility.html, 404.html and team-member.html.
 # Note: frame-ancestors is ignored in a meta tag, it only works as a real header.
 $csp = "default-src 'self'; " +
@@ -173,13 +173,10 @@ $template = @'
   <!-- ======= NAV ======= -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a class="nav__brand" href="../index.html" aria-label="Shiverbug Studios, home">
-        <img src="../assets/img/nav-logo.webp" alt="" class="nav__logo">
-        <img src="../assets/img/nav-wordmark.webp" alt="" class="nav__wordmark">
-      </a>
+      <a class="nav__brand" href="../index.html" aria-label="Shiverbug Studios, home"><img src="../assets/img/nav-wordmark.webp" alt="" class="nav__wordmark" width="316" height="138"></a>
       <nav class="nav__links" id="navLinks" aria-label="Primary">
-        <a href="../index.html#game">Out of Water</a>
-        <a href="../co-dev.html">Co-Dev</a>
+        <a href="../index.html#services">Co-Dev</a>
+        <a href="../games.html">Our Games</a>
         <a href="../index.html#studio">Studio</a>
         <a href="../index.html#team">Team</a>
         <a href="../press.html">Press</a>
@@ -507,6 +504,12 @@ function MemberTile($p, [bool]$withStatus, [string]$grid = 'main', [bool]$forceL
     $label = if ($p.status -eq 'active') { 'Active' } else { 'Former' }
     $out += '            <span class="member__status member__status--' + $p.status + '">' + $label + '</span>' + "`n"
   }
+  # The "no profile yet" flag lives INSIDE the photo. As a sibling of it, it was
+  # positioned against the whole tile and had to be nudged clear of the
+  # Active/Former chip, which left it floating at a different height depending on
+  # who it was on. Anchored to the photo it sits in one place every time.
+  $flag = ''
+  if (-not $finished) { $flag = '<span class="member__flag">No profile yet</span>' }
   if ($p.photo) {
     $imgCls = ''
     if ($p.thumbClass) { $imgCls = ' class="' + $p.thumbClass + '"' }
@@ -525,14 +528,16 @@ function MemberTile($p, [bool]$withStatus, [string]$grid = 'main', [bool]$forceL
       }
       $responsive = ' srcset="' + $set.srcset + '" sizes="' + $sizes + '"'
     }
-    $out += '            <div class="member__photo"><img src="' + $src + '"' + $responsive + ' alt="" loading="lazy"' + $imgCls + $imgStyle + '></div>' + "`n"
+    $out += '            <div class="member__photo"><img src="' + $src + '"' + $responsive + ' alt="" loading="lazy"' + $imgCls + $imgStyle + '>' + $flag + '</div>' + "`n"
   } else {
-    $out += '            <div class="member__photo member__photo--empty" aria-hidden="true"><span>' + (HtmlEnc $p.initials) + '</span></div>' + "`n"
+    $out += '            <div class="member__photo member__photo--empty"><span aria-hidden="true">' + (HtmlEnc $p.initials) + '</span>' + $flag + '</div>' + "`n"
   }
   $out += '            <h3>' + (HtmlEnc $p.name) + '</h3><p>' + (HtmlEnc (RoleDisplay $p)) + '</p>' + "`n"
   if ($finished) {
     $out += '          </a>'
   } else {
+    # The flag went in with the photo above. This note is the fuller explanation,
+    # revealed by js/main.js for anyone who selects the tile anyway.
     $out += '            <p class="member__soon" hidden>We haven&rsquo;t written up ' + (HtmlEnc $firstName) + '&rsquo;s profile yet. Check back soon.</p>' + "`n"
     $out += '          </div>'
   }
@@ -556,8 +561,11 @@ $teamBlock += (@($rest | ForEach-Object { MemberTile $_ $false }) -join "`n")
 $teamBlock += '        </div>'
 $teamHtml = $teamBlock -join "`n"
 
+# The talent pool is guest contributors and former shiverbugs, not the studio
+# roster, and it was rendering at the same tile size as the people who work here.
+# --pool packs them tighter so the hierarchy reads at a glance.
 $talentHtml = @(
-  '        <div class="team__grid">',
+  '        <div class="team__grid team__grid--pool">',
   (@($talent | ForEach-Object { MemberTile $_ $true }) -join "`n"),
   '        </div>'
 ) -join "`n"
@@ -658,13 +666,10 @@ $teamIndexTemplate = @'
   <!-- ======= NAV ======= -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a class="nav__brand" href="../index.html" aria-label="Shiverbug Studios, home">
-        <img src="../assets/img/nav-logo.webp" alt="" class="nav__logo">
-        <img src="../assets/img/nav-wordmark.webp" alt="" class="nav__wordmark">
-      </a>
+      <a class="nav__brand" href="../index.html" aria-label="Shiverbug Studios, home"><img src="../assets/img/nav-wordmark.webp" alt="" class="nav__wordmark" width="316" height="138"></a>
       <nav class="nav__links" id="navLinks" aria-label="Primary">
-        <a href="../index.html#game">Out of Water</a>
-        <a href="../co-dev.html">Co-Dev</a>
+        <a href="../index.html#services">Co-Dev</a>
+        <a href="../games.html">Our Games</a>
         <a href="../index.html#studio">Studio</a>
         <a href="index.html" aria-current="page">Team</a>
         <a href="../press.html">Press</a>
@@ -706,7 +711,7 @@ $teamIndexTemplate = @'
         <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
       </header>
 
-      <div class="team__grid">
+      <div class="team__grid team__grid--pool">
 {{TALENT}}
       </div>
     </div>
@@ -799,7 +804,7 @@ $llms += ''
 $llms += '## Studio'
 $llms += ''
 $llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
-$llms += ("- [Co-development and work-for-hire]({0}/co-dev.html): services, process, rates approach, FAQ" -f $baseUrl)
+$llms += ("- [Co-development and work-for-hire]({0}/): services, galleries, packages, process, FAQ - this is the home page" -f $baseUrl)
 $llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
 $llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
 $llms += ("- [Accessibility statement]({0}/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem" -f $baseUrl)
@@ -883,7 +888,7 @@ $siteLd = [ordered]@{
       '@type'       = 'VideoGame'
       '@id'         = "$baseUrl/#out-of-water"
       'name'        = 'Out of Water'
-      'url'         = "$baseUrl/#game"
+      'url'         = "$baseUrl/games.html"
       'description' = 'A 2-player split-screen collectathon platformer. One player is a turtle, the other a seagull, exploring a colourful world full of charm, clever challenges and an army of crabs.'
       'image'       = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
       'genre'       = @('Platform game', 'Collectathon', 'Cooperative video game')
@@ -906,7 +911,7 @@ Write-Host "Updated the structured data graph in index.html"
 
 $pages = @(
   @{ loc = "$baseUrl/";              pri = '1.0'; file = 'index.html' },
-  @{ loc = "$baseUrl/co-dev.html";   pri = '0.9'; file = 'co-dev.html' },
+  @{ loc = "$baseUrl/games.html";    pri = '0.9'; file = 'games.html' },
   @{ loc = "$baseUrl/team/";         pri = '0.8'; file = 'team/index.html' },
   @{ loc = "$baseUrl/press.html";    pri = '0.7'; file = 'press.html' },
   @{ loc = "$baseUrl/privacy.html";  pri = '0.3'; file = 'privacy.html' },

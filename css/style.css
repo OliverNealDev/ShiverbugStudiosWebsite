@@ -80,7 +80,16 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-.container { width: min(1160px, 92vw); margin-inline: auto; }
+/* One shell width for the nav, the hero and every section, so their left edges
+   agree at every size. The 92vw is for phones. Above 900px it tightens to 86vw,
+   because between roughly 1150 and 1350 CSS px the 1160px cap was landing almost
+   flush with the viewport - at 1280 that is a 60px gutter, which reads as
+   claustrophobic on a screen you sit back from. Past ~1350px the cap wins again
+   and nothing changes. */
+:root { --shell: min(1160px, 92vw); }
+@media (min-width: 900px) { :root { --shell: min(1160px, 86vw); } }
+
+.container { width: var(--shell); margin-inline: auto; }
 
 .skip-link {
   position: fixed; top: -60px; left: 16px; z-index: 200;
@@ -189,7 +198,9 @@ h1, h2, h3 {
 }
 .nav__inner {
   pointer-events: auto;
-  width: min(1160px, 94vw); margin-inline: auto;
+  /* the same shell as the content, so the bar's edges line up with the text
+     under it instead of sitting 1vw proud of it */
+  width: var(--shell); margin-inline: auto;
   display: flex; align-items: center; justify-content: space-between;
   background: color-mix(in srgb, var(--ink) 88%, transparent);
   backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -201,9 +212,15 @@ h1, h2, h3 {
 .nav.is-scrolled .nav__inner { box-shadow: 0 12px 30px -12px rgba(0,0,0,.5); }
 
 /* 2.5.5 Target Size (Enhanced), AAA: every non-inline target is at least 44x44. */
-.nav__brand { display: flex; align-items: center; gap: .65rem; min-height: 44px; }
-.nav__logo { width: 38px; height: 38px; object-fit: contain; }
-.nav__wordmark { height: 30px; width: auto; display: block; }
+/* The wordmark alone. The moth mark that used to sit to its left is now painted
+   large in the hero, where the linework actually reads; at 38px in a nav bar it
+   was mud, which is where "the logo is too small" came from. */
+.nav__brand { display: flex; align-items: center; min-height: 44px; }
+.nav__wordmark {
+  height: 30px; width: auto; display: block;
+  transition: opacity .15s;
+}
+.nav__brand:hover .nav__wordmark { opacity: .78; }
 
 .nav__links { display: flex; align-items: center; gap: .25rem; }
 .nav__links a {
@@ -239,11 +256,13 @@ h1, h2, h3 {
     radial-gradient(700px 420px at -5% 110%, rgba(237, 161, 77, .12), transparent 60%),
     var(--ink);
   color: #fff;
-  padding: clamp(7.5rem, 14vh, 10rem) 0 clamp(6rem, 12vh, 8rem);
+  /* a touch more ink above and below the introduction - the logo needs room to
+     breathe now it is the first thing on the page rather than a nav trinket */
+  padding: clamp(9rem, 17vh, 12rem) 0 clamp(7rem, 14vh, 9.5rem);
   overflow: hidden;
 }
 .hero__inner {
-  width: min(1160px, 92vw); margin-inline: auto;
+  width: var(--shell); margin-inline: auto;
   display: grid; grid-template-columns: 1.05fr .95fr;
   gap: clamp(2rem, 5vw, 4.5rem); align-items: center;
 }
@@ -273,56 +292,90 @@ h1, h2, h3 {
 .hero__frame .sticker--sand { top: -14px; left: -10px; }
 .hero__frame .sticker--sea { bottom: -12px; right: 18px; transform: rotate(3deg); }
 
+/* The logo, finally at a size where the linework reads. Capped at 400px because
+   that is the source's native width - painting it larger just blurs it. It's
+   white line art on the dark hero, so it needs no plate behind it. */
+.hero__logo {
+  width: min(400px, 100%); height: auto;
+  margin-inline: auto;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .45));
+}
+
 .wave { position: absolute; inset-inline: 0; bottom: -1px; line-height: 0; }
 .wave svg { width: 100%; height: clamp(40px, 7vw, 90px); }
 .wave--top { top: -1px; bottom: auto; }
 
-/* ---------- ticker ---------- */
-.ticker {
-  position: relative;
-  background: var(--paper);
-  padding: 1.1rem 0 .4rem;
-  overflow: hidden;
+/* ---------- programmes & networks ---------- */
+/* Label above, list below, both flush with the container's left edge. The label
+   used to sit inline to the left of the list, which pushed the names to a left
+   edge nothing else on the page shared - the thing that made the strip read as
+   bolted on rather than part of the page. */
+.creds { background: var(--paper); padding: 2rem 0 0; }
+/* The section that follows is on the same paper and opens with its own heading,
+   so it doesn't need a full section's worth of run-up on top of this strip's
+   own padding - between them that was ~137px of nothing. */
+.creds + .section { padding-top: clamp(2.5rem, 5vw, 4rem); }
+.creds__label {
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: var(--sand-ink);
+  margin-bottom: .9rem;
 }
-/* The fade at both edges has to sit on the track, not the bar: masking the bar
-   would fade the pause button out with it. */
-.ticker__track {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+.creds__list {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.8rem;
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  color: var(--text-ink);
+}
+.creds__list li { display: flex; align-items: center; gap: .5rem; }
+/* the award is the one that earns a second glance, so it gets the chip */
+.creds__award {
+  background: var(--sand); color: var(--ink);
+  border: 2px solid var(--ink); border-radius: 999px;
+  box-shadow: 0 3px 0 var(--ink);
+  padding: .3rem .9rem;
+}
+.creds__award-note {
+  font-family: var(--font-body); font-weight: 600; font-size: .8rem;
+  padding-left: .5rem; border-left: 1px solid rgba(20,23,28,.3);
+}
+@media (max-width: 600px) {
+  .creds__list { gap: .55rem 1.2rem; font-size: .92rem; }
 }
 
-/* 2.2.2 Pause, Stop, Hide: the ticker scrolls and the gallery clips loop, both
-   for longer than 5s and both starting on their own. This is the mechanism that
-   stops them. It pauses every looping thing on the page, not just the ticker. */
-.ticker__pause {
-  position: absolute; right: max(4vw, 12px); top: 50%; transform: translateY(-50%);
-  z-index: 2;
-  display: grid; place-items: center;
-  width: 44px; height: 44px; padding: 0;
-  border: 2px solid rgba(20,23,28,.3); border-radius: 50%;
+/* ---------- motion toggle ---------- */
+/* 2.2.2 Pause, Stop, Hide. The word ticker this used to live on is gone, but the
+   gallery clips still loop for longer than 5s and start on their own, so the
+   control stays - now sitting with the galleries it governs rather than in a
+   strip of its own. Deliberately not persisted: remembering it would mean
+   writing to the visitor's device, and the privacy policy promises we don't. */
+.motion-toggle {
+  display: inline-flex; align-items: center; gap: .6rem;
+  margin-top: 1.4rem; min-height: 44px; padding: .5rem 1rem .5rem .7rem;
+  border: 2px solid rgba(20,23,28,.3); border-radius: 999px;
   background: var(--paper); color: var(--ink);
+  font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   cursor: pointer;
   transition: border-color .2s, background .2s;
 }
-.ticker__pause:hover { border-color: var(--ink); background: #fff; }
-.ticker__pause svg { width: 14px; height: 14px; }
-.ticker__pause .icon-play { display: none; }
-.motion-paused .ticker__pause .icon-play { display: block; }
-.motion-paused .ticker__pause .icon-pause { display: none; }
-.motion-paused .ticker__track { animation-play-state: paused; }
+.motion-toggle:hover { border-color: var(--ink); background: #fff; }
+.motion-toggle svg { width: 14px; height: 14px; flex: none; }
+.motion-toggle .icon-play { display: none; }
+.motion-paused .motion-toggle .icon-play { display: block; }
+.motion-paused .motion-toggle .icon-pause { display: none; }
 .motion-paused .dot--pulse { animation-play-state: paused; }
-.ticker__track {
-  display: flex; align-items: center; gap: 2.2rem;
-  width: max-content;
-  animation: ticker 30s linear infinite;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
-  color: var(--text-soft); text-transform: uppercase; letter-spacing: .06em;
-}
-.ticker__track i { font-style: normal; font-size: .95em; }
-@keyframes ticker { to { transform: translateX(-50%); } }
-
 /* ---------- sections ---------- */
-.section { padding: clamp(4.5rem, 9vw, 7.5rem) 0; }
+/* Every section carried this top AND bottom, so consecutive sections put 230px
+   of nothing between them - worst where neighbours share a background and there
+   is no colour change to justify it. The second of any pair now gets a shorter
+   run-up: the first section's bottom padding is already doing that job. The vw
+   term is gentler too, because it is what made the gaps grow out of proportion
+   to the text at browser zoom levels below 100%. */
+.section { padding: clamp(3.5rem, 6vw, 5.5rem) 0; }
+.section + .section { padding-top: clamp(2.5rem, 4vw, 3.5rem); }
+/* A page that opens straight into a section instead of a hero still has to clear
+   the fixed nav - otherwise the first heading sits behind it. The hero pages get
+   this from the hero's own top padding. */
+main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .section__head { max-width: 62ch; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
 .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .section__lede { font-size: 1.13rem; color: var(--text-soft); }
@@ -348,7 +401,7 @@ h1, h2, h3 {
 .game__player img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
 .game__player .sticker { top: 14px; left: 14px; z-index: 2; }
 .game__trailer-note {
-  text-align: center; font-size: .93rem; font-style: italic;
+  font-size: .93rem; font-style: italic;
   color: var(--text-soft);
   margin: 1rem auto 2.5rem; max-width: 60ch;
 }
@@ -577,7 +630,6 @@ h1, h2, h3 {
 
 .services__cta {
   display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem;
-  justify-content: center; text-align: center;
 }
 .services__cta p { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: #fff; }
 
@@ -615,11 +667,11 @@ h1, h2, h3 {
 .team__grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.3rem;
 }
-/* founders get their own centered row above the rest, tiles same size as the 4-col grid */
+/* Founders sit on their own row above the rest. They used to be centred in a
+   calc()'d width, which put them on a fourth left edge - the grid keeps its four
+   columns and the three of them simply fill the first three, so the row starts
+   where every other block on the page starts. */
 .team__grid--founders {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: calc((100% - 3.9rem) * .75 + 2.6rem);
-  margin-inline: auto;
   padding-bottom: 2.2rem;
   margin-bottom: 2.2rem;
   border-bottom: 1px solid rgba(20,23,28,.15);
@@ -648,11 +700,12 @@ h1, h2, h3 {
 .team__label {
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   text-transform: uppercase; letter-spacing: .14em;
-  color: var(--sand-ink); text-align: center;
+  color: var(--sand-ink);
   margin-bottom: 1.2rem;
 }
 .member:hover { transform: translateY(-5px); }
 .member__photo {
+  position: relative;
   border-radius: var(--radius);
   overflow: hidden; margin-bottom: 1rem;
   aspect-ratio: 1 / 1;
@@ -679,13 +732,29 @@ h1, h2, h3 {
     radial-gradient(200px 200px at 70% 20%, rgba(15,163,177,.22), transparent 70%),
     #fff;
 }
-.member__photo--empty span {
+/* :not() so this only ever dresses the initials, never the "No profile yet"
+   band that now shares this box - that inherited the 2.4rem and grew into a
+   163px slab inside a 152px photo. */
+.member__photo--empty > span:not(.member__flag) {
   font-family: var(--font-display); font-weight: 800; font-size: 2.4rem;
   color: rgba(20,23,28,.55);
 }
 .member h3 { font-size: 1.1rem; margin-bottom: .15rem; }
 .member p { font-size: .88rem; color: var(--text-soft); }
 .member--placeholder p { color: var(--sea-ink); font-weight: 500; }
+
+/* The talent pool is guests and former shiverbugs, not the studio roster. Same
+   tiles, packed tighter and typeset smaller, so the page shows the difference
+   without needing the heading to explain it. */
+.team__grid--pool {
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+.team__grid--pool h3 { font-size: .95rem; }
+.team__grid--pool .member p { font-size: .82rem; }
+.team__grid--pool .member__photo { margin-bottom: .7rem; }
+.team__grid--pool .member__status { font-size: .65rem; padding: .2rem .5rem; }
+.team__grid--pool .member__photo--empty > span:not(.member__flag) { font-size: 2rem; }
 
 /* ---------- profiles with nothing written up yet ---------- */
 /* These tiles are a <div>, not a link: there is no page worth landing on. JS
@@ -702,6 +771,24 @@ h1, h2, h3 {
 /* only once JS has made it operable does it start behaving like a control */
 .member--unfinished[role="button"] { cursor: pointer; }
 .member--unfinished[role="button"]:hover .member__photo { opacity: .88; }
+/* The tile says so up front. Everyone else in the grid is a link, so without
+   this the only way to discover there's nothing behind this one was to click it
+   and be told. A band across the foot of the photo rather than a corner chip:
+   the corners are taken by the Active/Former status, and a flag that had to dodge
+   it ended up sitting at a different height on different people. */
+.member__flag {
+  position: absolute; inset: auto 0 0 0; z-index: 1;
+  /* The initials placeholder is a grid with place-items:center, and that
+     centring is inherited by absolutely positioned children too - which
+     stretched this band to 165px inside a 152px photo. Pin it explicitly. */
+  place-self: end stretch;
+  padding: .4rem .5rem;
+  font-family: var(--font-display); font-weight: 700; font-size: .68rem;
+  letter-spacing: .06em; text-align: center;
+  background: rgba(20, 23, 28, .88); color: var(--paper);
+  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+}
+.team__grid--pool .member__flag { font-size: .6rem; padding: .3rem .4rem; }
 .member__soon {
   margin-top: .5rem;
   font-size: .82rem !important; line-height: 1.45;
@@ -902,6 +989,89 @@ h1, h2, h3 {
 .profile__missing h1 { margin-bottom: 1rem; }
 .profile__missing p { color: var(--text-soft); margin-bottom: 2rem; }
 
+/* ---------- co-dev packages ---------- */
+.packages { background: var(--paper-2); }
+.packages__grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem; align-items: start;
+}
+/* All three cards get the same treatment. The middle one used to be a solid
+   slab of --sand next to two flat white ones, which read as a pricing-table
+   gimmick rather than three equal options; the accent is now a rule along the
+   top edge and a small tag, which points without shouting. */
+.pkg {
+  position: relative;
+  display: flex; flex-direction: column; height: 100%;
+  background: var(--paper);
+  border: 2px solid var(--ink); border-radius: var(--radius);
+  box-shadow: 0 4px 0 var(--ink);
+  padding: 1.7rem 1.5rem 1.5rem;
+  transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
+}
+.pkg:hover { transform: translateY(-4px); box-shadow: 0 8px 0 var(--ink); }
+.pkg--feature::before {
+  content: ""; position: absolute; inset: -2px -2px auto -2px; height: 6px;
+  background: var(--sand);
+  border: 2px solid var(--ink); border-bottom: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.pkg--feature { padding-top: 2rem; }
+.pkg__size {
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: var(--sand-ink); margin-bottom: .35rem;
+}
+.pkg__tag {
+  display: inline-block; margin-left: .5rem;
+  font-family: var(--font-body); font-weight: 600; font-size: .68rem;
+  letter-spacing: .06em;
+  padding: .15rem .5rem; border-radius: 999px;
+  background: var(--sand); color: var(--ink);
+}
+.pkg__name { font-size: 1.35rem; margin-bottom: .6rem; }
+.pkg__line { color: var(--text-soft); margin-bottom: 1.1rem; }
+.pkg__list {
+  display: flex; flex-direction: column; gap: .5rem;
+  margin-bottom: 1.2rem; font-size: .93rem;
+}
+.pkg__list li { display: flex; gap: .6rem; color: var(--text-soft); line-height: 1.5; }
+.pkg__list li::before {
+  content: ""; flex: none; width: 7px; height: 7px; margin-top: .5rem;
+  border-radius: 50%; background: var(--sea);
+}
+/* pinned to the bottom so the three "good when" lines sit on one row */
+.pkg__for {
+  margin-top: auto; padding-top: 1rem;
+  border-top: 1px solid rgba(20,23,28,.15);
+  font-size: .9rem; color: var(--text-soft);
+}
+.pkg__for strong { color: var(--text-ink); }
+/* The whole card is the target, via this link stretched over it - one real link
+   with a real name rather than a click handler on a <div>, so it tabs, it has a
+   focus ring, and middle-click still works. Text inside stays selectable. */
+.pkg__cta {
+  display: inline-flex; align-items: center; gap: .45rem;
+  margin-top: 1rem; min-height: 44px;
+  font-family: var(--font-display); font-weight: 700; font-size: .92rem;
+  color: var(--sea-ink);
+}
+.pkg__cta svg { width: 14px; height: 14px; transition: transform .2s var(--ease-out); }
+.pkg__cta::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
+.pkg:hover .pkg__cta { color: var(--ink); }
+.pkg:hover .pkg__cta svg { transform: translateX(3px); }
+/* the ring belongs on the card, not on the two words at the bottom of it */
+.pkg:has(.pkg__cta:focus-visible) { outline: 3px solid var(--sea-chip); outline-offset: 3px; }
+.pkg__cta:focus-visible { outline: none; }
+.packages__note {
+  margin-top: 1.8rem;
+  color: var(--text-soft); max-width: 62ch;
+}
+.packages__note a { color: var(--sea-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.packages__note a:hover { color: var(--ink); }
+@media (max-width: 900px) {
+  .packages__grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- press kit page ---------- */
 .press .section__head { max-width: 68ch; }
 .press .section__head h1,
@@ -979,6 +1149,9 @@ h1, h2, h3 {
   .studio__photo { max-width: 480px; }
   .team__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .team__grid--founders { width: 100%; }
+  /* stays one column ahead of the studio grid, or the pool stops reading as the
+     smaller thing the moment the breakpoint lands */
+  .team__grid--pool { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .news__grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; margin-bottom: 2.8rem; }
   .profile__inner { grid-template-columns: 1fr; }
   .profile__photo { position: static; max-width: 380px; }
@@ -1003,6 +1176,7 @@ h1, h2, h3 {
 @media (max-width: 760px) {
   .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .team__grid--founders { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
+  .team__grid--pool { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
   .game__features { grid-template-columns: 1fr; gap: 1.4rem; }
   .game__cta { flex-direction: column; align-items: flex-start; }
   .footer__meta { justify-content: center; text-align: center; }
@@ -1022,6 +1196,9 @@ h1, h2, h3 {
 .svc:nth-of-type(1) { border-top-color: var(--sea); }
 .svc:nth-of-type(2) { border-top-color: var(--sand); }
 .svc:nth-of-type(3) { border-top-color: var(--leaf); }
+/* a fourth service appeared when 3D art split into stylised and hard surface;
+   without this it was the only one wearing the default ink rule */
+.svc:nth-of-type(4) { border-top-color: var(--crab); }
 .svc__num {
   font-family: var(--font-display); font-weight: 800; font-size: .9rem;
   color: var(--sand-ink); letter-spacing: .1em; margin-bottom: .9rem;
@@ -1285,6 +1462,21 @@ h1, h2, h3 {
 }
 .faq__list details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
 .faq__list details p { color: var(--text-soft); padding: 0 0 1.4rem; max-width: 62ch; }
+/* Slide the answer open and closed. Native <details> has never animated, and it
+   mattered more once these became an exclusive accordion: opening one made the
+   last one vanish on the spot. Behind @supports because interpolating to auto
+   height is recent - browsers without it snap, exactly as they always did. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .faq__list details::details-content {
+    block-size: 0; overflow: hidden;
+    transition: block-size .3s var(--ease-out), content-visibility .3s allow-discrete;
+  }
+  .faq__list details[open]::details-content { block-size: auto; }
+  @media (prefers-reduced-motion: reduce) {
+    .faq__list details::details-content { transition: none; }
+  }
+}
 
 @media (max-width: 980px) {
   .svc { grid-template-columns: 1fr; gap: 1.6rem; }
@@ -1298,7 +1490,6 @@ h1, h2, h3 {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ticker__track { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }

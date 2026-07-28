@@ -34,24 +34,23 @@ document.addEventListener('pointerdown', (e) => {
   if (nav.classList.contains('is-open') && !nav.contains(e.target)) setMenu(false);
 });
 
-// ----- ticker: duplicate track content so the loop is seamless -----
-const track = document.getElementById('tickerTrack');
-if (track) track.innerHTML += track.innerHTML;
-
 // ----- 2.2.2 Pause, Stop, Hide -----
-// The ticker scrolls and the gallery clips loop, both for well over five seconds
-// and both without being asked. This is the single control that stops the lot.
+// The gallery clips loop for well over five seconds and start without being
+// asked. This is the single control that stops the lot.
 // Deliberately not persisted: remembering it would mean writing to the visitor's
 // device, and the privacy policy promises we store nothing.
 let motionPaused = false;
 const motionToggle = document.getElementById('motionToggle');
 if (motionToggle) {
-  const label = motionToggle.querySelector('.visually-hidden');
+  // One visible label doing both jobs. It used to be a visually-hidden span with
+  // separate visible text beside it, which meant the sighted label still read
+  // "Pause" while the button was announcing "Resume".
+  const label = motionToggle.querySelector('.motion-toggle__label');
   motionToggle.addEventListener('click', () => {
     motionPaused = !motionPaused;
     document.documentElement.classList.toggle('motion-paused', motionPaused);
     motionToggle.setAttribute('aria-pressed', String(motionPaused));
-    label.textContent = motionPaused ? 'Resume moving content' : 'Pause moving content';
+    label.textContent = motionPaused ? 'Resume the looping clips' : 'Pause the looping clips';
     document.querySelectorAll('.carousel video').forEach((v) => {
       if (motionPaused) v.pause();
       else if (v.dataset.onScreen === 'true') v.play().catch(() => {});
@@ -413,9 +412,6 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
 // here identifies anyone: it is a label and a count, so it stays inside what the
 // privacy policy promises and still needs no consent banner. count.js loads
 // async, so every call is guarded rather than assumed.
-// NB: not `track` - that name is already taken by the ticker element above, and
-// this file is one script scope, so reusing it is a SyntaxError that takes the
-// whole file down.
 const countEvent = (name) => {
   const gc = window.goatcounter;
   if (gc && typeof gc.count === 'function') {
@@ -440,6 +436,26 @@ document.addEventListener('click', (e) => {
     countEvent('cta-' + slug(a.dataset.cta));
     const subject = document.querySelector('#contactForm input[name="_subject"]');
     if (subject) subject.value = a.dataset.cta;
+  } else if (a.dataset.package) {
+    // A package card was clicked. It's a plain #contact link, so the scroll
+    // happens on its own; all this adds is arriving with the size already picked
+    // and an opening line written, so nobody lands on a blank form wondering
+    // which of the three they were just reading about.
+    countEvent('package-' + slug(a.dataset.package));
+    const form = document.getElementById('codevForm');
+    if (form) {
+      const size = form.querySelector('select[name="package"]');
+      if (size) {
+        const want = [...size.options].find((o) => o.text.indexOf(a.dataset.package) === 0);
+        if (want) size.value = want.value || want.text;
+      }
+      // never overwrite something they have already started typing
+      const msg = form.querySelector('textarea[name="message"]');
+      if (msg && !msg.value.trim()) {
+        msg.value = 'We’re interested in the ' + a.dataset.package + ' package (' +
+                    a.dataset.packageName + ').\n\nHere’s what we’re building: ';
+      }
+    }
   } else if (href.startsWith('mailto:')) {
     // the ?subject= is what tells press enquiries apart from general
     const subject = href.split('subject=')[1] || 'general';

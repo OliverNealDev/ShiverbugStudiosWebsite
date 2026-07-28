@@ -7,7 +7,7 @@ Team of 12 people plus a talent pool of 4 regular collaborators. Contact: contac
 ## Studio
 
 - [Home](https://olivernealdev.github.io/ShiverbugStudiosWebsite/): studio overview, Out of Water, the team
-- [Co-development and work-for-hire](https://olivernealdev.github.io/ShiverbugStudiosWebsite/co-dev.html): services, process, rates approach, FAQ
+- [Co-development and work-for-hire](https://olivernealdev.github.io/ShiverbugStudiosWebsite/): services, galleries, packages, process, FAQ - this is the home page
 - [Press kit](https://olivernealdev.github.io/ShiverbugStudiosWebsite/press.html): fact sheet, logos, screenshots, trailer
 - [Privacy policy](https://olivernealdev.github.io/ShiverbugStudiosWebsite/privacy.html)
 - [Accessibility statement](https://olivernealdev.github.io/ShiverbugStudiosWebsite/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem
