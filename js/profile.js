@@ -24,8 +24,8 @@
     });
   }
 
-  // The "Back" link that used to sit here was replaced by the breadcrumb trail,
-  // which says where you are as well as where it goes. history.back() went with
-  // it: a crumb labelled "Team" has to lead to the team, not to wherever you
-  // happened to arrive from.
+  // The back button at the top of the page is a plain link in the markup, on
+  // purpose. history.back() would be wrong here: these pages are also reached
+  // cold from a shared link or a search result, where "back" is somebody else's
+  // site or nothing at all. A link named after where it goes always works.
 })();

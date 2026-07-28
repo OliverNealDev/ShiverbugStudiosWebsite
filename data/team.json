@@ -169,10 +169,20 @@
       "photo": "assets/img/team-nathan.webp",
       "initials": "NH",
       "pronouns": "he/him",
-      "tagline": null,
-      "about": null,
-      "favourite": null,
+      "tagline": "Had I not been a 3D artist, I would have been an archaeologist",
+      "about": [
+        "I'm a dedicated Hard Surface 3D Artist who specialises in Vehicles, Weapons and Props. I primarily use Maya, Blender, Substance Painter, Unreal Engine and Unity. One of my favourite things about being a 3D Artist is that I get to create detailed and intricate models, allowing me to prove my skills in various different ways. As a huge fan of anything automotive, I love to make tons of different vehicle projects: sometimes I choose to be as detailed as possible, and other times I allow my creativity to flow free. I like to experiment with weapons and props on the side, sometimes for a breath of fresh air or just when I want to try something else.",
+        "I'm hugely inspired by games like The Witcher 3, Kingdom Come: Deliverance 2, Assassin's Creed Black Flag, and anything history related. Whilst a lot of my artwork is mostly cars, I do have a massive passion for ancient history. I love learning about history by watching films, documentaries and podcasts, or even reading about it. I can say with confidence that had I not been a 3D artist, I would have been an archaeologist."
+      ],
+      "favourite": "turtle",
       "askMeAbout": null,
+      "knowsAbout": [
+        "Video Game Development",
+        "3D Art",
+        "Hard Surface Modelling",
+        "Vehicle Art",
+        "Prop Art"
+      ],
       "socials": [
         { "label": "ArtStation", "url": "https://www.artstation.com/nathan_hopwood" }
       ],

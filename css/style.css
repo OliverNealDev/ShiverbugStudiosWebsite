@@ -759,22 +759,27 @@ h1, h2, h3 {
 .footer__press { text-decoration: underline; text-underline-offset: 3px; }
 .footer__press:hover { color: #fff; }
 
-/* breadcrumb trail (2.4.8 Location). Every page below the home page carries one;
-   the two dark-hero pages (home, co-dev) don't, since these colours are tuned
-   for paper and a crumb above the fold there would fight the hero. */
-.crumbs { padding-top: .4rem; margin-bottom: .2rem; }
-.crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; font-size: .85rem; }
-.crumbs li { display: flex; align-items: center; gap: .4rem; color: var(--text-soft); }
-.crumbs li + li::before { content: "/"; color: var(--text-soft); opacity: .6; }
-/* 44px in BOTH directions: "Home" and "Team" are only ~36px wide at this size,
-   and a breadcrumb link isn't covered by the inline-in-a-sentence exception. */
-.crumbs a, .crumbs [aria-current="page"] {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 44px; min-width: 44px;
+/* back button (2.4.8 Location). This replaced a Home / Team / Name crumb trail:
+   the trail spent three small targets telling you where you'd been, when the
+   only thing anyone ever wanted from it was the one step back. One button, named
+   after where it goes, comfortably over the 44px target size. The two dark-hero
+   pages (home, co-dev) don't carry one - they *are* the top of the trail. */
+.backlink {
+  display: inline-flex; align-items: center; gap: .55rem;
+  min-height: 48px; padding: .7rem 1.35rem .7rem 1.1rem;
+  margin-bottom: 1.6rem;
+  font-family: var(--font-display); font-weight: 700; font-size: .95rem;
+  color: var(--ink); background: #fff;
+  border: 2px solid var(--ink); border-radius: 999px;
+  box-shadow: 0 3px 0 var(--ink);
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s;
 }
-.crumbs a { color: var(--sea-ink); text-decoration: underline; text-underline-offset: 3px; }
-.crumbs a:hover { color: var(--ink); }
-.crumbs [aria-current="page"] { color: var(--text-soft); }
+.backlink svg { width: 15px; height: 15px; flex: none; }
+.backlink:hover { background: var(--paper-2); transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
+.backlink:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--ink); }
+/* the arrow leads the button, so it's the thing that should move on hover */
+.backlink:hover svg { transform: translateX(-2px); }
+.backlink svg { transition: transform .2s var(--ease-out); }
 
 /* ---------- profile pages ---------- */
 .profile {
