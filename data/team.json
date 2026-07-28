@@ -144,24 +144,6 @@
       "thumbStyle": null
     },
     {
-      "id": "josh",
-      "slug": "josh-cairns",
-      "name": "Josh Cairns",
-      "role": "3D Artist",
-      "photo": "assets/img/team-josh.webp",
-      "initials": "JC",
-      "pronouns": "he/him",
-      "tagline": null,
-      "about": null,
-      "favourite": null,
-      "askMeAbout": null,
-      "socials": [
-        { "label": "ArtStation", "url": "https://www.artstation.com/joshuacairnsenvironmentartist" }
-      ],
-      "thumbClass": "is-zoomed",
-      "thumbStyle": "--zy:-16%; --zs:2.1"
-    },
-    {
       "id": "nathan",
       "slug": "nathan-hopwood",
       "name": "Nathan Hopwood",
@@ -274,6 +256,25 @@
   ],
 
   "talent": [
+    {
+      "id": "josh",
+      "slug": "josh-cairns",
+      "name": "Josh Cairns",
+      "role": "3D Artist",
+      "photo": "assets/img/team-josh.webp",
+      "initials": "JC",
+      "pronouns": "he/him",
+      "status": "active",
+      "tagline": null,
+      "about": null,
+      "favourite": null,
+      "askMeAbout": null,
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/joshuacairnsenvironmentartist" }
+      ],
+      "thumbClass": "is-zoomed",
+      "thumbStyle": "--zy:-16%; --zs:2.1"
+    },
     {
       "id": "madi",
       "slug": "madi-freck",
