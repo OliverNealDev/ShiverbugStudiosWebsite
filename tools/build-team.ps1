@@ -183,7 +183,7 @@ $template = @'
         <a href="../index.html#studio">Studio</a>
         <a href="../index.html#team">Team</a>
         <a href="../press.html">Press</a>
-        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+        <a class="nav__cta" href="../index.html#contact">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -668,7 +668,7 @@ $teamIndexTemplate = @'
         <a href="../index.html#studio">Studio</a>
         <a href="index.html" aria-current="page">Team</a>
         <a href="../press.html">Press</a>
-        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+        <a class="nav__cta" href="../index.html#contact">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>

@@ -221,7 +221,7 @@
         <a href="#studio">Studio</a>
         <a href="#team">Team</a>
         <a href="press.html">Press</a>
-        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com">Get in touch</a>
+        <a class="nav__cta" href="#contact" data-cta="General enquiry">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -321,7 +321,7 @@
           </div>
           <div class="game__cta-buttons">
             <a class="btn btn--ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
-            <a class="btn btn--sand" href="mailto:contact@shiverbugstudios.com?subject=Out%20of%20Water">Talk publishing</a>
+            <a class="btn btn--sand" href="#contact" data-cta="Publishing enquiry">Talk publishing</a>
           </div>
         </div>
 
@@ -375,7 +375,11 @@
           <a class="btn btn--paper" href="co-dev.html">How it works
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a class="btn btn--ghost" href="mailto:contact@shiverbugstudios.com?subject=Co-development">Start a conversation</a>
+          <!-- Goes to the co-dev enquiry form, NOT mailto. This button used to open
+               the visitor's mail app, which threw prospective clients clean out of
+               the site without ever seeing the co-dev page or the form that asks
+               what engine, discipline and timeline they need. -->
+          <a class="btn btn--ghost" href="co-dev.html#contact" data-cta="Co-development">Start a conversation</a>
         </div>
       </div>
     </section>
@@ -520,14 +524,17 @@
   <!-- ======= CONTACT / FOOTER ======= -->
   <!-- outside <main> on purpose: a <footer> nested in main is not exposed as a
        contentinfo landmark, so screen reader users lose 'skip to footer'. -->
-  <footer class="footer" id="contact">
+  <!-- The #contact anchor is on the heading below, not here. Landing on the
+       <footer> put the 260px logo at the top of the screen and pushed the form
+       off the bottom, so "Get in touch" looked like it had done nothing. -->
+  <footer class="footer">
       <div class="wave wave--top" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
       </div>
       <div class="container footer__inner">
         <div class="footer__main reveal">
           <img class="footer__logo" src="assets/img/logo-260.webp" width="260" height="259" alt="Shiverbug Studios logo: an ornate moth with a skull motif">
-          <h2>Let's Make Something <span class="squiggle">Joyful.</span></h2>
+          <h2 id="contact" tabindex="-1">Let's Make Something <span class="squiggle">Joyful.</span></h2>
           <p>Developer, publisher, platform holder, or you just fancy chatting about games. We'd love to hear from you.</p>
           <a class="footer__email" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
 

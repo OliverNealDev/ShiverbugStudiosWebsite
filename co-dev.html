@@ -107,7 +107,7 @@
         <a href="index.html#studio">Studio</a>
         <a href="index.html#team">Team</a>
         <a href="press.html">Press</a>
-        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com?subject=Co-development">Get in touch</a>
+        <a class="nav__cta" href="#contact" data-cta="Co-development">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -128,7 +128,7 @@
           fussy enough to care how every corner of it feels to play.
         </p>
         <div class="hero__actions">
-          <a class="btn btn--sand" href="mailto:contact@shiverbugstudios.com?subject=Co-development">
+          <a class="btn btn--sand" href="#contact" data-cta="Co-development">
             Start a conversation
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
@@ -302,7 +302,7 @@
         </article>
 
         <p class="codev__note reveal">
-          None of that quite what you need? <a href="mailto:contact@shiverbugstudios.com?subject=Co-development">Reach out anyway</a>.
+          None of that quite what you need? <a href="#contact" data-cta="Co-development">Reach out anyway</a>.
           Between the core team and our <a href="index.html#talent-pool">talent pool</a> of guest contributors,
           there's a good chance we know someone who can help.
         </p>
@@ -393,23 +393,23 @@
         </header>
 
         <div class="faq__list reveal">
-          <details>
+          <details name="faq">
             <summary>What kinds of engagement do you take on?</summary>
             <p>Three flavours: full co-development (we embed alongside your team for the long haul), standalone art or design packages (a prop kit, a set of character concepts, a level), and short bursts of extra capacity around a crunch point or vertical slice. If you're not sure which you need, that's exactly what the first call is for.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>How do you price work?</summary>
             <p>Per project, after scoping. Either fixed-price milestones or a day rate, whichever suits how your production runs. We'd rather quote accurately on a real brief than publish a rate card that fits nobody.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>Which engines and tools do you work in?</summary>
             <p>Unity and Unreal Engine 5 on the engine side, with gameplay programmers covering both. Art runs through Blender, ZBrush, the Substance 3D suite and Photoshop. If your pipeline has house quirks, we adapt to yours, not the other way round.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>Where are you based, and how do you communicate?</summary>
             <p>North East England, on UK time, working remote-first. You get one point of contact, regular check-ins in your tools (Slack, Discord, whatever you run), and honest progress updates, including the unglamorous ones.</p>
           </details>
-          <details>
+          <details name="faq">
             <summary>Will you sign an NDA?</summary>
             <p>Happily, and before you share anything you'd rather keep quiet. Confidential projects stay confidential. You'll notice the galleries on this page show our own game, plus personal and university portfolio work by the team, never client work.</p>
           </details>
@@ -422,14 +422,17 @@
   <!-- ======= CONTACT / FOOTER ======= -->
   <!-- outside <main> on purpose: a <footer> nested in main is not exposed as a
        contentinfo landmark, so screen reader users lose 'skip to footer'. -->
-  <footer class="footer" id="contact">
+  <!-- The #contact anchor is on the heading below, not here. Landing on the
+       <footer> put the 260px logo at the top of the screen and pushed the
+       enquiry form off the bottom. -->
+  <footer class="footer">
       <div class="wave wave--top" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
       </div>
       <div class="container footer__inner">
         <div class="footer__main reveal">
           <img class="footer__logo" src="assets/img/logo-260.webp" width="260" height="259" alt="Shiverbug Studios logo: an ornate moth with a skull motif">
-          <h2>Got a Project That Needs <span class="squiggle">a Hand?</span></h2>
+          <h2 id="contact" tabindex="-1">Got a Project That Needs <span class="squiggle">a Hand?</span></h2>
           <p>Tell us what you're building and where it's hurting. We'll come back with honest thoughts, even if the answer is "you don't need us".</p>
           <a class="footer__email" href="mailto:contact@shiverbugstudios.com?subject=Co-development">contact@shiverbugstudios.com</a>
 

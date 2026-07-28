@@ -504,15 +504,21 @@ h1, h2, h3 {
 }
 .codev-form .field--check input {
   width: 24px; height: 24px; flex-shrink: 0; padding: 0;
+  /* Line the box up with the middle of the label's FIRST line. At plain
+     flex-start it sat flush with the top of the 44px row while the text sat
+     centred in it, which read as the label hanging off the box's bottom edge. */
+  margin-top: calc((44px - 24px) / 2);
   accent-color: var(--sand);
 }
 /* 2.5.5 again: a 24px box is the drawn control, not the target. Clicking the
    label toggles it too, so the label carries the row's full 44px height and the
-   two together are comfortably tappable. */
+   two together are comfortably tappable. That height is padding rather than a
+   centred flex box on purpose: centring moves the first line down on one line
+   and back up on two, so the box could only ever line up with one of them. */
 .codev-form .field--check label {
   font-family: var(--font-body); font-weight: 400; font-size: .92rem;
   text-transform: none; letter-spacing: 0; line-height: 1.5;
-  display: flex; align-items: center; min-height: 44px;
+  display: block; min-height: 44px; padding: calc((44px - 1.5em) / 2) 0;
 }
 .codev-form .btn { grid-column: 1 / -1; justify-self: center; }
 .codev-form .form-privacy {

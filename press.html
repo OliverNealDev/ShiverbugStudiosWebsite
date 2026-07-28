@@ -69,7 +69,7 @@
         <a href="index.html#studio">Studio</a>
         <a href="index.html#team">Team</a>
         <a href="press.html" aria-current="page">Press</a>
-        <a class="nav__cta" href="mailto:contact@shiverbugstudios.com?subject=Press">Get in touch</a>
+        <a class="nav__cta" href="index.html#contact">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -161,9 +161,18 @@
         </div>
       </section>
 
+      <!-- Press is the one place mailto stays the primary action: journalists work
+           out of their inbox, and there is no press form to send them to. What it
+           can't be is the ONLY thing here - a mailto does nothing at all on a
+           machine with no mail client set up, so the address sits beside it in
+           plain selectable text, and the contact form is one link away. -->
       <section class="reveal press__cta">
         <p>Writing something, or want an interview with the team?</p>
         <a class="btn btn--sand" href="mailto:contact@shiverbugstudios.com?subject=Press">Email us</a>
+        <p class="press__note">
+          Or copy it down: <a href="mailto:contact@shiverbugstudios.com?subject=Press">contact@shiverbugstudios.com</a>.
+          Prefer a form? <a href="index.html#contact">Use the contact form</a> instead.
+        </p>
       </section>
 
     </div>

@@ -154,6 +154,23 @@ if ('IntersectionObserver' in window) {
   });
 })();
 
+// ----- FAQ: one answer open at a time -----
+// <details name="faq"> already does this natively - grouped like radio buttons,
+// no script involved. Older browsers ignore the attribute and let every answer
+// sit open at once, so only those get the hand-rolled version. Running both
+// would mean two things racing to close the same panel.
+if (!('name' in document.createElement('details'))) {
+  document.querySelectorAll('details[name]').forEach((d) => {
+    d.addEventListener('toggle', () => {
+      if (!d.open) return;
+      const group = d.getAttribute('name');
+      document.querySelectorAll('details[name="' + group + '"]').forEach((other) => {
+        if (other !== d) other.open = false;
+      });
+    });
+  });
+}
+
 // ----- gallery carousels: arrows, drag-to-flick -----
 document.querySelectorAll('.carousel').forEach((carousel) => {
   const track = carousel.querySelector('.carousel__track');
@@ -406,16 +423,27 @@ const countEvent = (name) => {
   }
 };
 
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href]');
   if (!a) return;
   const href = a.getAttribute('href') || '';
   if (a.hasAttribute('download')) {
     countEvent('download-' + href.split('/').pop());
+  } else if (a.dataset.cta) {
+    // The "start a conversation" buttons used to be mailto links, whose ?subject=
+    // was the only thing telling a publishing enquiry apart from a co-dev one in
+    // the inbox. They point at the forms now, so carry that label across by hand:
+    // the general form has a single _subject covering everything that lands in it.
+    // The co-dev form sets its own, more specific subject and is left alone.
+    countEvent('cta-' + slug(a.dataset.cta));
+    const subject = document.querySelector('#contactForm input[name="_subject"]');
+    if (subject) subject.value = a.dataset.cta;
   } else if (href.startsWith('mailto:')) {
-    // the ?subject= is what tells co-dev enquiries apart from press and general
+    // the ?subject= is what tells press enquiries apart from general
     const subject = href.split('subject=')[1] || 'general';
-    countEvent('mailto-' + decodeURIComponent(subject).toLowerCase().replace(/[^a-z0-9]+/g, '-'));
+    countEvent('mailto-' + slug(decodeURIComponent(subject)));
   }
 });
 
