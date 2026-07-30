@@ -265,9 +265,13 @@
       "initials": "JC",
       "pronouns": "he/him",
       "status": "active",
-      "tagline": null,
-      "about": null,
-      "favourite": null,
+      "tagline": "Maybe a little autistic about Dinosaurs",
+      "about": [
+        "I'm Josh, a stylised 3D Environment Artist specialising in Blender, ZBrush, Substance Painter, Unreal Engine, and with a limited knowledge of Unity. I've been passionate about games for as long as I can remember; games like Crash Bandicoot, Ratchet and Clank and Shadow of the Colossus were some of my favourite games growing up, all of them with absolutely breath-taking environments that I always look to for inspiration.",
+        "One of my favourite things about being a 3D Artist is the entire development process. I find it incredibly satisfying going from a simple blockout to a complete 3D model within a game engine. It provides a sense of pride and accomplishment (I am not quoting EA, don't dig into it) seeing how far a model can come along, and for me that goes for everything I model. I go into each development with the same passion and drive: no matter how big or small the asset is, I'll make sure it's PERFECT.",
+        "Outside of games I'm a massive nerd for practically everything, particularly Dinosaurs, DC and Star Wars, and I happen to be an avid football enjoyer (I use avid lightly, RAWA)."
+      ],
+      "favourite": "turtle",
       "askMeAbout": null,
       "socials": [
         { "label": "ArtStation", "url": "https://www.artstation.com/joshuacairnsenvironmentartist" }
