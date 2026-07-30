@@ -52,11 +52,24 @@
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+/* scrollbar-gutter keeps the scrollbar's 15px reserved whether or not the page
+   is long enough to need one. Without it the content box is 15px narrower on a
+   scrolling page than on a short one, so --shell resolves against a different
+   width and every centred container - the nav bar included - jumps 7.5px
+   sideways on the way from a long page to a short one. */
+html { scroll-behavior: smooth; scroll-padding-top: 96px; scrollbar-gutter: stable; }
 
 /* seamless cross-page transitions (progressive enhancement) */
 @view-transition { navigation: auto; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .22s; }
+/* The bar is fixed and pixel-identical on every page, so it must not travel with
+   the root snapshot. Unnamed, it gets captured as part of it, and the cross-fade
+   rescales that whole snapshot whenever the two pages differ in size - which is
+   what made the nav appear to grow and shrink between pages. Naming it lifts it
+   out of the root and pins its group in place; old and new still cross-fade, and
+   since they are the same bar, that reads as the nav simply staying put. */
+.nav { view-transition-name: site-nav; }
+::view-transition-group(site-nav) { animation: none; }
 body {
   font-family: var(--font-body);
   color: var(--text-ink);
@@ -579,7 +592,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   color: var(--text-paper-soft); text-align: center; max-width: none; margin-top: -.4rem;
 }
 .codev-form .form-privacy a:hover { color: #fff; }
-.codev-form input[name="_gotcha"] { padding: 0; border: 0; }
+/* The honeypot is .visually-hidden, but the rule above is more specific and was
+   winning: width:100% on an absolutely positioned input resolved against the
+   footer and pushed the page 147px wider than the viewport. Re-state the three
+   properties .visually-hidden cares about that leak through. */
+.codev-form input[name="_gotcha"] { padding: 0; border: 0; width: 1px; }
 .footer .codev-form + .form-sent, .footer .codev-form + .form-error { max-width: 640px; }
 @media (max-width: 620px) {
   .codev-form { grid-template-columns: 1fr; }
@@ -1061,7 +1078,12 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .pkg:hover .pkg__cta svg { transform: translateX(3px); }
 /* the ring belongs on the card, not on the two words at the bottom of it */
 .pkg:has(.pkg__cta:focus-visible) { outline: 3px solid var(--sea-chip); outline-offset: 3px; }
-.pkg__cta:focus-visible { outline: none; }
+/* Only take the ring off the link where :has() is around to put it back on the
+   card. Unconditionally, a browser without :has() gets the outline:none and no
+   replacement, which leaves these three CTAs with no focus indicator at all. */
+@supports selector(:has(*)) {
+  .pkg__cta:focus-visible { outline: none; }
+}
 .packages__note {
   margin-top: 1.8rem;
   color: var(--text-soft); max-width: 62ch;

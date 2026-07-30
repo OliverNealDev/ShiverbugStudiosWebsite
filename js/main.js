@@ -1,38 +1,81 @@
 // Shiverbug Studios site interactions
 
+// This file is pure ASCII. It is a classic script with no charset of its own, so
+// it inherits whatever encoding the page was decoded as; a literal curly quote
+// here is only ever as safe as the last <meta charset> to reference it. Every
+// apostrophe that reaches the page is built from its code point instead.
+const RSQUO = String.fromCharCode(8217);
+
 // ----- nav: scrolled state + mobile menu -----
-const nav = document.getElementById('nav');
-const burger = document.getElementById('navBurger');
-const navLinks = document.getElementById('navLinks');
+// Guarded because co-dev.html is a bare meta-refresh stub with no header at all.
+// Reaching for the burger there threw before anything else in this file ran,
+// which cost that page its footer year and its click tracking.
+(() => {
+  const nav = document.getElementById('nav');
+  const burger = document.getElementById('navBurger');
+  const navLinks = document.getElementById('navLinks');
+  if (!nav) return;
 
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('is-scrolled', window.scrollY > 10);
-}, { passive: true });
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('is-scrolled', window.scrollY > 10);
+  }, { passive: true });
 
-const setMenu = (open) => {
-  nav.classList.toggle('is-open', open);
-  burger.setAttribute('aria-expanded', String(open));
-};
+  if (!burger || !navLinks) return;
 
-burger.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
+  // Below the breakpoint the open menu covers the page, so the rest of it goes
+  // inert while it is up: no tabbing behind it, and screen readers skip it. The
+  // same bargain the gallery viewer makes. On desktop the links are just part of
+  // the header, nothing is covered, and none of this applies.
+  const isOverlay = () => getComputedStyle(burger).display !== 'none';
 
-navLinks.addEventListener('click', (e) => {
-  if (e.target.tagName === 'A') setMenu(false);
-});
+  let inerted = [];
+  const setBackgroundInert = (on) => {
+    inerted.forEach((el) => { el.inert = false; });
+    inerted = [];
+    if (!on) return;
+    inerted = [...document.body.children].filter((el) => el !== nav && !el.inert);
+    inerted.forEach((el) => { el.inert = true; });
+  };
 
-// The menu overlays the page, so it has to be dismissable without hunting for
-// the burger again: Escape (focus goes back to the button that opened it), or a
-// tap anywhere outside it.
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && nav.classList.contains('is-open')) {
-    setMenu(false);
-    burger.focus();
-  }
-});
+  const setMenu = (open) => {
+    nav.classList.toggle('is-open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    setBackgroundInert(open && isOverlay());
+  };
 
-document.addEventListener('pointerdown', (e) => {
-  if (nav.classList.contains('is-open') && !nav.contains(e.target)) setMenu(false);
-});
+  burger.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
+
+  navLinks.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setMenu(false);
+  });
+
+  // The menu overlays the page, so it has to be dismissable without hunting for
+  // the burger again: Escape (focus goes back to the button that opened it), or a
+  // tap anywhere outside it.
+  document.addEventListener('keydown', (e) => {
+    if (!nav.classList.contains('is-open')) return;
+    if (e.key === 'Escape') {
+      setMenu(false);
+      burger.focus();
+    } else if (e.key === 'Tab' && isOverlay()) {
+      // keep focus looping through the burger and the links it opened
+      const els = [burger, ...navLinks.querySelectorAll('a[href]')];
+      const first = els[0], last = els[els.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  document.addEventListener('pointerdown', (e) => {
+    if (nav.classList.contains('is-open') && !nav.contains(e.target)) setMenu(false);
+  });
+
+  // Widening past the breakpoint turns the overlay back into a plain header row.
+  // Leaving it "open" would strand the inert flag on everything else on the page.
+  window.addEventListener('resize', () => {
+    if (nav.classList.contains('is-open') && !isOverlay()) setMenu(false);
+  });
+})();
 
 // ----- 2.2.2 Pause, Stop, Hide -----
 // The gallery clips loop for well over five seconds and start without being
@@ -129,10 +172,7 @@ if ('IntersectionObserver' in window) {
       note.hidden = !chip;
       if (chip) {
         const first = chip.querySelector('strong').textContent.trim().split(' ')[0];
-        // Built from its code point rather than typed: this file is otherwise
-        // pure ASCII, and a classic script only inherits the page's encoding.
-        const rs = String.fromCharCode(8217);
-        note.textContent = 'We haven' + rs + 't written up ' + first + rs +
+        note.textContent = 'We haven' + RSQUO + 't written up ' + first + RSQUO +
                            's profile yet. Check back soon.';
       }
     };
@@ -246,9 +286,11 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
     <button class="lightbox__close" type="button" aria-label="Close viewer">&times;</button>
     <button class="lightbox__btn lightbox__btn--prev" type="button" aria-label="Previous piece">&lsaquo;</button>
     <figure class="lightbox__figure">
-      <img class="lightbox__img" src="" alt="">
+      <!-- No src or href until there is something to put in them: an empty one
+           is not "nothing", it resolves to the page's own URL and fetches it. -->
+      <img class="lightbox__img" alt="">
       <video class="lightbox__video" controls loop playsinline hidden></video>
-      <figcaption class="lightbox__caption"><strong class="lightbox__cap-title" hidden></strong><span class="lightbox__cap-text"></span><a class="lightbox__credit" href="" hidden></a></figcaption>
+      <figcaption class="lightbox__caption"><strong class="lightbox__cap-title" hidden></strong><span class="lightbox__cap-text"></span><a class="lightbox__credit" hidden></a></figcaption>
     </figure>
     <button class="lightbox__btn lightbox__btn--next" type="button" aria-label="Next piece">&rsaquo;</button>`;
   document.body.appendChild(overlay);
@@ -264,7 +306,7 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
     index = (i + items.length) % items.length;
     const item = items[index];
     if (item.video) {
-      imgEl.hidden = true; imgEl.src = '';
+      imgEl.hidden = true; imgEl.removeAttribute('src');
       if (vidEl.getAttribute('src') !== item.video) vidEl.src = item.video;
       vidEl.hidden = false;
       vidEl.play().catch(() => {});
@@ -324,7 +366,7 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
     overlay.classList.remove('is-open');
     document.body.style.overflow = '';
     setBackgroundInert(false);
-    imgEl.src = '';
+    imgEl.removeAttribute('src');
     vidEl.pause();
     if (lastFocus) lastFocus.focus();
   };
@@ -452,8 +494,9 @@ document.addEventListener('click', (e) => {
       // never overwrite something they have already started typing
       const msg = form.querySelector('textarea[name="message"]');
       if (msg && !msg.value.trim()) {
-        msg.value = 'We’re interested in the ' + a.dataset.package + ' package (' +
-                    a.dataset.packageName + ').\n\nHere’s what we’re building: ';
+        msg.value = 'We' + RSQUO + 're interested in the ' + a.dataset.package +
+                    ' package (' + a.dataset.packageName + ').\n\nHere' + RSQUO +
+                    's what we' + RSQUO + 're building: ';
       }
     }
   } else if (href.startsWith('mailto:')) {

@@ -805,6 +805,7 @@ $llms += '## Studio'
 $llms += ''
 $llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
 $llms += ("- [Co-development and work-for-hire]({0}/): services, galleries, packages, process, FAQ - this is the home page" -f $baseUrl)
+$llms += ("- [Our games]({0}/games.html): Out of Water - a 2-player split-screen collectathon platformer, its features, screenshots and development news" -f $baseUrl)
 $llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
 $llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
 $llms += ("- [Accessibility statement]({0}/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem" -f $baseUrl)
