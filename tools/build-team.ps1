@@ -805,7 +805,7 @@ $llms += '## Studio'
 $llms += ''
 $llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
 $llms += ("- [Co-development and work-for-hire]({0}/): services, galleries, packages, process, FAQ - this is the home page" -f $baseUrl)
-$llms += ("- [Our games]({0}/games.html): Out of Water - a 2-player split-screen collectathon platformer, its features, screenshots and development news" -f $baseUrl)
+$llms += ("- [Our games]({0}/games.html): Out of Water - a 2-player split-screen collectathon platformer built in Unity, targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch. In development, no release date announced. Features, screenshots and development news" -f $baseUrl)
 $llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
 $llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
 $llms += ("- [Accessibility statement]({0}/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem" -f $baseUrl)
@@ -893,6 +893,11 @@ $siteLd = [ordered]@{
       'description' = 'A 2-player split-screen collectathon platformer. One player is a turtle, the other a seagull, exploring a colourful world full of charm, clever challenges and an army of crabs.'
       'image'       = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
       'genre'       = @('Platform game', 'Collectathon', 'Cooperative video game')
+      # Target platforms, not shipped ones - the game is unreleased and carries no
+      # datePublished, so nothing here reads as "buy it now". This is what answers
+      # "what can I play it on?" for a search engine or an AI agent.
+      'gamePlatform' = @('PC', 'Steam', 'Steam Deck', 'Xbox', 'PlayStation', 'Nintendo Switch')
+      'gameEngine'  = 'Unity'
       'playMode'    = 'CoOp'
       'numberOfPlayers' = [ordered]@{ '@type' = 'QuantitativeValue'; 'minValue' = 2; 'maxValue' = 2 }
       'author'      = @{ '@id' = "$baseUrl/#studio" }

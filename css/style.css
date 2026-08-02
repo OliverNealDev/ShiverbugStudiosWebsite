@@ -355,27 +355,6 @@ h1, h2, h3 {
   .creds__list { gap: .55rem 1.2rem; font-size: .92rem; }
 }
 
-/* ---------- motion toggle ---------- */
-/* 2.2.2 Pause, Stop, Hide. The word ticker this used to live on is gone, but the
-   gallery clips still loop for longer than 5s and start on their own, so the
-   control stays - now sitting with the galleries it governs rather than in a
-   strip of its own. Deliberately not persisted: remembering it would mean
-   writing to the visitor's device, and the privacy policy promises we don't. */
-.motion-toggle {
-  display: inline-flex; align-items: center; gap: .6rem;
-  margin-top: 1.4rem; min-height: 44px; padding: .5rem 1rem .5rem .7rem;
-  border: 2px solid rgba(20,23,28,.3); border-radius: 999px;
-  background: var(--paper); color: var(--ink);
-  font-family: var(--font-display); font-weight: 700; font-size: .85rem;
-  cursor: pointer;
-  transition: border-color .2s, background .2s;
-}
-.motion-toggle:hover { border-color: var(--ink); background: #fff; }
-.motion-toggle svg { width: 14px; height: 14px; flex: none; }
-.motion-toggle .icon-play { display: none; }
-.motion-paused .motion-toggle .icon-play { display: block; }
-.motion-paused .motion-toggle .icon-pause { display: none; }
-.motion-paused .dot--pulse { animation-play-state: paused; }
 /* ---------- sections ---------- */
 /* Every section carried this top AND bottom, so consecutive sections put 230px
    of nothing between them - worst where neighbours share a background and there
@@ -439,6 +418,25 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   color: var(--ink); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
 }
 
+/* Three shots across on desktop, stacked on a phone. The single hero still above
+   does the establishing work; these are the ones that show it's a whole world. */
+.game__shots {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+.game__shots a {
+  display: block; border-radius: var(--radius); overflow: hidden;
+  border: 2px solid rgba(20,23,28,.12);
+  transition: border-color .25s, box-shadow .25s, transform .25s var(--ease-out);
+}
+.game__shots a:hover {
+  border-color: var(--ink); box-shadow: var(--shadow-pop); transform: translateY(-3px);
+}
+.game__shots img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+@media (max-width: 760px) {
+  .game__shots { grid-template-columns: 1fr; }
+}
+
 .game__cta {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 1.5rem;
@@ -452,6 +450,44 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .game__note { color: var(--text-soft); font-size: .98rem; }
 .game__cta-buttons { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+/* ---------- for publishers ---------- */
+/* A different audience to everything above it, so it gets a rule and a shift in
+   background rather than being another block of the same page. Not dark: the
+   footer directly below already is, and two dark bands in a row read as one. */
+.pub {
+  background: linear-gradient(180deg, var(--paper) 0%, #fff 100%);
+  border-top: 1px solid rgba(20,23,28,.15);
+}
+.pub__grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: clamp(1.6rem, 4vw, 3rem);
+  align-items: start;
+}
+/* Scannable in one pass: a publisher is checking whether we clear a bar, not
+   reading prose. Two columns so no answer is more than a line long. */
+.factfile {
+  display: grid; grid-template-columns: auto 1fr; gap: .7rem 1.2rem;
+  background: #fff; border: 2px solid var(--ink); border-radius: var(--radius);
+  box-shadow: 0 4px 0 var(--ink);
+  padding: 1.4rem 1.5rem;
+}
+.factfile dt {
+  font-family: var(--font-display); font-weight: 700; font-size: .9rem;
+  white-space: nowrap;
+}
+.factfile dd { color: var(--text-soft); font-size: .95rem; }
+.pub__ask h3 { font-size: 1.15rem; margin-bottom: .5rem; }
+.pub__ask > p { color: var(--text-soft); margin-bottom: 1.3rem; max-width: 48ch; }
+.pub__buttons { display: flex; flex-wrap: wrap; gap: .8rem; }
+.pub__note {
+  font-size: .9rem; color: var(--text-soft); margin-top: 1.2rem; max-width: 48ch;
+}
+.pub__note a { color: var(--sea-ink); font-weight: 600; }
+.pub__note a:hover { text-decoration: underline; }
+@media (max-width: 820px) {
+  .pub__grid { grid-template-columns: 1fr; }
+}
 
 /* ---------- newsletter strip ---------- */
 .visually-hidden {
@@ -532,7 +568,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---------- co-dev enquiry form ----------
    Wider than the general contact form and split into two columns, because it
    asks the qualifying questions we would otherwise have to email back for:
-   discipline, engine, timeline. Labels are visible rather than placeholder-only:
+   discipline, size, engine. Labels are visible rather than placeholder-only:
    this form is long enough that a placeholder disappearing on focus loses the
    question, and 3.3.2 wants the label to survive typing. */
 .codev-form {
@@ -840,6 +876,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .footer__logo { width: 130px; margin: 0 auto 1.6rem; border-radius: var(--radius); }
 .footer__main h2 {
   font-size: clamp(2.1rem, 4.5vw, 3.4rem); color: #fff; margin-bottom: 1.1rem;
+}
+/* "Get in touch" sends focus here (the heading carries #contact), and the ring
+   was landing straight through the squiggle under "a Hand?" - same sand colour,
+   same couple of pixels, so the underline read as broken. The squiggle hangs
+   .18em below the heading box, so the offset is in em to clear it at every step
+   of the clamp above, and the ring goes white to stay off the squiggle's colour. */
+#contact:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: .3em;
+  border-radius: 6px;
 }
 .footer__main > p { color: var(--text-paper-soft); max-width: 46ch; margin: 0 auto 2rem; }
 .footer__email {
@@ -1221,10 +1267,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* a fourth service appeared when 3D art split into stylised and hard surface;
    without this it was the only one wearing the default ink rule */
 .svc:nth-of-type(4) { border-top-color: var(--crab); }
-.svc__num {
-  font-family: var(--font-display); font-weight: 800; font-size: .9rem;
-  color: var(--sand-ink); letter-spacing: .1em; margin-bottom: .9rem;
-}
 .svc h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: .9rem; }
 .svc__body > p { color: var(--text-soft); margin-bottom: 1.3rem; max-width: 54ch; }
 .svc__list { display: grid; gap: .55rem; }
@@ -1305,6 +1347,27 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   object-fit: cover; background: transparent;
 }
 .carousel__slot .carousel__credit:hover { background: rgba(10,12,15,.92); border-color: #fff; }
+
+/* 2.2.2 Pause, Stop, Hide. One control per clip, sitting on the clip it governs.
+   This used to be a single button under the section header, far enough from the
+   galleries that it read as unrelated furniture and nobody connected it to the
+   thing it stopped. Injected by js/main.js, so it only exists where something is
+   actually playing. Mirrors the credit chip opposite it, 44px target included. */
+.carousel__slot .clip-toggle {
+  position: absolute; right: .55rem; bottom: .55rem; z-index: 1;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(10, 12, 15, .72);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff; cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.carousel__slot .clip-toggle:hover { background: rgba(10,12,15,.92); border-color: #fff; }
+.carousel__slot .clip-toggle svg { width: 15px; height: 15px; }
+.clip-toggle .icon-play { display: none; }
+.clip-toggle[aria-pressed="true"] .icon-play { display: block; }
+.clip-toggle[aria-pressed="true"] .icon-pause { display: none; }
 .carousel__btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%;
@@ -1408,10 +1471,18 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .tools__row { display: flex; flex-wrap: wrap; gap: .7rem; }
 .tool {
+  display: inline-flex; align-items: center; gap: .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .92rem;
   padding: .5rem 1.05rem; border-radius: 999px;
   background: #fff; border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
 }
+/* A chip can carry the tool's own mark: put <img class="tool__logo" alt=""> in
+   front of the name. The name stays either way - it's what the chip means, and
+   a mark alone would make the row unreadable to anyone who doesn't recognise
+   seven vendor logos on sight. js/main.js strips any image that fails to load,
+   so a chip whose logo we haven't been given yet falls back to the plain name
+   rather than showing a broken image. */
+.tool__logo { width: 20px; height: 20px; object-fit: contain; flex: none; }
 
 /* lightbox */
 .lightbox {

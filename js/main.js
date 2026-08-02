@@ -77,29 +77,16 @@ const RSQUO = String.fromCharCode(8217);
   });
 })();
 
-// ----- 2.2.2 Pause, Stop, Hide -----
-// The gallery clips loop for well over five seconds and start without being
-// asked. This is the single control that stops the lot.
-// Deliberately not persisted: remembering it would mean writing to the visitor's
-// device, and the privacy policy promises we store nothing.
-let motionPaused = false;
-const motionToggle = document.getElementById('motionToggle');
-if (motionToggle) {
-  // One visible label doing both jobs. It used to be a visually-hidden span with
-  // separate visible text beside it, which meant the sighted label still read
-  // "Pause" while the button was announcing "Resume".
-  const label = motionToggle.querySelector('.motion-toggle__label');
-  motionToggle.addEventListener('click', () => {
-    motionPaused = !motionPaused;
-    document.documentElement.classList.toggle('motion-paused', motionPaused);
-    motionToggle.setAttribute('aria-pressed', String(motionPaused));
-    label.textContent = motionPaused ? 'Resume the looping clips' : 'Pause the looping clips';
-    document.querySelectorAll('.carousel video').forEach((v) => {
-      if (motionPaused) v.pause();
-      else if (v.dataset.onScreen === 'true') v.play().catch(() => {});
-    });
-  });
-}
+// ----- tool chips: fall back to the plain name if a logo is missing -----
+// The marks are supplied per vendor and some of them we don't hold yet. A chip
+// with no logo file should look like the chip always did, not like a broken
+// image, and checking naturalWidth covers the ones that already failed before
+// this file ran.
+document.querySelectorAll('.tool__logo').forEach((img) => {
+  const drop = () => img.remove();
+  if (img.complete && img.naturalWidth === 0) drop();
+  else img.addEventListener('error', drop);
+});
 
 // The trailer player lived here. It's a still image while the new trailer is cut;
 // restore this block from git history when the video goes back in.
@@ -224,11 +211,48 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
       entries.forEach(({ isIntersecting, target }) => {
         // remembered so the pause control knows which clips to resume
         target.dataset.onScreen = String(isIntersecting);
-        if (isIntersecting && !motionPaused) target.play().catch(() => {});
+        if (isIntersecting && target.dataset.userPaused !== 'true') target.play().catch(() => {});
         else target.pause();
       });
     }, { threshold: 0.25 });
     vids.forEach((v) => vio.observe(v));
+  }
+
+  // 2.2.2 Pause, Stop, Hide. The clips start on their own and loop well past five
+  // seconds, so each one carries its own control, sitting on the clip it governs
+  // instead of in a single strip further up the page where it read as unrelated
+  // furniture. Built here rather than in the markup for the same reason the
+  // viewer's role/tabindex are: with no JS nothing ever starts playing, and a
+  // pause button over a still frame is a control for nothing.
+  // Deliberately not persisted: remembering it would mean writing to the
+  // visitor's device, and the privacy policy promises we store nothing.
+  if (!reduceMotion) {
+    vids.forEach((v) => {
+      const slot = v.closest('.carousel__slot');
+      if (!slot) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'clip-toggle';
+      btn.innerHTML =
+        '<svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="4" height="12" rx="1" fill="currentColor"/><rect x="9" y="2" width="4" height="12" rx="1" fill="currentColor"/></svg>' +
+        '<svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>';
+      // aria-pressed carries the state to assistive tech and swaps the icon in
+      // CSS, so the two can't drift apart the way a separate class would.
+      const sync = () => {
+        const paused = v.dataset.userPaused === 'true';
+        btn.setAttribute('aria-pressed', String(paused));
+        btn.setAttribute('aria-label', paused ? 'Resume this clip' : 'Pause this clip');
+      };
+      btn.addEventListener('click', () => {
+        const paused = v.dataset.userPaused !== 'true';
+        v.dataset.userPaused = String(paused);
+        if (paused) v.pause();
+        else if (v.dataset.onScreen === 'true') v.play().catch(() => {});
+        sync();
+      });
+      sync();
+      slot.appendChild(btn);
+    });
   }
 
   const step = () => Math.max(track.clientWidth * 0.8, 200);
@@ -478,6 +502,12 @@ document.addEventListener('click', (e) => {
     countEvent('cta-' + slug(a.dataset.cta));
     const subject = document.querySelector('#contactForm input[name="_subject"]');
     if (subject) subject.value = a.dataset.cta;
+    // Same bargain the package cards make: arrive with the opening line already
+    // written rather than on a blank box. Never overwrites anything already typed.
+    if (a.dataset.prefill) {
+      const msg = document.querySelector('#contactForm textarea[name="message"]');
+      if (msg && !msg.value.trim()) msg.value = a.dataset.prefill;
+    }
   } else if (a.dataset.package) {
     // A package card was clicked. It's a plain #contact link, so the scroll
     // happens on its own; all this adds is arriving with the size already picked

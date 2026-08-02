@@ -241,6 +241,15 @@
                                      "Collectathon",
                                      "Cooperative video game"
                                  ],
+                       "gamePlatform":  [
+                                            "PC",
+                                            "Steam",
+                                            "Steam Deck",
+                                            "Xbox",
+                                            "PlayStation",
+                                            "Nintendo Switch"
+                                        ],
+                       "gameEngine":  "Unity",
                        "playMode":  "CoOp",
                        "numberOfPlayers":  {
                                                "@type":  "QuantitativeValue",
@@ -374,18 +383,10 @@
             and personal portfolio pieces, credited to whoever made it. Client work
             stays confidential.
           </p>
-          <!-- 2.2.2 Pause, Stop, Hide. Some gallery pieces are looping clips that
-               start on their own; this is the one control that stops the lot. -->
-          <button class="motion-toggle" id="motionToggle" type="button" aria-pressed="false">
-            <svg class="icon-pause" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="2" width="4" height="12" rx="1" fill="currentColor"/><rect x="9" y="2" width="4" height="12" rx="1" fill="currentColor"/></svg>
-            <svg class="icon-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>
-            <span class="motion-toggle__label">Pause the looping clips</span>
-          </button>
         </header>
 
         <article class="svc reveal">
           <div class="svc__body">
-            <div class="svc__num">01</div>
             <h3>Concept Art</h3>
             <p>
               Characters, creatures, props and places with real charm, designed to
@@ -425,7 +426,6 @@
 
         <article class="svc reveal">
           <div class="svc__body">
-            <div class="svc__num">02</div>
             <h3>Stylised 3D Art</h3>
             <p>
               Environments, props and characters with personality: strong shape
@@ -453,9 +453,7 @@
             <div class="carousel__track" tabindex="0">
               <div class="carousel__slot" style="aspect-ratio: 1600 / 772" data-title="Coral Quarters: Stylized Environment"><a href="assets/img/art/codev-3d-coral-quarters.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-quarters-560.jpg" srcset="assets/img/art/codev-3d-coral-quarters-360.jpg 360w, assets/img/art/codev-3d-coral-quarters-560.jpg 560w, assets/img/art/codev-3d-coral-quarters-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="Coral Quarters: a stylised wooden beach shack on stilts with a purple shingle roof and a painted dolphin sign, palm trees and rocks behind it" loading="lazy"></a><span class="carousel__credit carousel__credit--unfinished"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</span></div>
               <div class="carousel__slot" style="aspect-ratio: 1600 / 772" data-title="Coral Quarters: Prop Set"><a href="assets/img/art/codev-3d-coral-props.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-props-560.jpg" srcset="assets/img/art/codev-3d-coral-props-360.jpg 360w, assets/img/art/codev-3d-coral-props-560.jpg 560w, assets/img/art/codev-3d-coral-props-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="The Coral Quarters prop set laid out on a beach: a wooden frame, solar panel, life ring, rope, noticeboards, crates, a kayak with paddles and the painted dolphin sign" loading="lazy"></a><span class="carousel__credit carousel__credit--unfinished"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</span></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 772" data-title="Coral Quarters: Untextured Model"><a href="assets/img/art/codev-3d-coral-model.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-model-560.jpg" srcset="assets/img/art/codev-3d-coral-model-360.jpg 360w, assets/img/art/codev-3d-coral-model-560.jpg 560w, assets/img/art/codev-3d-coral-model-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="The same Coral Quarters scene as untextured grey models, showing the shack, jetty, palm trees and rocks as pure geometry" loading="lazy"></a><span class="carousel__credit carousel__credit--unfinished"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</span></div>
               <div class="carousel__slot" style="aspect-ratio: 1600 / 828" data-title="Enchanted Witch's Hut: Stylized Environment" data-desc="A university team project built to AAA optimisation standards. Martin was responsible for the whole environment in this section apart from the lighting, which a teammate handled: the hut structure, the composition and scene dressing, and the materials and texturing. The goal was a mysterious but inviting forest atmosphere, driven by strong shape language, silhouette design and exaggerated forms. 35k triangles, 2K and 1K textures, modular workflow throughout."><a href="assets/img/art/codev-3d-night-house.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-night-house-560.jpg" srcset="assets/img/art/codev-3d-night-house-360.jpg 360w, assets/img/art/codev-3d-night-house-560.jpg 560w, assets/img/art/codev-3d-night-house-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="A witch's hut built like a giant cauldron, topped with a slumping witch's hat roof and wrapped in pale tree roots. It stands on a wooden jetty lined with lit lanterns, its round door and window glowing warm against dark blue forest mist" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Enchanted Witch's Hut: Untextured Model" data-desc="The same environment as raw geometry. Built with a modular workflow and optimised for real-time rendering: 35k triangles for the whole scene, with 2K and 1K textures."><a href="assets/img/art/codev-3d-night-house-model.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-night-house-model-560.jpg" srcset="assets/img/art/codev-3d-night-house-model-360.jpg 360w, assets/img/art/codev-3d-night-house-model-560.jpg 560w, assets/img/art/codev-3d-night-house-model-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="The same witch's hut as an untextured grey model, showing the curled roof, water wheel, stilts and walkway as raw geometry" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
             </div>
             <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
           </div>
@@ -463,7 +461,6 @@
 
         <article class="svc reveal">
           <div class="svc__body">
-            <div class="svc__num">03</div>
             <h3>Hard Surface Art</h3>
             <p>
               Vehicles, weapons and mechanical props built to a grounded target.
@@ -490,16 +487,15 @@
             <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Scroll gallery back">&lsaquo;</button>
             <div class="carousel__track" tabindex="0">
               <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Relic: Stylized Robot Character" data-desc="A personal real-time character project. The goal was a robot with a playful personality, built from worn mechanical materials, an asymmetrical design and storytelling details throughout the asset. Optimised for real-time rendering."><a href="assets/img/art/codev-3d-robot.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-robot-560.jpg" srcset="assets/img/art/codev-3d-robot-360.jpg 360w, assets/img/art/codev-3d-robot-560.jpg 560w, assets/img/art/codev-3d-robot-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="A friendly orange robot character shown from three angles, with a cartoon face on a boxy television head and slim jointed legs" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 774"><a href="assets/img/art/codev-3d-wrist-device.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-wrist-device-560.jpg" srcset="assets/img/art/codev-3d-wrist-device-360.jpg 360w, assets/img/art/codev-3d-wrist-device-560.jpg 560w, assets/img/art/codev-3d-wrist-device-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="A weathered wrist-mounted computer prop with a green display, shown as two close-up renders and one full three-quarter view" loading="lazy"></a><a class="carousel__credit" href="team/connor-milburn.html"><img src="assets/img/team-connor-160.webp" alt="" width="34" height="34" loading="lazy">Connor Milburn</a></div>
               <div class="carousel__slot" style="aspect-ratio: 1600 / 776" data-title="Pagani Huayra: Realistic Vehicle Model" data-desc="A highly detailed 3D model of the Pagani Huayra, created with an emphasis on realism and accuracy. The project utilised a full industry-grade pipeline with high-level geometry, high-quality 4K textures, and realistic materials. It was a rewarding project for me, and I hope you love the final result as much as I enjoyed working on it."><a href="assets/img/art/codev-3d-hypercar-street.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-hypercar-street-560.jpg" srcset="assets/img/art/codev-3d-hypercar-street-360.jpg 360w, assets/img/art/codev-3d-hypercar-street-560.jpg 560w, assets/img/art/codev-3d-hypercar-street-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="A black Pagani Huayra with gold alloy wheels and a thin gold pinstripe, parked on a city street at dusk outside a bank, its headlights lit" loading="lazy"></a><a class="carousel__credit" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy">Nathan Hopwood</a></div>
               <div class="carousel__slot" style="aspect-ratio: 1600 / 750"><a href="assets/img/art/codev-3d-defender-studio.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-defender-studio-560.jpg" srcset="assets/img/art/codev-3d-defender-studio-360.jpg 360w, assets/img/art/codev-3d-defender-studio-560.jpg 560w, assets/img/art/codev-3d-defender-studio-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="A blue off-road vehicle, rendered as a clean studio shot on a plain grey backdrop" loading="lazy"></a><a class="carousel__credit" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy">Nathan Hopwood</a></div>
+            </div>
             <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
           </div>
         </article>
 
         <article class="svc reveal">
           <div class="svc__body">
-            <div class="svc__num">04</div>
             <h3>Design &amp; Development</h3>
             <p>
               Level design, game design and gameplay programming for teams that need
@@ -531,8 +527,6 @@
             <div class="carousel__track" tabindex="0">
               <div class="carousel__slot" style="aspect-ratio: 1920 / 1080"><video src="assets/video/codev-cyberstation.mp4" poster="assets/img/art/codev-dev-cyberstation-560.jpg" muted loop playsinline preload="none" aria-label="Gameplay of CyberStation, an isometric neon station management game, showing its systems in action"></video><a class="carousel__credit" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy">Oliver Neal</a></div>
               <div class="carousel__slot" style="aspect-ratio: 1600 / 900"><a href="assets/img/art/codev-dev-gridlock.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-dev-gridlock-560.jpg" srcset="assets/img/art/codev-dev-gridlock-360.jpg 360w, assets/img/art/codev-dev-gridlock-560.jpg 560w, assets/img/art/codev-dev-gridlock-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="In-game shot of Gridlock, a minimalist RTS where coloured houses send streams of units across the map" loading="lazy"></a><a class="carousel__credit" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy">Oliver Neal</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1084 / 610"><a href="assets/img/art/codev-design-rebelx.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-design-rebelx-560.jpg" srcset="assets/img/art/codev-design-rebelx-360.jpg 360w, assets/img/art/codev-design-rebelx-560.jpg 560w, assets/img/art/codev-design-rebelx-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="Greybox level blockout for RebelX, sunlight pouring into gridded rooms" loading="lazy"></a><a class="carousel__credit" href="team/charlie-ashall.html"><img src="assets/img/team-charlie-a-160.webp" alt="" width="34" height="34" loading="lazy">Charlie Ashall</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1051 / 592"><a href="assets/img/art/codev-design-luxmortis.jpg" target="_blank" rel="noopener"><img src="assets/img/art/codev-design-luxmortis-560.jpg" srcset="assets/img/art/codev-design-luxmortis-360.jpg 360w, assets/img/art/codev-design-luxmortis-560.jpg 560w, assets/img/art/codev-design-luxmortis-760.jpg 760w" sizes="(max-width: 700px) 270px, 400px" alt="Lux Mortis level layout: a torchlit crypt hall lined with pews and stone pillars" loading="lazy"></a><a class="carousel__credit" href="team/charlie-ashall.html"><img src="assets/img/team-charlie-a-160.webp" alt="" width="34" height="34" loading="lazy">Charlie Ashall</a></div>
             </div>
             <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
           </div>
@@ -933,16 +927,6 @@
                 <option>Unity</option>
                 <option>Unreal Engine 5</option>
                 <option>Something else</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="cdWhen">Rough timeline <span class="label-optional">(optional)</span></label>
-              <select id="cdWhen" name="timeline">
-                <option value="">Not sure yet</option>
-                <option>As soon as possible</option>
-                <option>Within 1 to 3 months</option>
-                <option>Within 3 to 6 months</option>
-                <option>Just exploring for now</option>
               </select>
             </div>
             <div class="field field--wide">

@@ -67,7 +67,7 @@
         <a href="index.html#studio">Studio</a>
         <a href="index.html#team">Team</a>
         <a href="press.html">Press</a>
-        <a class="nav__cta" href="#contact" data-cta="Publishing enquiry">Get in touch</a>
+        <a class="nav__cta" href="#contact" data-cta="Games page enquiry">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -100,6 +100,15 @@
           you'll be exploring.
         </p>
 
+        <!-- These three already lived in the press kit and nowhere a player would
+             ever look. One screenshot was never going to sell a world this
+             colourful. Full-size opens in a tab, the same bargain press.html makes. -->
+        <div class="game__shots reveal">
+          <a href="assets/press/oow-screenshot-cove.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-cove-640.jpg" srcset="assets/press/oow-screenshot-cove-400.jpg 400w, assets/press/oow-screenshot-cove-640.jpg 640w, assets/press/oow-screenshot-cove-900.jpg 900w" sizes="(max-width: 760px) 92vw, 31vw" alt="Out of Water screenshot: the turtle and the seagull exploring a sunny beach cove" loading="lazy"></a>
+          <a href="assets/press/oow-screenshot-ruins.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-ruins-640.jpg" srcset="assets/press/oow-screenshot-ruins-400.jpg 400w, assets/press/oow-screenshot-ruins-640.jpg 640w" sizes="(max-width: 760px) 92vw, 31vw" alt="Out of Water screenshot: sandy ruins beneath tall cliffs" loading="lazy"></a>
+          <a href="assets/press/oow-screenshot-characters.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-characters-640.jpg" srcset="assets/press/oow-screenshot-characters-400.jpg 400w, assets/press/oow-screenshot-characters-640.jpg 640w" sizes="(max-width: 760px) 92vw, 31vw" alt="Out of Water screenshot: the turtle in a sombrero and the seagull in a top hat" loading="lazy"></a>
+        </div>
+
         <ul class="game__features">
           <li class="reveal"><strong>Two players, one sofa</strong>Split-screen co-op made for couch play. Siblings, parents, grandparents, whoever's around.</li>
           <li class="reveal"><strong>A turtle &amp; a seagull</strong>Two very different heroes with two very different ways of getting about.</li>
@@ -109,12 +118,12 @@
 
         <div class="game__cta reveal">
           <div>
-            <p class="game__status"><span class="dot dot--pulse"></span> Release date: TBD</p>
-            <p class="game__note">Publisher curious about Out of Water? Our inbox is very much open.</p>
+            <p class="game__status"><span class="dot dot--pulse"></span> In development</p>
+            <p class="game__note">A Steam page is on the way. Leave your email below and you'll hear the day it goes live.</p>
           </div>
           <div class="game__cta-buttons">
             <a class="btn btn--ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
-            <a class="btn btn--sand" href="#contact" data-cta="Publishing enquiry">Talk publishing</a>
+            <a class="btn btn--sand" href="#publishers">For publishers</a>
           </div>
         </div>
 
@@ -129,6 +138,58 @@
             <button class="btn btn--ink" type="submit">Keep me posted</button>
             <p class="form-privacy">Your address goes to Buttondown, who send our emails. Unsubscribe any time. See our <a href="privacy.html">privacy policy</a>.</p>
           </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======= FOR PUBLISHERS ======= -->
+    <!-- Deliberately a section and not a page of its own. With no trailer, no store
+         page and no date to give, a dedicated /publishers URL would mostly advertise
+         how early we are. As a section it still has its own address to paste into a
+         pitch email, and it sits after the player-facing pitch so it interrupts
+         nobody who came here for the game. Revisit when there's a trailer and a
+         playable slice to put behind it. -->
+    <section class="section pub">
+      <div class="container">
+        <header class="section__head reveal">
+          <p class="kicker kicker--sand">For publishers</p>
+          <h2 id="publishers" tabindex="-1">The Short <span class="underline-sand">Version</span></h2>
+          <p class="section__lede">
+            Eleven people in North East England, building our debut title alongside
+            co-development work. We're open to publishing conversations, and we'd
+            rather show you where the game actually is than where we'd like it to be.
+          </p>
+        </header>
+
+        <div class="pub__grid reveal">
+          <dl class="factfile">
+            <dt>Game</dt><dd>Out of Water</dd>
+            <dt>Genre</dt><dd>Collectathon platformer</dd>
+            <dt>Players</dt><dd>Two, local split-screen co-op</dd>
+            <dt>Platforms</dt><dd>Targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch</dd>
+            <dt>Engine</dt><dd>Unity</dd>
+            <dt>Status</dt><dd>In development</dd>
+            <dt>Studio</dt><dd>Shiverbug Studios Ltd, founded 2025</dd>
+            <dt>Team</dt><dd>Eleven, plus a talent pool of regular collaborators</dd>
+            <dt>Based</dt><dd>North East England, UK</dd>
+            <dt>Part of</dt><dd>UK Games Fund, Games Republic and the Entrepreneurs Forum, and Tranzfuser, where we won the public vote</dd>
+          </dl>
+
+          <div class="pub__ask">
+            <h3>What we can send you</h3>
+            <p>
+              A pitch deck for Out of Water. Ask and we'll send it over &mdash; all we
+              need is your name and a line about who you are.
+            </p>
+            <div class="pub__buttons">
+              <a class="btn btn--sand" href="#contact" data-cta="Pitch deck request" data-prefill="I&rsquo;d like the Out of Water pitch deck. Here&rsquo;s who I am: ">Request the pitch deck</a>
+              <a class="btn btn--ghost-ink" href="#contact" data-cta="Publishing enquiry">Start a conversation</a>
+            </div>
+            <p class="pub__note">
+              Screenshots, logos and a fact sheet are all in the
+              <a href="press.html">press kit</a>, at full size and free to use.
+            </p>
+          </div>
         </div>
       </div>
     </section>
