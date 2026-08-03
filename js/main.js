@@ -598,3 +598,56 @@ enhanceForm(
 // ----- footer year -----
 const year = document.getElementById('year');
 if (year) year.textContent = new Date().getFullYear();
+
+// ----- press kit: copy the boilerplate -----
+// Progressive enhancement. The buttons are in the markup, but a press kit whose
+// copy blocks can only be selected by hand is a press kit people retype, so if
+// the clipboard API is unavailable the buttons come out rather than sit there
+// doing nothing.
+(() => {
+  const buttons = [...document.querySelectorAll('[data-copy]')];
+  if (!buttons.length) return;
+
+  if (!navigator.clipboard) {
+    buttons.forEach((btn) => { btn.remove(); });
+    return;
+  }
+
+  buttons.forEach((btn) => {
+    const source = document.querySelector(btn.dataset.copy);
+    if (!source) { btn.remove(); return; }
+
+    const label = btn.textContent;
+    let reset;
+
+    // aria-live would announce on every press; changing the button's own label
+    // is announced once, by the control the user just activated.
+    const say = (text, done) => {
+      btn.textContent = text;
+      btn.classList.toggle('is-done', !!done);
+      clearTimeout(reset);
+      reset = setTimeout(() => {
+        btn.textContent = label;
+        btn.classList.remove('is-done');
+      }, 2500);
+    };
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(source.textContent.trim());
+        say('Copied', true);
+      } catch {
+        // Clipboard permission can be refused (locked-down enterprise policy,
+        // an embedded webview, an insecure origin). Telling someone to press
+        // Ctrl+C is only useful if the thing they want is already selected, so
+        // do that part for them.
+        const range = document.createRange();
+        range.selectNodeContents(source);
+        const selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        say('Selected - press Ctrl+C');
+      }
+    });
+  });
+})();

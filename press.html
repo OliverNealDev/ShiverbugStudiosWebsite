@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://oliverneal04.goatcounter.com; media-src 'self'; connect-src 'self' https://formspree.io https://buttondown.com https://oliverneal04.goatcounter.com; form-action https://formspree.io https://buttondown.com; base-uri 'none'; object-src 'none'">
   <title>Press Kit | Shiverbug Studios</title>
-  <meta name="description" content="Press kit for Shiverbug Studios and Out of Water: fact sheet, logos, screenshots, trailer and contact details.">
+  <meta name="description" content="Press kit for Shiverbug Studios and Out of Water: fact sheets, boilerplate copy, logos, brand guidelines, screenshots, trailer and press contact details.">
   <meta property="og:title" content="Press Kit | Shiverbug Studios">
-  <meta property="og:description" content="Fact sheet, logos, screenshots and trailer for Shiverbug Studios and Out of Water.">
+  <meta property="og:description" content="Fact sheets, boilerplate, logos, brand guidelines, screenshots and trailer for Shiverbug Studios and Out of Water.">
   <meta property="og:image" content="https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/out-of-water-screenshot.jpg">
   <meta property="og:url" content="https://olivernealdev.github.io/ShiverbugStudiosWebsite/press.html">
   <meta property="og:type" content="website">
   <link rel="canonical" href="https://olivernealdev.github.io/ShiverbugStudiosWebsite/press.html">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Press Kit | Shiverbug Studios">
-  <meta name="twitter:description" content="Fact sheet, logos, screenshots and trailer for Shiverbug Studios and Out of Water.">
+  <meta name="twitter:description" content="Fact sheets, boilerplate, logos, brand guidelines, screenshots and trailer for Shiverbug Studios and Out of Water.">
   <meta name="twitter:image" content="https://olivernealdev.github.io/ShiverbugStudiosWebsite/assets/img/out-of-water-screenshot.jpg">
   <meta property="og:site_name" content="Shiverbug Studios">
   <meta property="og:locale" content="en_GB">
@@ -35,7 +35,7 @@
         "@id": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/press.html",
         "url": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/press.html",
         "name": "Press Kit | Shiverbug Studios",
-        "description": "Press kit for Shiverbug Studios and Out of Water: fact sheet, logos, screenshots, trailer and contact details.",
+        "description": "Press kit for Shiverbug Studios and Out of Water: fact sheets, boilerplate copy, logos, brand guidelines, screenshots, trailer and press contact details.",
         "about": { "@id": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#studio" },
         "mainEntity": { "@id": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#out-of-water" },
         "isPartOf": { "@id": "https://olivernealdev.github.io/ShiverbugStudiosWebsite/#website" },
@@ -86,91 +86,432 @@
         <p class="kicker kicker--sea">For press &amp; partners</p>
         <h1>Press <span class="underline-sea">Kit</span></h1>
         <p class="section__lede">
-          Everything you need to write about Shiverbug Studios and Out of Water.
-          Use anything on this page; if you need something that isn't here,
-          <a href="index.html#contact">just ask</a>.
+          Everything you need to write about Shiverbug Studios and Out of Water:
+          fact sheets, copy you can paste straight in, the brand pack, screenshots
+          and a trailer. Use any of it. If you need something that isn't here,
+          <a href="#press-contact">just ask</a>.
         </p>
-        <p><a class="btn btn--ink" href="assets/press/shiverbug-press-kit.zip" download>Download everything (.zip, 4&nbsp;MB)</a></p>
+        <p class="press__updated">Last updated August 2026</p>
       </header>
 
-      <div class="press__grid">
-        <section class="press__facts reveal">
-          <h2 class="press__h">Fact Sheet</h2>
+      <!-- Three bundles rather than one. A journalist filing a news post wants
+           the logo pack and nothing else; asking them to pull 10MB to get 6MB of
+           it is the sort of thing that gets a press kit skipped. -->
+      <section class="press__downloads reveal" aria-label="Downloads">
+        <a class="press__dl press__dl--lead" href="assets/press/shiverbug-press-kit.zip" download>
+          <span class="press__dl-name">Full press kit</span>
+          <span class="press__dl-meta">.zip &middot; 10&nbsp;MB</span>
+          <span class="press__dl-note">Logos, brand guidelines, screenshots, team photos and the trailer.</span>
+        </a>
+        <a class="press__dl" href="assets/press/shiverbug-logos.zip" download>
+          <span class="press__dl-name">Logos &amp; brand</span>
+          <span class="press__dl-meta">.zip &middot; 6&nbsp;MB</span>
+          <span class="press__dl-note">Vector and raster lockups, RGB and CMYK, plus the guidelines PDF.</span>
+        </a>
+        <a class="press__dl" href="assets/press/shiverbug-screenshots.zip" download>
+          <span class="press__dl-name">Screenshots</span>
+          <span class="press__dl-meta">.zip &middot; 0.9&nbsp;MB</span>
+          <span class="press__dl-note">Out of Water at full resolution, plus studio photography.</span>
+        </a>
+      </section>
+
+      <!-- Jump links. The page is long by design - a press kit is a reference
+           document, not a read-through - so it needs a way in at the top. -->
+      <nav class="press__toc reveal" aria-label="Press kit sections">
+        <a href="#fact-sheet">Fact sheet</a>
+        <a href="#boilerplate">Boilerplate</a>
+        <a href="#studio">Studio</a>
+        <a href="#recognition">Recognition</a>
+        <a href="#out-of-water">Out of Water</a>
+        <a href="#media">Images &amp; video</a>
+        <a href="#logos">Logos</a>
+        <a href="#brand">Colour &amp; type</a>
+        <a href="#credits">Team</a>
+        <a href="#permissions">Permissions</a>
+        <a href="#press-contact">Contact</a>
+      </nav>
+
+      <!-- ======= FACT SHEET ======= -->
+      <section class="press__section reveal" id="fact-sheet">
+        <h2 class="press__h">Studio Fact Sheet</h2>
+        <div class="press__facts">
           <dl>
-            <dt>Developer</dt><dd>Shiverbug Studios Ltd</dd>
+            <dt>Studio</dt><dd>Shiverbug Studios</dd>
+            <dt>Legal name</dt><dd>Shiverbug Studios Ltd</dd>
             <dt>Founded</dt><dd>2025</dd>
-            <dt>Location</dt><dd>North East England, UK</dd>
-            <dt>Team</dt><dd>11 people, plus a talent pool of regular collaborators</dd>
-            <dt>Current project</dt><dd>Out of Water (in development)</dd>
-            <dt>Platforms</dt><dd>Targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch</dd>
-            <dt>Engine</dt><dd>Unity</dd>
-            <dt>Services</dt><dd>Co-development: concept art, 3D art, design &amp; development</dd>
-            <dt>Contact</dt><dd><a href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a></dd>
+            <dt>Founders</dt><dd>Lewis Mennim, Ryan Hughes, Garrett Windus</dd>
+            <dt>Based in</dt><dd>North East England, United Kingdom</dd>
+            <dt>Registered office</dt><dd>Victoria Building, Victoria Road, Middlesbrough, TS1 3AP</dd>
+            <dt>Company no.</dt><dd>16485763 (England &amp; Wales)</dd>
+            <dt>Team</dt><dd>11 people, plus a talent pool of 5 regular collaborators</dd>
+            <dt>Current project</dt><dd>Out of Water &mdash; in development</dd>
+            <dt>Services</dt><dd>Co-development and work-for-hire: concept art, stylised 3D art, hard surface art, design &amp; development</dd>
+            <!-- The studio works in both; Out of Water is Unity. That split lives
+                 in the game fact sheet below rather than being flattened here. -->
+            <dt>Engines</dt><dd>Unity, Unreal Engine 5</dd>
+            <dt>Website</dt><dd><a href="index.html">olivernealdev.github.io/ShiverbugStudiosWebsite</a></dd>
+            <dt>Press contact</dt><dd><a href="mailto:contact@shiverbugstudios.com?subject=Press">contact@shiverbugstudios.com</a></dd>
             <dt>Socials</dt><dd><a href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">linktr.ee/shiverbugstudios</a></dd>
           </dl>
-        </section>
+        </div>
+      </section>
 
-        <section class="reveal">
-          <h2 class="press__h">About the Studio</h2>
-          <p>
-            Shiverbug Studios is an indie game development studio based in North East
-            England, founded in 2025 on a simple idea: games should be joyful,
-            shared, and welcoming for players of all ages. The kind of thing a whole
-            household can pile onto the sofa for.
-          </p>
-          <p>
-            The team of eleven designers, artists and programmers is currently building
-            its debut title, Out of Water, and takes on co-development and
-            work-for-hire alongside it. You'll find the shiverbugs at Gamebridge,
-            GameNext, Develop:Brighton, and anywhere else the UK dev scene gets together.
-          </p>
+      <!-- ======= BOILERPLATE ======= -->
+      <!-- Three lengths, each in its own copyable block. This is the section
+           journalists actually use: it saves them rewriting our About page into
+           a standfirst, and it means the description that ends up in print is
+           one we wrote. The copy buttons are progressive enhancement - the text
+           is selectable without them. -->
+      <section class="press__section reveal" id="boilerplate">
+        <h2 class="press__h">Boilerplate</h2>
+        <p>Approved copy, at three lengths. Paste as-is, or edit to fit.</p>
 
-          <h2 class="press__h">About Out of Water</h2>
-          <p>
-            Out of Water is a 2-player split-screen collectathon platformer. One of you
-            is a turtle. The other is a seagull. Together you explore a colourful world
-            full of charm, clever challenges and an army of crabs, in couch co-op made
-            for siblings, parents, grandparents, whoever's around. The game is in
-            development; publisher conversations welcome.
-          </p>
-        </section>
-      </div>
+        <div class="press__copyblock">
+          <div class="press__copyblock-head">
+            <h3>One line <span>(21 words)</span></h3>
+            <button class="press__copy" type="button" data-copy="#bp-short">Copy</button>
+          </div>
+          <p id="bp-short">Shiverbug Studios is an indie game developer in North East England making joyful couch co-op games and co-developing other studios' projects.</p>
+        </div>
 
-      <section class="reveal">
-        <h2 class="press__h">Screenshots &amp; Media</h2>
-        <p class="press__note">Click any image to open the full-size file. The trailer below is from our ProtoPlay build; a new one is in the works.</p>
+        <div class="press__copyblock">
+          <div class="press__copyblock-head">
+            <h3>Short <span>(58 words)</span></h3>
+            <button class="press__copy" type="button" data-copy="#bp-medium">Copy</button>
+          </div>
+          <p id="bp-medium">Founded in 2025, Shiverbug Studios is an eleven-strong team of designers, artists and programmers based in North East England. The studio is building its debut title, Out of Water, a two-player split-screen collectathon platformer, and takes on co-development and work-for-hire for other studios alongside it: concept art, stylised and hard surface 3D art, level design and gameplay programming.</p>
+        </div>
+
+        <div class="press__copyblock">
+          <div class="press__copyblock-head">
+            <h3>Full <span>(107 words)</span></h3>
+            <button class="press__copy" type="button" data-copy="#bp-long">Copy</button>
+          </div>
+          <p id="bp-long">Shiverbug Studios is an indie game development studio based in North East England, founded in 2025 on a simple idea: games should be joyful, shared, and welcoming for players of all ages. The kind of thing a whole household can pile onto the sofa for. The team of eleven designers, artists and programmers is currently building its debut title, Out of Water, a two-player split-screen collectathon platformer in which a turtle and a seagull explore a colourful world together. Alongside it the studio co-develops for other teams, covering concept art, stylised and hard surface 3D art, level design and gameplay programming in Unity and Unreal Engine 5.</p>
+        </div>
+      </section>
+
+      <!-- ======= STUDIO ======= -->
+      <section class="press__section reveal" id="studio">
+        <h2 class="press__h">About the Studio</h2>
+        <p>
+          Shiverbug Studios is an indie game development studio based in North East
+          England, founded in 2025 on a simple idea: games should be joyful,
+          shared, and welcoming for players of all ages. The kind of thing a whole
+          household can pile onto the sofa for.
+        </p>
+        <p>
+          The team of eleven designers, artists and programmers is currently building
+          its debut title, Out of Water, and takes on co-development and
+          work-for-hire alongside it, working in Unity and Unreal Engine 5 and
+          fitting into whatever pipeline a partner already runs. You'll find the
+          shiverbugs at Gamebridge, GameNext, Develop:Brighton, and anywhere else
+          the UK dev scene gets together.
+        </p>
+      </section>
+
+      <!-- ======= RECOGNITION ======= -->
+      <section class="press__section reveal" id="recognition">
+        <h2 class="press__h">Recognition &amp; Programmes</h2>
+        <ul class="press__creds">
+          <li><strong>Tranzfuser</strong><span>Public Vote Winner</span></li>
+          <li><strong>UK Games Fund</strong><span>Supported studio</span></li>
+          <li><strong>Games Republic</strong><span>Member</span></li>
+          <li><strong>Entrepreneurs Forum</strong><span>Member</span></li>
+        </ul>
+      </section>
+
+      <!-- ======= GAME FACT SHEET ======= -->
+      <section class="press__section reveal" id="out-of-water">
+        <h2 class="press__h">Out of Water &mdash; Game Fact Sheet</h2>
+        <div class="press__grid">
+          <div class="press__facts">
+            <dl>
+              <dt>Title</dt><dd>Out of Water</dd>
+              <dt>Developer</dt><dd>Shiverbug Studios Ltd</dd>
+              <dt>Publisher</dt><dd>Unannounced &mdash; publisher conversations welcome</dd>
+              <dt>Genre</dt><dd>Collectathon platformer</dd>
+              <dt>Players</dt><dd>2, local split-screen co-op</dd>
+              <!-- Target platforms, not shipped ones. Worded so nothing here
+                   reads as "out now on" - same care the VideoGame entity in
+                   build-team.ps1 takes with gamePlatform. -->
+              <dt>Platforms</dt><dd>Targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch</dd>
+              <dt>Engine</dt><dd>Unity</dd>
+              <dt>Release date</dt><dd>Not announced</dd>
+              <dt>Price</dt><dd>Not announced</dd>
+              <dt>Age rating</dt><dd>Not yet rated &mdash; aimed at all ages</dd>
+              <dt>Languages</dt><dd>English</dd>
+              <dt>Status</dt><dd>In development</dd>
+            </dl>
+          </div>
+          <div>
+            <p>
+              Out of Water is a 2-player split-screen collectathon platformer. One of you
+              is a turtle. The other is a seagull. Together you explore a colourful world
+              full of charm, clever challenges and an army of crabs, in couch co-op made
+              for siblings, parents, grandparents, whoever's around.
+            </p>
+            <h3 class="press__h3">Key features</h3>
+            <ul class="press__list">
+              <li><strong>Two players, one sofa.</strong> Split-screen co-op built for couch play, not bolted on afterwards.</li>
+              <li><strong>A turtle and a seagull.</strong> Two very different heroes with two very different ways of getting about.</li>
+              <li><strong>Collect everything.</strong> A proper collectathon in the spirit of the classics we grew up on.</li>
+              <li><strong>An army of crabs.</strong> Yes, an army. Of crabs.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======= MEDIA ======= -->
+      <section class="press__section reveal" id="media">
+        <h2 class="press__h">Images &amp; Video</h2>
+        <p class="press__note">Click any image to open the full-size file, or take the lot from the <a href="assets/press/shiverbug-screenshots.zip" download>screenshots bundle</a>. Everything here is from a build in development and does not represent the finished game.</p>
         <div class="press__media">
+          <a href="assets/img/out-of-water-screenshot.jpg" target="_blank" rel="noopener"><img src="assets/img/out-of-water-screenshot-760.webp" srcset="assets/img/out-of-water-screenshot-480.webp 480w, assets/img/out-of-water-screenshot-760.webp 760w, assets/img/out-of-water-screenshot-1100.webp 1100w" sizes="(max-width: 800px) 92vw, (max-width: 1260px) 46vw, 572px" alt="Out of Water screenshot: the turtle and the seagull on a stack of crates on a sandy beach, with palm trees and tall orange cliffs behind" loading="lazy"></a>
           <a href="assets/press/oow-screenshot-cove.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-cove-640.jpg" srcset="assets/press/oow-screenshot-cove-400.jpg 400w, assets/press/oow-screenshot-cove-640.jpg 640w, assets/press/oow-screenshot-cove-900.jpg 900w" sizes="(max-width: 800px) 92vw, (max-width: 1260px) 46vw, 572px" alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove" loading="lazy"></a>
           <a href="assets/press/oow-screenshot-ruins.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-ruins-640.jpg" srcset="assets/press/oow-screenshot-ruins-400.jpg 400w, assets/press/oow-screenshot-ruins-640.jpg 640w" sizes="(max-width: 800px) 92vw, (max-width: 1260px) 46vw, 572px" alt="Out of Water screenshot: sandy ruins beneath tall cliffs" loading="lazy"></a>
           <a href="assets/press/oow-screenshot-characters.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-characters-640.jpg" srcset="assets/press/oow-screenshot-characters-400.jpg 400w, assets/press/oow-screenshot-characters-640.jpg 640w" sizes="(max-width: 800px) 92vw, (max-width: 1260px) 46vw, 572px" alt="Out of Water screenshot: the turtle in a sombrero and the seagull in a top hat" loading="lazy"></a>
           <a href="assets/press/shiverbug-team-brighton-2026.jpg" target="_blank" rel="noopener"><img src="assets/press/shiverbug-team-brighton-2026-640.jpg" srcset="assets/press/shiverbug-team-brighton-2026-400.jpg 400w, assets/press/shiverbug-team-brighton-2026-640.jpg 640w, assets/press/shiverbug-team-brighton-2026-900.jpg 900w" sizes="(max-width: 800px) 92vw, (max-width: 1260px) 46vw, 572px" alt="The Shiverbug Studios team at Develop:Brighton 2026" loading="lazy"></a>
+          <a href="assets/img/founders.jpg" target="_blank" rel="noopener"><img src="assets/img/founders-600.webp" srcset="assets/img/founders-400.webp 400w, assets/img/founders-600.webp 600w, assets/img/founders-800.webp 800w" sizes="(max-width: 800px) 92vw, (max-width: 1260px) 46vw, 572px" alt="Three Shiverbug Studios team members on Brighton seafront in studio t-shirts" loading="lazy"></a>
         </div>
+        <h3 class="press__h3">Trailer</h3>
+        <p class="press__note">From our ProtoPlay build. A new trailer is in production; if you're working to a deadline, <a href="#press-contact">tell us</a> and we'll let you know when it lands.</p>
         <p><a class="btn btn--ghost-ink" href="assets/video/out-of-water-trailer.mp4" download>Download trailer (.mp4, 3&nbsp;MB)</a></p>
       </section>
 
-      <section class="reveal">
+      <!-- ======= LOGOS ======= -->
+      <!-- Previews are the SVGs themselves rather than raster thumbnails: they
+           are the file being offered, they stay sharp at any size, and it keeps
+           two versions of each mark from drifting apart. Each tile carries the
+           background the mark is FOR, which is the thing that actually stops
+           people reaching for the wrong one. -->
+      <section class="press__section reveal" id="logos">
         <h2 class="press__h">Logos</h2>
-        <p class="press__note">Please don't stretch, recolour, or add effects to the logo. Every mark below is in the zip as a transparent PNG, so it sits on light or dark equally well. Need vector, or a version built for print? <a href="index.html#contact">ask us</a> and we'll send it over.</p>
+        <p>
+          The primary lockup, from the 2026 brand pack. Vector (SVG) is the default;
+          the raster fallbacks are 1711&nbsp;px PNGs. Files marked CMYK carry print
+          colour values and live in the
+          <a href="assets/press/shiverbug-logos.zip" download>logo bundle</a>.
+        </p>
+
         <div class="press__logos">
-          <a href="assets/press/shiverbug-logo.png" target="_blank" rel="noopener"><img src="assets/press/shiverbug-logo-240.png" srcset="assets/press/shiverbug-logo-240.png 240w" sizes="240px" alt="Shiverbug Studios logo mark" loading="lazy"></a>
-          <a href="assets/press/shiverbug-logo-mark.png" target="_blank" rel="noopener"><img src="assets/press/shiverbug-logo-mark-240.png" srcset="assets/press/shiverbug-logo-mark-240.png 240w, assets/press/shiverbug-logo-mark-480.png 480w" sizes="240px" alt="Shiverbug Studios moth mark, no text" loading="lazy"></a>
-          <a href="assets/press/shiverbug-wordmark-long.png" target="_blank" rel="noopener"><img src="assets/press/shiverbug-wordmark-long-240.png" srcset="assets/press/shiverbug-wordmark-long-240.png 240w" sizes="240px" alt="Shiverbug Studios wordmark, single line" loading="lazy"></a>
-          <!-- no variants: the source is 316x138, so there is nothing to shrink to -->
-          <a href="assets/press/shiverbug-wordmark.png" target="_blank" rel="noopener"><img src="assets/press/shiverbug-wordmark.png" width="316" height="138" alt="Shiverbug Studios wordmark, stacked" loading="lazy"></a>
+          <figure class="press__logo press__logo--dark">
+            <img src="assets/press/brand/shiverbug-logo-white-rgb.svg" width="240" height="239" alt="Shiverbug Studios primary logo in white on a dark background" loading="lazy">
+            <figcaption>
+              <strong>White, transparent</strong>
+              <span>For dark backgrounds</span>
+              <span class="press__logo-links"><a href="assets/press/brand/shiverbug-logo-white-rgb.svg" download>SVG</a> <a href="assets/press/brand/shiverbug-logo-white.png" download>PNG</a></span>
+            </figcaption>
+          </figure>
+
+          <figure class="press__logo press__logo--light">
+            <img src="assets/press/brand/shiverbug-logo-black-rgb.svg" width="240" height="239" alt="Shiverbug Studios primary logo in black on a light background" loading="lazy">
+            <figcaption>
+              <strong>Black, transparent</strong>
+              <span>For light backgrounds</span>
+              <span class="press__logo-links"><a href="assets/press/brand/shiverbug-logo-black-rgb.svg" download>SVG</a> <a href="assets/press/brand/shiverbug-logo-black.png" download>PNG</a></span>
+            </figcaption>
+          </figure>
+
+          <!-- Previewed as the black-and-white artwork on the brand blue, which
+               is exactly what the on-blue file contains. The linked asset is the
+               real thing, plate and all. -->
+          <figure class="press__logo press__logo--blue">
+            <img src="assets/press/brand/shiverbug-logo-black-rgb.svg" width="240" height="239" alt="Shiverbug Studios primary logo on the brand blue" loading="lazy">
+            <figcaption>
+              <strong>On brand blue</strong>
+              <span>Plate included</span>
+              <span class="press__logo-links"><a href="assets/press/brand/shiverbug-logo-on-blue-rgb.svg" download>SVG</a> <a href="assets/press/brand/shiverbug-logo-on-blue.png" download>PNG</a></span>
+            </figcaption>
+          </figure>
+
+          <figure class="press__logo press__logo--black">
+            <img src="assets/press/brand/shiverbug-logo-white-rgb.svg" width="240" height="239" alt="Shiverbug Studios primary logo on a solid black plate" loading="lazy">
+            <figcaption>
+              <strong>On black</strong>
+              <span>Plate included</span>
+              <span class="press__logo-links"><a href="assets/press/brand/shiverbug-logo-on-black-rgb.svg" download>SVG</a> <a href="assets/press/brand/shiverbug-logo-on-black.png" download>PNG</a></span>
+            </figcaption>
+          </figure>
+
+          <figure class="press__logo press__logo--light">
+            <img src="assets/press/shiverbug-logo-mark-240.png" srcset="assets/press/shiverbug-logo-mark-240.png 240w, assets/press/shiverbug-logo-mark-480.png 480w" sizes="240px" width="240" height="240" alt="The Shiverbug moth mark on its own, no wordmark" loading="lazy">
+            <figcaption>
+              <strong>Icon only</strong>
+              <span>Avatars and favicons</span>
+              <span class="press__logo-links"><a href="assets/press/shiverbug-logo-mark.png" download>PNG</a></span>
+            </figcaption>
+          </figure>
+
+          <!-- The wordmark PNGs are white artwork, so this tile has to be the
+               dark one - on the white plate its two siblings use, it vanishes. -->
+          <figure class="press__logo press__logo--dark">
+            <img src="assets/press/shiverbug-wordmark-long-240.png" width="240" height="105" alt="Shiverbug Studios wordmark on a single line" loading="lazy">
+            <figcaption>
+              <strong>Wordmark</strong>
+              <span>White. Single line, and <a href="assets/press/shiverbug-wordmark.png" download>stacked</a></span>
+              <span class="press__logo-links"><a href="assets/press/shiverbug-wordmark-long.png" download>PNG</a></span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <h3 class="press__h3">Using the logo</h3>
+        <div class="press__rules">
+          <div class="press__rule press__rule--do">
+            <h4>Please do</h4>
+            <ul>
+              <li>Use the white lockup on dark backgrounds and the black one on light.</li>
+              <li>Leave clear space around it of at least the height of the word "STUDIOS".</li>
+              <li>Reach for the vector first; use PNG only where SVG won't go.</li>
+              <li>Keep it at 40&nbsp;px tall or larger, so the linework still reads.</li>
+            </ul>
+          </div>
+          <div class="press__rule press__rule--dont">
+            <h4>Please don't</h4>
+            <ul>
+              <li>Stretch, squash, rotate or skew it.</li>
+              <li>Recolour it, add gradients, outlines, shadows or other effects.</li>
+              <li>Place it on a busy image, or on a colour it hasn't got contrast against.</li>
+              <li>Redraw the wordmark, or rebuild the lockup with different spacing.</li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <!-- Press is the one place mailto stays the primary action: journalists work
-           out of their inbox, and there is no press form to send them to. So the
-           button goes to the contact form like every other button on the site,
+      <!-- ======= COLOUR & TYPE ======= -->
+      <section class="press__section reveal" id="brand">
+        <h2 class="press__h">Colour &amp; Typography</h2>
+        <p>
+          The full specification, including gradient construction and logo variants,
+          is in the
+          <a href="assets/press/brand/shiverbug-brand-guidelines.pdf" target="_blank" rel="noopener">brand guidelines (PDF, 6&nbsp;MB)</a>.
+        </p>
+
+        <h3 class="press__h3">Colour palette</h3>
+        <div class="press__swatches">
+          <figure class="press__swatch">
+            <span class="press__chip" style="background:#010101" aria-hidden="true"></span>
+            <figcaption>
+              <strong>Black</strong><span>Primary</span>
+              <code>#010101</code>
+              <span class="press__swatch-vals">RGB 1, 1, 1<br>CMYK 0, 0, 0, 100</span>
+            </figcaption>
+          </figure>
+          <figure class="press__swatch">
+            <span class="press__chip press__chip--bordered" style="background:#FFFFFF" aria-hidden="true"></span>
+            <figcaption>
+              <strong>White</strong><span>Primary</span>
+              <code>#FFFFFF</code>
+              <span class="press__swatch-vals">RGB 255, 255, 255<br>CMYK 0, 0, 0, 0</span>
+            </figcaption>
+          </figure>
+          <figure class="press__swatch">
+            <span class="press__chip" style="background:#05CDF2" aria-hidden="true"></span>
+            <figcaption>
+              <strong>Blue</strong><span>Primary</span>
+              <code>#05CDF2</code>
+              <span class="press__swatch-vals">RGB 5, 205, 242<br>CMYK 98, 15, 0, 5</span>
+            </figcaption>
+          </figure>
+          <figure class="press__swatch">
+            <span class="press__chip" style="background:#08E2F2" aria-hidden="true"></span>
+            <figcaption>
+              <strong>Cyan</strong><span>Secondary</span>
+              <code>#08E2F2</code>
+              <span class="press__swatch-vals">RGB 8, 226, 242<br>CMYK 97, 7, 0, 5</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <h3 class="press__h3">Gradients</h3>
+        <p>Blue and cyan together, for on-screen and digital work.</p>
+        <div class="press__swatches press__swatches--wide">
+          <figure class="press__swatch">
+            <span class="press__chip" style="background:radial-gradient(circle at 50% 50%, #08E2F2, #05CDF2)" aria-hidden="true"></span>
+            <figcaption><strong>Cyan to blue</strong><span>Radial</span><code>#08E2F2 &rarr; #05CDF2</code></figcaption>
+          </figure>
+          <figure class="press__swatch">
+            <span class="press__chip" style="background:linear-gradient(90deg, #05CDF2, #08E2F2)" aria-hidden="true"></span>
+            <figcaption><strong>Blue to cyan</strong><span>Linear, 90&deg;</span><code>#05CDF2 &rarr; #08E2F2</code></figcaption>
+          </figure>
+        </div>
+
+        <h3 class="press__h3">Typefaces</h3>
+        <div class="press__type">
+          <div>
+            <strong>Monsterific BB</strong>
+            <span>Primary logo typeface</span>
+            <p>Headings and titles only. Never body copy.</p>
+          </div>
+          <div>
+            <strong>Museo Sans Rounded</strong>
+            <span>Secondary logo typeface</span>
+            <p>Supporting titles and short display lines.</p>
+          </div>
+          <div>
+            <strong>Nunito</strong>
+            <span>Body copy</span>
+            <p>Everything you actually have to read.</p>
+          </div>
+        </div>
+        <p class="press__note">These are the brand's typefaces. This website sets its own type in Bricolage Grotesque and Instrument Sans, which are open licence and safe to serve on the web.</p>
+      </section>
+
+      <!-- ======= TEAM ======= -->
+      <!-- Founders only, deliberately. data/team.json is the single source of
+           truth for the roster and build-team.ps1 generates every page that
+           lists it; copying all sixteen people into this hand-written page would
+           be the one copy that quietly goes stale. The three below are the named
+           leadership and the people press actually ask for. -->
+      <section class="press__section reveal" id="credits">
+        <h2 class="press__h">Team</h2>
+        <ul class="press__people">
+          <li><a href="team/lewis-mennim.html">Lewis Mennim</a><span>CEO &middot; Co-Founder</span></li>
+          <li><a href="team/ryan-hughes.html">Ryan Hughes</a><span>CFO &middot; Co-Founder</span></li>
+          <li><a href="team/garrett-windus.html">Garrett Windus</a><span>3D Artist &middot; Co-Founder</span></li>
+        </ul>
+        <p>
+          Behind them, eleven people in total across concept art, character and
+          environment art, level and narrative design, and gameplay programming,
+          plus a talent pool of five regular collaborators covering 3D art,
+          animation, sound and social. Full profiles, portfolios and credits are
+          on the <a href="team/">team page</a>.
+        </p>
+        <p class="press__note">Interview requests go to <a href="mailto:contact@shiverbugstudios.com?subject=Interview%20request">contact@shiverbugstudios.com</a> and we'll put you in front of whoever's best placed to answer.</p>
+      </section>
+
+      <!-- ======= PERMISSIONS ======= -->
+      <!-- The monetisation clause matters more than it looks: creators check for
+           it before they'll touch a game, and its absence reads as "no". -->
+      <section class="press__section reveal" id="permissions">
+        <h2 class="press__h">Permissions</h2>
+        <p>
+          <strong>You have our permission</strong> to use anything in this kit &mdash;
+          screenshots, footage, artwork, logos &mdash; in articles, videos, streams and
+          other coverage of Shiverbug Studios and our games. That includes monetised
+          coverage. You don't need to ask us first, and you don't owe us anything for it.
+        </p>
+        <p>
+          What we ask in return: don't alter the logo, don't present in-development
+          material as final, and don't use our marks in a way that suggests we're
+          involved in something we aren't. Credit is always appreciated but never
+          required.
+        </p>
+      </section>
+
+      <!-- Press is the one place mailto stays a first-class action: journalists
+           work out of their inbox, and there is no press form to send them to. So
+           the button goes to the contact form like every other button on the site,
            and the address sits beside it as an explicit, selectable mailto - the
            only kind of link allowed to open a mail app. -->
-      <section class="reveal press__cta">
-        <p>Writing something, or want an interview with the team?</p>
+      <section class="press__section reveal press__cta" id="press-contact">
+        <h2 class="press__h">Press Contact</h2>
+        <p>Writing something, chasing an asset, or after an interview with the team?</p>
         <a class="btn btn--sand" href="index.html#contact">Use the contact form</a>
         <p class="press__note">
           Or email us directly at
           <a href="mailto:contact@shiverbugstudios.com?subject=Press">contact@shiverbugstudios.com</a>.
+          You'll hear back within a couple of working days.
         </p>
       </section>
 

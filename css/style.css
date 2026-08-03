@@ -1,4 +1,4 @@
-/* ============================================================
+﻿/* ============================================================
    Shiverbug Studios stylesheet
    Palette: ink (logo black), warm paper, sea blue / turtle
    green / sandy-shores orange
@@ -305,9 +305,9 @@ h1, h2, h3 {
 .hero__frame .sticker--sand { top: -14px; left: -10px; }
 .hero__frame .sticker--sea { bottom: -12px; right: 18px; transform: rotate(3deg); }
 
-/* The logo, finally at a size where the linework reads. Capped at 400px because
-   that is the source's native width - painting it larger just blurs it. It's
-   white line art on the dark hero, so it needs no plate behind it. */
+/* The logo, at a size where the linework reads. It's transparent white vector
+   on the dark hero, so it needs no plate behind it, and 400px is a layout
+   choice rather than a sharpness ceiling now that the source is an SVG. */
 .hero__logo {
   width: min(400px, 100%); height: auto;
   margin-inline: auto;
@@ -873,7 +873,9 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   padding: clamp(6rem, 11vw, 9rem) 0 2.5rem;
   text-align: center;
 }
-.footer__logo { width: 130px; margin: 0 auto 1.6rem; border-radius: var(--radius); }
+/* No border-radius any more: the mark is transparent vector, so there is no
+   black plate whose corners need softening. */
+.footer__logo { width: 130px; height: auto; margin: 0 auto 1.6rem; }
 .footer__main h2 {
   font-size: clamp(2.1rem, 4.5vw, 3.4rem); color: #fff; margin-bottom: 1.1rem;
 }
@@ -1146,18 +1148,103 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .press .section__head a:not(.btn) { color: var(--sea-ink); font-weight: 600; }
 .press .section__head .btn { margin-top: 1.4rem; }
+.press__updated { font-size: .85rem; color: var(--text-soft); margin-top: 1rem; }
+
+/* Each section gets a rule above it. On a page this long the headings alone
+   stopped reading as boundaries - everything ran together into one column. */
+.press__section { padding-top: clamp(2rem, 4vw, 3rem); }
+.press__section + .press__section { border-top: 1px solid rgba(20,23,28,.12); margin-top: clamp(2rem, 4vw, 3rem); }
 .press__h {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--sea-ink); margin: 2.4rem 0 .9rem;
+  color: var(--sea-ink); margin: 0 0 .9rem;
+}
+.press__h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.15rem; margin: 2rem 0 .7rem;
 }
 .press section > p { color: var(--text-soft); margin-bottom: .9rem; max-width: 68ch; }
 .press section > p a { color: var(--sea-ink); font-weight: 600; }
+.press__note { font-size: .92rem; font-style: italic; }
+.press__note a { color: var(--sea-ink); font-weight: 600; }
 .press__grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(2rem, 5vw, 4rem); }
+.press__list { list-style: none; display: grid; gap: .6rem; max-width: 60ch; }
+.press__list li { color: var(--text-soft); font-size: .95rem; padding-left: 1.1rem; position: relative; }
+.press__list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 7px; height: 7px; border-radius: 50%; background: var(--sea); }
+.press__list strong { color: var(--text-ink); }
+
+/* ---- download bundles ---- */
+.press__downloads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+.press__dl {
+  display: grid; align-content: start; gap: .25rem;
+  padding: 1.3rem 1.4rem; border-radius: var(--radius);
+  background: var(--paper-2); border: 2px solid rgba(20,23,28,.12);
+  transition: transform .25s var(--ease-out), border-color .25s, box-shadow .25s;
+}
+.press__dl:hover, .press__dl:focus-visible { transform: translateY(-3px); border-color: var(--ink); box-shadow: var(--shadow-pop); }
+.press__dl--lead { background: var(--ink); border-color: var(--ink); }
+.press__dl-name { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
+.press__dl-meta { font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-soft); }
+.press__dl-note { font-size: .9rem; color: var(--text-soft); margin-top: .3rem; }
+.press__dl--lead .press__dl-name { color: #fff; }
+.press__dl--lead .press__dl-meta { color: var(--sand); }
+.press__dl--lead .press__dl-note { color: var(--text-paper-soft); }
+
+/* ---- jump links ---- */
+.press__toc { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.press__toc a {
+  font-size: .85rem; font-weight: 600;
+  padding: .35rem .8rem; border-radius: 999px;
+  border: 1px solid rgba(20,23,28,.18); color: var(--text-soft);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.press__toc a:hover, .press__toc a:focus-visible { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* ---- fact sheets ---- */
 .press__facts dl { display: grid; grid-template-columns: auto 1fr; gap: .55rem 1.2rem; }
 .press__facts dt { font-family: var(--font-display); font-weight: 700; font-size: .92rem; white-space: nowrap; }
-.press__facts dd { color: var(--text-soft); font-size: .95rem; }
+/* A 1fr track floors at the item's min-content width, and some of these values
+   are a registered address. Without this the whole page scrolls sideways on a
+   phone rather than the value wrapping. */
+.press__facts dd { color: var(--text-soft); font-size: .95rem; min-width: 0; overflow-wrap: anywhere; }
 .press__facts dd a { color: var(--sea-ink); font-weight: 600; }
-.press__note { font-size: .92rem; font-style: italic; }
+/* Two columns stop paying for themselves once the label column is wider than
+   what's left for the value. */
+@media (max-width: 620px) {
+  .press__facts dl { grid-template-columns: 1fr; gap: 0; }
+  .press__facts dt { white-space: normal; margin-top: .7rem; }
+  .press__facts dt:first-child { margin-top: 0; }
+}
+
+/* ---- boilerplate ---- */
+.press__copyblock {
+  background: var(--paper-2); border-radius: var(--radius);
+  padding: 1.1rem 1.3rem; margin-bottom: 1rem; max-width: 74ch;
+}
+.press__copyblock-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .5rem; }
+.press__copyblock h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+.press__copyblock h3 span { font-weight: 400; color: var(--text-soft); font-size: .85rem; }
+.press__copyblock p { color: var(--text-ink); font-size: .95rem; margin: 0; }
+.press__copy {
+  flex-shrink: 0; cursor: pointer;
+  font-family: var(--font-body); font-size: .8rem; font-weight: 600;
+  padding: .3rem .8rem; border-radius: 999px;
+  border: 1px solid rgba(20,23,28,.25); background: transparent; color: var(--text-ink);
+  transition: background .2s, color .2s, border-color .2s;
+}
+.press__copy:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.press__copy.is-done { background: var(--leaf-chip); border-color: var(--leaf-chip); color: #fff; }
+
+/* ---- recognition ---- */
+.press__creds { list-style: none; display: flex; flex-wrap: wrap; gap: .8rem; }
+.press__creds li {
+  display: grid; gap: .1rem;
+  padding: .8rem 1.1rem; border-radius: var(--radius);
+  background: var(--paper-2); border: 2px solid rgba(20,23,28,.12);
+}
+.press__creds strong { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
+.press__creds span { font-size: .85rem; color: var(--text-soft); }
+
+/* ---- media ---- */
 .press__media { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
 .press__media a {
   display: block; border-radius: var(--radius); overflow: hidden;
@@ -1166,24 +1253,79 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .press__media a:hover { border-color: var(--ink); box-shadow: var(--shadow-pop); }
 .press__media img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-.press__logos { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
-.press__logos a {
-  display: grid; place-items: center;
-  background: var(--ink); border: 2px solid rgba(20,23,28,.12); border-radius: var(--radius);
-  padding: 1.2rem; min-height: 120px;
-  transition: border-color .25s, box-shadow .25s;
+
+/* ---- logos ---- */
+/* Every tile carries the background its mark is FOR, so picking the wrong file
+   takes deliberate effort. --light and --dark set that plate; the two lockups
+   that ship with their own background get the neutral tile. */
+.press__logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+.press__logo {
+  border-radius: var(--radius); overflow: hidden;
+  border: 2px solid rgba(20,23,28,.12); background: var(--paper-2);
+  display: grid; grid-template-rows: 1fr auto;
 }
-.press__logos a:hover { border-color: var(--ink); box-shadow: var(--shadow-pop); }
-.press__logos img { max-height: 110px; width: auto; max-width: 240px; }
-.press__cta {
-  margin-top: 3rem; padding-top: 2rem;
-  border-top: 1px solid rgba(20,23,28,.15);
-  display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem;
+.press__logo img { justify-self: center; align-self: center; width: auto; max-width: 76%; max-height: 140px; padding: 1.3rem 0; }
+.press__logo--dark { background: var(--ink); }
+.press__logo--light { background: #fff; }
+/* The two lockups that ship with a plate baked in are previewed as the same
+   artwork on the same colour, at the same size as their siblings. Painting the
+   supplied square edge to edge instead made those two tiles half again as tall
+   as the rest and left the others floating in dead space. */
+.press__logo--blue { background: #05cdf2; }
+.press__logo--black { background: #010101; }
+.press__logo figcaption {
+  display: grid; gap: .15rem;
+  padding: .8rem 1rem; background: var(--paper);
+  border-top: 1px solid rgba(20,23,28,.12);
 }
-.press__cta p { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; }
+.press__logo strong { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
+.press__logo figcaption > span { font-size: .84rem; color: var(--text-soft); }
+.press__logo figcaption a { color: var(--sea-ink); font-weight: 600; }
+.press__logo-links { display: flex; gap: .6rem; margin-top: .3rem; font-size: .82rem; text-transform: uppercase; letter-spacing: .06em; }
+
+.press__rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+.press__rule { padding: 1.1rem 1.3rem; border-radius: var(--radius); background: var(--paper-2); border-left: 4px solid var(--leaf-chip); }
+.press__rule--dont { border-left-color: var(--crab-chip); }
+.press__rule h4 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; margin-bottom: .5rem; }
+.press__rule ul { list-style: none; display: grid; gap: .45rem; }
+.press__rule li { font-size: .92rem; color: var(--text-soft); }
+
+/* ---- colour & type ---- */
+.press__swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
+.press__swatches--wide { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.press__swatch { border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(20,23,28,.12); }
+.press__chip { display: block; height: 96px; }
+/* White needs a hairline or it reads as a hole in the card. */
+.press__chip--bordered { box-shadow: inset 0 0 0 1px rgba(20,23,28,.15); }
+.press__swatch figcaption { display: grid; gap: .12rem; padding: .8rem 1rem; background: var(--paper-2); }
+.press__swatch strong { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
+.press__swatch figcaption > span { font-size: .82rem; color: var(--text-soft); }
+.press__swatch code { font-size: .85rem; font-weight: 600; letter-spacing: .02em; }
+.press__swatch-vals { font-size: .78rem; line-height: 1.5; }
+
+.press__type { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.press__type > div { padding: 1.1rem 1.3rem; border-radius: var(--radius); background: var(--paper-2); display: grid; gap: .15rem; }
+.press__type strong { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+.press__type > div > span { font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; color: var(--sea-ink); font-weight: 600; }
+.press__type p { font-size: .9rem; color: var(--text-soft); margin-top: .3rem; }
+
+/* ---- team ---- */
+.press__people { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .5rem 1.2rem; margin-bottom: 1rem; }
+.press__people li { display: flex; flex-wrap: wrap; gap: .5rem; align-items: baseline; font-size: .95rem; }
+.press__people a { color: var(--sea-ink); font-weight: 600; }
+.press__people span { font-size: .85rem; color: var(--text-soft); }
+
+.press__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; }
+.press__cta .press__h { flex-basis: 100%; margin-bottom: 0; }
+.press__cta > p:not(.press__note) { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; margin: 0; }
+
+@media (max-width: 900px) {
+  .press__downloads { grid-template-columns: 1fr; }
+}
 @media (max-width: 800px) {
   .press__grid { grid-template-columns: 1fr; }
   .press__media { grid-template-columns: 1fr; }
+  .press__rules { grid-template-columns: 1fr; }
 }
 
 /* ---------- legal pages ---------- */

@@ -43,10 +43,9 @@ $groups = @(
   # scrapers fetch whole. Resizing them would just publish files nothing loads.
   @{ path = 'assets\img';      match = '^founders\.webp$'; widths = @(400, 600, 800, 1080) },
   @{ path = 'assets\img';      match = '^out-of-water-screenshot\.webp$'; widths = @(480, 760, 1100, 1520) },
-  # 260 is the footer mark; the source itself (400px) is the hero logo, which is
-  # why the hero paints it at 400 CSS px and no wider. Nothing bigger exists in
-  # webp - assets/press/shiverbug-logo-mark.png is 600px if it ever needs to be.
-  @{ path = 'assets\img';      match = '^logo\.webp$';     widths = @(260) },
+  # The hero and footer marks used to be rasters resized here. They are now one
+  # SVG (assets/img/logo.svg, trimmed from the 2026 brand pack), which has no
+  # widths to generate.
   # Gallery tiles are ~450 CSS px at most; the full-size file is what the link
   # and the lightbox open, so nothing here needs to go near the original.
   @{ path = 'assets\img\art';  match = '^(?!codev-dev-cyberstation).*\.jpg$'; widths = @(360, 560, 760) },
