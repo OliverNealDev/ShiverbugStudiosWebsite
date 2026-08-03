@@ -167,10 +167,16 @@ h1, h2, h3 {
 .kicker--leaf { color: var(--leaf-ink); }
 
 /* marker-style underline accents */
+/* The band used to be .3em tall sitting .06em up, which put its top edge 31% of
+   the way through the x-height - through the bottom third of every lowercase
+   letter. Reviewers read it as a strikethrough, which is fair: a highlight
+   covers the whole x-height and an underline covers none of it, and this sat in
+   between. Now .15em, topping out level with the baseline, so it reads as one
+   pass of a marker under the word. Still thick enough to keep the character. */
 [class^="underline-"] { position: relative; white-space: nowrap; z-index: 0; display: inline-block; }
 [class^="underline-"]::after {
-  content: ""; position: absolute; left: -2%; right: -2%; bottom: .06em; height: .3em;
-  border-radius: 3px; z-index: -1; transform: rotate(-1.2deg);
+  content: ""; position: absolute; left: -2%; right: -2%; bottom: .04em; height: .15em;
+  border-radius: 3px; z-index: -1; transform: rotate(-1deg);
 }
 .underline-sea::after { background: color-mix(in srgb, var(--sea) 60%, transparent); }
 .underline-sand::after { background: color-mix(in srgb, var(--sand) 80%, transparent); }

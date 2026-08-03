@@ -16,10 +16,6 @@ _originals/
 
 # Decks, contracts, exports, anything sent over for reference
 *.pdf
-# ...except the brand guidelines, which are a published press asset in the same
-# way assets/img/art/ is: press.html links straight to it and validate-site.ps1
-# checks that link resolves, so a fresh checkout without this file fails CI.
-!assets/press/brand/*.pdf
 *.pptx
 *.ppt
 *.docx
