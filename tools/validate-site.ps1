@@ -15,9 +15,9 @@
 $ErrorActionPreference = 'Stop'
 
 $root    = Split-Path -Parent $PSScriptRoot
-$baseUrl = 'https://olivernealdev.github.io/ShiverbugStudiosWebsite'
-# '/ShiverbugStudiosWebsite' - the path every site-absolute reference must carry
-# while we're on a project Pages site. Becomes '' on a custom domain.
+$baseUrl = 'https://shiverbugstudios.com'
+# The path every site-absolute reference must carry. Was '/ShiverbugStudiosWebsite'
+# on the project Pages site; empty now that we serve from the custom domain apex.
 $sitePrefix = ([uri]$baseUrl).AbsolutePath.TrimEnd('/')
 $errors  = New-Object System.Collections.ArrayList
 $warns   = New-Object System.Collections.ArrayList

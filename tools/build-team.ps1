@@ -14,7 +14,7 @@ $ErrorActionPreference = 'Stop'
 $root    = Split-Path -Parent $PSScriptRoot
 $dataFile = Join-Path $root 'data\team.json'
 $teamDir = Join-Path $root 'team'
-$baseUrl = 'https://olivernealdev.github.io/ShiverbugStudiosWebsite'
+$baseUrl = 'https://shiverbugstudios.com'
 
 # GitHub Pages cannot send HTTP headers, so the policy travels in a meta tag.
 # Keep this in step with the identical tag in index.html, games.html, press.html,

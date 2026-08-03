@@ -59,6 +59,6 @@ User-agent: cohere-ai
 Allow: /
 
 # Curated plain-text map for language models (https://llmstxt.org):
-# https://olivernealdev.github.io/ShiverbugStudiosWebsite/llms.txt
+# https://shiverbugstudios.com/llms.txt
 
-Sitemap: https://olivernealdev.github.io/ShiverbugStudiosWebsite/sitemap.xml
+Sitemap: https://shiverbugstudios.com/sitemap.xml

@@ -18,9 +18,9 @@ $mime = @{
 while ($listener.IsListening) {
   $ctx = $listener.GetContext()
   $reqPath = [System.Uri]::UnescapeDataString($ctx.Request.Url.AbsolutePath)
-  # GitHub Pages serves this project under /ShiverbugStudiosWebsite/, and 404.html
-  # uses site-absolute paths because of it. Accept the prefix here too so local
-  # preview resolves those the same way production does.
+  # The site is served from the custom domain apex, so site-absolute paths in
+  # 404.html resolve straight from the root. The old '/ShiverbugStudiosWebsite'
+  # project-Pages prefix is still stripped so stale bookmarks keep working.
   if ($reqPath -eq '/ShiverbugStudiosWebsite' -or $reqPath.StartsWith('/ShiverbugStudiosWebsite/')) {
     $reqPath = $reqPath.Substring('/ShiverbugStudiosWebsite'.Length)
   }

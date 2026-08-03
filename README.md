@@ -1,6 +1,6 @@
 # Shiverbug Studios website
 
-The studio site for [Shiverbug Studios](https://olivernealdev.github.io/ShiverbugStudiosWebsite/):
+The studio site for [Shiverbug Studios](https://shiverbugstudios.com/):
 our debut game *Out of Water*, the team, and our co-development services.
 
 Static HTML, CSS and vanilla JavaScript. No framework, no bundler, no
