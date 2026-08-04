@@ -329,11 +329,39 @@ h1, h2, h3 {
    used to sit inline to the left of the list, which pushed the names to a left
    edge nothing else on the page shared - the thing that made the strip read as
    bolted on rather than part of the page. */
-.creds { background: var(--paper); padding: 2rem 0 0; }
+/* The bottom padding is only the sticker's: it hangs ~15px below the rotated
+   frame and would otherwise sit on the next section's heading. Anything more
+   reads as a gap, because the run-up below is already doing that job. */
+.creds { background: var(--paper); padding: 2rem 0 1.5rem; }
 /* The section that follows is on the same paper and opens with its own heading,
    so it doesn't need a full section's worth of run-up on top of this strip's
-   own padding - between them that was ~137px of nothing. */
-.creds + .section { padding-top: clamp(2.5rem, 5vw, 4rem); }
+   own padding - between them that was ~137px of nothing. Trimmed again when the
+   strip grew a photo: the figure's own bottom padding now pays part of this. */
+.creds + .section { padding-top: clamp(2rem, 4vw, 3.25rem); }
+/* Names left, the award photo right. The photo track is sized off the names, not
+   the other way round: the four programmes need ~740px to stay on a single line,
+   so the picture gets what is left over. Give it more - a flat 420px was the
+   first attempt - and the award chip drops to a second row on its own with half
+   a column empty beside it, which is the thing that looked broken. One line now
+   holds from about 1250px up; below that it wraps, but the band is short enough
+   by then that the wrap reads as a list rather than as a stranded chip. */
+.creds__inner {
+  display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 23vw, 355px);
+  gap: clamp(1.4rem, 3vw, 2.5rem); align-items: center;
+}
+.creds__photo { position: relative; }
+.creds__photo img {
+  width: 100%; height: auto; display: block;
+  border-radius: var(--radius);
+  border: 3px solid var(--ink);
+  box-shadow: var(--shadow-pop);
+  transform: rotate(1.5deg);
+  transition: transform .35s var(--ease-out);
+}
+.creds__photo:hover img { transform: rotate(.4deg) translateY(-4px); }
+/* Mirrored from the studio photo's sticker, which sits bottom-left under a
+   photo tilted the other way. */
+.creds__photo .sticker { bottom: -10px; right: 20px; transform: rotate(4deg); }
 .creds__label {
   font-family: var(--font-display); font-weight: 700; font-size: .8rem;
   text-transform: uppercase; letter-spacing: .14em;
@@ -341,7 +369,10 @@ h1, h2, h3 {
   margin-bottom: .9rem;
 }
 .creds__list {
-  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.8rem;
+  /* 1.5rem, not the 1.8 it used to be: those extra 4.8px per gap were the
+     difference between the four names holding one line and the award chip
+     wrapping alone at 1280px, which is the commonest desktop width there is. */
+  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.5rem;
   font-family: var(--font-display); font-weight: 700; font-size: 1rem;
   color: var(--text-ink);
 }
@@ -356,6 +387,13 @@ h1, h2, h3 {
 .creds__award-note {
   font-family: var(--font-body); font-weight: 600; font-size: .8rem;
   padding-left: .5rem; border-left: 1px solid rgba(20,23,28,.3);
+}
+/* Below this the two columns leave the names too narrow to sit on one or two
+   lines, and the picture too small to read the shirts. Stacked, the photo caps
+   at 480px so it doesn't tower over the four names it belongs to. */
+@media (max-width: 940px) {
+  .creds__inner { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+  .creds__photo { width: min(100%, 480px); }
 }
 @media (max-width: 600px) {
   .creds__list { gap: .55rem 1.2rem; font-size: .92rem; }

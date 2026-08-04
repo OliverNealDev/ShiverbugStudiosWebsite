@@ -42,6 +42,13 @@ $groups = @(
   # The .jpg twins of these two exist only to be og:image targets, which social
   # scrapers fetch whole. Resizing them would just publish files nothing loads.
   @{ path = 'assets\img';      match = '^founders\.webp$'; widths = @(400, 600, 800, 1080) },
+  # The Tranzfuser award photo in the "Part of" strip. Its .jpg twin is the
+  # full-size file press.html links to, and is fetched whole like the two above.
+  # Named "-founders", not "-2025": the variant guard below skips any stem ending
+  # in a hyphen and 2-4 digits, so a year on the end reads as a width and the
+  # source is passed over in silence. assets\press\shiverbug-team-brighton-2026
+  # is already sitting in that trap - its variants had to be made by hand.
+  @{ path = 'assets\img';      match = '^tranzfuser-founders\.webp$'; widths = @(400, 600, 800, 1080) },
   @{ path = 'assets\img';      match = '^out-of-water-screenshot\.webp$'; widths = @(480, 760, 1100, 1520) },
   # The hero and footer marks used to be rasters resized here. They are now one
   # SVG (assets/img/logo.svg, trimmed from the 2026 brand pack), which has no
