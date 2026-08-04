@@ -338,15 +338,14 @@ h1, h2, h3 {
    own padding - between them that was ~137px of nothing. Trimmed again when the
    strip grew a photo: the figure's own bottom padding now pays part of this. */
 .creds + .section { padding-top: clamp(2rem, 4vw, 3.25rem); }
-/* Names left, the award photo right. The photo track is sized off the names, not
-   the other way round: the four programmes need ~740px to stay on a single line,
-   so the picture gets what is left over. Give it more - a flat 420px was the
-   first attempt - and the award chip drops to a second row on its own with half
-   a column empty beside it, which is the thing that looked broken. One line now
-   holds from about 1250px up; below that it wraps, but the band is short enough
-   by then that the wrap reads as a list rather than as a stranded chip. */
+/* Photo left, names right. The names are a 2x2 block rather than a single wrapped
+   row, so they need ~442px whatever the viewport - a fixed shape the picture can
+   be sized against instead of a row that reflows every few pixels. The photo is
+   capped at 360px to keep the band near the height of the studio photo further
+   down; there is room for more, but the taller this strip gets the more the four
+   names look stranded beside it. */
 .creds__inner {
-  display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 23vw, 355px);
+  display: grid; grid-template-columns: clamp(280px, 26vw, 360px) minmax(0, 1fr);
   gap: clamp(1.4rem, 3vw, 2.5rem); align-items: center;
 }
 .creds__photo { position: relative; }
@@ -355,38 +354,62 @@ h1, h2, h3 {
   border-radius: var(--radius);
   border: 3px solid var(--ink);
   box-shadow: var(--shadow-pop);
-  transform: rotate(1.5deg);
+  transform: rotate(-1.5deg);
   transition: transform .35s var(--ease-out);
 }
-.creds__photo:hover img { transform: rotate(.4deg) translateY(-4px); }
-/* Mirrored from the studio photo's sticker, which sits bottom-left under a
-   photo tilted the other way. */
-.creds__photo .sticker { bottom: -10px; right: 20px; transform: rotate(4deg); }
+.creds__photo:hover img { transform: rotate(-.4deg) translateY(-4px); }
+/* Bottom-left, matching the studio photo, which sits in the same left-hand slot
+   under the same tilt. It also has to be this side: bottom-right is where the
+   crocheted turtle is, and the sticker covered it. */
+.creds__photo .sticker { bottom: -10px; left: 20px; }
 .creds__label {
-  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  font-family: var(--font-display); font-weight: 700;
+  /* Tracks the list below it, a step quieter. Left at .8rem it read as a tag on
+     something much larger than itself. */
+  font-size: clamp(.8rem, .95vw, .95rem);
   text-transform: uppercase; letter-spacing: .14em;
   color: var(--sand-ink);
-  margin-bottom: .9rem;
+  margin-bottom: clamp(.9rem, 1.4vw, 1.3rem);
 }
+/* A fixed 2x2 rather than a wrapping row. As a flex row the four names reflowed
+   with every few pixels of viewport - one line, then three-plus-the-chip, then
+   the chip stranded on its own - and none of those shapes sat well beside a
+   photo. Stacked, the tracks are max-content so the block stays as narrow as its
+   contents; the two-column band widens them below. */
 .creds__list {
-  /* 1.5rem, not the 1.8 it used to be: those extra 4.8px per gap were the
-     difference between the four names holding one line and the award chip
-     wrapping alone at 1280px, which is the commonest desktop width there is. */
-  display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1.5rem;
-  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  display: grid; grid-template-columns: repeat(2, minmax(0, max-content));
+  align-items: center; justify-items: start;
+  gap: clamp(1rem, 2vw, 1.8rem) clamp(1.5rem, 3vw, 2.5rem);
+  font-family: var(--font-display); font-weight: 700;
+  /* Scales with the band. At 1rem these four names read as a footnote beside a
+     360px photo; the ceiling is where the chip stops looking like a caption and
+     starts holding its own half of the section. */
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
   color: var(--text-ink);
+}
+/* Once the photo is beside them rather than above, the names own a whole half of
+   the page, so the tracks share it instead of huddling against the picture with
+   a third of the container empty to their right. minmax(max-content, 1fr), not
+   minmax(0, 1fr): a 0 floor lets a narrow track wrap "Public Vote Winner" inside
+   its own pill, which is exactly what this chip must never do. */
+@media (min-width: 941px) {
+  .creds__list { grid-template-columns: repeat(2, minmax(max-content, 1fr)); }
 }
 .creds__list li { display: flex; align-items: center; gap: .5rem; }
 /* the award is the one that earns a second glance, so it gets the chip */
+/* Padding and the note are in em, not rem: the list's font-size now scales with
+   the viewport, and fixed padding around growing text pinches the pill. The
+   values are the em equivalents of the rem ones they replace, so at the 1rem
+   floor the chip is pixel-identical to what it was. */
 .creds__award {
   background: var(--sand); color: var(--ink);
   border: 2px solid var(--ink); border-radius: 999px;
   box-shadow: 0 3px 0 var(--ink);
-  padding: .3rem .9rem;
+  padding: .3em .9em;
 }
 .creds__award-note {
-  font-family: var(--font-body); font-weight: 600; font-size: .8rem;
-  padding-left: .5rem; border-left: 1px solid rgba(20,23,28,.3);
+  font-family: var(--font-body); font-weight: 600; font-size: .8em;
+  padding-left: .5em; border-left: 1px solid rgba(20,23,28,.3);
 }
 /* Below this the two columns leave the names too narrow to sit on one or two
    lines, and the picture too small to read the shirts. Stacked, the photo caps
@@ -395,8 +418,11 @@ h1, h2, h3 {
   .creds__inner { grid-template-columns: minmax(0, 1fr); justify-items: start; }
   .creds__photo { width: min(100%, 480px); }
 }
+/* The 2x2 needs ~442px. A phone's container is nowhere near that, and letting
+   the tracks squeeze instead would wrap "Public Vote Winner" inside its own
+   chip, so below this it becomes a single column. */
 @media (max-width: 600px) {
-  .creds__list { gap: .55rem 1.2rem; font-size: .92rem; }
+  .creds__list { grid-template-columns: minmax(0, max-content); gap: .55rem; font-size: .92rem; }
 }
 
 /* ---------- sections ---------- */
