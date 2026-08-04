@@ -324,105 +324,65 @@ h1, h2, h3 {
 .wave svg { width: 100%; height: clamp(40px, 7vw, 90px); }
 .wave--top { top: -1px; bottom: auto; }
 
-/* ---------- programmes & networks ---------- */
-/* Label above, list below, both flush with the container's left edge. The label
-   used to sit inline to the left of the list, which pushed the names to a left
-   edge nothing else on the page shared - the thing that made the strip read as
-   bolted on rather than part of the page. */
-/* The bottom padding is only the sticker's: it hangs ~15px below the rotated
-   frame and would otherwise sit on the next section's heading. Anything more
-   reads as a gap, because the run-up below is already doing that job. */
-.creds { background: var(--paper); padding: 2rem 0 1.5rem; }
+/* ---------- recognition & programmes ---------- */
+/* Names as type, not logos: we don't hold usage rights to any of these marks,
+   and a text credit needs none.
+
+   This band spent a long time as a bare strip of four programme names. When the
+   Tranzfuser win finally had a photograph, the picture was bolted on beside them
+   - and four short names have nothing like the visual weight of a photograph, so
+   the band read as lopsided at every width no matter how the two were sized
+   against each other. It now takes the shape the rest of the page already uses
+   whenever an image has to carry a point: framed photo one side, kicker, heading
+   and copy the other, exactly like the proof band and the studio band below.
+   Giving the picture real copy to sit against is the thing that fixes the
+   balance; sizing the two halves against each other only moved it around. */
+.creds { background: var(--paper); padding-top: clamp(2.5rem, 5vw, 4rem); }
 /* The section that follows is on the same paper and opens with its own heading,
-   so it doesn't need a full section's worth of run-up on top of this strip's
-   own padding - between them that was ~137px of nothing. Trimmed again when the
-   strip grew a photo: the figure's own bottom padding now pays part of this. */
+   so it doesn't need a full section's worth of run-up on top of this one's. */
 .creds + .section { padding-top: clamp(2rem, 4vw, 3.25rem); }
-/* Photo left, names right. The names are a 2x2 block rather than a single wrapped
-   row, so they need ~442px whatever the viewport - a fixed shape the picture can
-   be sized against instead of a row that reflows every few pixels. The photo is
-   capped at 360px to keep the band near the height of the studio photo further
-   down; there is room for more, but the taller this strip gets the more the four
-   names look stranded beside it. */
 .creds__inner {
-  display: grid; grid-template-columns: clamp(280px, 26vw, 360px) minmax(0, 1fr);
-  gap: clamp(1.4rem, 3vw, 2.5rem); align-items: center;
+  display: grid; grid-template-columns: .95fr 1.05fr;
+  gap: clamp(2.5rem, 6vw, 5rem); align-items: center;
 }
-.creds__photo { position: relative; }
-.creds__photo img {
+.creds__frame { position: relative; }
+.creds__frame img {
   width: 100%; height: auto; display: block;
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   border: 3px solid var(--ink);
   box-shadow: var(--shadow-pop);
-  transform: rotate(-1.5deg);
+  transform: rotate(-2deg);
   transition: transform .35s var(--ease-out);
 }
-.creds__photo:hover img { transform: rotate(-.4deg) translateY(-4px); }
-/* Bottom-left, matching the studio photo, which sits in the same left-hand slot
-   under the same tilt. It also has to be this side: bottom-right is where the
-   crocheted turtle is, and the sticker covered it. */
-.creds__photo .sticker { bottom: -10px; left: 20px; }
+.creds__frame:hover img { transform: rotate(-.5deg) translateY(-5px); }
+/* Bottom-left, matching the proof and studio frames. It also has to be this
+   side: bottom-right is where the crocheted turtle is, and the sticker sat on
+   top of it. */
+.creds__frame .sticker { bottom: -10px; left: 20px; }
+.creds__copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin-bottom: 1.1rem; }
+.creds__copy p { color: var(--text-soft); margin-bottom: 1.5rem; max-width: 56ch; }
+/* The label sits ABOVE the list rather than inline beside it - inline pushed the
+   names to a left edge nothing else on the page shared. */
 .creds__label {
-  font-family: var(--font-display); font-weight: 700;
-  /* Tracks the list below it, a step quieter. Left at .8rem it read as a tag on
-     something much larger than itself. */
-  font-size: clamp(.8rem, .95vw, .95rem);
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
   text-transform: uppercase; letter-spacing: .14em;
   color: var(--sand-ink);
-  margin-bottom: clamp(.9rem, 1.4vw, 1.3rem);
+  margin-bottom: .7rem;
 }
-/* A fixed 2x2 rather than a wrapping row. As a flex row the four names reflowed
-   with every few pixels of viewport - one line, then three-plus-the-chip, then
-   the chip stranded on its own - and none of those shapes sat well beside a
-   photo. Stacked, the tracks are max-content so the block stays as narrow as its
-   contents; the two-column band widens them below. */
+/* A fixed 2x2, not a wrapping row. In a column half the page wide these four
+   names fall one short of a single line, so a flex row would drop "Tranzfuser"
+   onto a row of its own. Two max-content columns come to ~320px, which fits
+   inside the copy column at every width down to a phone, so the block is the
+   same shape everywhere and never reflows. */
 .creds__list {
-  display: grid; grid-template-columns: repeat(2, minmax(0, max-content));
-  align-items: center; justify-items: start;
-  gap: clamp(1rem, 2vw, 1.8rem) clamp(1.5rem, 3vw, 2.5rem);
-  font-family: var(--font-display); font-weight: 700;
-  /* Scales with the band. At 1rem these four names read as a footnote beside a
-     360px photo; the ceiling is where the chip stops looking like a caption and
-     starts holding its own half of the section. */
-  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  display: grid; grid-template-columns: repeat(2, max-content);
+  align-items: center; gap: .7rem 1.6rem;
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
   color: var(--text-ink);
 }
-/* Once the photo is beside them rather than above, the names own a whole half of
-   the page, so the tracks share it instead of huddling against the picture with
-   a third of the container empty to their right. minmax(max-content, 1fr), not
-   minmax(0, 1fr): a 0 floor lets a narrow track wrap "Public Vote Winner" inside
-   its own pill, which is exactly what this chip must never do. */
-@media (min-width: 941px) {
-  .creds__list { grid-template-columns: repeat(2, minmax(max-content, 1fr)); }
-}
 .creds__list li { display: flex; align-items: center; gap: .5rem; }
-/* the award is the one that earns a second glance, so it gets the chip */
-/* Padding and the note are in em, not rem: the list's font-size now scales with
-   the viewport, and fixed padding around growing text pinches the pill. The
-   values are the em equivalents of the rem ones they replace, so at the 1rem
-   floor the chip is pixel-identical to what it was. */
-.creds__award {
-  background: var(--sand); color: var(--ink);
-  border: 2px solid var(--ink); border-radius: 999px;
-  box-shadow: 0 3px 0 var(--ink);
-  padding: .3em .9em;
-}
-.creds__award-note {
-  font-family: var(--font-body); font-weight: 600; font-size: .8em;
-  padding-left: .5em; border-left: 1px solid rgba(20,23,28,.3);
-}
-/* Below this the two columns leave the names too narrow to sit on one or two
-   lines, and the picture too small to read the shirts. Stacked, the photo caps
-   at 480px so it doesn't tower over the four names it belongs to. */
-@media (max-width: 940px) {
-  .creds__inner { grid-template-columns: minmax(0, 1fr); justify-items: start; }
-  .creds__photo { width: min(100%, 480px); }
-}
-/* The 2x2 needs ~442px. A phone's container is nowhere near that, and letting
-   the tracks squeeze instead would wrap "Public Vote Winner" inside its own
-   chip, so below this it becomes a single column. */
 @media (max-width: 600px) {
-  .creds__list { grid-template-columns: minmax(0, max-content); gap: .55rem; font-size: .92rem; }
+  .creds__list { gap: .5rem 1.1rem; font-size: .92rem; }
 }
 
 /* ---------- sections ---------- */
@@ -1427,6 +1387,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   .card { border-right: 0; border-top: 1px solid rgba(255,255,255,.15); padding-left: 0 !important; padding-right: 0; }
   .studio__inner { grid-template-columns: 1fr; }
   .studio__photo { max-width: 480px; }
+  .creds__inner { grid-template-columns: 1fr; }
+  .creds__frame { max-width: 520px; }
   .team__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .team__grid--founders { width: 100%; }
   /* stays one column ahead of the studio grid, or the pool stops reading as the
