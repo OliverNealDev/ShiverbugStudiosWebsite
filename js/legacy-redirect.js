@@ -16,8 +16,7 @@
     'josh': 'josh-cairns',
     'madi': 'madi-freck',
     'max': 'max-breeze',
-    'aidan': 'aidan-hendry',
-    'hollie': 'hollie'
+    'aidan': 'aidan-hendry'
   };
   var slug = MAP[new URLSearchParams(location.search).get('p')];
   if (slug) location.replace('team/' + slug + '.html' + location.hash);

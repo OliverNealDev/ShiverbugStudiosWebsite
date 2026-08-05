@@ -349,23 +349,6 @@
       ],
       "thumbClass": null,
       "thumbStyle": null
-    },
-    {
-      "id": "hollie",
-      "slug": "hollie",
-      "name": "Hollie",
-      "role": "3D Animator",
-      "photo": null,
-      "initials": "H",
-      "pronouns": null,
-      "status": "former",
-      "tagline": null,
-      "about": null,
-      "favourite": null,
-      "askMeAbout": null,
-      "socials": null,
-      "thumbClass": null,
-      "thumbStyle": null
     }
   ]
 }
