@@ -57,7 +57,10 @@
    scrolling page than on a short one, so --shell resolves against a different
    width and every centred container - the nav bar included - jumps 7.5px
    sideways on the way from a long page to a short one. */
-html { scroll-behavior: smooth; scroll-padding-top: 96px; scrollbar-gutter: stable; }
+/* The collapsed nav is 60px: 8px of padding either side of a 44px row, which is
+   the AAA target-size floor rather than anything to do with the type. 88 clears
+   it by 28px, the same breathing room the old 96 gave the 72px pill. */
+html { scroll-behavior: smooth; scroll-padding-top: 88px; scrollbar-gutter: stable; }
 
 /* seamless cross-page transitions (progressive enhancement) */
 @view-transition { navigation: auto; }
@@ -211,9 +214,27 @@ h1, h2, h3 {
 .sticker--sea { background: var(--sea-chip); color: #fff; }
 
 /* ---------- nav ---------- */
+/* The bare edge. There is no bar over the hero at all: the wordmark sits large
+   on the artwork and the links are plain type beside it, and the whole thing
+   collapses into a slim ink strip as soon as the page moves.
+
+   Only the home page opens on the ink hero. Every other page opens on paper,
+   where white type over nothing would be invisible, so they start in the
+   collapsed state and stay there - the bare treatment is a hero treatment, and
+   a page without a hero is already at rest. index.html is the only page whose
+   header carries .nav--hero, and the collapsed look below is the default
+   precisely so that forgetting the modifier fails safe (legible, just not
+   bare) rather than fails invisible. */
 .nav {
-  position: fixed; inset-inline: 0; top: 14px; z-index: 100;
+  position: fixed; inset-inline: 0; top: 0; z-index: 100;
   pointer-events: none;
+  background: color-mix(in srgb, var(--ink) 93%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.09);
+  transition: background .3s var(--ease-out), box-shadow .3s;
+}
+.nav.is-scrolled {
+  box-shadow: 0 1px 0 rgba(255,255,255,.09), 0 14px 30px -20px rgba(0,0,0,.6);
 }
 .nav__inner {
   pointer-events: auto;
@@ -221,14 +242,20 @@ h1, h2, h3 {
      under it instead of sitting 1vw proud of it */
   width: var(--shell); margin-inline: auto;
   display: flex; align-items: center; justify-content: space-between;
-  background: color-mix(in srgb, var(--ink) 88%, transparent);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: var(--radius);
-  padding: .5rem .6rem .5rem 1rem;
-  transition: box-shadow .3s;
+  padding: .5rem 0;
+  transition: padding .3s var(--ease-out);
 }
-.nav.is-scrolled .nav__inner { box-shadow: 0 12px 30px -12px rgba(0,0,0,.5); }
+
+/* Home page, before the first scroll: no bar, just type on the hero. The
+   is-open guard is for the phone menu - the dropdown needs something solid
+   behind the bar it hangs from. */
+.nav--hero:not(.is-scrolled):not(.is-open) {
+  background: transparent;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+.nav--hero:not(.is-scrolled):not(.is-open) .nav__inner { padding: 1.55rem 0; }
+.nav--hero:not(.is-scrolled):not(.is-open) .nav__wordmark { height: 40px; }
 
 /* 2.5.5 Target Size (Enhanced), AAA: every non-inline target is at least 44x44. */
 /* The wordmark alone. The moth mark that used to sit to its left is now painted
@@ -236,25 +263,48 @@ h1, h2, h3 {
    was mud, which is where "the logo is too small" came from. */
 .nav__brand { display: flex; align-items: center; min-height: 44px; }
 .nav__wordmark {
-  height: 30px; width: auto; display: block;
-  transition: opacity .15s;
+  height: 24px; width: auto; display: block;
+  transition: height .3s var(--ease-out), opacity .15s;
 }
-.nav__brand:hover .nav__wordmark { opacity: .78; }
+.nav__brand:hover .nav__wordmark { opacity: .75; }
 
-.nav__links { display: flex; align-items: center; gap: .25rem; }
+.nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a {
-  color: var(--text-paper-soft); font-weight: 500; font-size: .95rem;
-  padding: .5rem .85rem; border-radius: var(--radius-sm);
+  position: relative;
+  color: var(--text-paper); font-weight: 500; font-size: .95rem;
   white-space: nowrap;
   display: inline-flex; align-items: center; min-height: 44px;
-  transition: color .15s, background .15s;
+  transition: color .15s;
 }
-.nav__links a:hover { color: #fff; background: rgba(255,255,255,.08); }
-.nav__links a[aria-current="page"] { color: #fff; background: rgba(255,255,255,.1); }
-.nav__links .nav__cta {
-  background: var(--sand); color: var(--ink); font-weight: 600; margin-left: .35rem;
+.nav__links a:hover { color: #fff; }
+/* The pill backgrounds are gone, so hover and current state are carried by a
+   sand rule that wipes in from the left. It is drawn on the text baseline
+   rather than the bottom of the 44px target, or it would float well clear of
+   the word it belongs to. */
+.nav__links a:not(.nav__cta)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 12px; height: 2px;
+  background: var(--sand); transform: scaleX(0); transform-origin: left;
+  transition: transform .25s var(--ease-out);
 }
-.nav__links .nav__cta:hover { background: var(--sand-deep); color: var(--ink); }
+.nav__links a:not(.nav__cta):hover::after,
+.nav__links a[aria-current="page"]::after { transform: scaleX(1); }
+
+.nav__links .nav__cta { color: var(--sand); font-weight: 600; gap: .4rem; }
+.nav__links .nav__cta:hover { color: var(--sand); }
+/* The same arrow the buttons and backlinks use, as a mask so it takes
+   currentColor and needs no markup change on twenty-four pages. Behind
+   @supports because a browser without masking would paint the box itself - a
+   solid sand square - rather than nothing. */
+@supports ((mask-image: none) or (-webkit-mask-image: none)) {
+  .nav__links .nav__cta::after {
+    content: ""; width: 15px; height: 15px; flex: none;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h11M9 3.5 13.5 8 9 12.5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8h11M9 3.5 13.5 8 9 12.5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    transition: transform .2s var(--ease-out);
+  }
+  .nav__links .nav__cta:hover::after { transform: translateX(3px); }
+}
 
 .nav__burger {
   display: none; flex-direction: column; justify-content: center; align-items: center;
@@ -1451,19 +1501,25 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 
 @media (max-width: 920px) {
+  /* the dropdown hangs off the shell, not the viewport, so its edges keep
+     agreeing with the bar above it */
+  .nav__inner { position: relative; }
+  .nav--hero:not(.is-scrolled):not(.is-open) .nav__inner { padding: .9rem 0; }
+  .nav--hero:not(.is-scrolled):not(.is-open) .nav__wordmark { height: 28px; }
   .nav__links {
-    position: absolute; top: calc(100% + 10px); right: 0; left: 0;
-    flex-direction: column; align-items: stretch;
-    background: var(--ink); border: 1px solid rgba(255,255,255,.08);
-    border-radius: var(--radius); padding: .8rem;
+    position: absolute; top: calc(100% + 8px); right: 0; left: 0;
+    flex-direction: column; align-items: stretch; gap: .1rem;
+    background: var(--ink); border: 1px solid rgba(255,255,255,.1);
+    border-radius: var(--radius); padding: .7rem;
     opacity: 0; visibility: hidden; transform: translateY(-8px);
     transition: opacity .25s, transform .25s var(--ease-out), visibility .25s;
   }
   .nav.is-open .nav__links { opacity: 1; visibility: visible; transform: none; }
-  .nav__links a { padding: .8rem 1rem; }
-  .nav__links .nav__cta { margin: .35rem 0 0; text-align: center; justify-content: center; }
+  .nav__links a { padding: .7rem .9rem; }
+  /* inset to match the padding, so the rule sits under the word rather than
+     running the full width of the panel */
+  .nav__links a:not(.nav__cta)::after { left: .9rem; right: .9rem; bottom: 8px; }
   .nav__burger { display: flex; }
-  .nav__wordmark { height: 26px; }
 }
 
 @media (max-width: 760px) {
