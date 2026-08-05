@@ -24,6 +24,19 @@ script produces:
 | `llms.txt` | `data/team.json` |
 | `sitemap.xml` | the page list in the script, plus git history for `lastmod` |
 
+The three press archives in `assets/press/` are generated too, by
+`tools/build-press-kit.ps1`, from files already in the repo:
+
+| Generated | Contains |
+| --- | --- |
+| `shiverbug-press-kit.zip` | brand, screenshots, studio photography, trailer |
+| `shiverbug-screenshots.zip` | screenshots and studio photography |
+| `shiverbug-logos.zip` | brand only |
+
+Each one's `README.txt` is written by that script, so the press contact and the
+site address are stated in exactly one place. Rebuilding without changing an
+input produces a byte-identical zip, so `git status` stays quiet.
+
 `data/team.json` is the single source of truth for everyone on the site. Its
 `_readme` key documents every field.
 
@@ -48,7 +61,16 @@ powershell -ExecutionPolicy Bypass -File tools/validate-site.ps1
 The validator checks every page for a single `<h1>`, a title, a description, a
 canonical, a CSP tag, the Companies Act footer disclosure, valid JSON-LD, and
 that every internal link and every `srcset` candidate resolves to a real file.
-It exits non-zero, so CI gates on it.
+It also opens the three press archives and checks that no entry uses a backslash
+separator and that each `README.txt` carries the current site address and the
+press contact. It exits non-zero, so CI gates on it.
+
+If you touched a logo, a screenshot or the blurb in the press archives, rebuild
+them first:
+
+```bash
+powershell -ExecutionPolicy Bypass -File tools/build-press-kit.ps1
+```
 
 If you added images, run the resizer first:
 
@@ -76,6 +98,12 @@ anything else parked under an underscore.
 **Everything committed here is published.** Pages serves the whole repo at a
 guessable URL, so a file dropped in "just to look at" goes public the moment it
 is pushed. `.gitignore` blocks the usual suspects; the habit matters more.
+
+This has already happened once. A `docs/` folder of transcribed feedback was
+committed and served at `/docs/`, naming individual people and what was wrong
+with their photos and their work, with nothing in `robots.txt` to stop a crawler
+reading it — that file explicitly invites every AI and search crawler in.
+`docs/` is ignored now. Notes about the site do not live on the site.
 
 **The repo path is hardcoded in two places.** `$baseUrl` in
 `tools/build-team.ps1`, and every absolute reference in `404.html` (which Pages

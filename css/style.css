@@ -257,8 +257,14 @@ h1, h2, h3 {
 .nav__links .nav__cta:hover { background: var(--sand-deep); color: var(--ink); }
 
 .nav__burger {
-  display: none; flex-direction: column; gap: 6px;
+  display: none; flex-direction: column; justify-content: center; align-items: center;
+  gap: 6px;
   background: none; border: 0; padding: .8rem; cursor: pointer;
+  /* Two 2px bars and a 6px gap is 10px of content; .8rem of padding took the
+     button to 36, not the 44 the accessibility statement promises. This is the
+     only way to open the menu on a phone, so it is the last control that should
+     be under size. Centring keeps the bars where they were. */
+  min-width: 44px; min-height: 44px; box-sizing: border-box;
 }
 .nav__burger span {
   width: 22px; height: 2px; background: #fff; border-radius: 2px;
@@ -630,8 +636,13 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .codev-form select option { background: var(--ink-2); color: var(--text-paper); }
 .codev-form .field--check {
   grid-column: 1 / -1;
-  display: flex; align-items: flex-start; gap: .7rem;
-  /* 2.5.5: the whole row is the target, not just the 20px box */
+  display: flex; align-items: flex-start;
+  /* 2.5.5: the whole row is the target, not just the 20px box. The .7rem that
+     used to sit here as a flex gap now lives on the label's padding-left, so it
+     looks identical but is part of the target instead of dead space between two
+     of them. Probing outwards from the box's centre used to leave the target
+     11px later and land in the gap. */
+  gap: 0;
   min-height: 44px; padding: .5rem 0;
 }
 .codev-form .field--check input {
@@ -650,7 +661,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .codev-form .field--check label {
   font-family: var(--font-body); font-weight: 400; font-size: .92rem;
   text-transform: none; letter-spacing: 0; line-height: 1.5;
-  display: block; min-height: 44px; padding: calc((44px - 1.5em) / 2) 0;
+  display: block; min-height: 44px;
+  padding: calc((44px - 1.5em) / 2) 0 calc((44px - 1.5em) / 2) .7rem;
 }
 .codev-form .btn { grid-column: 1 / -1; justify-self: center; }
 .codev-form .form-privacy {
@@ -921,13 +933,22 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .footer__main > p { color: var(--text-paper-soft); max-width: 46ch; margin: 0 auto 2rem; }
 .footer__email {
-  display: inline-block;
+  display: inline-block; position: relative;
   font-family: var(--font-display); font-weight: 700;
   font-size: clamp(1.15rem, 2.6vw, 1.7rem);
   color: var(--sand);
   border-bottom: 3px solid color-mix(in srgb, var(--sand) 45%, transparent);
   margin-bottom: 2.2rem;
   transition: border-color .2s, color .2s;
+}
+/* This is a standalone link on its own line, not one inside a sentence, so the
+   44px promise applies to it. At the small end of the clamp the text box is
+   only 32 tall. Padding would work, but it would drag the underline away from
+   the address it underlines; an overlay grows the target and leaves the type
+   exactly where it is. */
+.footer__email::after {
+  content: ''; position: absolute; left: 0; right: 0;
+  top: 50%; transform: translateY(-50%); height: 44px;
 }
 .footer__email:hover { color: #fff; border-color: #fff; }
 .footer__social { margin-bottom: 3.5rem; }
@@ -1036,6 +1057,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   background: none; border: none; padding: 0; cursor: pointer;
   font-family: var(--font-display); font-weight: 700; font-size: .95rem;
   color: var(--sea-ink); margin-top: .5rem;
+  /* Unstyled text on a bare button: 18 tall, on all sixteen profiles, and the
+     only way to read the rest of someone's bio. It stays looking like a text
+     link and gets a 44px target underneath. */
+  position: relative;
+}
+.profile__more::after {
+  content: ''; position: absolute; left: 0; right: 0;
+  top: 50%; transform: translateY(-50%); height: 44px;
 }
 .profile__more:hover { text-decoration: underline; }
 .profile__section h2 {
@@ -1226,6 +1255,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   padding: .35rem .8rem; border-radius: 999px;
   border: 1px solid rgba(20,23,28,.18); color: var(--text-soft);
   transition: background .2s, color .2s, border-color .2s;
+  /* Padding alone left these pills 36 tall. They are the fastest way around a
+     very long page, and on a phone they are the first thing a journalist
+     touches, so they get the full 44. */
+  display: inline-flex; align-items: center; min-height: 44px;
 }
 .press__toc a:hover, .press__toc a:focus-visible { background: var(--ink); border-color: var(--ink); color: #fff; }
 
@@ -1236,6 +1269,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    are a registered address. Without this the whole page scrolls sideways on a
    phone rather than the value wrapping. */
 .press__facts dd { color: var(--text-soft); font-size: .95rem; min-width: 0; overflow-wrap: anywhere; }
+/* These three (website, press contact, socials) are the one place on the site
+   where a link standing on its own is under 44 tall. A 44px hit overlay was
+   tried and reverted: it fits on a phone, where the rows stack ~59px apart, but
+   on a wide screen the two-column grid packs them to ~33px and neighbouring
+   overlays then overlap, so a press near a row boundary opens the wrong link.
+   A target that lies about where it is beats one that is merely small.
+   They meet 2.5.8 by the spacing exception instead - 33px between centres, so
+   no two 24px circles touch - and accessibility.html says so plainly rather
+   than claiming a flat 44 everywhere. Loosening the row gap to fit 44 would
+   spread a ten-row fact sheet for the sake of three rows of it. */
 .press__facts dd a { color: var(--sea-ink); font-weight: 600; }
 /* Two columns stop paying for themselves once the label column is wider than
    what's left for the value. */
@@ -1255,11 +1298,19 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__copyblock h3 span { font-weight: 400; color: var(--text-soft); font-size: .85rem; }
 .press__copyblock p { color: var(--text-ink); font-size: .95rem; margin: 0; }
 .press__copy {
-  flex-shrink: 0; cursor: pointer;
+  flex-shrink: 0; cursor: pointer; position: relative;
   font-family: var(--font-body); font-size: .8rem; font-weight: 600;
   padding: .3rem .8rem; border-radius: 999px;
   border: 1px solid rgba(20,23,28,.25); background: transparent; color: var(--text-ink);
   transition: background .2s, color .2s, border-color .2s;
+}
+/* The drawn pill is 28 tall and stays that way: it sits on the baseline beside
+   the block's heading, and a 44px pill there dwarfs the h3 it is aligned to.
+   The target grows instead. Nothing else is within 8px of it, so the overlay
+   cannot steal a press of anything. */
+.press__copy::after {
+  content: ''; position: absolute; left: 0; right: 0;
+  top: 50%; transform: translateY(-50%); height: 44px;
 }
 .press__copy:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
 .press__copy.is-done { background: var(--leaf-chip); border-color: var(--leaf-chip); color: #fff; }
@@ -1708,7 +1759,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .lightbox__close { position: absolute; top: 18px; right: 18px; font-size: 1.5rem; }
 @media (max-width: 700px) {
   .lightbox { padding: 3.5rem .6rem 1rem; gap: .5rem; }
-  .lightbox__btn { width: 40px; height: 40px; font-size: 1.4rem; }
+  /* The glyph shrinks on a narrow screen; the target does not. 40px was under
+     the 44 the accessibility statement commits to, and these are the only way
+     through the gallery once it is open. */
+  .lightbox__btn { width: 44px; height: 44px; font-size: 1.4rem; }
 }
 
 /* faq */

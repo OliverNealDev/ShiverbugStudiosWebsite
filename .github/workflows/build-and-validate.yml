@@ -28,6 +28,14 @@ jobs:
         shell: powershell
         run: .\tools\build-team.ps1
 
+      # The press archives are generated too, and rebuilding without changing an
+      # input is byte-identical, so they fall under the same drift check below.
+      # Swapping a logo and forgetting the rebuild used to ship a press kit that
+      # disagreed with the site; now it fails here instead.
+      - name: Regenerate the press bundles
+        shell: powershell
+        run: .\tools\build-press-kit.ps1
+
       - name: Fail if generated files are out of date
         shell: bash
         run: |

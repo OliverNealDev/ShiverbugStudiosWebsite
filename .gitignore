@@ -14,6 +14,13 @@
 # Keep the originals somewhere backed up; they are not in this repo any more.
 _originals/
 
+# Internal working notes: feedback rounds, review transcripts, planning. These
+# were tracked once, which put them on the live site at a guessable path with
+# nothing in robots.txt to stop a crawler reading them. They named individual
+# people and what was wrong with their photos and their work. Notes about the
+# site do not live on the site.
+docs/
+
 # Decks, contracts, exports, anything sent over for reference
 *.pdf
 *.pptx

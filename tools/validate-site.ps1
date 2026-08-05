@@ -144,6 +144,45 @@ if (Test-Path $sitemapPath) {
   Fail "sitemap.xml is missing"
 }
 
+# ---- press bundles ----
+# The three zips are the one thing on this site nobody reviews after download.
+# All three once shipped a README pointing at the retired github.io address and
+# stored their paths with backslashes, so they unpacked as a flat heap of
+# oddly-named files on every Mac and Linux box in games press. Neither fault is
+# visible from a page, and neither showed up in a diff. Rebuild with
+# tools/build-press-kit.ps1.
+$zips = Get-ChildItem -Path (Join-Path $root 'assets\press') -Filter *.zip -ErrorAction SilentlyContinue
+if (-not $zips) { Fail 'assets/press : no press bundles found' }
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+foreach ($z in $zips) {
+  $rel = "assets/press/$($z.Name)"
+  # A truncated or half-written zip throws out of OpenRead, and with
+  # $ErrorActionPreference = 'Stop' that would abort the run before the report
+  # is printed - the one failure mode where you most want to be told which file.
+  try { $archive = [IO.Compression.ZipFile]::OpenRead($z.FullName) }
+  catch { Fail "$rel : not a readable zip - $($_.Exception.Message)"; continue }
+  try {
+    foreach ($entry in $archive.Entries) {
+      if ($entry.FullName.Contains([char]92)) {
+        Fail "$rel : entry uses a backslash separator, so it will not unpack into folders off Windows -> $($entry.FullName)"
+      }
+    }
+    $readme = $archive.Entries | Where-Object { $_.FullName -eq 'README.txt' }
+    if (-not $readme) {
+      Fail "$rel : no README.txt - press has nothing telling them where the kit came from or what they may do with it"
+    } else {
+      $reader = New-Object IO.StreamReader($readme.Open())
+      $text = $reader.ReadToEnd()
+      $reader.Dispose()
+      if ($text -match 'github\.io') { Fail "$rel : README.txt still points at the retired github.io address" }
+      if ($text -notmatch [regex]::Escape($baseUrl)) { Fail "$rel : README.txt does not mention $baseUrl" }
+      if ($text -notmatch 'contact@shiverbugstudios\.com') { Fail "$rel : README.txt has no press contact" }
+    }
+  } finally {
+    $archive.Dispose()
+  }
+}
+
 # ---- llms.txt sanity ----
 $llmsPath = Join-Path $root 'llms.txt'
 if (Test-Path $llmsPath) {
