@@ -35,6 +35,44 @@ $csp = "default-src 'self'; " +
 $legal = 'Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. ' +
          'Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.'
 
+# ---------- the studio's own profiles ----------
+#
+# One list, two jobs: the visible footer row on every page, and schema.org
+# sameAs on the Organization. Both matter and they must agree, which is why
+# they are generated from here rather than hand-written in nine places.
+#
+# sameAs is how a search engine or an AI assistant works out that the Bluesky
+# account, the YouTube channel and this site are all the one studio, and which
+# URL is the canonical home of that entity. Until this list existed the graph
+# claimed a single Linktree, which is a redirect page and identifies nothing.
+#
+# 'inSameAs = $false' means the link is worth showing a human but is not an
+# identity reference: a Discord invite is a door into a server, not a profile
+# that describes the studio, and invite codes can be rotated.
+$studioSocials = @(
+  @{ label = 'Bluesky';   icon = 'bluesky';   url = 'https://bsky.app/profile/shiverbugstudios.bsky.social' }
+  @{ label = 'X';         icon = 'x';         url = 'https://x.com/ShiverbugStudio' }
+  @{ label = 'Instagram'; icon = 'instagram'; url = 'https://www.instagram.com/shiverbugstudios/' }
+  @{ label = 'TikTok';    icon = 'tiktok';    url = 'https://www.tiktok.com/@shiverbugstudios' }
+  @{ label = 'YouTube';   icon = 'youtube';   url = 'https://www.youtube.com/@ShiverbugStudios' }
+  @{ label = 'LinkedIn';  icon = 'linkedin';  url = 'https://www.linkedin.com/company/shiverbug-studios' }
+  @{ label = 'itch.io';   icon = 'itchio';    url = 'https://shiverbug-studios.itch.io/' }
+  @{ label = 'Discord';   icon = 'discord';   url = 'https://discord.gg/BpkeNZqbDs'; inSameAs = $false }
+)
+
+# Reference pages that identify the studio without being ours to post on. The
+# Companies House record is the strongest identity signal available to a company
+# this young: it ties the name to registration 16485763, which is the same
+# number the footer discloses on every page.
+$studioRefs = @(
+  'https://linktr.ee/shiverbugstudios'
+  'https://find-and-update.company-information.service.gov.uk/company/16485763'
+)
+
+$studioSameAs = @(
+  @($studioSocials | Where-Object { $_.inSameAs -ne $false } | ForEach-Object { $_.url })
+) + $studioRefs
+
 $data   = Get-Content $dataFile -Raw -Encoding UTF8 | ConvertFrom-Json
 $team   = @($data.team)
 $talent = @($data.talent)
@@ -60,6 +98,49 @@ function Truncate([string]$s, [int]$max) {
   $sp = $cut.LastIndexOf(' ')
   if ($sp -gt 40) { $cut = $cut.Substring(0, $sp) }
   return $cut.TrimEnd(',', '.', ';', ':') + '...'
+}
+
+# Build a meta description that ends where a sentence ends.
+#
+# Google renders roughly 155-160 characters and drops the rest, so overshooting
+# buys nothing. The old rule took the first 200 characters of the bio flat,
+# which reliably cut somebody off mid-word: "First Class Honours in BSc (Hons)
+# Games..." was a real search result for this site. A snippet that stops in the
+# middle of a clause reads as broken text rather than as an answer.
+#
+# So: keep adding whole sentences while they fit. If not even the first one
+# fits, fall back to the last clause boundary inside the limit, and only then
+# to a hard truncation. Anyone whose bio resists all three gets a hand-written
+# "metaDescription" in data/team.json, which wins outright.
+$descLimit = 158
+function SentenceClip([string]$lead, [string]$body, [int]$max) {
+  $lead = $lead.Trim()
+  if ([string]::IsNullOrWhiteSpace($body)) { return $lead }
+  if ($lead.Length -ge $max) { return $lead }
+
+  $out = $lead
+  foreach ($sentence in [regex]::Split($body.Trim(), '(?<=[.!?])\s+')) {
+    $s = $sentence.Trim()
+    if ($s -eq '') { continue }
+    $candidate = ($out + ' ' + $s).Trim()
+    if ($candidate.Length -gt $max) { break }
+    $out = $candidate
+  }
+  if ($out -ne $lead) { return $out }
+
+  # No whole sentence fits. Cut at the last comma or semicolon that does, so the
+  # snippet at least ends on a complete clause instead of mid-phrase.
+  # -4 leaves room for the space after the lead and the three dots on the end,
+  # so the fallback cannot overshoot $max the way a -2 here did.
+  $room = $max - $lead.Length - 4
+  if ($room -gt 60) {
+    $head = $body.Trim().Substring(0, [Math]::Min($room, $body.Trim().Length))
+    $stop = [Math]::Max($head.LastIndexOf(','), $head.LastIndexOf(';'))
+    if ($stop -gt 50) {
+      return ($lead + ' ' + $head.Substring(0, $stop).Trim() + '...')
+    }
+  }
+  return (Truncate ($lead + ' ' + $body.Trim()) $max)
 }
 
 # A profile is "finished" once it has a written bio. Anything without one is a
@@ -123,12 +204,60 @@ $icons = @{
   'x'          = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>'
   'sketchfab'  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.3 20.5 7v10L12 21.7 3.5 17V7z"/><path d="M12 21.7V12M12 12 3.5 7M12 12l8.5-5"/></svg>'
   'website'    = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3.6 9h16.8M3.6 15h16.8"/></svg>'
+  'youtube'    = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>'
+  'tiktok'     = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>'
+  'discord'    = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>'
 }
 
 function IconFor([string]$label) {
   $key = ([regex]::Replace($label.ToLower(), '[^a-z]', ''))
   if ($icons.ContainsKey($key)) { return $icons[$key] }
   return $icons['website']
+}
+
+# ---------- the footer social row ----------
+#
+# Rendered into every page through the BUILD:SOCIALS markers. Two details that
+# are easy to lose in a redesign:
+#   rel="me"  - the microformats identity claim. sameAs in the JSON-LD says
+#               "these profiles are us"; rel="me" says the same thing in the
+#               markup, and between them a crawler gets the link from both
+#               directions once the profiles link back here.
+#   the label - a visually-hidden span rather than aria-label, so the name is
+#               real text that survives translation and shows up in a text-only
+#               crawl. The icon itself is aria-hidden, so nothing reads twice.
+function FooterSocialsHtml([string]$indent) {
+  $items = @($studioSocials | ForEach-Object {
+    $indent + '    <li><a href="' + (HtmlEnc $_.url) + '" target="_blank" rel="me noopener" title="' + (HtmlEnc $_.label) + '">' +
+    (IconFor $_.icon) + '<span class="visually-hidden">Shiverbug Studios on ' + (HtmlEnc $_.label) + '</span></a></li>'
+  }) -join "`n"
+  # Each element is parenthesised on purpose. PowerShell binds the comma tighter
+  # than +, so an unbracketed "$indent + '<nav>', $indent + '  <ul>'" parses as
+  # $indent + ('<nav>', $indent) + '  <ul>' - the inner array collapses to a
+  # string joined by $OFS and -join never sees separate elements. The symptom is
+  # a footer that renders correctly but arrives as one very long line.
+  return @(
+    ($indent + '<nav class="footer__socials" aria-label="Shiverbug Studios elsewhere">'),
+    ($indent + '  <ul>'),
+    $items,
+    ($indent + '  </ul>'),
+    ($indent + '</nav>')
+  ) -join "`n"
+}
+
+# lastmod / dateModified both answer "has this changed?", and both take the
+# file's own last commit rather than "today". Stamping every page with the build
+# date on every build tells search engines the whole site changes daily, which
+# is the fastest way to have the field ignored altogether. Defined up here
+# because the structured data below needs it as well as the sitemap.
+# Falls back to today if git can't answer (shallow clone, or a brand-new file).
+$today = (Get-Date).ToString('yyyy-MM-dd')
+function LastCommitDate([string]$relPath) {
+  try {
+    $d = & git -C $root log -1 --format=%cs -- $relPath 2>$null
+    if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($d)) { return $d.Trim() }
+  } catch { }
+  return $today
 }
 
 # ---------- page template ----------
@@ -222,6 +351,7 @@ $template = @'
 
   <footer class="footer footer--mini">
     <div class="container">
+{{SOCIALSROW}}
       <div class="footer__meta">
         <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
         <p class="footer__tag">Bringing family game night back to the sofa.</p>
@@ -256,16 +386,17 @@ foreach ($list in @($team, $talent)) {
     $roleDisp = RoleDisplay $p
     $canonical = "$baseUrl/team/$($p.slug).html"
 
-    # --- description: role first, then the opening of the bio ---
-    $desc = "$($p.name) - $roleDisp at Shiverbug Studios."
-    if ($p.about -and @($p.about).Count -gt 0) {
-      $desc = $desc + ' ' + (StripTags (@($p.about)[0]))
+    # --- description: role first, then as much of the bio as ends cleanly ---
+    $lead = "$($p.name) - $roleDisp at Shiverbug Studios."
+    if ($p.metaDescription) {
+      $desc = $p.metaDescription
+    } elseif ($p.about -and @($p.about).Count -gt 0) {
+      $desc = SentenceClip $lead (StripTags (@($p.about)[0])) $descLimit
     } elseif ($p.tagline) {
-      $desc = $desc + ' "' + $p.tagline + '"'
+      $desc = SentenceClip $lead ('"' + $p.tagline + '"') $descLimit
     } else {
-      $desc = $desc + ' Shiverbug Studios is an indie game studio in North East England making couch co-op games.'
+      $desc = SentenceClip $lead 'Shiverbug Studios is an indie game studio in North East England making couch co-op games.' $descLimit
     }
-    $desc = Truncate $desc 200
 
     # --- photo ---
     if ($p.photo) {
@@ -386,9 +517,13 @@ foreach ($list in @($team, $talent)) {
           '@id'        = $canonical
           'url'        = $canonical
           'name'       = "$($p.name) | Shiverbug Studios"
+          'description' = (StripTags $desc)
+          'dateModified' = (LastCommitDate "team/$($p.slug).html")
           'mainEntity' = @{ '@id' = "$canonical#person" }
           'breadcrumb' = $crumbs
           'isPartOf'   = @{ '@id' = "$baseUrl/#website" }
+          'about'      = @{ '@id' = "$baseUrl/#studio" }
+          'inLanguage' = 'en-GB'
         },
         $person
       )
@@ -407,6 +542,7 @@ foreach ($list in @($team, $talent)) {
       Replace('{{ROBOTS}}',    $robots).
       Replace('{{CSP}}',       (HtmlEnc $csp)).
       Replace('{{LEGAL}}',     (HtmlEnc $legal)).
+      Replace('{{SOCIALSROW}}', (FooterSocialsHtml '      ')).
       Replace('{{NAME}}',      (HtmlEnc $p.name)).
       Replace('{{ROLE}}',      (HtmlEnc $roleDisp)).
       Replace('{{ROLELINE}}',  $roleLine).
@@ -719,6 +855,7 @@ $teamIndexTemplate = @'
 
   <footer class="footer footer--mini">
     <div class="container">
+{{SOCIALSROW}}
       <div class="footer__meta">
         <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
         <p class="footer__tag">Bringing family game night back to the sofa.</p>
@@ -736,7 +873,9 @@ $teamIndexTemplate = @'
 
 $teamCount = @($team).Count
 $talentCount = @($talent).Count
-$hubDesc = "The $teamCount designers, artists and programmers building Out of Water at Shiverbug Studios in North East England, plus $talentCount friends of the studio. Every profile lists their discipline, portfolio and contact links."
+# Kept under the same 158 characters as the profile descriptions. The old one
+# ran to 204 and lost its last sentence in the search result anyway.
+$hubDesc = "The $teamCount designers, artists and programmers building Out of Water at Shiverbug Studios in North East England, plus $talentCount friends of the studio."
 $hubLede = "Everyone who makes Shiverbug work. Click anyone to read their story, see their portfolio and find them elsewhere."
 
 # ItemList of every person, so one fetch of /team/ gives a crawler the whole roster
@@ -765,6 +904,15 @@ $hubLd = [ordered]@{
   'description' = $hubDesc
   'isPartOf'   = @{ '@id' = "$baseUrl/#website" }
   'about'      = @{ '@id' = "$baseUrl/#studio" }
+  'dateModified' = (LastCommitDate 'team/index.html')
+  'inLanguage' = 'en-GB'
+  'breadcrumb' = [ordered]@{
+    '@type'           = 'BreadcrumbList'
+    'itemListElement' = @(
+      [ordered]@{ '@type' = 'ListItem'; 'position' = 1; 'name' = 'Shiverbug Studios'; 'item' = "$baseUrl/" },
+      [ordered]@{ '@type' = 'ListItem'; 'position' = 2; 'name' = 'Team' }
+    )
+  }
   'mainEntity' = [ordered]@{
     '@type'           = 'ItemList'
     'numberOfItems'   = $all.Count
@@ -775,6 +923,7 @@ $hubLd = [ordered]@{
 $hubHtml = $teamIndexTemplate.
   Replace('{{CSP}}',    (HtmlEnc $csp)).
   Replace('{{LEGAL}}',  (HtmlEnc $legal)).
+  Replace('{{SOCIALSROW}}', (FooterSocialsHtml '      ')).
   Replace('{{BASE}}',   $baseUrl).
   Replace('{{DESC}}',   (HtmlEnc $hubDesc)).
   Replace('{{LEDE}}',   (HtmlEnc $hubLede)).
@@ -835,6 +984,20 @@ foreach ($p in $talent) {
     $llms += ("- {0} - {1} ({2}, no profile written up yet)" -f $p.name, (RoleDisplay $p), $state)
   }
 }
+
+# The same profiles the footer links and sameAs claims. An assistant reading
+# llms.txt to answer "where can I follow this studio?" was previously being
+# handed a Linktree and left to guess.
+$llms += ''
+$llms += '## Elsewhere'
+$llms += ''
+foreach ($s in $studioSocials) {
+  $llms += ("- [{0}]({1})" -f $s.label, $s.url)
+}
+foreach ($r in $studioRefs) {
+  $llms += ("- {0}" -f $r)
+}
+
 $llms += ''
 WriteFileUtf8 (Join-Path $root 'llms.txt') (($llms -join "`n") + "`n")
 Write-Host "Wrote llms.txt"
@@ -856,6 +1019,34 @@ foreach ($p in $founders) {
   $foundersLd += @{ '@id' = "$baseUrl/team/$($p.slug).html#person" }
 }
 
+# Out of Water, defined once and emitted on every page that refers to it.
+#
+# index.html, games.html and press.html all point mainEntity at #out-of-water,
+# but structured data resolves per page: an @id that is only defined on the home
+# page is a reference to nothing on the other two, and games.html - the page
+# actually about the game - was the worst place to have that gap. Rather than
+# paste the node into three files and watch them drift, the build writes it into
+# each of them from here.
+$gameLd = [ordered]@{
+  '@type'       = 'VideoGame'
+  '@id'         = "$baseUrl/#out-of-water"
+  'name'        = 'Out of Water'
+  'url'         = "$baseUrl/games.html"
+  'description' = 'A 2-player split-screen collectathon platformer. One player is a turtle, the other a seagull, exploring a colourful world full of charm, clever challenges and an army of crabs.'
+  'image'       = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
+  'genre'       = @('Platform game', 'Collectathon', 'Cooperative video game')
+  # Target platforms, not shipped ones - the game is unreleased and carries no
+  # datePublished, so nothing here reads as "buy it now". This is what answers
+  # "what can I play it on?" for a search engine or an AI agent.
+  'gamePlatform' = @('PC', 'Steam', 'Steam Deck', 'Xbox', 'PlayStation', 'Nintendo Switch')
+  'gameEngine'  = 'Unity'
+  'playMode'    = 'CoOp'
+  'numberOfPlayers' = [ordered]@{ '@type' = 'QuantitativeValue'; 'minValue' = 2; 'maxValue' = 2 }
+  'author'      = @{ '@id' = "$baseUrl/#studio" }
+  'publisher'   = @{ '@id' = "$baseUrl/#studio" }
+  'inLanguage'  = 'en'
+}
+
 $siteLd = [ordered]@{
   '@context' = 'https://schema.org'
   '@graph'   = @(
@@ -875,7 +1066,7 @@ $siteLd = [ordered]@{
       'knowsAbout'  = @('Video Game Development', 'Concept Art', '3D Art', 'Level Design', 'Gameplay Programming', 'Unity', 'Unreal Engine', 'Co-development')
       'founder'     = $foundersLd
       'employee'    = $employees
-      'sameAs'      = @('https://linktr.ee/shiverbugstudios')
+      'sameAs'      = $studioSameAs
     },
     [ordered]@{
       '@type'       = 'WebSite'
@@ -885,33 +1076,134 @@ $siteLd = [ordered]@{
       'publisher'   = @{ '@id' = "$baseUrl/#studio" }
       'inLanguage'  = 'en-GB'
     },
+    # The home page had no node of its own: every subpage declared a WebPage,
+    # CollectionPage or ProfilePage and pointed isPartOf at #website, while the
+    # page doing the pointing-at was missing from its own graph. This is also
+    # the only place a dateModified for the home page can live.
     [ordered]@{
-      '@type'       = 'VideoGame'
-      '@id'         = "$baseUrl/#out-of-water"
-      'name'        = 'Out of Water'
-      'url'         = "$baseUrl/games.html"
-      'description' = 'A 2-player split-screen collectathon platformer. One player is a turtle, the other a seagull, exploring a colourful world full of charm, clever challenges and an army of crabs.'
-      'image'       = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
-      'genre'       = @('Platform game', 'Collectathon', 'Cooperative video game')
-      # Target platforms, not shipped ones - the game is unreleased and carries no
-      # datePublished, so nothing here reads as "buy it now". This is what answers
-      # "what can I play it on?" for a search engine or an AI agent.
-      'gamePlatform' = @('PC', 'Steam', 'Steam Deck', 'Xbox', 'PlayStation', 'Nintendo Switch')
-      'gameEngine'  = 'Unity'
-      'playMode'    = 'CoOp'
-      'numberOfPlayers' = [ordered]@{ '@type' = 'QuantitativeValue'; 'minValue' = 2; 'maxValue' = 2 }
-      'author'      = @{ '@id' = "$baseUrl/#studio" }
-      'publisher'   = @{ '@id' = "$baseUrl/#studio" }
-      'inLanguage'  = 'en'
-    }
+      '@type'       = 'WebPage'
+      '@id'         = "$baseUrl/#webpage"
+      'url'         = "$baseUrl/"
+      'name'        = 'Shiverbug Studios | Game Co-Development and Work-for-Hire'
+      'description' = 'Shiverbug Studios: an indie game studio in North East England. Co-development, concept art and 3D art for studios, plus our couch co-op game, Out of Water.'
+      'isPartOf'    = @{ '@id' = "$baseUrl/#website" }
+      'about'       = @{ '@id' = "$baseUrl/#studio" }
+      'primaryImageOfPage' = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
+      'dateModified' = (LastCommitDate 'index.html')
+      'inLanguage'  = 'en-GB'
+    },
+    $gameLd
   )
 }
+
 $siteLdJson = ($siteLd | ConvertTo-Json -Depth 12).Replace('<', '\u003c')
 
 $index = Get-Content $indexPath -Raw -Encoding UTF8
 $index = ReplaceBlock $index 'SCHEMA' ('  <script type="application/ld+json">' + "`n" + $siteLdJson + "`n" + '  </script>')
 WriteFileUtf8 $indexPath $index
 Write-Host "Updated the structured data graph in index.html"
+
+# ---------- the Out of Water node on games.html and press.html ----------
+#
+# This goes in a second <script type="application/ld+json"> rather than inside
+# the hand-written graph already on those pages, because an HTML comment cannot
+# sit inside a JSON block without breaking the JSON - so the BUILD markers have
+# to live outside the script element. Several JSON-LD blocks on one page is
+# valid and a crawler merges them.
+#
+# The stub node alongside it carries only the page's own @id and a dateModified.
+# Nodes that share an @id merge, so that hangs a build-stamped date on the
+# CollectionPage / AboutPage declared above it without this script having to own
+# those hand-written nodes.
+$gamePages = @(
+  @{ file = 'games.html'; id = "$baseUrl/games.html" },
+  @{ file = 'press.html'; id = "$baseUrl/press.html" }
+)
+foreach ($gp in $gamePages) {
+  $path = Join-Path $root $gp.file
+  $text = Get-Content $path -Raw -Encoding UTF8
+  if ($text -notmatch '<!-- BUILD:GAME:START -->') {
+    throw "Marker BUILD:GAME not found in $($gp.file) - add the marker pair after the existing JSON-LD block."
+  }
+  $gameGraph = [ordered]@{
+    '@context' = 'https://schema.org'
+    '@graph'   = @(
+      $gameLd,
+      [ordered]@{ '@id' = $gp.id; 'dateModified' = (LastCommitDate $gp.file) }
+    )
+  }
+  $gameJson = ($gameGraph | ConvertTo-Json -Depth 12).Replace('<', '\u003c')
+  $gameBlock = '  <script type="application/ld+json">' + "`n" + $gameJson + "`n" + '  </script>'
+  $text = [regex]::Replace($text, '(?s)(<!-- BUILD:GAME:START -->).*?(<!-- BUILD:GAME:END -->)', {
+    param($m) $m.Groups[1].Value + "`n" + $gameBlock + "`n  " + $m.Groups[2].Value
+  })
+  WriteFileUtf8 $path $text
+  Write-Host "Wrote the Out of Water node into $($gp.file)"
+}
+
+# ---------- WebPage graphs for the policy pages ----------
+#
+# privacy.html and accessibility.html carried no structured data at all, so they
+# sat outside the graph the rest of the site builds: nothing tied them to the
+# studio, and neither could offer a dateModified. That matters more than it
+# looks for the accessibility statement, which is a dated claim about a moving
+# target - "as of when?" is the first thing anyone checks.
+#
+# The descriptions here must stay in step with each page's own meta description.
+# validate-site.ps1 fails the build if they drift.
+$policyPages = @(
+  @{
+    file  = 'policy-privacy'
+    path  = 'privacy.html'
+    name  = 'Privacy | Shiverbug Studios'
+    crumb = 'Privacy'
+    desc  = 'How Shiverbug Studios handles your data. Short version: we collect almost nothing, and we never sell it.'
+  },
+  @{
+    file  = 'policy-accessibility'
+    path  = 'accessibility.html'
+    name  = 'Accessibility | Shiverbug Studios'
+    crumb = 'Accessibility'
+    desc  = "How accessible the Shiverbug Studios website is, what we've tested, what we know isn't perfect yet, and how to tell us if something doesn't work for you."
+  }
+)
+foreach ($pp in $policyPages) {
+  $path = Join-Path $root $pp.path
+  $text = Get-Content $path -Raw -Encoding UTF8
+  if ($text -notmatch '<!-- BUILD:PAGE:START -->') {
+    throw "Marker BUILD:PAGE not found in $($pp.path) - add the marker pair before </head>."
+  }
+  $pageLd = [ordered]@{
+    '@context' = 'https://schema.org'
+    '@graph'   = @(
+      [ordered]@{
+        '@type'        = 'WebPage'
+        '@id'          = "$baseUrl/$($pp.path)"
+        'url'          = "$baseUrl/$($pp.path)"
+        'name'         = $pp.name
+        'description'  = $pp.desc
+        'isPartOf'     = @{ '@id' = "$baseUrl/#website" }
+        'about'        = @{ '@id' = "$baseUrl/#studio" }
+        'dateModified' = (LastCommitDate $pp.path)
+        'inLanguage'   = 'en-GB'
+      },
+      [ordered]@{
+        '@type'           = 'BreadcrumbList'
+        'itemListElement' = @(
+          [ordered]@{ '@type' = 'ListItem'; 'position' = 1; 'name' = 'Shiverbug Studios'; 'item' = "$baseUrl/" },
+          [ordered]@{ '@type' = 'ListItem'; 'position' = 2; 'name' = $pp.crumb }
+        )
+      }
+    )
+  }
+  $pageJson = ($pageLd | ConvertTo-Json -Depth 12).Replace('<', '\u003c')
+  $pageBlock = '  <script type="application/ld+json">' + "`n" + $pageJson + "`n" + '  </script>'
+  $text = [regex]::Replace($text, '(?s)(<!-- BUILD:PAGE:START -->).*?(<!-- BUILD:PAGE:END -->)', {
+    param($m) $m.Groups[1].Value + "`n" + $pageBlock + "`n  " + $m.Groups[2].Value
+  })
+  WriteFileUtf8 $path $text
+  Write-Host "Wrote the WebPage graph into $($pp.path)"
+}
 
 # ---------- sitemap ----------
 
@@ -930,18 +1222,8 @@ foreach ($p in $all) {
   $pages += @{ loc = "$baseUrl/team/$($p.slug).html"; pri = '0.5'; file = "team/$($p.slug).html" }
 }
 
-# lastmod from the file's own last commit, not "today". Stamping every URL with
-# the build date on every build tells search engines the whole site changed
-# daily, which is the fastest way to have them ignore the field altogether.
-# Falls back to today if git can't answer (shallow clone, or a brand-new file).
-$today = (Get-Date).ToString('yyyy-MM-dd')
-function LastCommitDate([string]$relPath) {
-  try {
-    $d = & git -C $root log -1 --format=%cs -- $relPath 2>$null
-    if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($d)) { return $d.Trim() }
-  } catch { }
-  return $today
-}
+# lastmod comes from LastCommitDate, defined with the other helpers at the top
+# of this script because the structured data needs the same dates.
 
 $sm = @('<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 foreach ($pg in $pages) {
@@ -954,6 +1236,28 @@ foreach ($pg in $pages) {
 $sm += '</urlset>'
 WriteFileUtf8 (Join-Path $root 'sitemap.xml') (($sm -join "`n") + "`n")
 Write-Host "Updated sitemap.xml with $($pages.Count) URLs"
+
+# ---------- footer social row, injected into the hand-written pages ----------
+#
+# The team pages get the row from their template. index.html, games.html and the
+# rest are hand-maintained, so it travels to them through BUILD:SOCIALS markers
+# instead. Any page that grows the markers picks the links up on the next build,
+# and CI's drift check stops anyone editing the generated copy by hand.
+$socialsRow = FooterSocialsHtml '        '
+$socialPattern = '(?s)(<!-- BUILD:SOCIALS:START -->).*?(<!-- BUILD:SOCIALS:END -->)'
+$socialPages = @(Get-ChildItem -Path $root -Filter *.html -Recurse |
+                 Where-Object { $_.FullName -notmatch '\\_originals\\' -and $_.FullName -notmatch '\\team\\' })
+$injected = @()
+foreach ($f in $socialPages) {
+  $text = Get-Content $f.FullName -Raw -Encoding UTF8
+  if ($text -notmatch '<!-- BUILD:SOCIALS:START -->') { continue }
+  $updated = [regex]::Replace($text, $socialPattern, {
+    param($m) $m.Groups[1].Value + "`n" + $socialsRow + "`n        " + $m.Groups[2].Value
+  })
+  WriteFileUtf8 $f.FullName $updated
+  $injected += $f.Name
+}
+Write-Host "Injected the footer social row into $($injected.Count) pages: $($injected -join ', ')"
 
 Write-Host ""
 Write-Host "Done."

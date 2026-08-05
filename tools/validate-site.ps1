@@ -25,6 +25,40 @@ $warns   = New-Object System.Collections.ArrayList
 function Fail([string]$m) { [void]$errors.Add($m) }
 function Warn([string]$m) { [void]$warns.Add($m) }
 
+# Google renders roughly this much of a meta description and silently drops the
+# rest. Overshooting is not a penalty, it just means the tail never appears -
+# which is how this site once shipped snippets ending "BSc (Hons) Games...".
+$descLimit = 158
+
+# Walk a parsed JSON-LD tree, recording which @ids this page actually defines
+# (an object carrying both @type and @id) and which ones its mainEntity points
+# at. Structured data resolves per page, so a mainEntity aimed at an @id that is
+# only defined somewhere else leaves the page with no machine-readable statement
+# of what it is about. Cross-page refs for supporting nodes (#studio, #website)
+# are normal and deliberately not checked here.
+function CollectLd($node, $defined, $mainEntities) {
+  if ($null -eq $node) { return }
+  if (($node -is [System.Collections.IEnumerable]) -and ($node -isnot [string])) {
+    foreach ($item in $node) { CollectLd $item $defined $mainEntities }
+    return
+  }
+  if ($node -isnot [PSCustomObject]) { return }
+  $names = @($node.PSObject.Properties.Name)
+  if (($names -contains '@id') -and ($names -contains '@type')) {
+    [void]$defined.Add([string]$node.'@id')
+  }
+  if ($names -contains 'mainEntity') {
+    $me = $node.'mainEntity'
+    if ($me -is [PSCustomObject]) {
+      $meNames = @($me.PSObject.Properties.Name)
+      if (($meNames -contains '@id') -and ($meNames -notcontains '@type')) {
+        [void]$mainEntities.Add([string]$me.'@id')
+      }
+    }
+  }
+  foreach ($p in $node.PSObject.Properties) { CollectLd $p.Value $defined $mainEntities }
+}
+
 # Pages that are deliberately not indexed and so need no canonical.
 $noIndex = @('404.html', 'team-member.html')
 
@@ -72,6 +106,11 @@ foreach ($f in $htmlFiles) {
   }
 
   # ---- JSON-LD blocks parse ----
+  # Several blocks per page is valid and this site uses that: the hand-written
+  # graph plus whatever tools/build-team.ps1 injects. They are collected together
+  # so an @id defined in one block satisfies a reference in another.
+  $ldDefined = New-Object System.Collections.ArrayList
+  $ldMain    = New-Object System.Collections.ArrayList
   foreach ($m in [regex]::Matches($html, '(?s)<script type="application/ld\+json">(.*?)</script>')) {
     $raw = $m.Groups[1].Value
     try {
@@ -79,8 +118,33 @@ foreach ($f in $htmlFiles) {
       $hasType = $obj.PSObject.Properties.Name -contains '@type'
       $hasGraph = $obj.PSObject.Properties.Name -contains '@graph'
       if (-not ($hasType -or $hasGraph)) { Fail "$rel : JSON-LD block has neither @type nor @graph" }
+      CollectLd $obj $ldDefined $ldMain
     } catch {
       Fail "$rel : JSON-LD does not parse - $($_.Exception.Message)"
+    }
+  }
+  foreach ($me in ($ldMain | Sort-Object -Unique)) {
+    if ($ldDefined -notcontains $me) {
+      Fail "$rel : mainEntity points at $me, which no JSON-LD block on this page defines"
+    }
+  }
+
+  # ---- search snippet quality ----
+  if (-not $isNoIndex) {
+    $dm = [regex]::Match($html, 'name="description"\s+content="([^"]*)"')
+    if ($dm.Success) {
+      $desc = $dm.Groups[1].Value
+      if ($desc.Length -gt $descLimit) {
+        Fail "$rel : meta description is $($desc.Length) chars, past the $descLimit Google renders"
+      }
+      if ($desc -match '\.\.\.\s*$') {
+        Fail "$rel : meta description trails off in an ellipsis - it needs to be a whole sentence (set metaDescription in data/team.json for a profile)"
+      }
+    }
+    # The footer row is the only place the site links its own profiles, and
+    # sameAs on its own is a claim with nothing backing it in the markup.
+    if ($html -notmatch 'class="footer__socials"') {
+      Warn "$rel : no footer social row - add the BUILD:SOCIALS marker pair and rerun tools/build-team.ps1"
     }
   }
 
@@ -191,6 +255,35 @@ if (Test-Path $llmsPath) {
   if ($llms -notmatch '(?m)^> ')  { Fail 'llms.txt : missing "> " summary line' }
 } else {
   Fail 'llms.txt is missing'
+}
+
+# ---- the studio's identity links ----
+# sameAs is how a search engine and an AI assistant work out that the Bluesky
+# account, the YouTube channel and this site are one studio. The graph once
+# claimed a single Linktree, which is a redirect page identifying nothing, and
+# nothing in the markup caught it. Sourced from $studioSocials in
+# tools/build-team.ps1 - fix it there, not in index.html.
+$indexHtml = Get-Content (Join-Path $root 'index.html') -Raw -Encoding UTF8
+$org = $null
+foreach ($m in [regex]::Matches($indexHtml, '(?s)<script type="application/ld\+json">(.*?)</script>')) {
+  try { $obj = $m.Groups[1].Value | ConvertFrom-Json } catch { continue }
+  if ($obj.PSObject.Properties.Name -notcontains '@graph') { continue }
+  foreach ($node in $obj.'@graph') {
+    if ($node.'@type' -eq 'Organization') { $org = $node }
+  }
+}
+if (-not $org) {
+  Fail 'index.html : no Organization node in the structured data graph'
+} else {
+  $sameAs = @($org.sameAs)
+  if ($sameAs.Count -lt 5) {
+    Fail "index.html : Organization sameAs lists only $($sameAs.Count) profiles - the studio has more, and each one is an identity signal"
+  }
+  foreach ($needed in @('bsky.app', 'youtube.com', 'linkedin.com', 'instagram.com')) {
+    if (-not ($sameAs | Where-Object { $_ -like "*$needed*" })) {
+      Warn "index.html : Organization sameAs has no $needed profile"
+    }
+  }
 }
 
 # ---- report ----

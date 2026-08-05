@@ -1001,7 +1001,32 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   top: 50%; transform: translateY(-50%); height: 44px;
 }
 .footer__email:hover { color: #fff; border-color: #fff; }
-.footer__social { margin-bottom: 3.5rem; }
+/* The direct social row, generated into every footer by tools/build-team.ps1.
+   The profile-page treatment (white plate, hard ink drop shadow) has nothing to
+   sit against down here on the ink, so these invert: a translucent disc that
+   fills with sand on hover. 44px square is the target size, so the icon can
+   stay small without the tap area following it down. */
+.footer__socials { margin-bottom: 3.5rem; }
+.footer__socials ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem;
+}
+.footer__socials a {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--text-paper);
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .18);
+  transition: transform .2s var(--ease-out), background .2s, border-color .2s, color .2s;
+}
+.footer__socials svg { width: 20px; height: 20px; }
+.footer__socials a:hover {
+  transform: translateY(-3px);
+  background: var(--sand); border-color: var(--sand); color: var(--ink);
+}
+/* The mini footer has no form above it, so the row sits much closer to the
+   legal line and does not need the full gap the home page one carries. */
+.footer--mini .footer__socials { margin-bottom: 2rem; }
 .footer__meta {
   border-top: 1px solid rgba(255,255,255,.1);
   padding-top: 1.6rem;
