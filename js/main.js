@@ -546,6 +546,9 @@ const enhanceForm = (form, sentMsg, errorMsg, eventName) => {
     const btn = form.querySelector('button[type="submit"]');
     form.parentNode.querySelector('.form-note')?.remove();
     btn.disabled = true;
+    // The label is swapped for a spinner in CSS. The button keeps its width, so
+    // the form does not reflow under the pointer that just pressed it.
+    btn.classList.add('is-busy');
     // Success is polite, failure is assertive: a send that didn't go through is
     // the one thing the visitor has to act on.
     const note = document.createElement('p');
@@ -570,6 +573,7 @@ const enhanceForm = (form, sentMsg, errorMsg, eventName) => {
     }
     note.setAttribute('role', note.classList.contains('form-error') ? 'alert' : 'status');
     form.parentNode.insertBefore(note, form);
+    btn.classList.remove('is-busy');
     btn.disabled = false;
   });
 };
@@ -650,4 +654,222 @@ if (year) year.textContent = new Date().getFullYear();
       }
     });
   });
+})();
+
+/* ============================================================
+   POLISH LAYER
+   The motion that needs a script. Everything decorative that could be done in
+   CSS alone is in CSS alone - the marker underlines, the squiggles, the kicker
+   dashes and the section rules all run on animation-timeline: view(), so they
+   need nothing from here and degrade to "already drawn" where that is
+   unsupported. What is left is the handful of effects that genuinely need to
+   measure something: scroll position, pointer position, or a number.
+
+   Every block below is its own IIFE. This file is a classic script sharing one
+   top-level scope, so a bare `const` here would collide with any other of the
+   same name and take the whole file down with it.
+
+   All of it is gated on prefers-reduced-motion. Not dialled down - skipped. A
+   count-up rushed to .01ms is a number that flickers, and a bubble field with a
+   one-frame animation is fourteen dots sitting still on the hero.
+   ============================================================ */
+
+(() => {
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  // rAF-throttled scroll subscribers, on one shared listener. Several of the
+  // blocks below want scroll position, and four passive listeners each doing
+  // their own rAF dance is three more than the page needs.
+  const onScroll = [];
+  let queued = false;
+  window.addEventListener('scroll', () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; onScroll.forEach((fn) => fn()); });
+  }, { passive: true });
+
+  // ----- how far down the page you are -----
+  (() => {
+    if (still.matches) return;
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress';
+    bar.setAttribute('aria-hidden', 'true');   // decorative; the scrollbar is the real one
+    bar.innerHTML = '<span></span>';
+    document.body.appendChild(bar);
+    const fill = bar.firstElementChild;
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      fill.style.setProperty('--progress', max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
+    onScroll.push(update);
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // ----- stagger the reveals -----
+  // The observer that adds .is-visible is untouched; this only numbers the
+  // siblings so a grid deals itself out instead of arriving as one slab. Capped
+  // at eight, or the twenty-tile talent pool ends up with a 1.3s tail on the
+  // last one and the row reads as broken rather than staggered.
+  (() => {
+    const groups = new Map();
+    document.querySelectorAll('.reveal').forEach((el) => {
+      const parent = el.parentElement;
+      if (!parent) return;
+      if (!groups.has(parent)) groups.set(parent, 0);
+      const i = groups.get(parent);
+      groups.set(parent, i + 1);
+      el.style.setProperty('--i', String(Math.min(i, 8)));
+    });
+  })();
+
+  // ----- studio facts count up -----
+  // Only ever touches a value that is purely digits, so "NE" is left exactly as
+  // written. The number is in the markup already: without this it is simply
+  // correct from the start, which is the right no-JS outcome.
+  //
+  // The floor is not fussiness. "1 debut title in the works" counting up from
+  // zero is two frames of "0" and then the answer - it reads as the number
+  // failing to load rather than as a flourish, and it briefly tells the visitor
+  // we have no game.
+  (() => {
+    if (still.matches || !('IntersectionObserver' in window)) return;
+    const nums = [...document.querySelectorAll('.studio__facts strong')]
+      .filter((el) => /^\d+$/.test(el.textContent.trim()))
+      .filter((el) => parseInt(el.textContent, 10) >= 5);
+    if (!nums.length) return;
+
+    const run = (el) => {
+      const target = parseInt(el.textContent, 10);
+      const started = performance.now();
+      const dur = 900;
+      const tick = (now) => {
+        const t = Math.min(1, (now - started) / dur);
+        // ease-out cubic, so it decelerates onto the final figure
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+        if (t < 1) requestAnimationFrame(tick);
+        else el.classList.add('is-landed');
+      };
+      requestAnimationFrame(tick);
+    };
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        run(entry.target);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach((el) => io.observe(el));
+  })();
+
+  // ----- bubbles on the hero -----
+  // The game is called Out of Water and the hero is already a sea gradient.
+  // Built here rather than in the markup because it is fourteen empty spans that
+  // mean nothing to a reader, a crawler or a screen reader, and because it must
+  // not exist at all when motion is unwelcome.
+  (() => {
+    const hero = document.querySelector('.hero');
+    if (!hero || still.matches) return;
+    const field = document.createElement('div');
+    field.className = 'hero__bubbles';
+    field.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 14; i++) {
+      const b = document.createElement('span');
+      const size = 6 + Math.random() * 22;
+      b.style.cssText =
+        '--x:' + (Math.random() * 100).toFixed(1) + '%;' +
+        '--size:' + size.toFixed(0) + 'px;' +
+        '--dur:' + (14 + Math.random() * 16).toFixed(1) + 's;' +
+        // negative, so the field is already in flight on the first frame rather
+        // than starting empty and filling from the bottom over half a minute
+        '--delay:-' + (Math.random() * 24).toFixed(1) + 's;' +
+        '--drift:' + (Math.random() * 80 - 40).toFixed(0) + 'px';
+      field.appendChild(b);
+    }
+    // first child, so it sits under .hero__inner without needing a z-index war
+    hero.insertBefore(field, hero.firstChild);
+  })();
+
+  // ----- buttons: a ripple from where you actually pressed -----
+  (() => {
+    if (still.matches) return;
+    document.addEventListener('pointerdown', (e) => {
+      const btn = e.target.closest('.btn');
+      if (!btn) return;
+      const box = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'btn__ripple';
+      const size = Math.max(box.width, box.height) * 2.2;
+      ripple.style.cssText =
+        'width:' + size + 'px;height:' + size + 'px;' +
+        'left:' + (e.clientX - box.left) + 'px;' +
+        'top:' + (e.clientY - box.top) + 'px';
+      ripple.addEventListener('animationend', () => ripple.remove());
+      btn.appendChild(ripple);
+    });
+  })();
+
+  // ----- cards lean towards the pointer -----
+  // The transform itself lives in the stylesheet; this only supplies the two
+  // angles, so the hover lift and the tilt compose in one place instead of the
+  // script fighting the CSS over style.transform.
+  (() => {
+    if (still.matches || !fine.matches) return;
+    const cards = document.querySelectorAll('.pkg, .press__dl');
+    const MAX = 4.5;   // degrees. Past about six it stops reading as paper.
+    cards.forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const box = card.getBoundingClientRect();
+        const x = (e.clientX - box.left) / box.width - .5;
+        const y = (e.clientY - box.top) / box.height - .5;
+        card.style.setProperty('--rx', (x * MAX * 2).toFixed(2) + 'deg');
+        card.style.setProperty('--ry', (-y * MAX * 2).toFixed(2) + 'deg');
+      });
+      const reset = () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      };
+      card.addEventListener('pointerleave', reset);
+      // a card can be left by tabbing away as well as by moving the pointer off it
+      card.addEventListener('blur', reset, true);
+    });
+  })();
+
+  // ----- the nav rule follows the section you are in -----
+  // 2.4.8 Location, on a page that is mostly one long scroll: the header already
+  // draws a sand rule under the current page, and this extends the same mark to
+  // the current section. aria-current="location" is the ARIA value for exactly
+  // this - "the current item within a container" - so the state is announced,
+  // not just painted. Links already marked as the current page are left alone.
+  (() => {
+    const links = [...document.querySelectorAll('.nav__links a[href^="#"]')]
+      .filter((a) => a.getAttribute('aria-current') !== 'page');
+    const spots = links
+      .map((a) => ({ a, el: document.getElementById(a.getAttribute('href').slice(1)) }))
+      .filter((s) => s.el);
+    if (spots.length < 2) return;
+
+    let current = null;
+    const update = () => {
+      // the nav is 60px collapsed; a section counts as "reached" once its top
+      // has passed just under it
+      const line = window.scrollY + 100;
+      let found = null;
+      spots.forEach((s) => {
+        if (s.el.getBoundingClientRect().top + window.scrollY <= line) found = s.a;
+      });
+      // the foot of the page always belongs to the last one, however short it is
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+        found = spots[spots.length - 1].a;
+      }
+      if (found === current) return;
+      if (current) current.removeAttribute('aria-current');
+      if (found) found.setAttribute('aria-current', 'location');
+      current = found;
+    };
+    onScroll.push(update);
+    update();
+  })();
 })();
