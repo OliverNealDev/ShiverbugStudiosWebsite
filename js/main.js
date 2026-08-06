@@ -652,113 +652,37 @@ if (year) year.textContent = new Date().getFullYear();
   });
 })();
 
-/* ============================================================
-   MOTION POLISH
-   The two effects that genuinely need to measure something: a pointer, and a
-   number. Everything else in the polish pass is CSS, and is documented in the
-   MOTION POLISH section at the foot of css/style.css.
-
-   Both blocks are their own IIFE. This file is a classic script sharing one
-   top-level scope, so a bare `const` here would collide with any other of the
-   same name and take the whole file down with it.
-
-   Both are skipped outright under prefers-reduced-motion rather than dialled
-   down. A count-up rushed to .01ms is a number that flickers, and a bubble
-   field with a one-frame animation is ten rings sitting still on the hero.
-   ============================================================ */
-
+// ----- package cards lean towards the pointer -----
+// The one piece of the motion polish that needs a script, because it has to
+// measure where the pointer is. Everything else is CSS, documented in the
+// MOTION POLISH section at the foot of css/style.css.
+//
+// The transform itself lives in the stylesheet; this only supplies the two
+// angles, so the lean and the hover lift compose in one place instead of the
+// script fighting the CSS over style.transform.
+//
+// Its own IIFE, like the rest of this file: one shared top-level scope means a
+// bare `const` here would collide with any other of the same name and take the
+// whole file down with it.
 (() => {
-  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  // ----- bubbles on the hero -----
-  (() => {
-    const hero = document.querySelector('.hero');
-    if (!hero || still.matches) return;
-    const field = document.createElement('div');
-    field.className = 'hero__bubbles';
-    field.setAttribute('aria-hidden', 'true');
-    // Ten, not the fourteen this started at. Past about a dozen they stop
-    // reading as a few bubbles and start reading as weather.
-    for (let i = 0; i < 10; i++) {
-      const b = document.createElement('span');
-      b.style.cssText =
-        '--x:' + (4 + Math.random() * 92).toFixed(1) + '%;' +
-        // floor of 10px: below that the 2px ring and the highlight dot have no
-        // room to be a drawing rather than a speck
-        '--size:' + (10 + Math.random() * 24).toFixed(0) + 'px;' +
-        '--dur:' + (18 + Math.random() * 12).toFixed(1) + 's;' +
-        // negative, so the field is already in flight on the first frame rather
-        // than starting empty and filling from the bottom over half a minute
-        '--delay:-' + (Math.random() * 30).toFixed(1) + 's;' +
-        '--a:' + (.16 + Math.random() * .2).toFixed(2) + ';' +
-        '--sway:' + (Math.random() * 52 - 26).toFixed(0) + 'px';
-      field.appendChild(b);
-    }
-    // first child, so it sits under .hero__inner without needing a z-index war
-    hero.insertBefore(field, hero.firstChild);
-  })();
-
-  // ----- package cards lean towards the pointer -----
-  // The transform itself lives in the stylesheet; this only supplies the two
-  // angles, so the lean and the hover lift compose in one place instead of the
-  // script fighting the CSS over style.transform.
-  (() => {
-    if (still.matches || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const MAX = 1.5;   // degrees, per side. Four and a half read as a gimmick.
-    document.querySelectorAll('.pkg').forEach((card) => {
-      card.addEventListener('pointermove', (e) => {
-        const box = card.getBoundingClientRect();
-        const x = (e.clientX - box.left) / box.width - .5;
-        const y = (e.clientY - box.top) / box.height - .5;
-        card.style.setProperty('--rx', (x * MAX * 2).toFixed(2) + 'deg');
-        card.style.setProperty('--ry', (-y * MAX * 2).toFixed(2) + 'deg');
-      });
-      const reset = () => {
-        card.style.setProperty('--rx', '0deg');
-        card.style.setProperty('--ry', '0deg');
-      };
-      card.addEventListener('pointerleave', reset);
-      // a card can be left by tabbing away as well as by moving the pointer off it
-      card.addEventListener('blur', reset, true);
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (still || !fine) return;   // nothing to lean towards on a touchscreen
+  const MAX = 1.5;   // degrees, per side. Four and a half read as a gimmick.
+  document.querySelectorAll('.pkg').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const box = card.getBoundingClientRect();
+      const x = (e.clientX - box.left) / box.width - .5;
+      const y = (e.clientY - box.top) / box.height - .5;
+      card.style.setProperty('--rx', (x * MAX * 2).toFixed(2) + 'deg');
+      card.style.setProperty('--ry', (-y * MAX * 2).toFixed(2) + 'deg');
     });
-  })();
-
-  // ----- the studio headcount counts up -----
-  // Only ever touches a value that is purely digits, so "NE" is left exactly as
-  // written. The figure is in the markup already: without this it is simply
-  // correct from the start, which is the right no-JS outcome.
-  //
-  // The floor is not fussiness. "1 debut title in the works" counting up from
-  // zero is two frames of "0" and then the answer - it reads as the number
-  // failing to load rather than as a flourish, and it briefly tells the visitor
-  // we have no game.
-  (() => {
-    if (still.matches || !('IntersectionObserver' in window)) return;
-    const nums = [...document.querySelectorAll('.studio__facts strong')]
-      .filter((el) => /^\d+$/.test(el.textContent.trim()))
-      .filter((el) => parseInt(el.textContent, 10) >= 5);
-    if (!nums.length) return;
-
-    const run = (el) => {
-      const target = parseInt(el.textContent, 10);
-      const started = performance.now();
-      const dur = 900;
-      const tick = (now) => {
-        const t = Math.min(1, (now - started) / dur);
-        // ease-out cubic, so it decelerates onto the final figure
-        el.textContent = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
-        if (t < 1) requestAnimationFrame(tick);
-      };
-      requestAnimationFrame(tick);
+    const reset = () => {
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
     };
-
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        io.unobserve(entry.target);
-        run(entry.target);
-      });
-    }, { threshold: 0.6 });
-    nums.forEach((el) => io.observe(el));
-  })();
+    card.addEventListener('pointerleave', reset);
+    // a card can be left by tabbing away as well as by moving the pointer off it
+    card.addEventListener('blur', reset, true);
+  });
 })();

@@ -1677,6 +1677,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: flex; gap: 1rem;
   overflow-x: auto;
   scroll-snap-type: x proximity;
+  /* The top padding is what stops a hovered tile losing its border. overflow-x:
+     auto does not leave the other axis alone - a visible axis paired with a
+     scrolling one computes to auto - so this strip clips vertically as well as
+     horizontally, and a scroll container clips at its PADDING box. With no
+     padding here the tiles start flush with that edge, and the 3px lift on
+     hover pushed the tile's 2px top border straight through it, which read as
+     the artwork being sliced. 6px clears the lift with room to spare. */
+  padding-top: 6px;
   padding-bottom: .5rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(20,23,28,.25) transparent;
@@ -1974,12 +1982,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 
 /* ============================================================
    MOTION POLISH
-   Five things, and deliberately only five. An earlier pass put movement on
+   Three things, and deliberately only three. An earlier pass put movement on
    more or less everything that could take it - nav, headings, reveals, chips,
-   stickers, the viewer, the footer - and the verdict was that most of it read
-   as jarring rather than alive. What is left is the movement that belongs to
-   something: water that moves because it is water, a logo suspended in it, a
-   figure that counts because it is a count.
+   stickers, counters, the viewer, the footer - and the verdict was that most of
+   it read as jarring rather than alive. What is left is water that moves
+   because it is water, and two small responses to a pointer.
+
+   The hero is deliberately still. A drifting logo and a field of rising bubbles
+   were both tried and both cut - see the branch history for them - so the only
+   thing moving above the fold is the water at the foot of it. Nothing on the
+   page now animates unless you point at it or scroll past the dividers.
 
    Two rules held throughout:
 
@@ -1993,59 +2005,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    (prefers-reduced-motion: no-preference), so it is never applied at all.
    ============================================================ */
 
-/* ---------- 1. the logo drifts ---------- */
-/* The hero has always been a sea gradient and the game is called Out of Water.
-   The mark behaves like something suspended in it - slow enough that you notice
-   it only once the page has settled. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero__logo { animation: float 7s ease-in-out 1.1s infinite; }
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-12px) rotate(-1.2deg); }
-}
-
-/* ---------- 2. bubbles ---------- */
-/* Stylised rather than rendered: a bare ring and one highlight dot, which is
-   how the rest of the site draws things - flat colour, bold outline, no
-   gradient pretending to be glass. A radial-gradient "realistic" bubble was
-   tried first and turns to mush below about 20px, which is most of them.
-
-   Built by js/main.js, because it is ten empty spans that mean nothing to a
-   reader, a crawler or a screen reader, and because it must not exist at all
-   when motion is unwelcome. */
-.hero__inner { position: relative; z-index: 1; }
-.hero__bubbles {
-  position: absolute; inset: 0; z-index: 0;
-  pointer-events: none; overflow: hidden;
-}
-.hero__bubbles span {
-  position: absolute; bottom: -8%;
-  left: var(--x); width: var(--size); height: var(--size);
-  border-radius: 50%;
-  /* per-bubble alpha lives in the ink, so the keyframes are free to use opacity
-     as a fade envelope over the top of it */
-  border: 2px solid rgba(255, 255, 255, var(--a));
-  animation: bubble var(--dur) linear var(--delay) infinite;
-}
-.hero__bubbles span::after {
-  content: ""; position: absolute; top: 17%; left: 17%;
-  width: 24%; height: 24%; border-radius: 50%;
-  background: rgba(255, 255, 255, .5);
-}
-/* The sway is in the keyframes rather than in the timing function: an
-   ease-in-out over the whole loop makes an infinite rise hesitate at both ends,
-   which reads as a stutter. Linear rise, lazy S sideways. */
-@keyframes bubble {
-  0% { transform: translate3d(0, 0, 0) scale(.9); opacity: 0; }
-  12% { opacity: 1; }
-  35% { transform: translate3d(var(--sway), -32vh, 0) scale(.97); }
-  65% { transform: translate3d(calc(var(--sway) * -1), -66vh, 0) scale(1.02); }
-  88% { opacity: 1; }
-  100% { transform: translate3d(0, -108vh, 0) scale(1.06); opacity: 0; }
-}
-
-/* ---------- 3. the water moves ---------- */
+/* ---------- 1. the water moves ---------- */
 /* Two translucent crests drifting behind the solid divider, at different speeds
    and in opposite directions, so the edge between the ink and the paper reads
    as water rather than as a shape. They sit BEHIND the real wave, which is why
@@ -2101,7 +2061,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   to { transform: scaleY(-1) translateX(-50%); }
 }
 
-/* ---------- 4. buttons ---------- */
+/* ---------- 2. buttons ---------- */
 /* A slow wash of light crosses the button on hover, and the arrow nudges. That
    is all. The colour change underneath it is the pre-existing --sand to
    --sand-deep swap, which is the part that was working already and is
@@ -2127,7 +2087,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .btn svg { transition: transform .3s var(--ease-out); }
 .btn:hover svg { transform: translateX(2px); }
 
-/* ---------- 5. package cards lean ---------- */
+/* ---------- 3. package cards lean ---------- */
 /* Towards the pointer, by a degree and a half. The first pass used four and a
    half with a .12s follow, which tracked the cursor closely enough to read as
    a gimmick; the point is that the card notices you, not that it obeys you. The
@@ -2150,7 +2110,4 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  /* js/main.js never builds these when motion is unwelcome. This is the second
-     lock, for the case where the preference changes after the page has loaded. */
-  .hero__bubbles { display: none; }
 }
