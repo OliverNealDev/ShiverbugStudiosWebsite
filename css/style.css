@@ -19,14 +19,22 @@
    sand  THE SELL. Primary buttons, the featured package, the photo
          stickers, the footer address - and the section accent on every
          section whose job is to win the work: the hero, the proof band,
-         the packages, the publishers pitch, the footer. Those are also
-         the ink bands, which is the second reason: sand is the only
+         the packages, the publishers pitch, the footer. Most of those
+         are the ink bands, which is the second reason: sand is the only
          accent with enough weight to read on --ink.
+         Sand also owns the whole team area - the roster, the talent
+         pool and the individual profiles. In a co-dev studio the people
+         ARE the pitch, so the team reads as part of the sell rather
+         than as a separate thing. On light backgrounds it appears as
+         --sand-ink, never --sand: see the note by .kicker--sand.
 
-   leaf  US, AND THINGS GOING WELL. The studio, the team, the talent
-         pool, the award - plus the state layer that means the same
-         thing in miniature: a sent form, a live dot, an active member,
-         a "do" rule in the brand guidance.
+   leaf  RECOGNITION, AND THINGS GOING WELL. The studio band and the
+         award - plus the state layer that means the same thing in
+         miniature: a sent form, a live dot, an active member, a "do"
+         rule in the brand guidance. Leaf is now mostly a state colour;
+         if you find yourself reaching for it as decoration, check that
+         what you are colouring really is a claim that something is
+         good, and use sea or sand if it is not.
 
    crab  CAUTION, AND NOTHING ELSE. A failed form, a "don't" rule. The
          one exception is .badge--crab, where it is a literal crab.
@@ -989,7 +997,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .team__label {
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   text-transform: uppercase; letter-spacing: .14em;
-  color: var(--leaf-ink);
+  color: var(--sand-ink);
   margin-bottom: 1.2rem;
 }
 .member:hover { transform: translateY(-5px); }
@@ -1246,10 +1254,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .profile__name { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: .4rem; }
 .profile__tagline {
   font-size: 1.25rem; font-style: italic; color: var(--text-soft);
-  /* Leaf because profiles are a leaf section, and the deep tier because it is
-     the only one that clears 3:1 on paper (3.36). The --sand this replaced was
-     1.90, which is under the line even for something purely decorative. */
-  border-left: 3px solid var(--leaf-deep); padding-left: 1rem;
+  /* Sand, matching the rest of the team area, at the -ink tier: --sand is 1.90
+     on paper and --sand-deep 2.67, both under 3:1, and this rule is 3px of
+     colour with nothing else marking the quote. --sand-ink clears it at 4.94. */
+  border-left: 3px solid var(--sand-ink); padding-left: 1rem;
   margin-bottom: 1.8rem; max-width: 48ch;
 }
 .profile__badges { display: flex; flex-wrap: wrap; gap: .7rem; margin-bottom: 2.2rem; }
@@ -1293,7 +1301,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .profile__more:hover { text-decoration: underline; }
 .profile__section h2 {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--leaf-ink); margin-bottom: .8rem;
+  color: var(--sand-ink); margin-bottom: .8rem;
 }
 .profile__section p { color: var(--text-soft); margin-bottom: .9rem; }
 .profile__section p a { color: var(--sea-ink); font-weight: 600; }

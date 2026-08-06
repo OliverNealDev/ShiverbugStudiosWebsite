@@ -327,7 +327,7 @@ $template = @'
         <figure class="profile__photo">{{PHOTO}}</figure>
         <div>
           <h1 class="profile__name">{{NAME}}</h1>
-          <p class="kicker kicker--leaf profile__role">{{ROLELINE}}</p>
+          <p class="kicker kicker--sand profile__role">{{ROLELINE}}</p>
           {{TAGLINE}}
           <div class="profile__badges">{{BADGES}}</div>
           <section class="profile__section">
@@ -824,8 +824,8 @@ $teamIndexTemplate = @'
         Back to home
       </a>
       <header class="section__head">
-        <p class="kicker kicker--leaf">The shiverbugs</p>
-        <h1>Meet the <span class="underline-leaf">Team</span></h1>
+        <p class="kicker kicker--sand">The shiverbugs</p>
+        <h1>Meet the <span class="underline-sand">Team</span></h1>
         <p class="section__lede">
           {{LEDE}}
         </p>
@@ -842,8 +842,8 @@ $teamIndexTemplate = @'
       </div>
 
       <header class="section__head team__pool-head">
-        <p class="kicker kicker--leaf">The talent pool</p>
-        <h2>Friends of the <span class="underline-leaf">Studio</span></h2>
+        <p class="kicker kicker--sand">The talent pool</p>
+        <h2>Friends of the <span class="underline-sand">Studio</span></h2>
         <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
       </header>
 
