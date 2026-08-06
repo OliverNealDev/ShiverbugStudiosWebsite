@@ -411,9 +411,10 @@ h1, h2, h3 {
   transition: transform .35s var(--ease-out);
 }
 .creds__frame:hover img { transform: rotate(-.5deg) translateY(-5px); }
-/* Bottom-left, matching the proof and studio frames. It also has to be this
-   side: bottom-right is where the crocheted turtle is, and the sticker sat on
-   top of it. */
+/* Bottom-left, matching the proof and studio frames. It used to have to be this
+   side because bottom-right was where the crocheted turtle was; that photo has
+   been replaced by the certificate shot, which has nothing in either bottom
+   corner, so this is now just the house position. */
 .creds__frame .sticker { bottom: -10px; left: 20px; }
 .creds__copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin-bottom: 1.1rem; }
 .creds__copy p { color: var(--text-soft); margin-bottom: 1.5rem; max-width: 56ch; }

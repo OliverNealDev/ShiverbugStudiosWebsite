@@ -253,7 +253,7 @@
                                      "@id":  "https://shiverbugstudios.com/#studio"
                                  },
                        "primaryImageOfPage":  "https://shiverbugstudios.com/assets/img/out-of-water-screenshot.jpg",
-                       "dateModified":  "2026-08-05",
+                       "dateModified":  "2026-08-06",
                        "inLanguage":  "en-GB"
                    },
                    {
@@ -396,11 +396,17 @@
     <section class="section creds">
       <div class="container creds__inner">
         <figure class="creds__frame reveal">
-          <img src="assets/img/tranzfuser-founders-800.webp"
-               srcset="assets/img/tranzfuser-founders-400.webp 400w, assets/img/tranzfuser-founders-600.webp 600w, assets/img/tranzfuser-founders-800.webp 800w, assets/img/tranzfuser-founders-1080.webp 1080w, assets/img/tranzfuser-founders.webp 1380w"
+          <!-- 795w is the whole file, not a step on the way to a bigger one: it
+               is a crop out of the middle of a 1620px frame, and the three of
+               them only take up about half of that. The column renders at about
+               513 CSS px, so this still has something in hand on a 2x screen.
+               The old founders photo has not gone anywhere - the press media
+               grid still shows it and still links its full-size .jpg. -->
+          <img src="assets/img/tranzfuser-award-600.webp"
+               srcset="assets/img/tranzfuser-award-400.webp 400w, assets/img/tranzfuser-award-600.webp 600w, assets/img/tranzfuser-award.webp 795w"
                sizes="(max-width: 980px) min(92vw, 520px), 48vw"
-               alt="Shiverbug Studios' three co-founders on stage at Tranzfuser 2025, arms around each other's shoulders in Tranzfuser at ProtoPlay t-shirts, beneath a neon Tranzfuser sign. One of them is holding a crocheted turtle."
-               width="1380" height="920" loading="lazy" decoding="async">
+               alt="Shiverbug Studios' three co-founders on stage at Tranzfuser 2025, holding an oversized Public Vote Winner certificate between them, beneath a large lit Tranzfuser sign."
+               width="795" height="530" loading="lazy" decoding="async">
           <figcaption class="sticker sticker--sand">Public Vote Winner</figcaption>
         </figure>
         <div class="creds__copy reveal">

@@ -49,6 +49,12 @@ $groups = @(
   # source is passed over in silence. assets\press\shiverbug-team-brighton-2026
   # is already sitting in that trap - its variants had to be made by hand.
   @{ path = 'assets\img';      match = '^tranzfuser-founders\.webp$'; widths = @(400, 600, 800, 1080) },
+  # The certificate shot that replaced the founders photo in the Recognition
+  # band. Only 795px wide, because it is a crop out of the middle of a 1620px
+  # frame - the three of them take up about half of it - so 600 is the last
+  # useful step before the source itself. The founders photo above stays: the
+  # press media grid still offers it, and still links its full-size .jpg.
+  @{ path = 'assets\img';      match = '^tranzfuser-award\.webp$'; widths = @(400, 600) },
   @{ path = 'assets\img';      match = '^out-of-water-screenshot\.webp$'; widths = @(480, 760, 1100, 1520) },
   # The hero and footer marks used to be rasters resized here. They are now one
   # SVG (assets/img/logo.svg, trimmed from the 2026 brand pack), which has no
