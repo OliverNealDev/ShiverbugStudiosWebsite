@@ -1973,132 +1973,84 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 
 /* ============================================================
-   POLISH LAYER
-   Motion, and the small responses that make the page feel alive.
+   MOTION POLISH
+   Five things, and deliberately only five. An earlier pass put movement on
+   more or less everything that could take it - nav, headings, reveals, chips,
+   stickers, the viewer, the footer - and the verdict was that most of it read
+   as jarring rather than alive. What is left is the movement that belongs to
+   something: water that moves because it is water, a logo suspended in it, a
+   figure that counts because it is a count.
 
-   Three rules held throughout, because they are what keeps a layer like this
-   from becoming a liability:
+   Two rules held throughout:
 
-   1. NOTHING HERE IS LOAD-BEARING. Every from-state that hides content lives in
-      a @keyframes block, never in a base rule, so a browser that never runs the
-      animation shows the finished thing rather than an empty box. The one
-      exception is .reveal, which already had a <noscript> fallback on every
-      page before this existed.
-   2. THE SCROLL-DRIVEN DRAWS NEED NO SCRIPT. The decorative wipes (marker
-      underlines, squiggles, kicker dashes) run on animation-timeline: view(),
-      behind @supports. Where that is unavailable - Firefox today - the mark is
-      simply there, exactly as it was before this file grew. No IntersectionObserver,
-      no class to add, and nothing to fall back from on the sixteen generated
-      profile pages whose <head> we cannot hand-edit.
-   3. REDUCED MOTION IS AN OPT-OUT, NOT A SPEED-UP. The blanket at the foot of
-      this file clamps durations to .01ms, which is right for a hover transition
-      and wrong for an infinite loop or a scroll-driven wipe. Everything
-      decorative here is gated on (prefers-reduced-motion: no-preference) so it
-      is never applied at all, rather than applied and then rushed.
+   NOTHING HERE IS LOAD-BEARING. Every from-state that hides content lives in a
+   @keyframes block, never in a base rule, so a browser that never runs the
+   animation shows the finished thing rather than an empty box.
+
+   REDUCED MOTION IS AN OPT-OUT, NOT A SPEED-UP. The blanket at the foot of this
+   file clamps durations to .01ms, which is right for a hover transition and
+   wrong for an infinite loop. Everything looping here is gated on
+   (prefers-reduced-motion: no-preference), so it is never applied at all.
    ============================================================ */
 
-:root {
-  /* overshoot - for anything that should feel like it has weight behind it */
-  --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
-  /* a gentler overshoot, for larger blocks where the full spring reads as a bounce */
-  --ease-lift: cubic-bezier(.2, .9, .3, 1.15);
-}
-
-/* ---------- scroll progress ---------- */
-/* Injected by js/main.js, so it only exists where something can drive it. It
-   rides on top of the nav rather than under it: the nav is translucent ink and
-   a rule underneath would be swallowed by the blur. */
-.scroll-progress {
-  position: fixed; inset-inline: 0; top: 0; height: 3px; z-index: 101;
-  pointer-events: none;
-}
-.scroll-progress span {
-  display: block; height: 100%; width: 100%;
-  transform: scaleX(var(--progress, 0)); transform-origin: left;
-  background: linear-gradient(90deg, var(--sea), var(--leaf) 45%, var(--sand));
-}
-
-/* ---------- nav ---------- */
-/* The wordmark already dimmed on hover. A wordmark that also leans is the
-   difference between a link acknowledging the pointer and a studio logo with a
-   sense of humour, which is the register the rest of the page is written in. */
-.nav__brand:hover .nav__wordmark { transform: rotate(-2deg) scale(1.04); }
-.nav__wordmark { transform-origin: left center; transition: height .3s var(--ease-out), opacity .15s, transform .3s var(--ease-spring); }
-.nav__links a { transition: color .15s, transform .2s var(--ease-out); }
-.nav__links a:hover { transform: translateY(-1px); }
-/* The sand rule now also marks the section you are actually looking at, not just
-   the page you are on - js/main.js sets aria-current="location" on the home
-   page's in-page links as you pass each section. Same treatment as :hover, so
-   there is nothing new to learn about what the rule means. */
-.nav__links a[aria-current="location"]::after { transform: scaleX(1); }
-.nav__burger span { transition: transform .25s var(--ease-out), width .2s var(--ease-out); }
-.nav__burger:hover span:first-child { width: 16px; }
-.nav__burger:hover span:last-child { width: 26px; }
-.nav__burger[aria-expanded="true"]:hover span { width: 22px; }
-
-/* ---------- hero ---------- */
-/* Content sits above the bubble field below. */
-.hero__inner { position: relative; z-index: 1; }
-
+/* ---------- 1. the logo drifts ---------- */
+/* The hero has always been a sea gradient and the game is called Out of Water.
+   The mark behaves like something suspended in it - slow enough that you notice
+   it only once the page has settled. */
 @media (prefers-reduced-motion: no-preference) {
-  /* Staggered entrance. These are the first four things anyone sees, and they
-     arrive in reading order rather than all at once. --enter-delay is set per
-     child below so the copy leads and the artwork lands last. */
-  .hero__copy > *, .hero__art {
-    animation: rise-in .7s var(--ease-lift) both;
-    animation-delay: var(--enter-delay, 0s);
-  }
-  .hero__copy > *:nth-child(1) { --enter-delay: .05s; }
-  .hero__copy > *:nth-child(2) { --enter-delay: .14s; }
-  .hero__copy > *:nth-child(3) { --enter-delay: .23s; }
-  .hero__copy > *:nth-child(4) { --enter-delay: .32s; }
-  .hero__art { --enter-delay: .2s; animation-name: drop-in; }
-
-  /* The mark drifts. The game is called Out of Water and the whole hero is a
-     sea gradient, so the logo behaves like something suspended in it. Small
-     enough that you notice it only after the page has settled. */
   .hero__logo { animation: float 7s ease-in-out 1.1s infinite; }
-  .hero__logo:hover { animation-play-state: paused; }
 }
-.hero__logo { transition: transform .4s var(--ease-spring), filter .4s; }
-.hero__logo:hover {
-  transform: scale(1.04) rotate(1.5deg);
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .45)) drop-shadow(0 0 26px rgba(15, 163, 177, .45));
-}
-
-@keyframes rise-in { from { opacity: 0; transform: translateY(20px); } }
-@keyframes drop-in { from { opacity: 0; transform: translateY(-14px) scale(.96); } }
 @keyframes float {
   0%, 100% { transform: translateY(0) rotate(0deg); }
   50% { transform: translateY(-12px) rotate(-1.2deg); }
 }
 
-/* bubbles: built by js/main.js, and only when motion is welcome */
+/* ---------- 2. bubbles ---------- */
+/* Stylised rather than rendered: a bare ring and one highlight dot, which is
+   how the rest of the site draws things - flat colour, bold outline, no
+   gradient pretending to be glass. A radial-gradient "realistic" bubble was
+   tried first and turns to mush below about 20px, which is most of them.
+
+   Built by js/main.js, because it is ten empty spans that mean nothing to a
+   reader, a crawler or a screen reader, and because it must not exist at all
+   when motion is unwelcome. */
+.hero__inner { position: relative; z-index: 1; }
 .hero__bubbles {
   position: absolute; inset: 0; z-index: 0;
   pointer-events: none; overflow: hidden;
 }
 .hero__bubbles span {
-  position: absolute; bottom: -6%;
+  position: absolute; bottom: -8%;
   left: var(--x); width: var(--size); height: var(--size);
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, .22);
-  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.34), rgba(15,163,177,.08) 55%, transparent 70%);
+  /* per-bubble alpha lives in the ink, so the keyframes are free to use opacity
+     as a fade envelope over the top of it */
+  border: 2px solid rgba(255, 255, 255, var(--a));
   animation: bubble var(--dur) linear var(--delay) infinite;
 }
+.hero__bubbles span::after {
+  content: ""; position: absolute; top: 17%; left: 17%;
+  width: 24%; height: 24%; border-radius: 50%;
+  background: rgba(255, 255, 255, .5);
+}
+/* The sway is in the keyframes rather than in the timing function: an
+   ease-in-out over the whole loop makes an infinite rise hesitate at both ends,
+   which reads as a stutter. Linear rise, lazy S sideways. */
 @keyframes bubble {
-  from { transform: translate3d(0, 0, 0) scale(.7); opacity: 0; }
-  12% { opacity: .75; }
-  85% { opacity: .5; }
-  to { transform: translate3d(var(--drift), -108vh, 0) scale(1.1); opacity: 0; }
+  0% { transform: translate3d(0, 0, 0) scale(.9); opacity: 0; }
+  12% { opacity: 1; }
+  35% { transform: translate3d(var(--sway), -32vh, 0) scale(.97); }
+  65% { transform: translate3d(calc(var(--sway) * -1), -66vh, 0) scale(1.02); }
+  88% { opacity: 1; }
+  100% { transform: translate3d(0, -108vh, 0) scale(1.06); opacity: 0; }
 }
 
-/* ---------- waves ---------- */
+/* ---------- 3. the water moves ---------- */
 /* Two translucent crests drifting behind the solid divider, at different speeds
    and in opposite directions, so the edge between the ink and the paper reads
-   as water rather than as a shape. They are BEHIND the real wave (z-index below
-   the svg), which is why only the crest peeking above it is ever visible - the
-   solid path covers everything underneath.
+   as water rather than as a shape. They sit BEHIND the real wave, which is why
+   only the crest peeking above it is ever visible - the solid path covers
+   everything underneath.
 
    Each layer is twice the divider's width carrying two tiles, so translating it
    exactly one tile width loops with no seam, on the compositor, without
@@ -2132,297 +2084,73 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C180,30 360,88 540,58 C720,28 900,86 1080,56 C1260,26 1350,60 1440,60 L1440,90 L0,90 Z' fill='%23eda14d'/%3E%3C/svg%3E");
 }
 /* The footer divider is the same shape upside down, so its drift layers are too.
-   The flip is baked into the keyframes rather than sitting on the element,
+   The flip is baked into the keyframes as well as sitting on the element,
    because a transform in a base rule and a transform in an animation do not
-   compose - the animation would simply replace it. */
-.wave--top::before, .wave--top::after { top: 0; bottom: auto; }
+   compose - the animation would simply replace it, and the layers would run the
+   right way up under an upside-down wave. */
+.wave--top::before, .wave--top::after { top: 0; bottom: auto; transform: scaleY(-1); }
 @media (prefers-reduced-motion: no-preference) {
   .wave::before { animation: wave-drift 26s linear infinite; }
   .wave::after { animation: wave-drift 19s linear infinite reverse; }
   .wave--top::before { animation: wave-drift-flip 26s linear infinite; }
   .wave--top::after { animation: wave-drift-flip 19s linear infinite reverse; }
 }
-.wave--top::before, .wave--top::after { transform: scaleY(-1); }
 @keyframes wave-drift { to { transform: translateX(-50%); } }
 @keyframes wave-drift-flip {
   from { transform: scaleY(-1) translateX(0); }
   to { transform: scaleY(-1) translateX(-50%); }
 }
 
-/* ---------- buttons ---------- */
-/* A light sweeps across on hover and the button squashes on press. The sweep is
-   a pseudo rather than a background transition so it works on all five button
-   colours without any of them needing to know about it. */
+/* ---------- 4. buttons ---------- */
+/* A slow wash of light crosses the button on hover, and the arrow nudges. That
+   is all. The colour change underneath it is the pre-existing --sand to
+   --sand-deep swap, which is the part that was working already and is
+   deliberately untouched.
+
+   Every number here is a second attempt. The first pass swept a hard white
+   streak at .42 alpha over .55s, scaled the button on hover, squashed it on
+   press and dropped a ripple from the pointer - which together made a button
+   press feel like an event. The band is now wide and faint enough to read as
+   a sheen rather than a highlight passing over, and the geometry is left
+   completely alone. */
 .btn { position: relative; overflow: hidden; }
 .btn::before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.42) 50%, transparent 65%);
-  transform: translateX(-120%);
-  transition: transform .55s var(--ease-out);
+  background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,.16) 50%, transparent 80%);
+  transform: translateX(-130%);
+  transition: transform .75s var(--ease-out);
   pointer-events: none;
 }
-.btn:hover::before { transform: translateX(120%); }
-/* The ink buttons need a warmer sweep - white over near-black reads as a glitch */
-.btn--ink::before { background: linear-gradient(105deg, transparent 35%, rgba(237,161,77,.35) 50%, transparent 65%); }
-.btn:hover { transform: translateY(-2px) scale(1.015); }
-.btn:active { transform: translateY(1px) scale(.98); }
-/* the arrow leads, so it leaves first */
-.btn svg { transition: transform .25s var(--ease-spring); }
-.btn:hover svg { transform: translateX(4px); }
+.btn:hover::before { transform: translateX(130%); }
+/* white over near-black reads as a glitch, so the ink buttons get a warm wash */
+.btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(237,161,77,.14) 50%, transparent 80%); }
+.btn svg { transition: transform .3s var(--ease-out); }
+.btn:hover svg { transform: translateX(2px); }
 
-/* The circle a click leaves behind, sized and placed by js/main.js from where the
-   pointer actually landed. Removes itself when the animation ends. */
-.btn__ripple {
-  position: absolute; border-radius: 50%;
-  background: rgba(255, 255, 255, .45);
-  transform: translate(-50%, -50%) scale(0);
-  animation: ripple .6s var(--ease-out) forwards;
-  pointer-events: none;
-}
-.btn--sand .btn__ripple, .btn--paper .btn__ripple { background: rgba(20, 23, 28, .22); }
-@keyframes ripple {
-  to { transform: translate(-50%, -50%) scale(1); opacity: 0; }
-}
+/* ---------- 5. package cards lean ---------- */
+/* Towards the pointer, by a degree and a half. The first pass used four and a
+   half with a .12s follow, which tracked the cursor closely enough to read as
+   a gimmick; the point is that the card notices you, not that it obeys you. The
+   angles come from js/main.js as two custom properties, so the lean and the
+   hover lift compose here in one place rather than the script fighting the
+   stylesheet over style.transform.
 
-/* ---------- decorations that draw themselves ---------- */
-/* Scroll-driven, so there is no observer and no class to add. animation-range
-   is set so anything already on screen when the page loads is at 100% progress
-   and simply looks finished - which is also what a browser with no view()
-   support shows, permanently. */
-[class^="underline-"]::after { transform-origin: left center; }
-.kicker::before { transform-origin: left center; }
-/* The wipe interpolates from inset(0 100% 0 0) to whatever clip-path resolves to
-   at rest, and `none` is not a shape - the pair does not interpolate, so the
-   browser discards the animation and the squiggle simply never wipes. Stating
-   the resting value as a shape that clips nothing gives it something to land on. */
-.squiggle::after { clip-path: inset(0 0 0 0); }
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    [class^="underline-"]::after {
-      animation: draw-x linear both;
-      animation-timeline: view();
-      animation-range: entry 20% entry 92%;
-    }
-    /* The squiggle is one continuous pen stroke, so it is wiped in rather than
-       stretched - a scaleX would squash the wave shape on its way out. */
-    .squiggle::after {
-      animation: wipe-x linear both;
-      animation-timeline: view();
-      animation-range: entry 25% entry 95%;
-    }
-    /* the marker underline carries a rotation the kicker dash does not, so the
-       two wipes are separate keyframes rather than one shared with an override */
-    .kicker::before {
-      animation: draw-dash linear both;
-      animation-timeline: view();
-      animation-range: entry 10% entry 70%;
-    }
-    /* The coloured rule over each feature, step and service. Same idea, and the
-       thing that makes a long page of editorial lists feel like it is being
-       written as you reach it. */
-    .game__features li, .step, .svc {
-      animation: draw-rule linear both;
-      animation-timeline: view();
-      animation-range: entry 5% entry 65%;
-    }
-  }
-}
-@keyframes draw-x { from { transform: rotate(-1deg) scaleX(0); } }
-@keyframes wipe-x { from { clip-path: inset(0 100% 0 0); } }
-@keyframes draw-rule { from { border-top-color: transparent; } }
-@keyframes draw-dash { from { transform: scaleX(0); } }
-
-/* ---------- reveal ---------- */
-/* Same observer as before. What is new is the stagger: js/main.js numbers the
-   siblings inside a grid or row so a team roster deals itself out instead of
-   appearing as one slab. --i is the sibling's index, capped in JS so a
-   twenty-tile pool never ends up with a two-second tail. */
-.reveal {
-  transform: translateY(22px) scale(.985);
-  transition: opacity .7s var(--ease-out), transform .7s var(--ease-lift);
-  transition-delay: calc(var(--i, 0) * 65ms);
-}
-.reveal.is-visible { transform: none; }
-
-/* ---------- section cards & tiles ---------- */
-/* Nothing here for .card / .services__grid / .hero__frame / .news__grid. Those
-   four are already dead in this stylesheet - no page in the repo carries any of
-   them - and polish layered on a selector that never matches is worse than no
-   polish: it reads as covered when it is not. */
-
-/* The package, download and press cards take a slight tilt towards the pointer.
-   Set by js/main.js as two custom properties so the CSS keeps the transform in
-   one place and the script never touches style.transform directly. Fine pointers
-   only - there is nothing to tilt towards on a touchscreen. */
+   Fine pointers only - there is nothing to lean towards on a touchscreen. */
 @media (hover: hover) and (pointer: fine) {
-  .pkg, .press__dl {
-    transform: perspective(700px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateY(0);
-    transition: transform .35s var(--ease-out), box-shadow .25s var(--ease-out);
+  .pkg {
+    transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg));
+    transition: transform .4s var(--ease-out), box-shadow .25s var(--ease-out);
   }
-  .pkg:hover, .press__dl:hover {
-    transform: perspective(700px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateY(-5px);
-    transition-duration: .12s;
+  .pkg:hover {
+    transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateY(-4px);
   }
 }
-.pkg__list li::before, .press__list li::before { transition: transform .25s var(--ease-spring), background .25s; }
-.pkg:hover .pkg__list li::before { transform: scale(1.5); background: var(--sand-deep); }
-
-.press__dl-name { display: inline-block; transition: transform .25s var(--ease-spring); }
-.press__dl:hover .press__dl-name { transform: translateX(4px); }
-.press__toc a { transition: background .2s, color .2s, border-color .2s, transform .2s var(--ease-spring); }
-.press__toc a:hover { transform: translateY(-2px) rotate(-1.5deg); }
-.press__copy.is-done { animation: pop .35s var(--ease-spring); }
-@keyframes pop { 40% { transform: scale(1.14); } }
-
-.factfile { transition: box-shadow .25s var(--ease-out), transform .25s var(--ease-out); }
-.factfile:hover { transform: translate(-1px, -2px); box-shadow: 0 6px 0 var(--ink); }
-
-.game__shots a img { transition: transform .5s var(--ease-out); }
-.game__shots a { overflow: hidden; }
-.game__shots a:hover img { transform: scale(1.06); }
-.game__features li strong { transition: color .25s; }
-.game__features li:hover strong { color: var(--sea-ink); }
-
-.step { transition: transform .25s var(--ease-out); }
-.step:hover { transform: translateY(-3px); }
-.step__num { transition: letter-spacing .25s var(--ease-out); }
-.step:hover .step__num { letter-spacing: .2em; }
-
-/* ---------- team tiles ---------- */
-/* The lift was already here; the lean is new, and it alternates so a row of
-   four does not read as one object rocking in unison. */
-.member:hover { transform: translateY(-6px) rotate(-1.2deg); }
-.member:nth-child(even):hover { transform: translateY(-6px) rotate(1.2deg); }
-.member--unfinished:hover, .member--unfinished:nth-child(even):hover { transform: none; }
-.member h3 { transition: color .2s; }
-.member:hover h3 { color: var(--sea-ink); }
-.member--unfinished:hover h3 { color: inherit; }
-@media (prefers-reduced-motion: no-preference) {
-  /* the live dot on an active profile breathes, matching .dot--pulse elsewhere */
-  .member__status--active::before { animation: pulse-dot 2.4s ease-in-out infinite; }
-}
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(85, 179, 104, .55); }
-  55% { box-shadow: 0 0 0 5px rgba(85, 179, 104, 0); }
-}
-
-/* ---------- chips, badges, stickers ---------- */
-.chip, .tool, .badge {
-  transition: transform .2s var(--ease-spring), box-shadow .2s var(--ease-out), border-color .2s;
-}
-.chip:hover { transform: translateY(-2px); border-color: var(--sea-ink); }
-.tool:hover, .badge:hover { transform: translateY(-3px) rotate(-1.5deg); box-shadow: 0 6px 0 var(--ink); }
-.person:hover img { transform: rotate(-4deg) scale(1.08); }
-.person img { transition: transform .25s var(--ease-spring); }
-
-/* Stickers are the one thing on the page pretending to be a physical object, so
-   they get the most physical response: a peel away from the surface when the
-   photo they are stuck to is hovered. */
-.sticker { transition: transform .3s var(--ease-spring), box-shadow .3s var(--ease-out); }
-.creds__frame:hover .sticker, .studio__photo:hover .sticker,
-.proof__frame:hover .sticker, .game__player:hover .sticker {
-  transform: rotate(-7deg) scale(1.06) translateY(-3px);
-  box-shadow: 0 6px 0 var(--ink);
-}
-.proof__frame:hover .sticker--sea { transform: rotate(6deg) scale(1.06) translateY(-3px); }
-
-.creds__list a:hover .creds__mark { transform: translateY(-4px) scale(1.05); }
-
-/* ---------- studio facts ---------- */
-/* The numbers count up when the block arrives - js/main.js only ever touches the
-   ones that are purely numeric, so "NE" is left exactly as written. */
-.studio__facts strong { display: inline-block; transition: transform .3s var(--ease-spring); }
-.studio__facts li:hover strong { transform: scale(1.12); }
-.studio__facts strong.is-landed { animation: pop .45s var(--ease-spring); }
-
-/* ---------- forms ---------- */
-.footer__form input, .footer__form textarea,
-.codev-form input, .codev-form select, .codev-form textarea,
-.newsletter__form input[type="email"] {
-  transition: border-color .2s, background .2s, transform .2s var(--ease-out);
-}
-.footer__form input:focus, .footer__form textarea:focus,
-.codev-form input:focus, .codev-form select:focus, .codev-form textarea:focus {
-  transform: translateY(-1px);
-}
-/* A send in flight. The button keeps its size so the form does not reflow under
-   the pointer that just pressed it; the label is replaced by a spinner. */
-.btn.is-busy { color: transparent; pointer-events: none; }
-.btn.is-busy::after {
-  content: ""; position: absolute; top: 50%; left: 50%;
-  width: 18px; height: 18px; margin: -9px 0 0 -9px;
-  border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%;
-  color: var(--ink);
-  animation: spin .7s linear infinite;
-}
-.btn--sand.is-busy::after { color: var(--ink); }
-.btn--ink.is-busy::after, .btn--ghost.is-busy::after { color: var(--paper); }
-@keyframes spin { to { transform: rotate(360deg); } }
-/* the result note slides in rather than appearing under the button */
-.form-note { animation: note-in .35s var(--ease-lift) both; }
-@keyframes note-in { from { opacity: 0; transform: translateY(-6px); } }
-
-/* ---------- FAQ ---------- */
-.faq__list summary { transition: color .2s, padding-left .25s var(--ease-out); }
-.faq__list summary:hover { color: var(--sea-ink); padding-left: .4rem; }
-.faq__list details[open] summary { color: var(--sea-ink); }
-.faq__list summary::after { transition: transform .3s var(--ease-spring), color .2s; }
-.faq__list details[open] summary::after { transform: translateY(-50%) rotate(135deg); }
-@media (prefers-reduced-motion: no-preference) {
-  .faq__list details[open] p { animation: rise-in .4s var(--ease-out) .08s both; }
-}
-
-/* ---------- viewer & carousel ---------- */
-@media (prefers-reduced-motion: no-preference) {
-  .lightbox.is-open .lightbox__figure { animation: zoom-in .3s var(--ease-lift) both; }
-}
-@keyframes zoom-in { from { opacity: 0; transform: scale(.94) translateY(10px); } }
-.lightbox__btn, .lightbox__close { transition: background .2s, border-color .2s, transform .2s var(--ease-spring); }
-.lightbox__btn:hover { transform: scale(1.12); }
-.lightbox__close:hover { transform: rotate(90deg) scale(1.08); }
-.carousel__btn:hover { transform: translateY(calc(-50% - 3px)) scale(1.08); box-shadow: 0 5px 0 var(--ink); }
-.carousel__btn:active { transform: translateY(calc(-50% + 1px)) scale(.96); box-shadow: 0 1px 0 var(--ink); }
-.carousel__slot:has(img):hover, .carousel__slot:has(video):hover { transform: translateY(-4px) scale(1.015); }
-.clip-toggle { transition: background .2s, border-color .2s, transform .2s var(--ease-spring); }
-.clip-toggle:hover { transform: scale(1.1); }
-
-/* ---------- footer ---------- */
-/* A white rule draws left to right over the sand one, rather than the sand one
-   simply changing colour. ::after is already taken - it is the 44px hit overlay
-   that keeps the target size honest without moving the type - so this is
-   ::before, sitting exactly over the 3px border it replaces. The sand border is
-   pinned through the hover so there is something for the white to draw across. */
-.footer__email::before {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 3px;
-  background: #fff; border-radius: 2px;
-  transform: scaleX(0); transform-origin: left;
-  transition: transform .3s var(--ease-out);
-}
-.footer__email:hover { border-bottom-color: color-mix(in srgb, var(--sand) 45%, transparent); }
-.footer__email:hover::before { transform: scaleX(1); }
-.footer__socials a:hover { transform: translateY(-4px) rotate(-6deg) scale(1.05); }
-.footer__socials a { transition: transform .25s var(--ease-spring), background .2s, border-color .2s, color .2s; }
-.footer__logo { transition: transform .5s var(--ease-spring); }
-.footer__main:hover .footer__logo { transform: rotate(3deg) scale(1.04); }
-.social__icon { transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-out); }
-.social:hover .social__icon { transform: translateY(-4px) rotate(-6deg); box-shadow: 0 7px 0 var(--ink); }
-.backlink:hover { transform: translateY(-2px) scale(1.02); }
-.profile__nav a { transition: color .15s, transform .2s var(--ease-out); }
-.profile__nav a:hover { transform: translateX(3px); }
-.profile__nav .is-back:hover { transform: translateX(-3px); }
-.profile__photo { transition: transform .45s var(--ease-spring); }
-.profile__photo:hover { transform: rotate(0deg) scale(1.015); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
-  /* The blanket above turns a transition off and rushes an animation through.
-     For the handful of things whose from-state is an animation, rushing is the
-     right outcome - .01ms with a `both` fill lands on the finished frame - but
-     an animation-delay is not covered by it, so a staggered entrance would still
-     hold the hero blank for a third of a second before snapping in. */
-  *, *::before, *::after { animation-delay: 0s !important; animation-iteration-count: 1 !important; }
+  /* js/main.js never builds these when motion is unwelcome. This is the second
+     lock, for the case where the preference changes after the page has loaded. */
   .hero__bubbles { display: none; }
 }
