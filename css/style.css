@@ -417,6 +417,18 @@ h1, h2, h3 {
 .creds__frame .sticker { bottom: -10px; left: 20px; }
 .creds__copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin-bottom: 1.1rem; }
 .creds__copy p { color: var(--text-soft); margin-bottom: 1.5rem; max-width: 56ch; }
+/* The "Part of" block used to close this column, so the last paragraph's margin
+   had something to push against. It is its own band now, and the leftover
+   24px was quietly pulling the copy off centre against the photo. */
+.creds__copy > p:last-child { margin-bottom: 0; }
+/* The "Part of" block spans the band rather than sitting in the copy column -
+   see the note on it in index.html for why the two lockups need the width. */
+.creds__part {
+  grid-column: 1 / -1;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.5rem, 3vw, 2.2rem);
+  border-top: 1px solid rgba(20, 23, 28, .12);
+}
 /* The label sits ABOVE the list rather than inline beside it - inline pushed the
    names to a left edge nothing else on the page shared. */
 .creds__label {
@@ -425,20 +437,89 @@ h1, h2, h3 {
   color: var(--sand-ink);
   margin-bottom: .7rem;
 }
-/* A fixed 2x2, not a wrapping row. In a column half the page wide these four
-   names fall one short of a single line, so a flex row would drop "Tranzfuser"
-   onto a row of its own. Two max-content columns come to ~320px, which fits
-   inside the copy column at every width down to a phone, so the block is the
-   same shape everywhere and never reflows. */
+/* Four equal columns, not a wrapping row. The marks sit straight on the paper
+   with no plate behind them, so the even columns and the gap are the only thing
+   holding them together as one row - which is why the sizing below matters more
+   here than it did when each had a box to be centred in. Two columns from
+   1080px down, where four would squeeze the two single-line lockups below the
+   size of the other two. */
 .creds__list {
-  display: grid; grid-template-columns: repeat(2, max-content);
-  align-items: center; gap: .7rem 1.6rem;
+  list-style: none;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  /* Rows size themselves, so once this wraps to 2x2 the row holding the tallest
+     lockup came out deeper than the row below it, and the marks stopped sitting
+     on an even rhythm. 1fr equalises the rows; each mark is then centred in an
+     identical band. */
+  grid-auto-rows: 1fr;
+  /* No text left in here, and these stay anyway: every item is an image, so
+     these rules are what a failed load falls back into. */
   font-family: var(--font-display); font-weight: 700; font-size: 1rem;
   color: var(--text-ink);
 }
-.creds__list li { display: flex; align-items: center; gap: .5rem; }
+.creds__list li { display: flex; align-items: center; justify-content: center; text-align: center; }
+/* Every mark is a multiple of ONE shared width, so the four stay in step at any
+   size: all of them are on the percentage below ~230px of column, all of them
+   are on the pixel cap above it, and they cross over together. Change --mark
+   and the other three follow. The percentage is also what stops the wide ones
+   overflowing on a phone, so none of them needs a max-width escape hatch.
+
+   The multiples are not arithmetic. These four are wildly different shapes -
+   3.28:1 for UK Games Fund, 2.85:1 for Game Republic, 6.48:1 and 6.71:1 for the
+   two single-line ones - and their lettering takes up anywhere from 0.20 to 0.40
+   of their artwork, because Game Republic's is a small wordmark under a tall
+   badge while the Forum's fills its box. Matching any single dimension leaves
+   one of them visibly wrong, and matching cap heights exactly - which is what
+   the previous pair did - shrinks Tranzfuser to a 13px whisper, since it is one
+   short line of thin, pale strokes rather than two of solid caps. These were
+   set by rendering all four together and comparing, which is the only thing
+   that works once a set is this mixed. Re-render before changing one.
+
+   Both numbers came down when the plates came off. The percentage was measured
+   against a tile's content box, inside 1rem of padding; with no plate there is
+   no padding, so 65 would have run the widest mark almost edge to edge of its
+   column - 58 leaves the Forum at ~84%, which is the margin the padding used to
+   provide. And a mark with a plate behind it reads smaller than the same mark
+   bare, because the plate gives the eye an edge to measure it against, so the
+   cap came down from 144 to keep the row at the weight it had in boxes. */
+.creds__list { --mark: min(132px, 58%); }
+.creds__mark { width: var(--mark); height: auto; }
+.creds__mark--gr { width: calc(var(--mark) * 1.100); }
+.creds__mark--ef { width: calc(var(--mark) * 1.444); }
+.creds__mark--tf { width: calc(var(--mark) * 1.250); }
+/* Width has to be definite on the one mark that is wrapped in a link, or the
+   percentage above resolves against the anchor's own shrink-to-fit width -
+   which depends on the image - and the mark lands at its intrinsic size. It
+   also gives the one clickable thing in the row a full-column hit area rather
+   than a logo-sized one. */
+.creds__list a { display: flex; align-items: center; justify-content: center; width: 100%; }
+/* With the plates gone there is no border or background left to light up, so
+   the lift does the whole job - the same move the Tranzfuser photo above makes
+   on hover. It is on the mark, not the anchor, because the anchor is a full
+   column wide and moving that would drag empty paper around with it. */
+.creds__list a .creds__mark { transition: transform .3s var(--ease-out); }
+.creds__list a:hover .creds__mark { transform: translateY(-4px); }
+/* No box to hang a ring on any more, so it goes on the anchor and stands off
+   far enough to clear the artwork. */
+.creds__list a:focus-visible { outline: 3px solid var(--sea-chip); outline-offset: 6px; border-radius: var(--radius-sm); }
+@media (prefers-reduced-motion: reduce) {
+  .creds__list a:hover .creds__mark { transform: none; }
+}
+@media (max-width: 1080px) {
+  .creds__list { grid-template-columns: repeat(2, 1fr); }
+}
 @media (max-width: 600px) {
-  .creds__list { gap: .5rem 1.1rem; font-size: .92rem; }
+  .creds__list { font-size: .92rem; }
+}
+/* One column, not a 2x2, on a phone. The Forum lockup is already at ~84% of its
+   column - the rest is the breathing room the marks need with nothing behind
+   them - so in two columns below this width its letters drop to around 8px, and
+   "ENTREPRENEURS' FORUM" stops being readable long before it stops fitting.
+   Tranzfuser, thinner and paler, goes first. Full width puts all four back on
+   their pixel cap at the cost of ~350px of scroll, which is the right trade for
+   marks you are meant to recognise. */
+@media (max-width: 480px) {
+  .creds__list { grid-template-columns: 1fr; }
 }
 
 /* ---------- sections ---------- */

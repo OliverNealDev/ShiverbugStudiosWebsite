@@ -412,12 +412,44 @@
             any team in the competition. That's our three founders on the stage,
             turtle included.
           </p>
+        </div>
+
+        <!-- Four marks, out of the copy column and across the whole band. They
+             need the width: the Entrepreneurs' Forum and Tranzfuser lockups are
+             single lines six and a half times wider than they are tall, and at
+             any width a half-page column allows, their letters come out smaller
+             than the type beside them. Spanning the band gives each tile ~240px
+             of usable width, which is where all four sit at the same size.
+
+             The name is the alt text on every one, so the list says the same
+             four things whether you see it, hear it or crawl it - and if a mark
+             fails to load, the alt falls back into an item still styled to hold
+             a name. That is why .creds__list keeps its font rules with no text
+             left in it.
+
+             Game Republic is the only one linked, because a membership page for
+             this studio is the only destination any of the four gave us. -->
+        <div class="creds__part">
           <h3 class="creds__label">Part of</h3>
           <ul class="creds__list">
-            <li>UK Games Fund</li>
-            <li>Games Republic</li>
-            <li>Entrepreneurs Forum</li>
-            <li>Tranzfuser</li>
+            <li>
+              <img class="creds__mark" src="assets/img/partner-uk-games-fund.png"
+                   alt="UK Games Fund" width="320" height="98" loading="lazy" decoding="async">
+            </li>
+            <li>
+              <a href="https://gamerepublic.net/member/shiverbug-studios/" target="_blank" rel="noopener">
+                <img class="creds__mark creds__mark--gr" src="assets/img/partner-game-republic.png"
+                     alt="Game Republic" width="360" height="126" loading="lazy" decoding="async">
+              </a>
+            </li>
+            <li>
+              <img class="creds__mark creds__mark--ef" src="assets/img/partner-entrepreneurs-forum.png"
+                   alt="Entrepreneurs&rsquo; Forum" width="480" height="74" loading="lazy" decoding="async">
+            </li>
+            <li>
+              <img class="creds__mark creds__mark--tf" src="assets/img/partner-tranzfuser.png"
+                   alt="Tranzfuser" width="400" height="60" loading="lazy" decoding="async">
+            </li>
           </ul>
         </div>
       </div>
