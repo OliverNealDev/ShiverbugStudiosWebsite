@@ -9,7 +9,7 @@ Write-Host "Serving $root at http://localhost:$port/"
 $mime = @{
   '.html'='text/html'; '.css'='text/css'; '.js'='text/javascript'
   '.jpg'='image/jpeg'; '.jpeg'='image/jpeg'; '.png'='image/png'; '.webp'='image/webp'
-  '.svg'='image/svg+xml'; '.mp4'='video/mp4'; '.ico'='image/x-icon'
+  '.svg'='image/svg+xml'; '.mp4'='video/mp4'; '.webm'='video/webm'; '.ico'='image/x-icon'
   '.woff2'='font/woff2'; '.json'='application/json'
   '.xml'='application/xml'; '.txt'='text/plain'; '.zip'='application/zip'
   '.vtt'='text/vtt'

@@ -88,8 +88,44 @@ document.querySelectorAll('.tool__logo').forEach((img) => {
   else img.addEventListener('error', drop);
 });
 
-// The trailer player lived here. It's a still image while the new trailer is cut;
-// restore this block from git history when the video goes back in.
+// ----- games page: the gameplay clip starts itself once it's on screen -----
+// Same bargain the co-development carousels make, and for the same reasons: it
+// never runs under reduced motion, and it doesn't fetch a single byte until the
+// clip is actually in view. That second part matters more here than it does
+// there - this file is far and away the heaviest thing the site serves, and
+// most visitors to this page never scroll as far as it.
+// The clip keeps its native controls, so 2.2.2 Pause, Stop, Hide is covered
+// without the custom button the carousel clips need.
+(() => {
+  const clip = document.getElementById('trailer');
+  if (!clip) return;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting }) => {
+      // remembered so the pause handler below can tell a visitor's pause from
+      // the one this observer fires on the way off screen
+      clip.dataset.onScreen = String(isIntersecting);
+      // A visitor who hits pause has said what they want. Don't override it the
+      // next time the clip scrolls back into view.
+      if (isIntersecting && clip.dataset.userPaused !== 'true') {
+        if (clip.preload === 'none') clip.preload = 'auto';
+        clip.play().catch(() => {});
+      } else {
+        clip.pause();
+      }
+    });
+  }, { threshold: 0.25 });
+  io.observe(clip);
+
+  // 'pause' fires for scrolling off screen too, so only count it as the
+  // visitor's doing while the clip is in view.
+  clip.addEventListener('pause', () => {
+    if (clip.dataset.onScreen !== 'false') clip.dataset.userPaused = 'true';
+  });
+  clip.addEventListener('play', () => { clip.dataset.userPaused = 'false'; });
+})();
 
 // ----- reveal on scroll -----
 const revealEls = document.querySelectorAll('.reveal');

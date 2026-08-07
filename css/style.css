@@ -616,17 +616,21 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---------- game ---------- */
 .game { background: var(--paper); padding-top: 3.5rem; }
 
+/* Deliberately narrower than the shots below it. Full width, this clip reads as
+   the trailer it isn't - it's two characters standing still while the camera
+   drifts, and at hero size the lack of anything happening is the loudest thing
+   on the page. Small enough to be an aside, it plays as one. */
 .game__player {
   position: relative; border-radius: var(--radius-lg); overflow: hidden;
   background: var(--ink);
   box-shadow: var(--shadow-pop);
+  max-width: 680px; margin-inline: auto;
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
-/* Holds a still while the new trailer is being cut. The video rule stays so the
-   player drops straight back in when it lands. */
+/* The img rule stays for whatever ends up in here next - a still, the trailer,
+   or this clip again. */
 .game__player video,
-.game__player img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-.game__player .sticker { top: 14px; left: 14px; z-index: 2; }
+.game__player img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 .game__trailer-note {
   font-size: .93rem; font-style: italic;
   color: var(--text-soft);
@@ -656,10 +660,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   color: var(--ink); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
 }
 
-/* Three shots across on desktop, stacked on a phone. The single hero still above
-   does the establishing work; these are the ones that show it's a whole world. */
+/* Two shots across on desktop, stacked on a phone. The clip above does the
+   establishing work; these are the ones that show it's a whole world. */
 .game__shots {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
   margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
 }
 .game__shots a {

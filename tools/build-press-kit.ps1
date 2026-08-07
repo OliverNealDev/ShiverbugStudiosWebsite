@@ -131,14 +131,13 @@ $brand = [ordered]@{
   'logo-png/shiverbug-logo-hires.jpg'              = 'assets/press/shiverbug-logo-hires.jpg'
 }
 
-# The four game shots and four studio photographs the press page's own gallery
+# The three game shots and four studio photographs the press page's own gallery
 # shows. The bundles used to lag that gallery: the Tranzfuser pair reached the
 # full kit but never the screenshots bundle, and the beach shot - the first
 # image on the page, and the one every og:image points at - was in neither.
 $imagery = [ordered]@{
   'screenshots/oow-screenshot-beach.jpg'                  = 'assets/img/out-of-water-screenshot.jpg'
   'screenshots/oow-screenshot-cove.jpg'                   = 'assets/press/oow-screenshot-cove.jpg'
-  'screenshots/oow-screenshot-ruins.jpg'                  = 'assets/press/oow-screenshot-ruins.jpg'
   'screenshots/oow-screenshot-characters.jpg'             = 'assets/press/oow-screenshot-characters.jpg'
   'studio/shiverbug-team-brighton-2026.jpg'               = 'assets/press/shiverbug-team-brighton-2026.jpg'
   'studio/shiverbug-team-develop-brighton-2026-seafront.jpg' = 'assets/img/founders.jpg'
