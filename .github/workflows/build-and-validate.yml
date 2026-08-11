@@ -47,29 +47,18 @@ jobs:
             echo "$untracked"
             exit 1
           fi
-          # Both date stamps come from LastCommitDate, which is `git log -1` on the
-          # file itself. So the value baked into a file is always computed before
-          # the commit that writes it, and the commit that writes it moves the
-          # date again. The two only agree when a commit lands on the same day as
-          # the previous commit to touch that file - true within a day's work,
-          # false the moment a change crosses midnight. This check used to allow
-          # that for sitemap.xml alone, but the same helper stamps dateModified
-          # into every page's JSON-LD, and those were compared strictly. Six days
-          # passed between two commits and all 20 generated pages went red at
-          # once, on a drift the build is designed to produce.
-          #
-          # So: a diff of nothing but date stamps is expected and fine. Anything
-          # else means the generated output genuinely disagrees with team.json.
+          # A plain strict comparison, which it can afford to be: lastmod and
+          # dateModified are declared in data/team.json rather than read back out
+          # of git, so two builds of the same commit produce the same bytes.
+          # While they came from `git log -1` per file they could not, and this
+          # step carried a carve-out letting date-only diffs through. That
+          # carve-out was the only thing standing between a genuine drift and a
+          # green tick, so it is better gone than widened.
           if ! git diff --quiet; then
-            changed=$(git --no-pager diff -U0 | grep -c '^[+-][^+-]' || true)
-            dates=$(git --no-pager diff -U0 | grep -cE '^[+-].*(<lastmod>|"dateModified")' || true)
-            if [ "$changed" -ne "$dates" ]; then
-              echo "::error::Generated files are out of date. Run tools/build-team.ps1 and commit the result."
-              git --no-pager diff --stat
-              git --no-pager diff
-              exit 1
-            fi
-            echo "Generated files differ only by lastmod / dateModified stamps - expected."
+            echo "::error::Generated files are out of date. Run tools/build-team.ps1 and commit the result."
+            git --no-pager diff --stat
+            git --no-pager diff
+            exit 1
           fi
           echo "Generated files are up to date."
 

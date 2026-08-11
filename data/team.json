@@ -1,6 +1,32 @@
 {
   "_readme": "Single source of truth for the team. Edit this, then run tools/build-team.ps1 to regenerate team/*.html, the team grids in index.html and sitemap.xml. Fields: id (legacy ?p= slug, keeps old links alive), slug (page filename), name, role, photo, initials, pronouns, tagline, about (array of paragraphs, may contain HTML; links to other profiles are sibling-relative e.g. 'lewis-mennim.html'), favourite ('turtle'|'seagull'|'crab'|null), askMeAbout (array|null), socials (array of {label,url}|null), status (talent only: 'active'|'former'), thumbClass/thumbStyle (optional thumbnail framing on the index grid), metaDescription (optional, overrides the generated search snippet - write one when the bio's opening sentence is too long to fit inside 158 characters whole, otherwise leave it out and let the build derive it).",
 
+  "_readmeDates": "dateModified is the sitemap lastmod and the JSON-LD dateModified for every page, keyed by file path. These used to be read from git, one 'git log -1' per file, which could never be self-consistent: the date baked into a file was always computed before the commit that wrote it, and that commit moved the date again. It agreed only when a commit landed on the same day as the previous commit to touch that file, so the build went red the first time a change crossed midnight. Declared here instead, so the build is deterministic and the CI check can compare its output strictly. The cost is that these are now yours to keep honest: when you change a page's content, bump its date in the same commit. Nothing detects a forgotten bump, because anything that could would have to read git and would bring the old problem back with it. Every page in the sitemap needs an entry; the build stops with the missing path if one is absent.",
+
+  "dateModified": {
+    "index.html": "2026-08-11",
+    "games.html": "2026-08-07",
+    "press.html": "2026-08-07",
+    "privacy.html": "2026-08-05",
+    "accessibility.html": "2026-08-07",
+    "team/index.html": "2026-08-06",
+    "team/lewis-mennim.html": "2026-08-06",
+    "team/ryan-hughes.html": "2026-08-06",
+    "team/garrett-windus.html": "2026-08-06",
+    "team/oliver-neal.html": "2026-08-06",
+    "team/sarah-childs.html": "2026-08-06",
+    "team/connor-milburn.html": "2026-08-06",
+    "team/nathan-hopwood.html": "2026-08-06",
+    "team/charlie-ashall.html": "2026-08-06",
+    "team/charlie-pelling.html": "2026-08-06",
+    "team/martin-wilkinson.html": "2026-08-06",
+    "team/evan-atherton-elphick.html": "2026-08-06",
+    "team/josh-cairns.html": "2026-08-06",
+    "team/madi-freck.html": "2026-08-06",
+    "team/max-breeze.html": "2026-08-06",
+    "team/aidan-hendry.html": "2026-08-06"
+  },
+
   "team": [
     {
       "id": "lewis",

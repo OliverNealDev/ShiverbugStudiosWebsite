@@ -245,19 +245,32 @@ function FooterSocialsHtml([string]$indent) {
   ) -join "`n"
 }
 
-# lastmod / dateModified both answer "has this changed?", and both take the
-# file's own last commit rather than "today". Stamping every page with the build
-# date on every build tells search engines the whole site changes daily, which
-# is the fastest way to have the field ignored altogether. Defined up here
-# because the structured data below needs it as well as the sitemap.
-# Falls back to today if git can't answer (shallow clone, or a brand-new file).
-$today = (Get-Date).ToString('yyyy-MM-dd')
-function LastCommitDate([string]$relPath) {
-  try {
-    $d = & git -C $root log -1 --format=%cs -- $relPath 2>$null
-    if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($d)) { return $d.Trim() }
-  } catch { }
-  return $today
+# lastmod / dateModified both answer "has this changed?", and neither is the
+# build date: stamping every page with today on every build tells search engines
+# the whole site changes daily, which is the fastest way to have the field
+# ignored altogether. Defined up here because the structured data below needs
+# the same dates as the sitemap.
+#
+# These used to come from `git log -1` on each file. That could never be
+# self-consistent - the date written into a file was computed before the commit
+# that wrote it, and that commit moved the date again - so the CI drift check
+# went red the first time a change crossed midnight. They are declared in
+# data/team.json now, which makes this build deterministic and lets that check
+# compare its output strictly.
+#
+# Missing keys are fatal rather than defaulted to today. A silent fallback is
+# how the old version hid the problem, and a page quietly claiming it changed on
+# whatever day the build ran is worse than a build that stops and names it.
+function PageDate([string]$relPath) {
+  $key = $relPath -replace '\\', '/'
+  $entry = $data.dateModified.PSObject.Properties[$key]
+  if (-not $entry) {
+    throw "No dateModified for '$key' in data/team.json. Add it under `"dateModified`", using the date that page's content last actually changed."
+  }
+  if ($entry.Value -notmatch '^\d{4}-\d{2}-\d{2}$') {
+    throw "dateModified for '$key' is '$($entry.Value)', which is not a yyyy-MM-dd date."
+  }
+  return $entry.Value
 }
 
 # ---------- page template ----------
@@ -518,7 +531,7 @@ foreach ($list in @($team, $talent)) {
           'url'        = $canonical
           'name'       = "$($p.name) | Shiverbug Studios"
           'description' = (StripTags $desc)
-          'dateModified' = (LastCommitDate "team/$($p.slug).html")
+          'dateModified' = (PageDate "team/$($p.slug).html")
           'mainEntity' = @{ '@id' = "$canonical#person" }
           'breadcrumb' = $crumbs
           'isPartOf'   = @{ '@id' = "$baseUrl/#website" }
@@ -904,7 +917,7 @@ $hubLd = [ordered]@{
   'description' = $hubDesc
   'isPartOf'   = @{ '@id' = "$baseUrl/#website" }
   'about'      = @{ '@id' = "$baseUrl/#studio" }
-  'dateModified' = (LastCommitDate 'team/index.html')
+  'dateModified' = (PageDate 'team/index.html')
   'inLanguage' = 'en-GB'
   'breadcrumb' = [ordered]@{
     '@type'           = 'BreadcrumbList'
@@ -1089,7 +1102,7 @@ $siteLd = [ordered]@{
       'isPartOf'    = @{ '@id' = "$baseUrl/#website" }
       'about'       = @{ '@id' = "$baseUrl/#studio" }
       'primaryImageOfPage' = "$baseUrl/assets/img/out-of-water-screenshot.jpg"
-      'dateModified' = (LastCommitDate 'index.html')
+      'dateModified' = (PageDate 'index.html')
       'inLanguage'  = 'en-GB'
     },
     $gameLd
@@ -1129,7 +1142,7 @@ foreach ($gp in $gamePages) {
     '@context' = 'https://schema.org'
     '@graph'   = @(
       $gameLd,
-      [ordered]@{ '@id' = $gp.id; 'dateModified' = (LastCommitDate $gp.file) }
+      [ordered]@{ '@id' = $gp.id; 'dateModified' = (PageDate $gp.file) }
     )
   }
   $gameJson = ($gameGraph | ConvertTo-Json -Depth 12).Replace('<', '\u003c')
@@ -1184,7 +1197,7 @@ foreach ($pp in $policyPages) {
         'description'  = $pp.desc
         'isPartOf'     = @{ '@id' = "$baseUrl/#website" }
         'about'        = @{ '@id' = "$baseUrl/#studio" }
-        'dateModified' = (LastCommitDate $pp.path)
+        'dateModified' = (PageDate $pp.path)
         'inLanguage'   = 'en-GB'
       },
       [ordered]@{
@@ -1222,14 +1235,14 @@ foreach ($p in $all) {
   $pages += @{ loc = "$baseUrl/team/$($p.slug).html"; pri = '0.5'; file = "team/$($p.slug).html" }
 }
 
-# lastmod comes from LastCommitDate, defined with the other helpers at the top
-# of this script because the structured data needs the same dates.
+# lastmod comes from PageDate, defined with the other helpers at the top of this
+# script because the structured data needs the same dates.
 
 $sm = @('<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
 foreach ($pg in $pages) {
   $sm += '  <url>'
   $sm += '    <loc>' + $pg.loc + '</loc>'
-  $sm += '    <lastmod>' + (LastCommitDate $pg.file) + '</lastmod>'
+  $sm += '    <lastmod>' + (PageDate $pg.file) + '</lastmod>'
   $sm += '    <priority>' + $pg.pri + '</priority>'
   $sm += '  </url>'
 }
