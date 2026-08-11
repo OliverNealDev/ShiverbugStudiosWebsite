@@ -47,25 +47,29 @@ jobs:
             echo "$untracked"
             exit 1
           fi
-          # sitemap lastmod is each file's last commit date. Committing an edit
-          # moves that date, so the value generated here can legitimately differ
-          # from the one committed alongside the edit. A date-only change is
-          # expected; everything else must match.
-          if ! git diff --quiet -- . ':(exclude)sitemap.xml'; then
-            echo "::error::Generated files are out of date. Run tools/build-team.ps1 and commit the result."
-            git --no-pager diff --stat -- . ':(exclude)sitemap.xml'
-            git --no-pager diff -- . ':(exclude)sitemap.xml'
-            exit 1
-          fi
-          if ! git diff --quiet -- sitemap.xml; then
-            changed=$(git --no-pager diff -U0 -- sitemap.xml | grep -c '^[+-][^+-]' || true)
-            dates=$(git --no-pager diff -U0 -- sitemap.xml | grep -c '^[+-].*<lastmod>' || true)
+          # Both date stamps come from LastCommitDate, which is `git log -1` on the
+          # file itself. So the value baked into a file is always computed before
+          # the commit that writes it, and the commit that writes it moves the
+          # date again. The two only agree when a commit lands on the same day as
+          # the previous commit to touch that file - true within a day's work,
+          # false the moment a change crosses midnight. This check used to allow
+          # that for sitemap.xml alone, but the same helper stamps dateModified
+          # into every page's JSON-LD, and those were compared strictly. Six days
+          # passed between two commits and all 20 generated pages went red at
+          # once, on a drift the build is designed to produce.
+          #
+          # So: a diff of nothing but date stamps is expected and fine. Anything
+          # else means the generated output genuinely disagrees with team.json.
+          if ! git diff --quiet; then
+            changed=$(git --no-pager diff -U0 | grep -c '^[+-][^+-]' || true)
+            dates=$(git --no-pager diff -U0 | grep -cE '^[+-].*(<lastmod>|"dateModified")' || true)
             if [ "$changed" -ne "$dates" ]; then
-              echo "::error::sitemap.xml is out of date beyond its lastmod dates."
-              git --no-pager diff -- sitemap.xml
+              echo "::error::Generated files are out of date. Run tools/build-team.ps1 and commit the result."
+              git --no-pager diff --stat
+              git --no-pager diff
               exit 1
             fi
-            echo "sitemap.xml differs only by lastmod dates - fine."
+            echo "Generated files differ only by lastmod / dateModified stamps - expected."
           fi
           echo "Generated files are up to date."
 
