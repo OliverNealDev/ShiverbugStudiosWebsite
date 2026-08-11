@@ -2040,7 +2040,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: block; margin-bottom: .3rem;
   font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: #fff;
 }
-.lightbox__cap-text { display: block; line-height: 1.55; }
+/* Every write-up is kept to roughly the same length, but "roughly" still lands
+   on two lines or three depending on the viewport - and the figure is centred,
+   so that one line's difference walks the image up and down as you browse.
+   Reserving three lines holds the stage still whichever caption is showing. */
+.lightbox__cap-text { display: block; line-height: 1.55; min-height: calc(3 * 1.55em); }
 .lightbox__credit {
   display: inline-block; margin-top: .35rem;
   color: #fff; font-size: .85rem; font-weight: 600;
