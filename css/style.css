@@ -1929,12 +1929,18 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 
 /* proof band (dark) */
 .proof {
+  position: relative; /* anchors the wave dividers on both edges */
   background:
     radial-gradient(700px 400px at 0% 0%, rgba(15, 163, 177, .14), transparent 60%),
     radial-gradient(600px 400px at 100% 100%, rgba(237, 161, 77, .1), transparent 60%),
     var(--ink);
   color: var(--text-paper);
 }
+/* Both edges wear the wave, and each divider is up to 90px of svg plus 18px of
+   drifting crests before any actual breathing room, so the band needs footer-
+   grade padding on both sides. Doubled selector on purpose: a lone .proof loses
+   the padding-top fight to .section + .section. Same reasoning as .community. */
+.section.proof { padding: clamp(6rem, 10vw, 8.5rem) 0; }
 .proof__inner {
   display: grid; grid-template-columns: .95fr 1.05fr;
   gap: clamp(2.5rem, 6vw, 5rem); align-items: center;

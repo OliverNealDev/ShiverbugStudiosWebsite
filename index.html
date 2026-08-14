@@ -656,6 +656,14 @@
 
     <!-- ======= PROOF / CASE STUDY ======= -->
     <section class="section proof">
+      <!-- Same divider as the hero, the footer and the Discord band, worn on
+           both edges. Each svg is filled with the colour of the section it
+           touches, and the two are NOT the same cream: .codev above is --paper,
+           .how below is --paper-2. Filling both with --paper would leave a seam
+           along the bottom edge where the wave meets a darker cream. -->
+      <div class="wave wave--top" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
+      </div>
       <div class="container proof__inner">
         <figure class="proof__frame reveal">
           <img src="assets/img/out-of-water-screenshot-760.webp" srcset="assets/img/out-of-water-screenshot-480.webp 480w, assets/img/out-of-water-screenshot-760.webp 760w, assets/img/out-of-water-screenshot-1100.webp 1100w" sizes="(max-width: 980px) min(92vw, 520px), 48vw" alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove of crates and palm trees" width="1916" height="1080" loading="lazy" decoding="async">
@@ -676,6 +684,9 @@
           </p>
           <a class="btn btn--sand" href="games.html">See Out of Water</a>
         </div>
+      </div>
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,90 L0,90 Z" fill="var(--paper-2)"/></svg>
       </div>
     </section>
 
