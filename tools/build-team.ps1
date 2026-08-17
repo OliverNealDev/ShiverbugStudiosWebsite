@@ -57,7 +57,7 @@ $studioSocials = @(
   @{ label = 'YouTube';   icon = 'youtube';   url = 'https://www.youtube.com/@ShiverbugStudios' }
   @{ label = 'LinkedIn';  icon = 'linkedin';  url = 'https://www.linkedin.com/company/shiverbug-studios' }
   @{ label = 'itch.io';   icon = 'itchio';    url = 'https://shiverbug-studios.itch.io/' }
-  @{ label = 'Discord';   icon = 'discord';   url = 'https://discord.gg/BpkeNZqbDs'; inSameAs = $false }
+  @{ label = 'Discord';   icon = 'discord';   url = 'https://discord.gg/gZDWdZEAxm'; inSameAs = $false }
 )
 
 # Reference pages that identify the studio without being ours to post on. The
