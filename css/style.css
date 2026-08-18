@@ -56,12 +56,50 @@
    pages rather than being re-picked each time.
    ============================================================ */
 
+/* ============================================================
+   TWO THEMES, ONE PALETTE
+   The site is dark by default and light on request. That direction
+   matters for how this block is written: the bare :root carries the
+   DARK values, and light is the override under [data-theme="light"].
+   Written the other way round, a visitor with JavaScript off would get
+   light - the opposite of what the site is meant to be - because the
+   attribute that selects a theme is set by js/theme.js. Nothing in
+   here may depend on that script having run.
+
+   Three tiers, and the tier decides whether a value flips:
+
+   BRAND CONSTANTS never flip. --brand-ink is the logo black and
+   --brand-paper the brand's warm paper; the four accents and their
+   -deep and -chip tiers are the brand's own colours. A press kit that
+   showed a different black in dark mode would be lying, and a sand
+   button has to be sand on both themes or it is not the brand.
+
+   SEMANTIC TOKENS flip. --paper is no longer "the warm paper colour",
+   it is "whatever this theme puts behind the page", and --ink is "the
+   dark band", not the ink swatch. The names are kept because the wave
+   dividers name them inline in the markup (fill="var(--paper)") on
+   every page, and because every rule below already reads correctly
+   under the semantic meaning.
+
+   THE ACCESSIBLE TIER flips too, and has to. --sea-ink and friends are
+   the accents darkened to clear 4.5:1 on a light background; on a dark
+   one the same job needs them LIGHTENED instead. Both sets are tuned
+   against the worst case in their own theme - --paper-2 on light (the
+   darker of the two light backgrounds), --plate on dark (the lightest
+   of the four dark ones) - so they pass everywhere they are used.
+
+   --ink used to do three jobs at once: the band background, the 2px
+   outline round every card, and heading text. On light they are all
+   the same near-black so nothing forced them apart. On dark they part
+   company completely - the band stays dark, the outline has to go pale
+   to be seen, and heading text goes paler still - so they are three
+   tokens now: --ink, --line and --heading. Do not collapse them back.
+   ============================================================ */
+
 :root {
-  --ink: #14171c;
-  --ink-2: #1d2129;
-  --ink-3: #262b35;
-  --paper: #f7f1e4;
-  --paper-2: #efe7d3;
+  /* ---- brand constants: identical on both themes ---- */
+  --brand-ink: #14171c;
+  --brand-paper: #f7f1e4;
   --sea: #0fa3b1;
   --sea-deep: #0b7f8b;
   --leaf: #55b368;
@@ -70,26 +108,94 @@
   --sand-deep: #d3822a;
   --crab: #e0584a;
   --crab-deep: #c14033;
-
-  /* Accessible tier. The accents above are tuned for decoration - underlines,
-     borders, dots, section washes - where WCAG asks for 3:1 or nothing at all.
-     As *text* on paper they fail 1.4.3 badly (--sand is 2.44:1). These are the
-     same hue and saturation, darkened until they clear 4.5:1 on --paper-2, the
-     darker of the two light backgrounds, so they pass on both.
-     Use --*-ink for type on light. Use --*-chip for a filled block carrying
-     white text. Never swap these into borders or backgrounds - that's what the
-     originals are for, and the brand depends on them staying put. */
-  --sea-ink: #0b737c;
-  --leaf-ink: #347441;
-  --sand-ink: #945b1d;
-  --crab-ink: #b93d31;
+  /* Filled blocks carrying white text. These are darkened for white on
+     top of them, which is a property of the chip and not of the page,
+     so they do not flip either. */
   --sea-chip: #0c828d;
   --leaf-chip: #3c854a;
   --crab-chip: #db3b2b;
-  --text-ink: #2b2f36;
-  --text-soft: #5c6068;
+
+  /* ---- surfaces (dark: the default) ----
+     The same four-way relationship the light theme has always had, kept
+     in the same order so every rule below lands on the right one:
+     --paper-2 is the alternate section and sits BELOW --paper, --plate
+     is the raised card and sits above it, and --ink is the band. The
+     bands stay the deepest thing on the page - the whole layout is
+     ground interrupted by deep water, and inverting that would leave
+     the wave dividers pointing the wrong way. */
+  --paper: #171c24;
+  --paper-2: #11151b;
+  --plate: #212832;
+  --ink: #0a0d12;
+  --ink-2: #141a22;
+
+  /* ---- type ---- */
+  --heading: #eef2f7;
+  --text-ink: #d3d9e2;
+  --text-soft: #99a3b1;
+  /* "on a dark band" - unchanged by theme, because the bands are dark
+     on both. These are the only text tokens that never flip. */
   --text-paper: #f2ecdd;
   --text-paper-soft: #b9bcc4;
+  /* the muted italic used for "bio coming soon" */
+  --text-faint: #939cab;
+
+  /* ---- the accessible accent tier, dark ----
+     There barely is one. The light theme has to darken all four accents
+     to get them over 4.5:1 on paper; on dark, measured against --plate
+     (the lightest of the four dark surfaces, so the worst case) three of
+     them already clear it as they are: sea 4.87, leaf 5.68, sand 6.93.
+     So on dark the accessible tier IS the brand palette, at full
+     saturation, and links are painted in the actual brand teal.
+
+     An earlier pass lightened all four anyway, on the assumption the job
+     was symmetrical with the light theme. It is not - lightening a
+     colour that already passes only washes it out, and the teal went
+     visibly chalky. Do not reintroduce that.
+
+     Crab is the one exception: --crab is 4.01 on --plate, just short, so
+     it is lifted the smallest amount that clears the bar (4.88). */
+  --sea-ink: var(--sea);
+  --leaf-ink: var(--leaf);
+  --sand-ink: var(--sand);
+  --crab-ink: #f06a58;
+
+  /* ---- lines and depth ----
+     --line is the 2px outline that draws every card, chip and pill. It
+     is the boundary that identifies several real controls (.backlink,
+     .carousel__btn, .press__copy), so 1.4.11 applies to it: this value
+     clears 3:1 on --plate, the hardest of the four to sit on.
+     --hard is the offset shadow those same components drop. On light it
+     is the outline colour displaced; on dark it stays black, because a
+     pale lip under a pale outline reads as a second border rather than
+     as depth. */
+  --line: #6b788a;
+  --hard: #05070b;
+  /* Hairlines and washes, as one channel rather than eight tokens: every
+     rule keeps the exact alpha it was written with and only the colour
+     underneath it flips. */
+  --tint: 255, 255, 255;
+  --shadow-pop: 0 2px 0 rgba(0, 0, 0, .85), 0 14px 34px -12px rgba(0, 0, 0, .6);
+
+  /* ---- the inverted fill ----
+     .btn--ink, the press jump links and the copy buttons all fill with
+     "the opposite of the page" on hover. On light that is the ink; on
+     dark it has to become a light plate with dark text, or the control
+     disappears into the page it is meant to stand out from. */
+  --invert-bg: #e8ecf2;
+  --invert-fg: #10141a;
+  --invert-bg-hover: #ffffff;
+
+  /* ---- the four index accents, at the weight their backdrop needs ----
+     The 0.8em ticks and the package bullets. On light they take the
+     -deep tier, which is the same hue darkened; on dark that tier is
+     mud, so they take the bright tier instead. */
+  --tick-sea: var(--sea);
+  --tick-sand: var(--sand);
+  --tick-leaf: var(--leaf);
+  --tick-crab: var(--crab);
+
+  color-scheme: dark;
 
   --font-display: "Bricolage Grotesque", "Arial Black", sans-serif;
   --font-body: "Instrument Sans", system-ui, sans-serif;
@@ -97,8 +203,50 @@
   --radius-sm: 6px;
   --radius: 10px;
   --radius-lg: 14px;
-  --shadow-pop: 0 2px 0 rgba(20, 23, 28, .9), 0 14px 34px -12px rgba(20, 23, 28, .35);
   --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* ---- light: everything above that flips, and nothing that does not ----
+   These are the site's original values, unchanged. Anything absent from
+   this block is either a brand constant or a token whose dark value is
+   already right on light: the two --text-paper tiers, which describe
+   type on a band, and the three --*-chip fills. */
+:root[data-theme="light"] {
+  --paper: #f7f1e4;
+  --paper-2: #efe7d3;
+  --plate: #ffffff;
+  --ink: #14171c;
+  --ink-2: #1d2129;
+
+  --heading: #14171c;
+  --text-ink: #2b2f36;
+  --text-soft: #5c6068;
+  /* #9a9284 was only 2.5:1; this clears 4.5:1 on --paper. */
+  --text-faint: #6e675a;
+
+  /* The accents darkened until they clear 4.5:1 on --paper-2, the darker
+     of the two light backgrounds, so they pass on both. As *text* on
+     paper the undarkened accents fail 1.4.3 badly (--sand is 2.44:1). */
+  --sea-ink: #0b737c;
+  --leaf-ink: #347441;
+  --sand-ink: #945b1d;
+  --crab-ink: #b93d31;
+
+  --line: #14171c;
+  --hard: #14171c;
+  --tint: 20, 23, 28;
+  --shadow-pop: 0 2px 0 rgba(var(--tint), .9), 0 14px 34px -12px rgba(var(--tint), .35);
+
+  --invert-bg: #14171c;
+  --invert-fg: #f7f1e4;
+  --invert-bg-hover: #262b35;
+
+  --tick-sea: var(--sea-deep);
+  --tick-sand: var(--sand-deep);
+  --tick-leaf: var(--leaf-deep);
+  --tick-crab: var(--crab-deep);
+
+  color-scheme: light;
 }
 
 /* ---------- reset ---------- */
@@ -160,7 +308,7 @@ h1, h2, h3 {
 
 .skip-link {
   position: fixed; top: -60px; left: 16px; z-index: 200;
-  background: var(--ink); color: #fff; padding: .6rem 1rem;
+  background: var(--invert-bg); color: var(--invert-fg); padding: .6rem 1rem;
   border-radius: var(--radius-sm); transition: top .2s;
 }
 .skip-link:focus { top: 12px; }
@@ -197,14 +345,16 @@ h1, h2, h3 {
 
 .btn--sand { background: var(--sand); color: var(--ink); box-shadow: 0 6px 20px -6px rgba(237, 161, 77, .55); }
 .btn--sand:hover { background: var(--sand-deep); }
-.btn--ink { background: var(--ink); color: var(--paper); }
-.btn--ink:hover { background: var(--ink-3); }
-.btn--paper { background: var(--paper); color: var(--ink); }
+.btn--ink { background: var(--invert-bg); color: var(--invert-fg); }
+.btn--ink:hover { background: var(--invert-bg-hover); }
+/* A light button, for use on a dark band - so it is pinned to the brand
+   constants rather than the theme. On dark, --paper IS the band. */
+.btn--paper { background: var(--brand-paper); color: var(--brand-ink); }
 .btn--paper:hover { background: #fff; }
 .btn--ghost { border-color: rgba(255,255,255,.35); color: #fff; }
 .btn--ghost:hover { border-color: #fff; background: rgba(255,255,255,.08); }
-.btn--ghost-ink { border-color: rgba(20,23,28,.3); color: var(--ink); }
-.btn--ghost-ink:hover { border-color: var(--ink); background: rgba(20,23,28,.05); }
+.btn--ghost-ink { border-color: rgba(var(--tint), .3); color: var(--heading); }
+.btn--ghost-ink:hover { border-color: var(--line); background: rgba(var(--tint), .05); }
 
 /* ---------- decorations ---------- */
 .kicker {
@@ -267,8 +417,8 @@ h1, h2, h3 {
   position: absolute;
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   padding: .45rem 1rem; border-radius: var(--radius-sm);
-  border: 2px solid var(--ink);
-  box-shadow: 0 3px 0 var(--ink);
+  border: 2px solid var(--line);
+  box-shadow: 0 3px 0 var(--hard);
   transform: rotate(-4deg);
 }
 /* One sticker colour, on purpose. A sticker is always shouting about something
@@ -306,6 +456,7 @@ h1, h2, h3 {
      under it instead of sitting 1vw proud of it */
   width: var(--shell); margin-inline: auto;
   display: flex; align-items: center; justify-content: space-between;
+  gap: 1.2rem;
   padding: .5rem 0;
   transition: padding .3s var(--ease-out);
 }
@@ -332,7 +483,7 @@ h1, h2, h3 {
 }
 .nav__brand:hover .nav__wordmark { opacity: .75; }
 
-.nav__links { display: flex; align-items: center; gap: 1.6rem; }
+.nav__links { display: flex; align-items: center; gap: 1.6rem; margin-left: auto; }
 .nav__links a {
   position: relative;
   color: var(--text-paper); font-weight: 500; font-size: .95rem;
@@ -386,6 +537,34 @@ h1, h2, h3 {
 }
 .nav__burger[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+/* ---------- theme toggle ---------- */
+/* Hidden until js/theme.js has run, because that script is what sets
+   data-theme on <html> - without it this would be a button that changes
+   nothing. The attribute is written by a synchronous script in <head>, so
+   it is already there by the time the nav is parsed: the button is present
+   in the first painted frame rather than popping in afterwards.
+
+   It is dressed for a dark backdrop on BOTH themes, and deliberately so:
+   the bar is an ink band whichever way the page is set, so this is the
+   same translucent disc the footer socials wear, for the same reason. */
+.theme-toggle { display: none; }
+:root[data-theme] .theme-toggle {
+  /* 2.5.5 Target Size (Enhanced), like every other control in this bar. */
+  display: grid; place-items: center;
+  width: 44px; height: 44px; flex: none; padding: 0;
+  border: 1px solid rgba(255, 255, 255, .18); border-radius: 50%;
+  background: rgba(255, 255, 255, .07);
+  color: var(--text-paper); cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.theme-toggle:hover { background: var(--sand); border-color: var(--sand); color: var(--brand-ink); }
+.theme-toggle svg { width: 19px; height: 19px; }
+/* Each icon shows what you will GET, not where you are: a sun on the dark
+   theme, a moon on the light one. The label says the same thing in words. */
+.theme-toggle__moon { display: none; }
+:root[data-theme="light"] .theme-toggle__sun { display: none; }
+:root[data-theme="light"] .theme-toggle__moon { display: block; }
 
 /* ---------- hero ---------- */
 .hero {
@@ -468,7 +647,7 @@ h1, h2, h3 {
 .creds__frame img {
   width: 100%; height: auto; display: block;
   border-radius: var(--radius-lg);
-  border: 3px solid var(--ink);
+  border: 3px solid var(--line);
   box-shadow: var(--shadow-pop);
   transform: rotate(-2deg);
   transition: transform .35s var(--ease-out);
@@ -495,7 +674,7 @@ h1, h2, h3 {
   grid-column: 1 / -1;
   margin-top: clamp(2rem, 4vw, 3rem);
   padding-top: clamp(1.5rem, 3vw, 2.2rem);
-  border-top: 1px solid rgba(20, 23, 28, .12);
+  border-top: 1px solid rgba(var(--tint), .12);
 }
 /* The label sits ABOVE the list rather than inline beside it - inline pushed the
    names to a left edge nothing else on the page shared. */
@@ -551,6 +730,31 @@ h1, h2, h3 {
    bare, because the plate gives the eye an edge to measure it against, so the
    cap came down from 144 to keep the row at the weight it had in boxes. */
 .creds__list { --mark: min(132px, 58%); }
+/* On the dark theme these four get the paper back.
+   They are supplied artwork - we hold no rights to redraw them - and all
+   four are drawn for a light ground, so on dark they range from muddy to
+   invisible. Inverting was the obvious fix and it does not survive
+   contact with the files: sampling the pixels, only the Entrepreneurs'
+   Forum mark is monochrome (100% of its ink is dark, 0% chromatic) and
+   can take an invert. Game Republic is 71% blue over 29% dark grey and
+   UK Games Fund is entirely chromatic magenta and green - inverting
+   either one prints somebody else's brand in the wrong colour, which is
+   worse than printing it faintly. Tranzfuser needs nothing at all.
+   One rule for four marks, and it cannot get any of them wrong.
+
+   --brand-paper rather than white on purpose: that is the exact ground
+   the light page shows them on today, and Tranzfuser is thin pale
+   linework that would start to disappear on true white.
+
+   It goes behind the whole row rather than four separate tiles because
+   the sizing above is tuned to a set that shares one edge-to-edge
+   rhythm - see the note on --mark. Four plates would put a border round
+   each mark and the row would need re-rendering from scratch. */
+:root:not([data-theme="light"]) .creds__list {
+  background: var(--brand-paper);
+  border-radius: var(--radius);
+  padding: clamp(1.1rem, 2.5vw, 1.5rem) clamp(1rem, 3vw, 1.8rem);
+}
 .creds__mark { width: var(--mark); height: auto; }
 .creds__mark--gr { width: calc(var(--mark) * 1.100); }
 .creds__mark--ef { width: calc(var(--mark) * 1.444); }
@@ -644,7 +848,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
 }
 .game__features li {
-  border-top: 3px solid var(--ink);
+  border-top: 3px solid var(--line);
   padding-top: 1.1rem;
   font-size: .97rem; color: var(--text-soft);
 }
@@ -657,7 +861,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .game__features li:nth-child(4) { border-top-color: var(--crab); }
 .game__features strong {
   display: block; font-family: var(--font-display); font-weight: 700;
-  color: var(--ink); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
+  color: var(--heading); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
 }
 
 /* Two shots across on desktop, stacked on a phone. The clip above does the
@@ -668,11 +872,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .game__shots a {
   display: block; border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(20,23,28,.12);
+  border: 2px solid rgba(var(--tint), .12);
   transition: border-color .25s, box-shadow .25s, transform .25s var(--ease-out);
 }
 .game__shots a:hover {
-  border-color: var(--ink); box-shadow: var(--shadow-pop); transform: translateY(-3px);
+  border-color: var(--line); box-shadow: var(--shadow-pop); transform: translateY(-3px);
 }
 .game__shots img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 @media (max-width: 760px) {
@@ -682,8 +886,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .game__cta {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 1.5rem;
-  border-top: 1px solid rgba(20,23,28,.15);
-  border-bottom: 1px solid rgba(20,23,28,.15);
+  border-top: 1px solid rgba(var(--tint), .15);
+  border-bottom: 1px solid rgba(var(--tint), .15);
   padding: 1.8rem .2rem;
 }
 .game__status {
@@ -701,7 +905,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    reads as a rendering mistake. Not dark: the footer directly below already is,
    and two dark bands in a row read as one. */
 .pub {
-  background: linear-gradient(180deg, var(--paper) 0%, #fff 100%);
+  background: linear-gradient(180deg, var(--paper) 0%, var(--plate) 100%);
 }
 .pub__grid {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -712,8 +916,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    reading prose. Two columns so no answer is more than a line long. */
 .factfile {
   display: grid; grid-template-columns: auto 1fr; gap: .7rem 1.2rem;
-  background: #fff; border: 2px solid var(--ink); border-radius: var(--radius);
-  box-shadow: 0 4px 0 var(--ink);
+  background: var(--plate); border: 2px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 4px 0 var(--hard);
   padding: 1.4rem 1.5rem;
 }
 .factfile dt {
@@ -774,8 +978,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .newsletter__form { display: flex; flex-wrap: wrap; gap: .7rem; }
 .newsletter__form input[type="email"] {
   font: inherit; padding: .8rem 1rem; min-width: 240px;
-  border: 2px solid rgba(20,23,28,.25); border-radius: var(--radius);
-  background: #fff; color: var(--text-ink);
+  border: 2px solid rgba(var(--tint), .25); border-radius: var(--radius);
+  background: var(--plate); color: var(--text-ink);
 }
 .newsletter__form input[type="email"]:focus-visible {
   border-color: var(--sea-ink);
@@ -972,7 +1176,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .studio__photo { position: relative; }
 .studio__photo img {
   border-radius: var(--radius-lg);
-  border: 3px solid var(--ink);
+  border: 3px solid var(--line);
   box-shadow: var(--shadow-pop);
   transform: rotate(-2deg);
   transition: transform .35s var(--ease-out);
@@ -1004,7 +1208,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .team__grid--founders {
   padding-bottom: 2.2rem;
   margin-bottom: 2.2rem;
-  border-bottom: 1px solid rgba(20,23,28,.15);
+  border-bottom: 1px solid rgba(var(--tint), .15);
 }
 .member {
   display: block; min-width: 0;
@@ -1019,14 +1223,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   font-family: var(--font-display); font-weight: 700; font-size: .72rem;
   letter-spacing: .04em;
   padding: .25rem .6rem; border-radius: 999px;
-  border: 2px solid var(--ink);
-  background: #fff; color: var(--ink);
+  border: 2px solid var(--line);
+  background: var(--plate); color: var(--heading);
 }
 .member__status::before {
   content: ""; width: .5rem; height: .5rem; border-radius: 50%; flex-shrink: 0;
 }
 .member__status--active::before { background: var(--leaf); }
-.member__status--former::before { background: rgba(20,23,28,.35); }
+.member__status--former::before { background: rgba(var(--tint), .35); }
 .team__label {
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   text-transform: uppercase; letter-spacing: .14em;
@@ -1039,10 +1243,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   border-radius: var(--radius);
   overflow: hidden; margin-bottom: 1rem;
   aspect-ratio: 1 / 1;
-  border: 2px solid rgba(20,23,28,.12);
+  border: 2px solid rgba(var(--tint), .12);
   transition: border-color .25s, box-shadow .25s;
 }
-.member:hover .member__photo { border-color: var(--ink); box-shadow: var(--shadow-pop); }
+.member:hover .member__photo { border-color: var(--line); box-shadow: var(--shadow-pop); }
 .member__photo img {
   width: 100%; height: 100%; object-fit: cover; object-position: center 20%;
   transition: transform .4s var(--ease-out);
@@ -1060,14 +1264,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: grid; place-items: center;
   background:
     radial-gradient(200px 200px at 70% 20%, rgba(15,163,177,.22), transparent 70%),
-    #fff;
+    var(--plate);
 }
 /* :not() so this only ever dresses the initials, never the "No profile yet"
    band that now shares this box - that inherited the 2.4rem and grew into a
    163px slab inside a 152px photo. */
 .member__photo--empty > span:not(.member__flag) {
   font-family: var(--font-display); font-weight: 800; font-size: 2.4rem;
-  color: rgba(20,23,28,.55);
+  color: rgba(var(--tint), .55);
 }
 .member h3 { font-size: 1.1rem; margin-bottom: .15rem; }
 .member p { font-size: .88rem; color: var(--text-soft); }
@@ -1095,7 +1299,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .member--unfinished { cursor: default; }
 .member--unfinished:hover { transform: none; }
 .member--unfinished .member__photo { opacity: .72; }
-.member--unfinished:hover .member__photo { border-color: rgba(20,23,28,.12); box-shadow: none; }
+.member--unfinished:hover .member__photo { border-color: rgba(var(--tint), .12); box-shadow: none; }
 .member--unfinished:hover .member__photo img { transform: none; }
 .member--unfinished:hover .member__photo img.is-zoomed {
   transform: translate(var(--zx), var(--zy)) scale(var(--zs));
@@ -1117,7 +1321,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   padding: .4rem .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .68rem;
   letter-spacing: .06em; text-align: center;
-  background: rgba(20, 23, 28, .88); color: var(--paper);
+  background: rgba(20, 23, 28, .88); color: var(--text-paper);
   backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
 }
 .team__grid--pool .member__flag { font-size: .6rem; padding: .3rem .4rem; }
@@ -1125,16 +1329,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   margin-top: .5rem;
   font-size: .82rem !important; line-height: 1.45;
   color: var(--text-ink) !important;
-  background: #fff;
-  border: 2px solid var(--ink); border-radius: var(--radius-sm);
-  box-shadow: 0 3px 0 var(--ink);
+  background: var(--plate);
+  border: 2px solid var(--line); border-radius: var(--radius-sm);
+  box-shadow: 0 3px 0 var(--hard);
   padding: .5rem .7rem;
 }
 .member__soon[hidden] { display: none; }
 
 /* the same idea on the co-dev crew chips and artwork credits */
 .person--unfinished { cursor: default; }
-.person--unfinished:hover { transform: none; box-shadow: 0 3px 0 var(--ink); }
+.person--unfinished:hover { transform: none; box-shadow: 0 3px 0 var(--hard); }
 .person--unfinished[role="button"] { cursor: pointer; }
 /* The artwork credit is attribution, not a way in, so it stays a plain label.
    Click-through keeps the whole tile opening the viewer instead of leaving a
@@ -1240,14 +1444,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   min-height: 48px; padding: .7rem 1.35rem .7rem 1.1rem;
   margin-bottom: 1.6rem;
   font-family: var(--font-display); font-weight: 700; font-size: .95rem;
-  color: var(--ink); background: #fff;
-  border: 2px solid var(--ink); border-radius: 999px;
-  box-shadow: 0 3px 0 var(--ink);
+  color: var(--heading); background: var(--plate);
+  border: 2px solid var(--line); border-radius: 999px;
+  box-shadow: 0 3px 0 var(--hard);
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s;
 }
 .backlink svg { width: 15px; height: 15px; flex: none; }
-.backlink:hover { background: var(--paper-2); transform: translateY(-2px); box-shadow: 0 5px 0 var(--ink); }
-.backlink:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--ink); }
+.backlink:hover { background: var(--paper-2); transform: translateY(-2px); box-shadow: 0 5px 0 var(--hard); }
+.backlink:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--hard); }
 /* the arrow leads the button, so it's the thing that should move on hover */
 .backlink:hover svg { transform: translateX(-2px); }
 .backlink svg { transition: transform .2s var(--ease-out); }
@@ -1267,7 +1471,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: sticky; top: 110px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 3px solid var(--ink);
+  border: 3px solid var(--line);
   box-shadow: var(--shadow-pop);
   transform: rotate(-1.5deg);
 }
@@ -1277,11 +1481,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: grid; place-items: center;
   background:
     radial-gradient(300px 300px at 70% 20%, rgba(15,163,177,.22), transparent 70%),
-    #fff;
+    var(--plate);
 }
 .profile__photo--empty span {
   font-family: var(--font-display); font-weight: 800; font-size: 4.5rem;
-  color: rgba(20,23,28,.55);
+  color: rgba(var(--tint), .55);
 }
 .profile__role { margin-bottom: .9rem; }
 .profile__name { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: .4rem; }
@@ -1298,18 +1502,18 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: inline-flex; align-items: center; gap: .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .9rem;
   padding: .5rem 1rem; border-radius: var(--radius-sm);
-  border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
-  background: #fff; color: var(--ink);
+  border: 2px solid var(--line); box-shadow: 0 3px 0 var(--hard);
+  background: var(--plate); color: var(--heading);
 }
 .badge--turtle { background: var(--leaf-chip); color: #fff; }
 .badge--seagull { background: var(--sea-chip); color: #fff; }
 .badge--crab { background: var(--crab-chip); color: #fff; }
-.badge--founder { background: var(--sand); }
+.badge--founder { background: var(--sand); color: var(--brand-ink); }
 .badge--active::before, .badge--former::before {
   content: ""; width: .6rem; height: .6rem; border-radius: 50%; flex-shrink: 0;
 }
 .badge--active::before { background: var(--leaf); }
-.badge--former::before { background: rgba(20,23,28,.35); }
+.badge--former::before { background: rgba(var(--tint), .35); }
 .profile__section { margin-bottom: 2.2rem; max-width: 60ch; }
 .profile__about.is-clamped {
   max-height: 15rem; overflow: hidden; position: relative;
@@ -1340,14 +1544,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .profile__section p a { color: var(--sea-ink); font-weight: 600; }
 .profile__section p a:hover { text-decoration: underline; }
 /* "bio coming soon" text. Muted, but #9a9284 was only 2.5:1 - this clears 4.5:1. */
-.profile__section p.is-placeholder { font-style: italic; color: #6e675a; }
+.profile__section p.is-placeholder { font-style: italic; color: var(--text-faint); }
 .profile__chips { display: flex; flex-wrap: wrap; gap: .6rem; }
 .chip {
   font-size: .9rem; font-weight: 500;
   padding: .4rem .9rem; border-radius: var(--radius-sm);
-  border: 1px solid rgba(20,23,28,.25);
+  border: 1px solid rgba(var(--tint), .25);
 }
-.profile__socials p.is-placeholder { font-style: italic; color: #6e675a; }
+.profile__socials p.is-placeholder { font-style: italic; color: var(--text-faint); }
 .profile__socials { display: flex; flex-wrap: wrap; gap: 1.1rem; }
 .social {
   display: flex; flex-direction: column; align-items: center; gap: .4rem;
@@ -1356,15 +1560,15 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .social__icon {
   width: 46px; height: 46px; border-radius: 50%;
   display: grid; place-items: center;
-  border: 2px solid var(--ink); background: #fff; color: var(--ink);
-  box-shadow: 0 3px 0 var(--ink);
+  border: 2px solid var(--line); background: var(--plate); color: var(--heading);
+  box-shadow: 0 3px 0 var(--hard);
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
 .social__icon svg { width: 21px; height: 21px; }
-.social:hover .social__icon { transform: translateY(-3px); box-shadow: 0 6px 0 var(--ink); }
+.social:hover .social__icon { transform: translateY(-3px); box-shadow: 0 6px 0 var(--hard); }
 .social__label { font-size: .74rem; font-weight: 600; color: var(--text-soft); }
 .profile__nav {
-  border-top: 1px solid rgba(20,23,28,.15);
+  border-top: 1px solid rgba(var(--tint), .15);
   margin-top: clamp(2rem, 5vw, 3.5rem);
   padding-top: 1.6rem;
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
@@ -1373,7 +1577,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .profile__nav a { transition: color .15s; display: inline-flex; align-items: center; min-height: 44px; }
 .profile__nav a:hover { color: var(--sea-ink); }
 .profile__nav .is-back { color: var(--text-soft); }
-.profile__nav .is-back:hover { color: var(--ink); }
+.profile__nav .is-back:hover { color: var(--heading); }
 .profile__missing { text-align: center; padding: 4rem 0; }
 .profile__missing h1 { margin-bottom: 1rem; }
 .profile__missing p { color: var(--text-soft); margin-bottom: 2rem; }
@@ -1392,16 +1596,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: relative;
   display: flex; flex-direction: column; height: 100%;
   background: var(--paper);
-  border: 2px solid var(--ink); border-radius: var(--radius);
-  box-shadow: 0 4px 0 var(--ink);
+  border: 2px solid var(--line); border-radius: var(--radius);
+  box-shadow: 0 4px 0 var(--hard);
   padding: 1.7rem 1.5rem 1.5rem;
   transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
 }
-.pkg:hover { transform: translateY(-4px); box-shadow: 0 8px 0 var(--ink); }
+.pkg:hover { transform: translateY(-4px); box-shadow: 0 8px 0 var(--hard); }
 .pkg--feature::before {
   content: ""; position: absolute; inset: -2px -2px auto -2px; height: 6px;
   background: var(--sand);
-  border: 2px solid var(--ink); border-bottom: 0;
+  border: 2px solid var(--line); border-bottom: 0;
   border-radius: var(--radius) var(--radius) 0 0;
 }
 .pkg--feature { padding-top: 2rem; }
@@ -1430,12 +1634,12 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    the text beside it carries the meaning, so 1.4.11 does not apply. */
 .pkg__list li::before {
   content: ""; flex: none; width: 7px; height: 7px; margin-top: .5rem;
-  border-radius: 50%; background: var(--sand-deep);
+  border-radius: 50%; background: var(--tick-sand);
 }
 /* pinned to the bottom so the three "good when" lines sit on one row */
 .pkg__for {
   margin-top: auto; padding-top: 1rem;
-  border-top: 1px solid rgba(20,23,28,.15);
+  border-top: 1px solid rgba(var(--tint), .15);
   font-size: .9rem; color: var(--text-soft);
 }
 .pkg__for strong { color: var(--text-ink); }
@@ -1450,7 +1654,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .pkg__cta svg { width: 14px; height: 14px; transition: transform .2s var(--ease-out); }
 .pkg__cta::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius); }
-.pkg:hover .pkg__cta { color: var(--ink); }
+.pkg:hover .pkg__cta { color: var(--heading); }
 .pkg:hover .pkg__cta svg { transform: translateX(3px); }
 /* the ring belongs on the card, not on the two words at the bottom of it */
 .pkg:has(.pkg__cta:focus-visible) { outline: 3px solid var(--sea-chip); outline-offset: 3px; }
@@ -1465,7 +1669,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   color: var(--text-soft); max-width: 62ch;
 }
 .packages__note a { color: var(--sea-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.packages__note a:hover { color: var(--ink); }
+.packages__note a:hover { color: var(--heading); }
 @media (max-width: 900px) {
   .packages__grid { grid-template-columns: 1fr; }
 }
@@ -1481,7 +1685,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* Each section gets a rule above it. On a page this long the headings alone
    stopped reading as boundaries - everything ran together into one column. */
 .press__section { padding-top: clamp(2rem, 4vw, 3rem); }
-.press__section + .press__section { border-top: 1px solid rgba(20,23,28,.12); margin-top: clamp(2rem, 4vw, 3rem); }
+.press__section + .press__section { border-top: 1px solid rgba(var(--tint), .12); margin-top: clamp(2rem, 4vw, 3rem); }
 /* Ink, not the section's teal. These are h2s with .press__h3 nested under them,
    and the h3 is plain --text-ink - so tinting the parent any lighter than its
    own child inverts the hierarchy. The uppercase setting and the rule above it
@@ -1489,7 +1693,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    sea-ink it read as sixteen unclickable links down a reference page. */
 .press__h {
   font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em;
-  color: var(--ink); margin: 0 0 .9rem;
+  color: var(--heading); margin: 0 0 .9rem;
 }
 .press__h3 {
   font-family: var(--font-display); font-weight: 700;
@@ -1510,10 +1714,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__dl {
   display: grid; align-content: start; gap: .25rem;
   padding: 1.3rem 1.4rem; border-radius: var(--radius);
-  background: var(--paper-2); border: 2px solid rgba(20,23,28,.12);
+  background: var(--paper-2); border: 2px solid rgba(var(--tint), .12);
   transition: transform .25s var(--ease-out), border-color .25s, box-shadow .25s;
 }
-.press__dl:hover, .press__dl:focus-visible { transform: translateY(-3px); border-color: var(--ink); box-shadow: var(--shadow-pop); }
+.press__dl:hover, .press__dl:focus-visible { transform: translateY(-3px); border-color: var(--line); box-shadow: var(--shadow-pop); }
 .press__dl--lead { background: var(--ink); border-color: var(--ink); }
 .press__dl-name { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
 .press__dl-meta { font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-soft); }
@@ -1527,14 +1731,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__toc a {
   font-size: .85rem; font-weight: 600;
   padding: .35rem .8rem; border-radius: 999px;
-  border: 1px solid rgba(20,23,28,.18); color: var(--text-soft);
+  border: 1px solid rgba(var(--tint), .18); color: var(--text-soft);
   transition: background .2s, color .2s, border-color .2s;
   /* Padding alone left these pills 36 tall. They are the fastest way around a
      very long page, and on a phone they are the first thing a journalist
      touches, so they get the full 44. */
   display: inline-flex; align-items: center; min-height: 44px;
 }
-.press__toc a:hover, .press__toc a:focus-visible { background: var(--ink); border-color: var(--ink); color: #fff; }
+.press__toc a:hover, .press__toc a:focus-visible { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg); }
 
 /* ---- fact sheets ---- */
 .press__facts dl { display: grid; grid-template-columns: auto 1fr; gap: .55rem 1.2rem; }
@@ -1575,7 +1779,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   flex-shrink: 0; cursor: pointer; position: relative;
   font-family: var(--font-body); font-size: .8rem; font-weight: 600;
   padding: .3rem .8rem; border-radius: 999px;
-  border: 1px solid rgba(20,23,28,.25); background: transparent; color: var(--text-ink);
+  border: 1px solid rgba(var(--tint), .25); background: transparent; color: var(--text-ink);
   transition: background .2s, color .2s, border-color .2s;
 }
 /* The drawn pill is 28 tall and stays that way: it sits on the baseline beside
@@ -1586,7 +1790,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   content: ''; position: absolute; left: 0; right: 0;
   top: 50%; transform: translateY(-50%); height: 44px;
 }
-.press__copy:hover { background: var(--ink); border-color: var(--ink); color: #fff; }
+.press__copy:hover { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-fg); }
 .press__copy.is-done { background: var(--leaf-chip); border-color: var(--leaf-chip); color: #fff; }
 
 /* ---- recognition ---- */
@@ -1594,7 +1798,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__creds li {
   display: grid; gap: .1rem;
   padding: .8rem 1.1rem; border-radius: var(--radius);
-  background: var(--paper-2); border: 2px solid rgba(20,23,28,.12);
+  background: var(--paper-2); border: 2px solid rgba(var(--tint), .12);
 }
 .press__creds strong { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
 .press__creds span { font-size: .85rem; color: var(--text-soft); }
@@ -1603,10 +1807,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__media { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
 .press__media a {
   display: block; border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(20,23,28,.12);
+  border: 2px solid rgba(var(--tint), .12);
   transition: border-color .25s, box-shadow .25s;
 }
-.press__media a:hover { border-color: var(--ink); box-shadow: var(--shadow-pop); }
+.press__media a:hover { border-color: var(--line); box-shadow: var(--shadow-pop); }
 .press__media img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
 
 /* ---- logos ---- */
@@ -1616,11 +1820,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
 .press__logo {
   border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(20,23,28,.12); background: var(--paper-2);
+  border: 2px solid rgba(var(--tint), .12); background: var(--paper-2);
   display: grid; grid-template-rows: 1fr auto;
 }
 .press__logo img { justify-self: center; align-self: center; width: auto; max-width: 76%; max-height: 140px; padding: 1.3rem 0; }
-.press__logo--dark { background: var(--ink); }
+.press__logo--dark { background: var(--brand-ink); }
 .press__logo--light { background: #fff; }
 /* The two lockups that ship with a plate baked in are previewed as the same
    artwork on the same colour, at the same size as their siblings. Painting the
@@ -1630,8 +1834,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__logo--black { background: #010101; }
 .press__logo figcaption {
   display: grid; gap: .15rem;
-  padding: .8rem 1rem; background: var(--paper);
-  border-top: 1px solid rgba(20,23,28,.12);
+  padding: .8rem 1rem; background: var(--plate);
+  border-top: 1px solid rgba(var(--tint), .12);
 }
 .press__logo strong { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
 .press__logo figcaption > span { font-size: .84rem; color: var(--text-soft); }
@@ -1648,10 +1852,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---- colour & type ---- */
 .press__swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
 .press__swatches--wide { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-.press__swatch { border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(20,23,28,.12); }
+.press__swatch { border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(var(--tint), .12); }
 .press__chip { display: block; height: 96px; }
 /* White needs a hairline or it reads as a hole in the card. */
-.press__chip--bordered { box-shadow: inset 0 0 0 1px rgba(20,23,28,.15); }
+.press__chip--bordered { box-shadow: inset 0 0 0 1px rgba(20, 23, 28, .15); }
 .press__swatch figcaption { display: grid; gap: .12rem; padding: .8rem 1rem; background: var(--paper-2); }
 .press__swatch strong { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
 .press__swatch figcaption > span { font-size: .82rem; color: var(--text-soft); }
@@ -1745,6 +1949,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   /* inset to match the padding, so the rule sits under the word rather than
      running the full width of the panel */
   .nav__links a:not(.nav__cta)::after { left: .9rem; right: .9rem; bottom: 8px; }
+  :root[data-theme] .theme-toggle { margin-left: auto; }
   .nav__burger { display: flex; }
 }
 
@@ -1765,7 +1970,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .svc {
   display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
   gap: clamp(2rem, 5vw, 4rem);
-  border-top: 3px solid var(--ink);
+  border-top: 3px solid var(--line);
   padding: clamp(2.2rem, 4vw, 3.2rem) 0;
 }
 .svc:nth-of-type(1) { border-top-color: var(--sea); }
@@ -1784,7 +1989,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .svc__list li::before {
   content: ""; position: absolute; left: 0; top: .45em;
   width: .8em; height: .8em; border-radius: 3px;
-  background: var(--sea-deep);
+  background: var(--tick-sea);
   clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 16%, 84% 0, 39% 70%);
 }
 /* Each tick matches the rule above its own service. The first was on the bright
@@ -1792,9 +1997,9 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    one that appeared when 3D art split in two - had no rule at all, so it wore a
    crab stripe over four teal ticks. Deep tier throughout: these are 0.8em marks
    and the bright tier is a shade too thin at that size. */
-.svc:nth-of-type(2) .svc__list li::before { background: var(--sand-deep); }
-.svc:nth-of-type(3) .svc__list li::before { background: var(--leaf-deep); }
-.svc:nth-of-type(4) .svc__list li::before { background: var(--crab-deep); }
+.svc:nth-of-type(2) .svc__list li::before { background: var(--tick-sand); }
+.svc:nth-of-type(3) .svc__list li::before { background: var(--tick-leaf); }
+.svc:nth-of-type(4) .svc__list li::before { background: var(--tick-crab); }
 
 /* gallery carousel: slots hold placeholders now, real <img> later */
 .carousel { grid-column: 1 / -1; position: relative; margin-top: 1.4rem; min-width: 0; max-width: 100%; }
@@ -1812,7 +2017,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   padding-top: 6px;
   padding-bottom: .5rem;
   scrollbar-width: thin;
-  scrollbar-color: rgba(20,23,28,.25) transparent;
+  scrollbar-color: rgba(var(--tint), .25) transparent;
   cursor: grab;
 }
 .carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
@@ -1841,7 +2046,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .carousel__slot a:not(.carousel__credit), .carousel__slot video { cursor: pointer; }
 .carousel__slot:has(img), .carousel__slot:has(video) {
   display: block;   /* the link and media fill the tile even before the image loads */
-  border-style: solid; border-color: var(--ink);
+  border-style: solid; border-color: var(--line);
   background: var(--ink); padding: 0;
   position: relative;
   transition: transform .25s var(--ease-out), box-shadow .25s;
@@ -1892,16 +2097,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .carousel__btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%;
-  border: 2px solid var(--ink); background: #fff; color: var(--ink);
+  border: 2px solid var(--line); background: var(--plate); color: var(--heading);
   font-size: 1.5rem; line-height: 1; display: grid; place-items: center;
   cursor: pointer; z-index: 2;
-  box-shadow: 0 3px 0 var(--ink);
+  box-shadow: 0 3px 0 var(--hard);
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), opacity .2s;
 }
-.carousel__btn:hover { transform: translateY(calc(-50% - 2px)); box-shadow: 0 5px 0 var(--ink); }
+.carousel__btn:hover { transform: translateY(calc(-50% - 2px)); box-shadow: 0 5px 0 var(--hard); }
 .carousel__btn:disabled {
   opacity: 0; pointer-events: none; cursor: default;
-  transform: translateY(-50%); box-shadow: 0 3px 0 var(--ink);
+  transform: translateY(-50%); box-shadow: 0 3px 0 var(--hard);
 }
 .carousel__btn--prev { left: -12px; }
 .carousel__btn--next { right: -12px; }
@@ -1915,11 +2120,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .person {
   display: inline-flex; align-items: center; gap: .6rem;
   padding: .3rem .9rem .3rem .3rem;
-  background: #fff; border: 2px solid var(--ink); border-radius: 999px;
-  box-shadow: 0 3px 0 var(--ink);
+  background: var(--plate); border: 2px solid var(--line); border-radius: 999px;
+  box-shadow: 0 3px 0 var(--hard);
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
-.person:hover { transform: translateY(-3px); box-shadow: 0 6px 0 var(--ink); }
+.person:hover { transform: translateY(-3px); box-shadow: 0 6px 0 var(--hard); }
 .person img {
   width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: center 20%;
   flex-shrink: 0;
@@ -1963,7 +2168,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* how it works */
 .how { background: var(--paper-2); }
 .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem 2.2rem; }
-.step { border-top: 3px solid var(--ink); padding-top: 1.1rem; }
+.step { border-top: 3px solid var(--line); padding-top: 1.1rem; }
 .step:nth-child(1) { border-top-color: var(--sea); }
 .step:nth-child(2) { border-top-color: var(--sand); }
 .step:nth-child(3) { border-top-color: var(--leaf); }
@@ -2005,7 +2210,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: inline-flex; align-items: center; gap: .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .92rem;
   padding: .5rem 1.05rem; border-radius: 999px;
-  background: #fff; border: 2px solid var(--ink); box-shadow: 0 3px 0 var(--ink);
+  background: var(--plate); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--hard);
 }
 /* A chip can carry the tool's own mark: put <img class="tool__logo" alt=""> in
    front of the name. The name stays either way - it's what the chip means, and
@@ -2078,7 +2283,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* faq */
 .faq { background: var(--paper); }
 .faq__list { max-width: 780px; }
-.faq__list details { border-bottom: 1px solid rgba(20,23,28,.15); }
+.faq__list details { border-bottom: 1px solid rgba(var(--tint), .15); }
 .faq__list summary {
   font-family: var(--font-display); font-weight: 700; font-size: 1.12rem;
   padding: 1.25rem 2.2rem 1.25rem 0;
@@ -2223,6 +2428,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .btn:hover::before { transform: translateX(130%); }
 /* white over near-black reads as a glitch, so the ink buttons get a warm wash */
 .btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(237,161,77,.14) 50%, transparent 80%); }
+:root:not([data-theme="light"]) .btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(20,23,28,.10) 50%, transparent 80%); }
 .btn svg { transition: transform .3s var(--ease-out); }
 .btn:hover svg { transform: translateX(2px); }
 
@@ -2243,6 +2449,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   .pkg:hover {
     transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateY(-4px);
   }
+}
+
+/* Held for exactly one frame by js/theme.js while the theme swaps. Without
+   it every component with a colour transition - buttons, nav links, cards,
+   the copy pills - fades to the new palette on its own schedule, and the
+   switch reads as the page breaking rather than changing. */
+.is-theme-switching, .is-theme-switching *, .is-theme-switching *::before, .is-theme-switching *::after {
+  transition: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -114,6 +114,20 @@ against the wrong directory). Moving to a custom domain means updating both.
 top-level `const` collides with any other top-level `const` of the same name and
 takes the whole file down with a `SyntaxError`. Check the name is free first.
 
+**The dark theme is the bare `:root`, and `js/theme.js` must stay in `<head>`.**
+The site is dark by default and light on request, so the stylesheet puts the dark
+values in `:root` and light in a `[data-theme="light"]` override. That direction is
+load-bearing: written the other way round, anyone with JavaScript off would get the
+light theme, because the attribute that picks one is set by `js/theme.js`. That file
+is a synchronous `<script>` above the stylesheet links on every page. Give it
+`defer`, move it to the foot of the page, or fold it into `main.js` and a visitor who
+chose light gets a frame of dark first. It cannot be inlined either — the CSP allows
+no inline script, and the validator fails the build on one.
+
+Three tokens in the stylesheet used to be `--ink` alone: the dark band, the 2px
+outline round every card, and heading text. They are `--ink`, `--line` and
+`--heading` now, because on dark they go three different ways. Don't collapse them.
+
 **A profile with no `about` text is treated as unfinished.** Its tile stops being
 a link, the page gets a `noindex`, it drops out of `sitemap.xml`, and the
 prev/next chain steps over it. Fill in `about` in `data/team.json` and all of
