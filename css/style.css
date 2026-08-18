@@ -57,47 +57,46 @@
    ============================================================ */
 
 /* ============================================================
-   TWO THEMES, ONE PALETTE
-   The site is dark by default and light on request. That direction
-   matters for how this block is written: the bare :root carries the
-   DARK values, and light is the override under [data-theme="light"].
-   Written the other way round, a visitor with JavaScript off would get
-   light - the opposite of what the site is meant to be - because the
-   attribute that selects a theme is set by js/theme.js. Nothing in
-   here may depend on that script having run.
+   DEEP WATER
+   One theme, and it is dark. There is no light variant and no
+   [data-theme] switch: the site is dark the way it is teal, as a
+   decision rather than a mode, so the values below are simply the
+   values. Nothing here waits on JavaScript.
 
-   Three tiers, and the tier decides whether a value flips:
+   The palette is deep sea, not neutral grey. That is the whole trick.
+   A dark page built by darkening a light one lands on grey, and grey
+   reads as a light design with the lights off; every surface here
+   carries the same cold blue cast the game does, so the dark is a
+   colour the site chose rather than an absence of the one it had.
 
-   BRAND CONSTANTS never flip. --brand-ink is the logo black and
-   --brand-paper the brand's warm paper; the four accents and their
-   -deep and -chip tiers are the brand's own colours. A press kit that
-   showed a different black in dark mode would be lying, and a sand
-   button has to be sand on both themes or it is not the brand.
+   THE BANDS ARE NOT SEPARATED BY LIGHTNESS. On paper the layout was
+   warm ground interrupted by near-black water, and the contrast did
+   all the work. Four near-blacks cannot do that - stacked up they read
+   as one flat slab, which is what made the first attempt at this feel
+   like an inversion. So the bands are told apart by ATMOSPHERE: each
+   one carries teal and sand light bleeding in from its corners, strong
+   enough to see, and the wave divider gives the boundary a hard edge.
+   Lightness only has to carry the small steps, between a section and
+   the card sitting on it.
 
-   SEMANTIC TOKENS flip. --paper is no longer "the warm paper colour",
-   it is "whatever this theme puts behind the page", and --ink is "the
-   dark band", not the ink swatch. The names are kept because the wave
-   dividers name them inline in the markup (fill="var(--paper)") on
-   every page, and because every rule below already reads correctly
-   under the semantic meaning.
+   Depth comes from elevation, not from outline. On paper every card
+   was a white plate behind a 2px near-black rule with the same rule
+   offset below it as a shadow - a sticker. Inverted, that rule becomes
+   a pale grey box round everything, which is the single most
+   inverted-looking thing a dark page can do. Cards here are lifted
+   instead: a lighter fill, a one-pixel rim catching light along the
+   top, and a soft shadow underneath.
 
-   THE ACCESSIBLE TIER flips too, and has to. --sea-ink and friends are
-   the accents darkened to clear 4.5:1 on a light background; on a dark
-   one the same job needs them LIGHTENED instead. Both sets are tuned
-   against the worst case in their own theme - --paper-2 on light (the
-   darker of the two light backgrounds), --plate on dark (the lightest
-   of the four dark ones) - so they pass everywhere they are used.
-
-   --ink used to do three jobs at once: the band background, the 2px
-   outline round every card, and heading text. On light they are all
-   the same near-black so nothing forced them apart. On dark they part
-   company completely - the band stays dark, the outline has to go pale
-   to be seen, and heading text goes paler still - so they are three
-   tokens now: --ink, --line and --heading. Do not collapse them back.
+   The sticker survives in one place, .sticker itself, because it is
+   sand on a photograph rather than a surface on a surface, and a hard
+   dark outline is still exactly right there.
    ============================================================ */
 
 :root {
-  /* ---- brand constants: identical on both themes ---- */
+  /* ---- brand constants ----
+     The press kit shows these, so they are the real values and they do
+     not move. --brand-ink is now LIGHTER than the page behind it, which
+     is worth knowing before reaching for it as a shadow: use --hard. */
   --brand-ink: #14171c;
   --brand-paper: #f7f1e4;
   --sea: #0fa3b1;
@@ -108,88 +107,66 @@
   --sand-deep: #d3822a;
   --crab: #e0584a;
   --crab-deep: #c14033;
-  /* Filled blocks carrying white text. These are darkened for white on
-     top of them, which is a property of the chip and not of the page,
-     so they do not flip either. */
   --sea-chip: #0c828d;
   --leaf-chip: #3c854a;
   --crab-chip: #db3b2b;
 
-  /* ---- surfaces (dark: the default) ----
-     The same four-way relationship the light theme has always had, kept
-     in the same order so every rule below lands on the right one:
-     --paper-2 is the alternate section and sits BELOW --paper, --plate
-     is the raised card and sits above it, and --ink is the band. The
-     bands stay the deepest thing on the page - the whole layout is
-     ground interrupted by deep water, and inverting that would leave
-     the wave dividers pointing the wrong way. */
-  --paper: #171c24;
-  --paper-2: #11151b;
-  --plate: #212832;
-  --ink: #0a0d12;
-  --ink-2: #141a22;
+  /* ---- surfaces, deepest first ----
+     --ink is the band, --paper-2 the alternate section, --paper the page
+     and --plate a card raised off it. The wave dividers name --paper and
+     --paper-2 inline in the markup, so those two keep their names. */
+  --ink: #040a12;
+  --paper-2: #08111d;
+  --paper: #0c1727;
+  --plate: #16253a;
+  --ink-2: #0a1526;
 
-  /* ---- type ---- */
-  --heading: #eef2f7;
-  --text-ink: #d3d9e2;
-  --text-soft: #99a3b1;
-  /* "on a dark band" - unchanged by theme, because the bands are dark
-     on both. These are the only text tokens that never flip. */
+  /* ---- type ----
+     Measured against --plate, the lightest surface on the site and so
+     the worst case: heading 13.6, body 10.4, soft 5.9, faint 4.8. */
+  --heading: #eaf2f8;
+  --text-ink: #c9d6e2;
+  --text-soft: #8fa3b5;
+  --text-faint: #7f92a5;
+  /* type on a band. The bands are darker still, so these ride up. */
   --text-paper: #f2ecdd;
   --text-paper-soft: #b9bcc4;
-  /* the muted italic used for "bio coming soon" */
-  --text-faint: #939cab;
 
-  /* ---- the accessible accent tier, dark ----
-     There barely is one. The light theme has to darken all four accents
-     to get them over 4.5:1 on paper; on dark, measured against --plate
-     (the lightest of the four dark surfaces, so the worst case) three of
-     them already clear it as they are: sea 4.87, leaf 5.68, sand 6.93.
-     So on dark the accessible tier IS the brand palette, at full
-     saturation, and links are painted in the actual brand teal.
-
-     An earlier pass lightened all four anyway, on the assumption the job
-     was symmetrical with the light theme. It is not - lightening a
-     colour that already passes only washes it out, and the teal went
-     visibly chalky. Do not reintroduce that.
-
-     Crab is the one exception: --crab is 4.01 on --plate, just short, so
-     it is lifted the smallest amount that clears the bar (4.88). */
+  /* ---- accents ----
+     No separate accessible tier is needed going this dark: on --plate
+     the brand accents measure sea 5.07, leaf 5.91, sand 7.21, all clear
+     of 4.5 untouched, so links are the real brand teal. Crab alone is
+     short at 4.17 and is lifted just past the bar. */
   --sea-ink: var(--sea);
   --leaf-ink: var(--leaf);
   --sand-ink: var(--sand);
   --crab-ink: #f06a58;
 
-  /* ---- lines and depth ----
-     --line is the 2px outline that draws every card, chip and pill. It
-     is the boundary that identifies several real controls (.backlink,
-     .carousel__btn, .press__copy), so 1.4.11 applies to it: this value
-     clears 3:1 on --plate, the hardest of the four to sit on.
-     --hard is the offset shadow those same components drop. On light it
-     is the outline colour displaced; on dark it stays black, because a
-     pale lip under a pale outline reads as a second border rather than
-     as depth. */
-  --line: #6b788a;
-  --hard: #05070b;
-  /* Hairlines and washes, as one channel rather than eight tokens: every
-     rule keeps the exact alpha it was written with and only the colour
-     underneath it flips. */
-  --tint: 255, 255, 255;
-  --shadow-pop: 0 2px 0 rgba(0, 0, 0, .85), 0 14px 34px -12px rgba(0, 0, 0, .6);
+  /* ---- elevation ----
+     --line is a rim, not an outline: one pixel of light along the edge
+     of a raised surface. --line-strong is the exception, for controls
+     drawn as an icon in a circle with no text to identify them - there
+     the boundary IS the control, so 1.4.11 applies and it clears 3:1 on
+     both --plate and --paper. --hard is the one genuinely black value,
+     for the sticker's outline and drop. */
+  --line: rgba(255, 255, 255, .09);
+  --line-hover: rgba(255, 255, 255, .20);
+  --line-strong: #55748c;
+  --hard: #02060c;
+  --rim: inset 0 1px 0 rgba(255, 255, 255, .06);
+  --lift: 0 10px 28px -14px rgba(0, 0, 0, .9);
+  --lift-hover: 0 18px 40px -16px rgba(0, 0, 0, .95);
+  --shadow-pop: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 48px -20px rgba(0, 0, 0, .95);
 
   /* ---- the inverted fill ----
-     .btn--ink, the press jump links and the copy buttons all fill with
-     "the opposite of the page" on hover. On light that is the ink; on
-     dark it has to become a light plate with dark text, or the control
-     disappears into the page it is meant to stand out from. */
-  --invert-bg: #e8ecf2;
-  --invert-fg: #10141a;
+     .btn--ink and the press pills reverse out of the page entirely. */
+  --invert-bg: #e8eef5;
+  --invert-fg: #0a121e;
   --invert-bg-hover: #ffffff;
 
-  /* ---- the four index accents, at the weight their backdrop needs ----
-     The 0.8em ticks and the package bullets. On light they take the
-     -deep tier, which is the same hue darkened; on dark that tier is
-     mud, so they take the bright tier instead. */
+  /* ---- the four index accents at tick weight ----
+     The bright tier, not the -deep one: -deep exists to survive a light
+     background and is mud on this one. */
   --tick-sea: var(--sea);
   --tick-sand: var(--sand);
   --tick-leaf: var(--leaf);
@@ -206,48 +183,7 @@
   --ease-out: cubic-bezier(.22, 1, .36, 1);
 }
 
-/* ---- light: everything above that flips, and nothing that does not ----
-   These are the site's original values, unchanged. Anything absent from
-   this block is either a brand constant or a token whose dark value is
-   already right on light: the two --text-paper tiers, which describe
-   type on a band, and the three --*-chip fills. */
-:root[data-theme="light"] {
-  --paper: #f7f1e4;
-  --paper-2: #efe7d3;
-  --plate: #ffffff;
-  --ink: #14171c;
-  --ink-2: #1d2129;
 
-  --heading: #14171c;
-  --text-ink: #2b2f36;
-  --text-soft: #5c6068;
-  /* #9a9284 was only 2.5:1; this clears 4.5:1 on --paper. */
-  --text-faint: #6e675a;
-
-  /* The accents darkened until they clear 4.5:1 on --paper-2, the darker
-     of the two light backgrounds, so they pass on both. As *text* on
-     paper the undarkened accents fail 1.4.3 badly (--sand is 2.44:1). */
-  --sea-ink: #0b737c;
-  --leaf-ink: #347441;
-  --sand-ink: #945b1d;
-  --crab-ink: #b93d31;
-
-  --line: #14171c;
-  --hard: #14171c;
-  --tint: 20, 23, 28;
-  --shadow-pop: 0 2px 0 rgba(var(--tint), .9), 0 14px 34px -12px rgba(var(--tint), .35);
-
-  --invert-bg: #14171c;
-  --invert-fg: #f7f1e4;
-  --invert-bg-hover: #262b35;
-
-  --tick-sea: var(--sea-deep);
-  --tick-sand: var(--sand-deep);
-  --tick-leaf: var(--leaf-deep);
-  --tick-crab: var(--crab-deep);
-
-  color-scheme: light;
-}
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -264,30 +200,34 @@ html { scroll-behavior: smooth; scroll-padding-top: 88px; scrollbar-gutter: stab
 /* seamless cross-page transitions (progressive enhancement) */
 @view-transition { navigation: auto; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .22s; }
-/* The bar is fixed, so it must not travel with the root snapshot. Unnamed, it
-   gets captured as part of it, and the cross-fade rescales that whole snapshot
-   whenever the two pages differ in size - which is what made the nav appear to
-   grow and shrink between pages. Naming it lifts it out of the root and pins its
-   group in place; old and new still cross-fade, and since they are the same bar,
-   that reads as the nav simply staying put.
+/* The bar is fixed furniture, not content. It must not travel with the root
+   snapshot - unnamed, it gets captured as part of it, and the cross-fade rescales
+   that whole snapshot whenever two pages differ in size, which is what made the
+   nav appear to grow and shrink between pages. Naming it lifts it out.
 
-   "The same bar" is true of twenty-three pages out of twenty-four. It is not true
-   of the home page: alone in carrying .nav--hero, its bar before the first scroll
-   is bare, 94px tall and wearing a 40px wordmark, against 60px and 24px
-   everywhere else. Sharing one name across both meant the group snapped straight
-   to the new height while the old 60px snapshot was stretched into a 94px box, so
-   arriving at the home page from anywhere else smeared the wordmark upwards -
-   and, once the theme toggle arrived, visibly pulled its circle into an ellipse.
+   What it must ALSO not do is cross-fade. The bar is not pixel-identical between
+   pages: the home page alone wears .nav--hero, and before the first scroll that
+   bar is 94px tall with a 40px wordmark against 60px and 24px everywhere else.
+   Two earlier attempts at that mismatch both failed, in opposite directions, and
+   both are worth naming so neither gets tried again:
 
-   Two states, two names. With no counterpart to morph into, each snapshot is
-   drawn at its own size and simply fades: nothing is scaled, so nothing distorts.
-   The collapsed-to-collapsed case is untouched and still pinned, which is the
-   case that made this rule worth having. The selector matches the bare state
-   exactly, so a scrolled home page - which really is pixel-identical to the rest
-   - falls back to site-nav and keeps the pin. */
+   One shared name with the group pinned STRETCHED the bar. A pinned group takes
+   the new size immediately, so the old 60px snapshot was painted into a 94px box
+   and scaled by half again on the way in.
+
+   A name per state GHOSTED it. With no counterpart to pair with, the old bar ran
+   its exit fade while the new bar ran its entry fade, so for a fraction of a
+   second there were visibly two nav bars stacked on the screen.
+
+   Both come from trying to animate between two bars that are not the same shape.
+   So: don't. One name, group pinned, old snapshot dropped outright and the new
+   one shown with no animation at all. The bar is simply already correct when the
+   new page arrives, while the page body behind it still cross-fades. There is
+   nothing left to stretch and nothing left to double. */
 .nav { view-transition-name: site-nav; }
 ::view-transition-group(site-nav) { animation: none; }
-.nav--hero:not(.is-scrolled):not(.is-open) { view-transition-name: site-nav-bare; }
+::view-transition-old(site-nav) { animation: none; display: none; }
+::view-transition-new(site-nav) { animation: none; }
 body {
   font-family: var(--font-body);
   color: var(--text-ink);
@@ -369,8 +309,8 @@ h1, h2, h3 {
 .btn--paper:hover { background: #fff; }
 .btn--ghost { border-color: rgba(255,255,255,.35); color: #fff; }
 .btn--ghost:hover { border-color: #fff; background: rgba(255,255,255,.08); }
-.btn--ghost-ink { border-color: rgba(var(--tint), .3); color: var(--heading); }
-.btn--ghost-ink:hover { border-color: var(--line); background: rgba(var(--tint), .05); }
+.btn--ghost-ink { border-color: rgba(255, 255, 255, .3); color: var(--heading); }
+.btn--ghost-ink:hover { border-color: var(--line); background: rgba(255, 255, 255, .05); }
 
 /* ---------- decorations ---------- */
 .kicker {
@@ -433,7 +373,7 @@ h1, h2, h3 {
   position: absolute;
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   padding: .45rem 1rem; border-radius: var(--radius-sm);
-  border: 2px solid var(--line);
+  border: 2px solid var(--hard);
   box-shadow: 0 3px 0 var(--hard);
   transform: rotate(-4deg);
 }
@@ -472,7 +412,6 @@ h1, h2, h3 {
      under it instead of sitting 1vw proud of it */
   width: var(--shell); margin-inline: auto;
   display: flex; align-items: center; justify-content: space-between;
-  gap: 1.2rem;
   padding: .5rem 0;
   transition: padding .3s var(--ease-out);
 }
@@ -499,7 +438,7 @@ h1, h2, h3 {
 }
 .nav__brand:hover .nav__wordmark { opacity: .75; }
 
-.nav__links { display: flex; align-items: center; gap: 1.6rem; margin-left: auto; }
+.nav__links { display: flex; align-items: center; gap: 1.6rem; }
 .nav__links a {
   position: relative;
   color: var(--text-paper); font-weight: 500; font-size: .95rem;
@@ -554,40 +493,14 @@ h1, h2, h3 {
 .nav__burger[aria-expanded="true"] span:first-child { transform: translateY(4px) rotate(45deg); }
 .nav__burger[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
-/* ---------- theme toggle ---------- */
-/* Hidden until js/theme.js has run, because that script is what sets
-   data-theme on <html> - without it this would be a button that changes
-   nothing. The attribute is written by a synchronous script in <head>, so
-   it is already there by the time the nav is parsed: the button is present
-   in the first painted frame rather than popping in afterwards.
-
-   It is dressed for a dark backdrop on BOTH themes, and deliberately so:
-   the bar is an ink band whichever way the page is set, so this is the
-   same translucent disc the footer socials wear, for the same reason. */
-.theme-toggle { display: none; }
-:root[data-theme] .theme-toggle {
-  /* 2.5.5 Target Size (Enhanced), like every other control in this bar. */
-  display: grid; place-items: center;
-  width: 44px; height: 44px; flex: none; padding: 0;
-  border: 1px solid rgba(255, 255, 255, .18); border-radius: 50%;
-  background: rgba(255, 255, 255, .07);
-  color: var(--text-paper); cursor: pointer;
-  transition: background .2s, border-color .2s, color .2s;
-}
-.theme-toggle:hover { background: var(--sand); border-color: var(--sand); color: var(--brand-ink); }
-.theme-toggle svg { width: 19px; height: 19px; }
-/* Each icon shows what you will GET, not where you are: a sun on the dark
-   theme, a moon on the light one. The label says the same thing in words. */
-.theme-toggle__moon { display: none; }
-:root[data-theme="light"] .theme-toggle__sun { display: none; }
-:root[data-theme="light"] .theme-toggle__moon { display: block; }
 
 /* ---------- hero ---------- */
 .hero {
   position: relative;
   background:
-    radial-gradient(900px 500px at 85% -10%, rgba(15, 163, 177, .18), transparent 65%),
-    radial-gradient(700px 420px at -5% 110%, rgba(237, 161, 77, .12), transparent 60%),
+    radial-gradient(1100px 620px at 85% -15%, rgba(15, 163, 177, .30), transparent 68%),
+    radial-gradient(900px 520px at -8% 112%, rgba(237, 161, 77, .18), transparent 64%),
+    radial-gradient(700px 500px at 50% 120%, rgba(85, 179, 104, .10), transparent 70%),
     var(--ink);
   color: #fff;
   /* a touch more ink above and below the introduction - the logo needs room to
@@ -663,7 +576,7 @@ h1, h2, h3 {
 .creds__frame img {
   width: 100%; height: auto; display: block;
   border-radius: var(--radius-lg);
-  border: 3px solid var(--line);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow-pop);
   transform: rotate(-2deg);
   transition: transform .35s var(--ease-out);
@@ -690,7 +603,7 @@ h1, h2, h3 {
   grid-column: 1 / -1;
   margin-top: clamp(2rem, 4vw, 3rem);
   padding-top: clamp(1.5rem, 3vw, 2.2rem);
-  border-top: 1px solid rgba(var(--tint), .12);
+  border-top: 1px solid rgba(255, 255, 255, .12);
 }
 /* The label sits ABOVE the list rather than inline beside it - inline pushed the
    names to a left edge nothing else on the page shared. */
@@ -746,30 +659,40 @@ h1, h2, h3 {
    bare, because the plate gives the eye an edge to measure it against, so the
    cap came down from 144 to keep the row at the weight it had in boxes. */
 .creds__list { --mark: min(132px, 58%); }
-/* On the dark theme these four get the paper back.
-   They are supplied artwork - we hold no rights to redraw them - and all
-   four are drawn for a light ground, so on dark they range from muddy to
-   invisible. Inverting was the obvious fix and it does not survive
-   contact with the files: sampling the pixels, only the Entrepreneurs'
-   Forum mark is monochrome (100% of its ink is dark, 0% chromatic) and
-   can take an invert. Game Republic is 71% blue over 29% dark grey and
-   UK Games Fund is entirely chromatic magenta and green - inverting
-   either one prints somebody else's brand in the wrong colour, which is
-   worse than printing it faintly. Tranzfuser needs nothing at all.
-   One rule for four marks, and it cannot get any of them wrong.
+/* Each mark gets the paper it was drawn for, and only as much of it as
+   the mark actually covers.
 
-   --brand-paper rather than white on purpose: that is the exact ground
-   the light page shows them on today, and Tranzfuser is thin pale
-   linework that would start to disappear on true white.
+   All four are supplied artwork - we hold no rights to redraw them - and
+   all four are drawn for a light ground, so straight onto this page they
+   range from muddy to invisible. Inverting is the obvious fix and it does
+   not survive contact with the files: sampling the pixels, only the
+   Entrepreneurs' Forum mark is monochrome (100% of its ink dark, 0%
+   chromatic) and can take one. Game Republic is 71% blue over 29% dark
+   grey and UK Games Fund is entirely chromatic magenta and green -
+   inverting either prints somebody else's brand in the wrong colour,
+   which is worse than printing it faintly. So: give them their ground.
 
-   It goes behind the whole row rather than four separate tiles because
-   the sizing above is tuned to a set that shares one edge-to-edge
-   rhythm - see the note on --mark. Four plates would put a border round
-   each mark and the row would need re-rendering from scratch. */
-:root:not([data-theme="light"]) .creds__list {
+   Four badges rather than one plate behind the row. The plate was tried
+   first and it is the wrong shape of answer - a single cream bar running
+   the full width of the shell is the brightest thing on the page by a
+   distance, and the eye goes to it before it goes to the heading above
+   it. Shrink-wrapping each mark cuts the lit area to roughly a third and
+   turns a stripe into four credits, which is what they are.
+
+   content-box is load-bearing. The widths above are a tuned set - see the
+   note on --mark, and re-render all four before touching any of them -
+   and the global border-box would have the padding eat into each one by a
+   different proportion. This way the artwork keeps the width it was given
+   and the badge grows around it.
+
+   --brand-paper rather than white: it is the exact ground the marks were
+   supplied against, and Tranzfuser is thin pale linework that starts to
+   disappear on true white. */
+.creds__mark {
+  box-sizing: content-box;
   background: var(--brand-paper);
-  border-radius: var(--radius);
-  padding: clamp(1.1rem, 2.5vw, 1.5rem) clamp(1rem, 3vw, 1.8rem);
+  padding: .6rem .85rem;
+  border-radius: var(--radius-sm);
 }
 .creds__mark { width: var(--mark); height: auto; }
 .creds__mark--gr { width: calc(var(--mark) * 1.100); }
@@ -888,7 +811,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .game__shots a {
   display: block; border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(var(--tint), .12);
+  border: 2px solid rgba(255, 255, 255, .12);
   transition: border-color .25s, box-shadow .25s, transform .25s var(--ease-out);
 }
 .game__shots a:hover {
@@ -902,8 +825,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .game__cta {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 1.5rem;
-  border-top: 1px solid rgba(var(--tint), .15);
-  border-bottom: 1px solid rgba(var(--tint), .15);
+  border-top: 1px solid rgba(255, 255, 255, .15);
+  border-bottom: 1px solid rgba(255, 255, 255, .15);
   padding: 1.8rem .2rem;
 }
 .game__status {
@@ -932,8 +855,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    reading prose. Two columns so no answer is more than a line long. */
 .factfile {
   display: grid; grid-template-columns: auto 1fr; gap: .7rem 1.2rem;
-  background: var(--plate); border: 2px solid var(--line); border-radius: var(--radius);
-  box-shadow: 0 4px 0 var(--hard);
+  background: var(--plate); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--rim), var(--lift);
   padding: 1.4rem 1.5rem;
 }
 .factfile dt {
@@ -961,8 +884,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .community {
   position: relative; /* anchors the wave dividers on both edges */
   background:
-    radial-gradient(600px 380px at 8% 0%, rgba(15, 163, 177, .14), transparent 60%),
-    radial-gradient(560px 360px at 92% 100%, rgba(237, 161, 77, .1), transparent 60%),
+    radial-gradient(760px 480px at 8% 0%, rgba(15, 163, 177, .26), transparent 64%),
+    radial-gradient(700px 450px at 92% 100%, rgba(237, 161, 77, .17), transparent 64%),
     var(--ink);
   color: var(--text-paper);
   text-align: center;
@@ -994,7 +917,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .newsletter__form { display: flex; flex-wrap: wrap; gap: .7rem; }
 .newsletter__form input[type="email"] {
   font: inherit; padding: .8rem 1rem; min-width: 240px;
-  border: 2px solid rgba(var(--tint), .25); border-radius: var(--radius);
+  border: 2px solid rgba(255, 255, 255, .25); border-radius: var(--radius);
   background: var(--plate); color: var(--text-ink);
 }
 .newsletter__form input[type="email"]:focus-visible {
@@ -1152,8 +1075,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---------- services (dark band) ---------- */
 .services {
   background:
-    radial-gradient(700px 400px at 100% 0%, rgba(237, 161, 77, .1), transparent 60%),
-    radial-gradient(600px 400px at 0% 100%, rgba(15, 163, 177, .14), transparent 60%),
+    radial-gradient(880px 500px at 100% 0%, rgba(237, 161, 77, .18), transparent 64%),
+    radial-gradient(760px 500px at 0% 100%, rgba(15, 163, 177, .26), transparent 64%),
     var(--ink);
   color: var(--text-paper);
 }
@@ -1192,7 +1115,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .studio__photo { position: relative; }
 .studio__photo img {
   border-radius: var(--radius-lg);
-  border: 3px solid var(--line);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow-pop);
   transform: rotate(-2deg);
   transition: transform .35s var(--ease-out);
@@ -1224,7 +1147,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .team__grid--founders {
   padding-bottom: 2.2rem;
   margin-bottom: 2.2rem;
-  border-bottom: 1px solid rgba(var(--tint), .15);
+  border-bottom: 1px solid rgba(255, 255, 255, .15);
 }
 .member {
   display: block; min-width: 0;
@@ -1239,14 +1162,15 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   font-family: var(--font-display); font-weight: 700; font-size: .72rem;
   letter-spacing: .04em;
   padding: .25rem .6rem; border-radius: 999px;
-  border: 2px solid var(--line);
+  border: 1px solid var(--line);
   background: var(--plate); color: var(--heading);
+  box-shadow: var(--lift);
 }
 .member__status::before {
   content: ""; width: .5rem; height: .5rem; border-radius: 50%; flex-shrink: 0;
 }
 .member__status--active::before { background: var(--leaf); }
-.member__status--former::before { background: rgba(var(--tint), .35); }
+.member__status--former::before { background: rgba(255, 255, 255, .35); }
 .team__label {
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
   text-transform: uppercase; letter-spacing: .14em;
@@ -1259,7 +1183,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   border-radius: var(--radius);
   overflow: hidden; margin-bottom: 1rem;
   aspect-ratio: 1 / 1;
-  border: 2px solid rgba(var(--tint), .12);
+  border: 2px solid rgba(255, 255, 255, .12);
   transition: border-color .25s, box-shadow .25s;
 }
 .member:hover .member__photo { border-color: var(--line); box-shadow: var(--shadow-pop); }
@@ -1287,7 +1211,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    163px slab inside a 152px photo. */
 .member__photo--empty > span:not(.member__flag) {
   font-family: var(--font-display); font-weight: 800; font-size: 2.4rem;
-  color: rgba(var(--tint), .55);
+  color: rgba(255, 255, 255, .55);
 }
 .member h3 { font-size: 1.1rem; margin-bottom: .15rem; }
 .member p { font-size: .88rem; color: var(--text-soft); }
@@ -1315,7 +1239,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .member--unfinished { cursor: default; }
 .member--unfinished:hover { transform: none; }
 .member--unfinished .member__photo { opacity: .72; }
-.member--unfinished:hover .member__photo { border-color: rgba(var(--tint), .12); box-shadow: none; }
+.member--unfinished:hover .member__photo { border-color: rgba(255, 255, 255, .12); box-shadow: none; }
 .member--unfinished:hover .member__photo img { transform: none; }
 .member--unfinished:hover .member__photo img.is-zoomed {
   transform: translate(var(--zx), var(--zy)) scale(var(--zs));
@@ -1346,15 +1270,15 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   font-size: .82rem !important; line-height: 1.45;
   color: var(--text-ink) !important;
   background: var(--plate);
-  border: 2px solid var(--line); border-radius: var(--radius-sm);
-  box-shadow: 0 3px 0 var(--hard);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  box-shadow: var(--rim), var(--lift);
   padding: .5rem .7rem;
 }
 .member__soon[hidden] { display: none; }
 
 /* the same idea on the co-dev crew chips and artwork credits */
 .person--unfinished { cursor: default; }
-.person--unfinished:hover { transform: none; box-shadow: 0 3px 0 var(--hard); }
+.person--unfinished:hover { transform: none; box-shadow: var(--rim), var(--lift); }
 .person--unfinished[role="button"] { cursor: pointer; }
 /* The artwork credit is attribution, not a way in, so it stays a plain label.
    Click-through keeps the whole tile opening the viewer instead of leaving a
@@ -1366,7 +1290,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .footer {
   position: relative;
   background:
-    radial-gradient(800px 460px at 50% 0%, rgba(15, 163, 177, .14), transparent 65%),
+    radial-gradient(1000px 580px at 50% 0%, rgba(15, 163, 177, .26), transparent 68%),
+    radial-gradient(700px 400px at 88% 90%, rgba(237, 161, 77, .10), transparent 62%),
     var(--ink);
   color: var(--text-paper);
   padding: clamp(6rem, 11vw, 9rem) 0 2.5rem;
@@ -1461,13 +1386,13 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   margin-bottom: 1.6rem;
   font-family: var(--font-display); font-weight: 700; font-size: .95rem;
   color: var(--heading); background: var(--plate);
-  border: 2px solid var(--line); border-radius: 999px;
-  box-shadow: 0 3px 0 var(--hard);
+  border: 1px solid var(--line); border-radius: 999px;
+  box-shadow: var(--rim), var(--lift);
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .2s;
 }
 .backlink svg { width: 15px; height: 15px; flex: none; }
-.backlink:hover { background: var(--paper-2); transform: translateY(-2px); box-shadow: 0 5px 0 var(--hard); }
-.backlink:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--hard); }
+.backlink:hover { border-color: var(--line-hover); transform: translateY(-2px); box-shadow: var(--rim), var(--lift-hover); }
+.backlink:active { transform: translateY(1px); box-shadow: var(--rim), var(--lift); }
 /* the arrow leads the button, so it's the thing that should move on hover */
 .backlink:hover svg { transform: translateX(-2px); }
 .backlink svg { transition: transform .2s var(--ease-out); }
@@ -1487,7 +1412,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: sticky; top: 110px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 3px solid var(--line);
+  border: 1px solid var(--line);
   box-shadow: var(--shadow-pop);
   transform: rotate(-1.5deg);
 }
@@ -1501,7 +1426,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .profile__photo--empty span {
   font-family: var(--font-display); font-weight: 800; font-size: 4.5rem;
-  color: rgba(var(--tint), .55);
+  color: rgba(255, 255, 255, .55);
 }
 .profile__role { margin-bottom: .9rem; }
 .profile__name { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-bottom: .4rem; }
@@ -1518,7 +1443,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: inline-flex; align-items: center; gap: .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .9rem;
   padding: .5rem 1rem; border-radius: var(--radius-sm);
-  border: 2px solid var(--line); box-shadow: 0 3px 0 var(--hard);
+  border: 1px solid var(--line); box-shadow: var(--rim), var(--lift);
   background: var(--plate); color: var(--heading);
 }
 .badge--turtle { background: var(--leaf-chip); color: #fff; }
@@ -1529,7 +1454,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   content: ""; width: .6rem; height: .6rem; border-radius: 50%; flex-shrink: 0;
 }
 .badge--active::before { background: var(--leaf); }
-.badge--former::before { background: rgba(var(--tint), .35); }
+.badge--former::before { background: rgba(255, 255, 255, .35); }
 .profile__section { margin-bottom: 2.2rem; max-width: 60ch; }
 .profile__about.is-clamped {
   max-height: 15rem; overflow: hidden; position: relative;
@@ -1565,7 +1490,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .chip {
   font-size: .9rem; font-weight: 500;
   padding: .4rem .9rem; border-radius: var(--radius-sm);
-  border: 1px solid rgba(var(--tint), .25);
+  border: 1px solid rgba(255, 255, 255, .25);
 }
 .profile__socials p.is-placeholder { font-style: italic; color: var(--text-faint); }
 .profile__socials { display: flex; flex-wrap: wrap; gap: 1.1rem; }
@@ -1576,15 +1501,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .social__icon {
   width: 46px; height: 46px; border-radius: 50%;
   display: grid; place-items: center;
-  border: 2px solid var(--line); background: var(--plate); color: var(--heading);
-  box-shadow: 0 3px 0 var(--hard);
-  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+  border: 2px solid var(--line-strong); background: var(--plate); color: var(--heading);
+  transition: transform .2s var(--ease-out), border-color .2s, color .2s;
 }
 .social__icon svg { width: 21px; height: 21px; }
-.social:hover .social__icon { transform: translateY(-3px); box-shadow: 0 6px 0 var(--hard); }
+.social:hover .social__icon { transform: translateY(-3px); border-color: var(--sand); color: var(--sand); }
 .social__label { font-size: .74rem; font-weight: 600; color: var(--text-soft); }
 .profile__nav {
-  border-top: 1px solid rgba(var(--tint), .15);
+  border-top: 1px solid rgba(255, 255, 255, .15);
   margin-top: clamp(2rem, 5vw, 3.5rem);
   padding-top: 1.6rem;
   display: flex; justify-content: space-between; align-items: center; gap: 1rem;
@@ -1612,12 +1536,12 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: relative;
   display: flex; flex-direction: column; height: 100%;
   background: var(--paper);
-  border: 2px solid var(--line); border-radius: var(--radius);
-  box-shadow: 0 4px 0 var(--hard);
+  border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--rim), var(--lift);
   padding: 1.7rem 1.5rem 1.5rem;
   transition: transform .25s var(--ease-out), box-shadow .25s var(--ease-out);
 }
-.pkg:hover { transform: translateY(-4px); box-shadow: 0 8px 0 var(--hard); }
+.pkg:hover { transform: translateY(-4px); border-color: var(--line-hover); box-shadow: var(--rim), var(--lift-hover); }
 .pkg--feature::before {
   content: ""; position: absolute; inset: -2px -2px auto -2px; height: 6px;
   background: var(--sand);
@@ -1655,7 +1579,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* pinned to the bottom so the three "good when" lines sit on one row */
 .pkg__for {
   margin-top: auto; padding-top: 1rem;
-  border-top: 1px solid rgba(var(--tint), .15);
+  border-top: 1px solid rgba(255, 255, 255, .15);
   font-size: .9rem; color: var(--text-soft);
 }
 .pkg__for strong { color: var(--text-ink); }
@@ -1701,7 +1625,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* Each section gets a rule above it. On a page this long the headings alone
    stopped reading as boundaries - everything ran together into one column. */
 .press__section { padding-top: clamp(2rem, 4vw, 3rem); }
-.press__section + .press__section { border-top: 1px solid rgba(var(--tint), .12); margin-top: clamp(2rem, 4vw, 3rem); }
+.press__section + .press__section { border-top: 1px solid rgba(255, 255, 255, .12); margin-top: clamp(2rem, 4vw, 3rem); }
 /* Ink, not the section's teal. These are h2s with .press__h3 nested under them,
    and the h3 is plain --text-ink - so tinting the parent any lighter than its
    own child inverts the hierarchy. The uppercase setting and the rule above it
@@ -1730,24 +1654,34 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__dl {
   display: grid; align-content: start; gap: .25rem;
   padding: 1.3rem 1.4rem; border-radius: var(--radius);
-  background: var(--paper-2); border: 2px solid rgba(var(--tint), .12);
+  background: var(--paper-2); border: 2px solid rgba(255, 255, 255, .12);
   transition: transform .25s var(--ease-out), border-color .25s, box-shadow .25s;
 }
 .press__dl:hover, .press__dl:focus-visible { transform: translateY(-3px); border-color: var(--line); box-shadow: var(--shadow-pop); }
-.press__dl--lead { background: var(--ink); border-color: var(--ink); }
+/* On paper this was a black tile between two white ones, which made it the
+   loudest thing in the row. Kept as-is here it becomes the DARKEST tile
+   among dark ones, so the featured bundle reads as recessed - the same
+   declaration saying the opposite of what it used to. It takes the sand
+   edge and a little warm light instead, which is how everything else on
+   this site says "look at this one". */
+.press__dl--lead {
+  background: var(--plate);
+  border-color: color-mix(in srgb, var(--sand) 55%, transparent);
+  box-shadow: var(--rim), var(--lift), 0 0 30px -10px rgba(237, 161, 77, .30);
+}
 .press__dl-name { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; }
 .press__dl-meta { font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--text-soft); }
 .press__dl-note { font-size: .9rem; color: var(--text-soft); margin-top: .3rem; }
 .press__dl--lead .press__dl-name { color: #fff; }
 .press__dl--lead .press__dl-meta { color: var(--sand); }
-.press__dl--lead .press__dl-note { color: var(--text-paper-soft); }
+.press__dl--lead .press__dl-note { color: var(--text-soft); }
 
 /* ---- jump links ---- */
 .press__toc { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
 .press__toc a {
   font-size: .85rem; font-weight: 600;
   padding: .35rem .8rem; border-radius: 999px;
-  border: 1px solid rgba(var(--tint), .18); color: var(--text-soft);
+  border: 1px solid rgba(255, 255, 255, .18); color: var(--text-soft);
   transition: background .2s, color .2s, border-color .2s;
   /* Padding alone left these pills 36 tall. They are the fastest way around a
      very long page, and on a phone they are the first thing a journalist
@@ -1795,7 +1729,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   flex-shrink: 0; cursor: pointer; position: relative;
   font-family: var(--font-body); font-size: .8rem; font-weight: 600;
   padding: .3rem .8rem; border-radius: 999px;
-  border: 1px solid rgba(var(--tint), .25); background: transparent; color: var(--text-ink);
+  border: 1px solid rgba(255, 255, 255, .25); background: transparent; color: var(--text-ink);
   transition: background .2s, color .2s, border-color .2s;
 }
 /* The drawn pill is 28 tall and stays that way: it sits on the baseline beside
@@ -1814,7 +1748,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__creds li {
   display: grid; gap: .1rem;
   padding: .8rem 1.1rem; border-radius: var(--radius);
-  background: var(--paper-2); border: 2px solid rgba(var(--tint), .12);
+  background: var(--paper-2); border: 2px solid rgba(255, 255, 255, .12);
 }
 .press__creds strong { font-family: var(--font-display); font-weight: 700; font-size: 1rem; }
 .press__creds span { font-size: .85rem; color: var(--text-soft); }
@@ -1823,7 +1757,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__media { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.2rem; }
 .press__media a {
   display: block; border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(var(--tint), .12);
+  border: 2px solid rgba(255, 255, 255, .12);
   transition: border-color .25s, box-shadow .25s;
 }
 .press__media a:hover { border-color: var(--line); box-shadow: var(--shadow-pop); }
@@ -1836,7 +1770,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__logos { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
 .press__logo {
   border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(var(--tint), .12); background: var(--paper-2);
+  border: 2px solid rgba(255, 255, 255, .12); background: var(--paper-2);
   display: grid; grid-template-rows: 1fr auto;
 }
 .press__logo img { justify-self: center; align-self: center; width: auto; max-width: 76%; max-height: 140px; padding: 1.3rem 0; }
@@ -1851,7 +1785,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .press__logo figcaption {
   display: grid; gap: .15rem;
   padding: .8rem 1rem; background: var(--plate);
-  border-top: 1px solid rgba(var(--tint), .12);
+  border-top: 1px solid rgba(255, 255, 255, .12);
 }
 .press__logo strong { font-family: var(--font-display); font-weight: 700; font-size: .95rem; }
 .press__logo figcaption > span { font-size: .84rem; color: var(--text-soft); }
@@ -1868,7 +1802,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---- colour & type ---- */
 .press__swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; }
 .press__swatches--wide { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
-.press__swatch { border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(var(--tint), .12); }
+.press__swatch { border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(255, 255, 255, .12); }
 .press__chip { display: block; height: 96px; }
 /* White needs a hairline or it reads as a hole in the card. */
 .press__chip--bordered { box-shadow: inset 0 0 0 1px rgba(20, 23, 28, .15); }
@@ -1965,7 +1899,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   /* inset to match the padding, so the rule sits under the word rather than
      running the full width of the panel */
   .nav__links a:not(.nav__cta)::after { left: .9rem; right: .9rem; bottom: 8px; }
-  :root[data-theme] .theme-toggle { margin-left: auto; }
   .nav__burger { display: flex; }
 }
 
@@ -2033,7 +1966,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   padding-top: 6px;
   padding-bottom: .5rem;
   scrollbar-width: thin;
-  scrollbar-color: rgba(var(--tint), .25) transparent;
+  scrollbar-color: rgba(255, 255, 255, .25) transparent;
   cursor: grab;
 }
 .carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
@@ -2113,16 +2046,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .carousel__btn {
   position: absolute; top: 50%; transform: translateY(-50%);
   width: 44px; height: 44px; border-radius: 50%;
-  border: 2px solid var(--line); background: var(--plate); color: var(--heading);
+  border: 2px solid var(--line-strong); background: var(--plate); color: var(--heading);
   font-size: 1.5rem; line-height: 1; display: grid; place-items: center;
   cursor: pointer; z-index: 2;
-  box-shadow: 0 3px 0 var(--hard);
-  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), opacity .2s;
+  box-shadow: var(--lift);
+  transition: transform .2s var(--ease-out), border-color .2s, color .2s, opacity .2s;
 }
-.carousel__btn:hover { transform: translateY(calc(-50% - 2px)); box-shadow: 0 5px 0 var(--hard); }
+.carousel__btn:hover { transform: translateY(calc(-50% - 2px)); border-color: var(--sand); color: var(--sand); }
 .carousel__btn:disabled {
   opacity: 0; pointer-events: none; cursor: default;
-  transform: translateY(-50%); box-shadow: 0 3px 0 var(--hard);
+  transform: translateY(-50%);
 }
 .carousel__btn--prev { left: -12px; }
 .carousel__btn--next { right: -12px; }
@@ -2136,11 +2069,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .person {
   display: inline-flex; align-items: center; gap: .6rem;
   padding: .3rem .9rem .3rem .3rem;
-  background: var(--plate); border: 2px solid var(--line); border-radius: 999px;
-  box-shadow: 0 3px 0 var(--hard);
+  background: var(--plate); border: 1px solid var(--line); border-radius: 999px;
+  box-shadow: var(--rim), var(--lift);
   transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
-.person:hover { transform: translateY(-3px); box-shadow: 0 6px 0 var(--hard); }
+.person:hover { transform: translateY(-3px); border-color: var(--line-hover); box-shadow: var(--rim), var(--lift-hover); }
 .person img {
   width: 34px; height: 34px; border-radius: 50%; object-fit: cover; object-position: center 20%;
   flex-shrink: 0;
@@ -2152,8 +2085,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .proof {
   position: relative; /* anchors the wave dividers on both edges */
   background:
-    radial-gradient(700px 400px at 0% 0%, rgba(15, 163, 177, .14), transparent 60%),
-    radial-gradient(600px 400px at 100% 100%, rgba(237, 161, 77, .1), transparent 60%),
+    radial-gradient(880px 500px at 0% 0%, rgba(15, 163, 177, .26), transparent 64%),
+    radial-gradient(760px 480px at 100% 100%, rgba(237, 161, 77, .17), transparent 64%),
     var(--ink);
   color: var(--text-paper);
 }
@@ -2226,7 +2159,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: inline-flex; align-items: center; gap: .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .92rem;
   padding: .5rem 1.05rem; border-radius: 999px;
-  background: var(--plate); border: 2px solid var(--line); box-shadow: 0 3px 0 var(--hard);
+  background: var(--plate); border: 1px solid var(--line); box-shadow: var(--rim), var(--lift);
 }
 /* A chip can carry the tool's own mark: put <img class="tool__logo" alt=""> in
    front of the name. The name stays either way - it's what the chip means, and
@@ -2299,7 +2232,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* faq */
 .faq { background: var(--paper); }
 .faq__list { max-width: 780px; }
-.faq__list details { border-bottom: 1px solid rgba(var(--tint), .15); }
+.faq__list details { border-bottom: 1px solid rgba(255, 255, 255, .15); }
 .faq__list summary {
   font-family: var(--font-display); font-weight: 700; font-size: 1.12rem;
   padding: 1.25rem 2.2rem 1.25rem 0;
@@ -2338,6 +2271,32 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 @media (max-width: 600px) {
   .steps { grid-template-columns: 1fr; gap: 1.4rem; }
+}
+
+/* ---------- light spilling out of the bands ---------- */
+/* A pale section painted one flat colour edge to edge is half of why a
+   dark page can read as a switched-off light one: there is nothing for
+   the eye to travel over between one heading and the next. This is the
+   other half of the fix, and it is deliberately almost invisible - five
+   hundredths of the sea at its centre, over about 460px.
+
+   It hangs off the BANDS rather than off a list of section names, so it
+   only ever lands where there is a reason for it: the section directly
+   under a band gets the light that band is throwing, and a page that
+   opens on a section instead of a hero gets it at the top. Two pale
+   sections in a row means only the first is lit, which is what stops the
+   wash repeating down the page and banding.
+
+   It has to live here, after every section background in the file. Those
+   are all `background` shorthands at the same specificity, so declared
+   any earlier this is simply reset to none - which is exactly what
+   happened on the first attempt. Do not move it up. */
+.hero + .section,
+.services + .section,
+.proof + .section,
+.community + .section,
+main > .section:first-child {
+  background-image: radial-gradient(1300px 460px at 50% -8%, rgba(15, 163, 177, .055), transparent 72%);
 }
 
 /* ============================================================
@@ -2443,8 +2402,9 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .btn:hover::before { transform: translateX(130%); }
 /* white over near-black reads as a glitch, so the ink buttons get a warm wash */
-.btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(237,161,77,.14) 50%, transparent 80%); }
-:root:not([data-theme="light"]) .btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(20,23,28,.10) 50%, transparent 80%); }
+/* .btn--ink is a light plate, so its sheen goes dark - white over white would
+   be invisible, which is the mirror of why the sand buttons get a white one. */
+.btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(20,23,28,.10) 50%, transparent 80%); }
 .btn svg { transition: transform .3s var(--ease-out); }
 .btn:hover svg { transform: translateX(2px); }
 
@@ -2465,14 +2425,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   .pkg:hover {
     transform: perspective(900px) rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) translateY(-4px);
   }
-}
-
-/* Held for exactly one frame by js/theme.js while the theme swaps. Without
-   it every component with a colour transition - buttons, nav links, cards,
-   the copy pills - fades to the new palette on its own schedule, and the
-   switch reads as the page breaking rather than changing. */
-.is-theme-switching, .is-theme-switching *, .is-theme-switching *::before, .is-theme-switching *::after {
-  transition: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

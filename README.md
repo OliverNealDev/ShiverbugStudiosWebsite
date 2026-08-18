@@ -1,4 +1,4 @@
-# Shiverbug Studios website
+﻿# Shiverbug Studios website
 
 The studio site for [Shiverbug Studios](https://shiverbugstudios.com/):
 our debut game *Out of Water*, the team, and our co-development services.
@@ -114,19 +114,34 @@ against the wrong directory). Moving to a custom domain means updating both.
 top-level `const` collides with any other top-level `const` of the same name and
 takes the whole file down with a `SyntaxError`. Check the name is free first.
 
-**The dark theme is the bare `:root`, and `js/theme.js` must stay in `<head>`.**
-The site is dark by default and light on request, so the stylesheet puts the dark
-values in `:root` and light in a `[data-theme="light"]` override. That direction is
-load-bearing: written the other way round, anyone with JavaScript off would get the
-light theme, because the attribute that picks one is set by `js/theme.js`. That file
-is a synchronous `<script>` above the stylesheet links on every page. Give it
-`defer`, move it to the foot of the page, or fold it into `main.js` and a visitor who
-chose light gets a frame of dark first. It cannot be inlined either — the CSP allows
-no inline script, and the validator fails the build on one.
+**The site is dark, and there is no light variant.** The stylesheet has one
+palette, in a bare `:root` with no `[data-theme]` switch and no JavaScript
+behind it. There used to be a toggle; it was removed because a site that is
+dark as a *choice* and a site that is dark as a *mode* want different colours,
+and trying to be both produced the worst of each. If a light variant ever comes
+back, it is a redesign, not a second set of values.
 
-Three tokens in the stylesheet used to be `--ink` alone: the dark band, the 2px
-outline round every card, and heading text. They are `--ink`, `--line` and
-`--heading` now, because on dark they go three different ways. Don't collapse them.
+Three things about that palette are easy to undo by accident:
+
+*The surfaces are deep blue, not grey.* Darkening a light palette lands on grey,
+and grey reads as a light design with the lights off. Every surface carries the
+same cold cast the game does.
+
+*The bands are not separated from the page by lightness.* Four near-blacks
+cannot do what cream-against-near-black did, so the hero, proof and footer are
+told apart by the teal and sand light bleeding in from their corners, and by the
+wave dividers. If those glows get dialled back "because they're strong", the
+page flattens into one slab.
+
+*Depth is elevation, not outline.* On paper every card was a white plate behind a
+2px near-black rule with the same rule offset below it. Inverted, that is a pale
+grey box around everything, which is the single most inverted-looking thing a
+dark page can do. Cards are a lighter fill, a one-pixel rim and a soft shadow.
+`.sticker` is the one survivor of the old idiom, because it is sand on a
+photograph rather than a surface on a surface.
+
+`--ink`, `--line` and `--heading` were one token once. They went three separate
+ways when the site went dark. Don't collapse them.
 
 **A profile with no `about` text is treated as unfinished.** Its tile stops being
 a link, the page gets a `noindex`, it drops out of `sitemap.xml`, and the
