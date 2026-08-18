@@ -4,27 +4,28 @@
   "_readmeDates": "dateModified is the sitemap lastmod and the JSON-LD dateModified for every page, keyed by file path. These used to be read from git, one 'git log -1' per file, which could never be self-consistent: the date baked into a file was always computed before the commit that wrote it, and that commit moved the date again. It agreed only when a commit landed on the same day as the previous commit to touch that file, so the build went red the first time a change crossed midnight. Declared here instead, so the build is deterministic and the CI check can compare its output strictly. The cost is that these are now yours to keep honest: when you change a page's content, bump its date in the same commit. Nothing detects a forgotten bump, because anything that could would have to read git and would bring the old problem back with it. Every page in the sitemap needs an entry; the build stops with the missing path if one is absent.",
 
   "dateModified": {
-    "index.html": "2026-08-17",
-    "games.html": "2026-08-17",
-    "press.html": "2026-08-17",
-    "privacy.html": "2026-08-17",
-    "accessibility.html": "2026-08-17",
-    "team/index.html": "2026-08-17",
-    "team/lewis-mennim.html": "2026-08-17",
-    "team/ryan-hughes.html": "2026-08-17",
-    "team/garrett-windus.html": "2026-08-17",
-    "team/oliver-neal.html": "2026-08-17",
-    "team/sarah-childs.html": "2026-08-17",
-    "team/connor-milburn.html": "2026-08-17",
-    "team/nathan-hopwood.html": "2026-08-17",
-    "team/charlie-ashall.html": "2026-08-17",
-    "team/charlie-pelling.html": "2026-08-17",
-    "team/martin-wilkinson.html": "2026-08-17",
-    "team/evan-atherton-elphick.html": "2026-08-17",
-    "team/josh-cairns.html": "2026-08-17",
-    "team/madi-freck.html": "2026-08-17",
-    "team/max-breeze.html": "2026-08-17",
-    "team/aidan-hendry.html": "2026-08-17"
+    "index.html": "2026-08-18",
+    "games.html": "2026-08-18",
+    "press.html": "2026-08-18",
+    "privacy.html": "2026-08-18",
+    "accessibility.html": "2026-08-18",
+    "team/index.html": "2026-08-18",
+    "team/lewis-mennim.html": "2026-08-18",
+    "team/ryan-hughes.html": "2026-08-18",
+    "team/garrett-windus.html": "2026-08-18",
+    "team/oliver-neal.html": "2026-08-18",
+    "team/sarah-childs.html": "2026-08-18",
+    "team/connor-milburn.html": "2026-08-18",
+    "team/nathan-hopwood.html": "2026-08-18",
+    "team/charlie-ashall.html": "2026-08-18",
+    "team/charlie-pelling.html": "2026-08-18",
+    "team/martin-wilkinson.html": "2026-08-18",
+    "team/evan-atherton-elphick.html": "2026-08-18",
+    "team/kyle-kerr.html": "2026-08-18",
+    "team/josh-cairns.html": "2026-08-18",
+    "team/madi-freck.html": "2026-08-18",
+    "team/max-breeze.html": "2026-08-18",
+    "team/aidan-hendry.html": "2026-08-18"
   },
 
   "team": [
@@ -286,6 +287,31 @@
       "socials": [
         { "label": "ArtStation", "url": "https://www.artstation.com/atherton-elphick" },
         { "label": "LinkedIn", "url": "https://www.linkedin.com/in/evan-atherton-elphick-74759a2a2/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "kyle",
+      "slug": "kyle-kerr",
+      "name": "Kyle Kerr",
+      "role": "Level Designer",
+      "metaDescription": "Kyle Kerr - Level Designer at Shiverbug Studios. Shipped Fallout 76: Burning Springs on placement, and a Teesside University graduate.",
+      "photo": "assets/img/team-kyle.webp",
+      "initials": "KK",
+      "pronouns": "he/him",
+      "tagline": "Iterate. Innovate. Elevate",
+      "about": [
+        "Creating worlds and experiences has been my passion for over 10 years, from building custom maps in Halo: Reach's Forge World to shipping Fallout 76: Burning Springs as a placement level designer in 2025, before graduating from Teesside University in July 2026.",
+        "I'm a strong believer that video games can be so much more than something to pass the time. Stories, memories and lessons are all purposely intertwined into the games we create.",
+        "Lately I've been playing a lot of Elden Ring Nightreign, which really resonates with what I aim to convey in my own work: teaching the player that failure is life's greatest teacher. It forces you to adapt to enemy movement and attack patterns, and rewards you for delving into the characters' backstories to earn their specific relics.",
+        "Outside of gaming I enjoy building, painting and playing Warhammer on the tabletop, where a group of close friends and I meet up to show off our painting skills, share tips and tricks, and try to best one another at strategy. I also get out into nature when I can: my most recent hike ran over six hours in Germany, where we visited a castle and finished the day with a well-deserved ice cream."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "Portfolio", "url": "https://kylekerrdesign.wixsite.com/kylekerrportfolio" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/kyle-c-k/" }
       ],
       "thumbClass": null,
       "thumbStyle": null

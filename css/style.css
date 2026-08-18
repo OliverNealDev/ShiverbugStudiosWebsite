@@ -659,41 +659,31 @@ h1, h2, h3 {
    bare, because the plate gives the eye an edge to measure it against, so the
    cap came down from 144 to keep the row at the weight it had in boxes. */
 .creds__list { --mark: min(132px, 58%); }
-/* Each mark gets the paper it was drawn for, and only as much of it as
-   the mark actually covers.
+/* No plates. These four sit straight on the page like everything else.
+   Getting there took a different answer per mark, because they are supplied
+   artwork drawn for a light ground and we cannot redraw them:
 
-   All four are supplied artwork - we hold no rights to redraw them - and
-   all four are drawn for a light ground, so straight onto this page they
-   range from muddy to invisible. Inverting is the obvious fix and it does
-   not survive contact with the files: sampling the pixels, only the
-   Entrepreneurs' Forum mark is monochrome (100% of its ink dark, 0%
-   chromatic) and can take one. Game Republic is 71% blue over 29% dark
-   grey and UK Games Fund is entirely chromatic magenta and green -
-   inverting either prints somebody else's brand in the wrong colour,
-   which is worse than printing it faintly. So: give them their ground.
+   Game Republic ships a dark-mode lockup of its own now, so it just works.
 
-   Four badges rather than one plate behind the row. The plate was tried
-   first and it is the wrong shape of answer - a single cream bar running
-   the full width of the shell is the brightest thing on the page by a
-   distance, and the eye goes to it before it goes to the heading above
-   it. Shrink-wrapping each mark cuts the lit area to roughly a third and
-   turns a stripe into four credits, which is what they are.
+   The Entrepreneurs' Forum mark is the one that can be inverted, and the
+   only one: sampling the pixels, 100% of its ink is dark and 0% of it is
+   chromatic, so it is pure monochrome and flipping it produces white rather
+   than somebody else's brand in the wrong colour. Inverted, all of its ink
+   clears 3:1 on --paper, worst case 3.62.
 
-   content-box is load-bearing. The widths above are a tuned set - see the
-   note on --mark, and re-render all four before touching any of them -
-   and the global border-box would have the padding eat into each one by a
-   different proportion. This way the artwork keeps the width it was given
-   and the badge grows around it.
+   Tranzfuser needs nothing. None of its ink is dark and 95% of it already
+   clears 3:1 here.
 
-   --brand-paper rather than white: it is the exact ground the marks were
-   supplied against, and Tranzfuser is thin pale linework that starts to
-   disappear on true white. */
-.creds__mark {
-  box-sizing: content-box;
-  background: var(--brand-paper);
-  padding: .6rem .85rem;
-  border-radius: var(--radius-sm);
-}
+   UK Games Fund is the awkward one and gets brightened rather than
+   inverted. Its ink is entirely chromatic - magenta, pink and green - so an
+   invert would print the wrong brand colours, but left alone only 40% of it
+   clears 3:1 and over half sits in the 2-3:1 band, which reads as a smudge.
+   A straight brightness lift keeps the hue (measured: about 3 degrees of
+   drift at 1.5) and takes it to roughly 96% passing. It is a workaround for
+   a mark we do not have a dark version of, not a house style - if the UK
+   Games Fund ever supplies one, drop the filter and use it. */
+.creds__mark--ef { filter: invert(1); }
+.creds__mark--ukgf { filter: brightness(1.55); }
 .creds__mark { width: var(--mark); height: auto; }
 .creds__mark--gr { width: calc(var(--mark) * 1.100); }
 .creds__mark--ef { width: calc(var(--mark) * 1.444); }

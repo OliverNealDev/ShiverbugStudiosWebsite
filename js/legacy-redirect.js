@@ -13,6 +13,7 @@
     'charlie-p': 'charlie-pelling',
     'martin': 'martin-wilkinson',
     'evan': 'evan-atherton-elphick',
+    'kyle': 'kyle-kerr',
     'josh': 'josh-cairns',
     'madi': 'madi-freck',
     'max': 'max-breeze',

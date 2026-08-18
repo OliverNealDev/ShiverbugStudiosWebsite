@@ -2,7 +2,7 @@
 
 > Independent video game studio in North East England, founded in 2025. Building Out of Water, a 2-player split-screen collectathon platformer, and taking on co-development and work-for-hire: concept art, 3D art, level design and gameplay programming.
 
-Team of 11 people plus a talent pool of 4 regular collaborators. Contact: contact@shiverbugstudios.com
+Team of 12 people plus a talent pool of 4 regular collaborators. Contact: contact@shiverbugstudios.com
 
 ## Studio
 
@@ -15,7 +15,7 @@ Team of 11 people plus a talent pool of 4 regular collaborators. Contact: contac
 
 ## Team
 
-- [Full roster](https://shiverbugstudios.com/team/): all 15 people, 11 in the studio plus 4 in the talent pool
+- [Full roster](https://shiverbugstudios.com/team/): all 16 people, 12 in the studio plus 4 in the talent pool
 - [Lewis Mennim - CEO](https://shiverbugstudios.com/team/lewis-mennim.html): Turtle-obsessed CEO. I founded the studio back in 2025, and I'll do anything to make it successful.
 - [Ryan Hughes - CFO](https://shiverbugstudios.com/team/ryan-hughes.html): Video games became so much more than just a hobby for me very early on. There's just no other medium like it. One day you're playing a deeply...
 - [Garrett Windus - 3D Artist](https://shiverbugstudios.com/team/garrett-windus.html): Before Lewis reached out about starting a studio, I was a Realistic Vehicle artist and had to quickly adapt to making stylised environments.
@@ -27,6 +27,7 @@ Team of 11 people plus a talent pool of 4 regular collaborators. Contact: contac
 - [Charlie Pelling - Narrative Designer](https://shiverbugstudios.com/team/charlie-pelling.html): I'm an aspiring Narrative Designer with a passion for creating immersive storytelling and loveable characters for people to enjoy. I've always loved...
 - [Martin Wilkinson - 3D Artist](https://shiverbugstudios.com/team/martin-wilkinson.html): I've been passionate about games for as long as I can remember, and they've always inspired me to create worlds of my own. I specialise in...
 - [Evan Atherton-Elphick - Character Artist](https://shiverbugstudios.com/team/evan-atherton-elphick.html): Recent graduate from Teesside University with First Class Honours, I have a passion for 3D art and creating fun, interesting, and expressive stuff!...
+- [Kyle Kerr - Level Designer](https://shiverbugstudios.com/team/kyle-kerr.html): Creating worlds and experiences has been my passion for over 10 years, from building custom maps in Halo: Reach's Forge World to shipping Fallout 76...
 
 ## Talent pool
 
