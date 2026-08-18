@@ -314,7 +314,7 @@
         { "label": "LinkedIn", "url": "https://www.linkedin.com/in/kyle-c-k/" }
       ],
       "thumbClass": null,
-      "thumbStyle": null
+      "thumbStyle": "object-position: center top"
     }
   ],
 
