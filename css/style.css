@@ -264,14 +264,30 @@ html { scroll-behavior: smooth; scroll-padding-top: 88px; scrollbar-gutter: stab
 /* seamless cross-page transitions (progressive enhancement) */
 @view-transition { navigation: auto; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .22s; }
-/* The bar is fixed and pixel-identical on every page, so it must not travel with
-   the root snapshot. Unnamed, it gets captured as part of it, and the cross-fade
-   rescales that whole snapshot whenever the two pages differ in size - which is
-   what made the nav appear to grow and shrink between pages. Naming it lifts it
-   out of the root and pins its group in place; old and new still cross-fade, and
-   since they are the same bar, that reads as the nav simply staying put. */
+/* The bar is fixed, so it must not travel with the root snapshot. Unnamed, it
+   gets captured as part of it, and the cross-fade rescales that whole snapshot
+   whenever the two pages differ in size - which is what made the nav appear to
+   grow and shrink between pages. Naming it lifts it out of the root and pins its
+   group in place; old and new still cross-fade, and since they are the same bar,
+   that reads as the nav simply staying put.
+
+   "The same bar" is true of twenty-three pages out of twenty-four. It is not true
+   of the home page: alone in carrying .nav--hero, its bar before the first scroll
+   is bare, 94px tall and wearing a 40px wordmark, against 60px and 24px
+   everywhere else. Sharing one name across both meant the group snapped straight
+   to the new height while the old 60px snapshot was stretched into a 94px box, so
+   arriving at the home page from anywhere else smeared the wordmark upwards -
+   and, once the theme toggle arrived, visibly pulled its circle into an ellipse.
+
+   Two states, two names. With no counterpart to morph into, each snapshot is
+   drawn at its own size and simply fades: nothing is scaled, so nothing distorts.
+   The collapsed-to-collapsed case is untouched and still pinned, which is the
+   case that made this rule worth having. The selector matches the bare state
+   exactly, so a scrolled home page - which really is pixel-identical to the rest
+   - falls back to site-nav and keeps the pin. */
 .nav { view-transition-name: site-nav; }
 ::view-transition-group(site-nav) { animation: none; }
+.nav--hero:not(.is-scrolled):not(.is-open) { view-transition-name: site-nav-bare; }
 body {
   font-family: var(--font-body);
   color: var(--text-ink);
