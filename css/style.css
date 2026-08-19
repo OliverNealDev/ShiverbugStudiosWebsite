@@ -568,11 +568,13 @@ h1, h2, h3 {
 /* ---------- hero ---------- */
 .hero {
   position: relative;
-  background:
-    radial-gradient(1100px 620px at 85% -15%, rgba(36, 205, 242, .30), transparent 68%),
-    radial-gradient(900px 520px at -8% 112%, rgba(255, 176, 85, .18), transparent 64%),
-    radial-gradient(700px 500px at 50% 120%, rgba(95, 217, 117, .10), transparent 70%),
-    var(--ink);
+  /* Flat ink, no glows. Three corner radials used to sit here - cyan top right,
+     sand bottom left, leaf bottom centre - and together they read as the stock
+     dark-landing-page wash rather than as anything of ours. Nothing on the page
+     is lit from those directions, so the light they implied was decoration
+     pretending to be depth. The white linework and the wave carry the hero on
+     their own; the ink just has to stay out of their way. */
+  background: var(--ink);
   color: #fff;
   /* a touch more ink above and below the introduction - the logo needs room to
      breathe now it is the first thing on the page rather than a nav trinket */
@@ -2392,54 +2394,52 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
    ============================================================ */
 
 /* ---------- 1. the water moves ---------- */
-/* Two translucent crests drifting behind the solid divider, at different speeds
-   and in opposite directions, so the edge between the ink and the paper reads
-   as water rather than as a shape. They sit BEHIND the real wave, which is why
-   only the crest peeking above it is ever visible - the solid path covers
-   everything underneath.
+/* One translucent cyan crest drifting behind the solid divider, so the edge
+   between the ink and the paper reads as water rather than as a shape. It sits
+   BEHIND the real wave, which is why only the crest peeking above it is ever
+   visible - the solid path covers everything underneath.
 
-   Each layer is twice the divider's width carrying two tiles, so translating it
+   There was a second crest here in sand (#ffb055 at .16). Every surface it ever
+   crossed is ink or near-ink, and warm at 16% over near-black does not read as
+   light on water - it composites to a muddy brown lens sitting above the wave,
+   which is exactly the thing it was meant to avoid looking like. Cyan survives
+   the same treatment because it is lighter than the ink it sits on. One layer
+   still drifts, so the motion the effect exists for is intact.
+
+   The layer is twice the divider's width carrying two tiles, so translating it
    exactly one tile width loops with no seam, on the compositor, without
    touching background-position.
 
-   That double width is why .wave grows an overflow:hidden. Without it the two
-   layers stick a viewport's width out of the right-hand side of the page: body
+   That double width is why .wave grows an overflow:hidden. Without it the layer
+   sticks a viewport's width out of the right-hand side of the page: body
    already carries overflow-x:hidden so nothing is visibly wrong, but the
    document's scrollWidth doubles, which is enough to give a phone a horizontal
    pan gesture that goes nowhere.
 
-   The crests have to clear the solid path to be seen at all, and the room for
+   The crest has to clear the solid path to be seen at all, and the room for
    that is padding on .wave rather than height on the layers - the box is
    anchored to one edge and auto-sized, so padding grows it away from that edge
    and the solid divider does not move a pixel. */
 .wave { overflow: hidden; padding-top: 18px; }
 .wave--top { padding-top: 0; padding-bottom: 18px; }
 .wave svg { position: relative; z-index: 2; }
-.wave::before, .wave::after {
+.wave::before {
   content: ""; position: absolute; left: 0; bottom: 0;
   width: 200%; height: 100%;
   background-repeat: repeat-x; background-size: 50% 100%;
   pointer-events: none;
-}
-.wave::before {
   z-index: 0; opacity: .32;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,52 C240,92 480,12 720,40 C960,68 1200,24 1440,52 L1440,90 L0,90 Z' fill='%2324cdf2'/%3E%3C/svg%3E");
 }
-.wave::after {
-  z-index: 1; opacity: .16;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C180,30 360,88 540,58 C720,28 900,86 1080,56 C1260,26 1350,60 1440,60 L1440,90 L0,90 Z' fill='%23ffb055'/%3E%3C/svg%3E");
-}
-/* The footer divider is the same shape upside down, so its drift layers are too.
+/* The footer divider is the same shape upside down, so its drift layer is too.
    The flip is baked into the keyframes as well as sitting on the element,
    because a transform in a base rule and a transform in an animation do not
-   compose - the animation would simply replace it, and the layers would run the
+   compose - the animation would simply replace it, and the layer would run the
    right way up under an upside-down wave. */
-.wave--top::before, .wave--top::after { top: 0; bottom: auto; transform: scaleY(-1); }
+.wave--top::before { top: 0; bottom: auto; transform: scaleY(-1); }
 @media (prefers-reduced-motion: no-preference) {
   .wave::before { animation: wave-drift 26s linear infinite; }
-  .wave::after { animation: wave-drift 19s linear infinite reverse; }
   .wave--top::before { animation: wave-drift-flip 26s linear infinite; }
-  .wave--top::after { animation: wave-drift-flip 19s linear infinite reverse; }
 }
 @keyframes wave-drift { to { transform: translateX(-50%); } }
 @keyframes wave-drift-flip {
