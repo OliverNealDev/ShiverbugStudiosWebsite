@@ -5,18 +5,18 @@
     'lewis': 'lewis-mennim',
     'ryan': 'ryan-hughes',
     'garrett': 'garrett-windus',
-    'oliver': 'oliver-neal',
     'sarah': 'sarah-childs',
-    'connor': 'connor-milburn',
-    'nathan': 'nathan-hopwood',
-    'charlie-a': 'charlie-ashall',
     'charlie-p': 'charlie-pelling',
+    'connor': 'connor-milburn',
+    'charlie-a': 'charlie-ashall',
+    'oliver': 'oliver-neal',
     'martin': 'martin-wilkinson',
     'evan': 'evan-atherton-elphick',
     'kyle': 'kyle-kerr',
+    'nathan': 'nathan-hopwood',
     'josh': 'josh-cairns',
-    'madi': 'madi-freck',
     'max': 'max-breeze',
+    'madi': 'madi-freck',
     'aidan': 'aidan-hendry'
   };
   var slug = MAP[new URLSearchParams(location.search).get('p')];

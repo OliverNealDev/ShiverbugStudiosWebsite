@@ -747,15 +747,22 @@ Write-Host "Updated the team grids in index.html"
 # Keep the notes to things a reader can verify from the profile it links to. A
 # slug that is not in the roster fails the build rather than quietly leaving a
 # gap on the page.
+#
+# The order is by how much weight the evidence carries with someone deciding
+# whether to apply, not by how good anyone is, which is not a thing this file
+# could know. A shipped commercial title outranks a named award, a named award
+# outranks a degree classification, and a classification on its own comes last.
+# Four of the eight people who came in this way are here because the other four
+# have no course, class or credit written down anywhere for a stranger to weigh.
 $joinFaces = @(
   @{ slug = 'kyle-kerr'
      note = "Shipped Fallout 76: Burning Springs as a placement level designer in 2025, then graduated from Teesside in 2026. He had been building levels for a decade before that, starting in Halo: Reach's Forge." },
+  @{ slug = 'oliver-neal'
+     note = "First Class Honours in Games Development, and a final-year project that won Teesside's Best Games Programming award. Writes the gameplay in Unity and C#." },
   @{ slug = 'charlie-ashall'
      note = 'First Class Honours in Game Design, working in Unreal and Unity, and taking a masters in Game Design alongside the job.' },
   @{ slug = 'evan-atherton-elphick'
-     note = 'First Class Honours and straight off the course, making characters in 3D that are expressive rather than merely accurate.' },
-  @{ slug = 'oliver-neal'
-     note = "First Class Honours in Games Development, and a final-year project that won Teesside's Best Games Programming award. Writes the gameplay in Unity and C#." }
+     note = 'First Class Honours and straight off the course, making characters in 3D that are expressive rather than merely accurate.' }
 )
 
 $joinRows = @()

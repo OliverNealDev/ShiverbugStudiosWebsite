@@ -5,19 +5,19 @@
 
   "dateModified": {
     "index.html": "2026-08-19",
-    "games.html": "2026-08-18",
-    "press.html": "2026-08-18",
+    "games.html": "2026-08-19",
+    "press.html": "2026-08-19",
     "join.html": "2026-08-19",
     "privacy.html": "2026-08-19",
     "accessibility.html": "2026-08-18",
-    "team/index.html": "2026-08-18",
+    "team/index.html": "2026-08-19",
     "team/lewis-mennim.html": "2026-08-18",
     "team/ryan-hughes.html": "2026-08-18",
     "team/garrett-windus.html": "2026-08-18",
     "team/oliver-neal.html": "2026-08-18",
     "team/sarah-childs.html": "2026-08-18",
     "team/connor-milburn.html": "2026-08-18",
-    "team/nathan-hopwood.html": "2026-08-18",
+    "team/nathan-hopwood.html": "2026-08-19",
     "team/charlie-ashall.html": "2026-08-18",
     "team/charlie-pelling.html": "2026-08-18",
     "team/martin-wilkinson.html": "2026-08-18",
@@ -101,31 +101,6 @@
       "thumbStyle": "--zy:-22%"
     },
     {
-      "id": "oliver",
-      "slug": "oliver-neal",
-      "name": "Oliver Neal",
-      "role": "Gameplay Programmer",
-      "photo": "assets/img/team-oliver.webp",
-      "initials": "ON",
-      "pronouns": "he/him",
-      "tagline": "Programming Department",
-      "about": [
-        "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, where my final-year project won the Best Games Programming award, and I joined Shiverbug Studios as a gameplay programmer straight after.",
-        "At Shiverbug I write the gameplay: player systems, AI, and the general plumbing that makes the game feel good to play. I also built this website, and I co-run our social media with <a href='madi-freck.html'>Madi Freck</a>.",
-        "I love automation games, tactical shooters like Valorant, and a good co-op session. Beyond playing them, I really enjoy game design itself and thinking about what makes games fun."
-      ],
-      "favourite": "seagull",
-      "askMeAbout": null,
-      "socials": [
-        { "label": "Website", "url": "https://oliverneal.dev" },
-        { "label": "GitHub", "url": "https://github.com/OliverNealDev" },
-        { "label": "itch.io", "url": "https://olivernealdev.itch.io" },
-        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/oliver-neal-197b74290" }
-      ],
-      "thumbClass": "is-zoomed",
-      "thumbStyle": "--zx:6%; --zy:-20%"
-    },
-    {
       "id": "sarah",
       "slug": "sarah-childs",
       "name": "Sarah Childs",
@@ -152,6 +127,28 @@
       "thumbStyle": null
     },
     {
+      "id": "charlie-p",
+      "slug": "charlie-pelling",
+      "name": "Charlie Pelling",
+      "role": "Narrative Designer",
+      "metaDescription": "Charlie Pelling - Narrative Designer at Shiverbug Studios. Narrative designer focused on immersive storytelling and characters players remember.",
+      "photo": "assets/img/team-charlie-p.jpg",
+      "initials": "CP",
+      "pronouns": "he/him",
+      "tagline": "It's bread",
+      "about": [
+        "I'm an aspiring Narrative Designer with a passion for creating immersive storytelling and loveable characters for people to enjoy. I've always loved playing through games and being left with a bittersweet feeling. That's how you know a game is great.",
+        "My love for narrative began when I first played The Walking Dead Telltale series and realised how much one decision could spin a story and impact the future of your journey.",
+        "At Shiverbug I write the voice lines for our characters, move the narrative forward and make the journey worth experiencing.",
+        "Some of my all time favourite games are Silent Hill 2/3, Red Dead Redemption 1/2 and Cyberpunk 2077."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "socials": null,
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
       "id": "connor",
       "slug": "connor-milburn",
       "name": "Connor Milburn",
@@ -170,34 +167,6 @@
       "socials": [
         { "label": "ArtStation", "url": "https://www.artstation.com/cmilburn3d" },
         { "label": "LinkedIn", "url": "https://www.linkedin.com/in/connor-milburn-0399a1224/" }
-      ],
-      "thumbClass": null,
-      "thumbStyle": null
-    },
-    {
-      "id": "nathan",
-      "slug": "nathan-hopwood",
-      "name": "Nathan Hopwood",
-      "role": "3D Artist",
-      "photo": "assets/img/team-nathan.webp",
-      "initials": "NH",
-      "pronouns": "he/him",
-      "tagline": "Had I not been a 3D artist, I would have been an archaeologist",
-      "about": [
-        "I'm a dedicated Hard Surface 3D Artist who specialises in Vehicles, Weapons and Props. I primarily use Maya, Blender, Substance Painter, Unreal Engine and Unity. One of my favourite things about being a 3D Artist is that I get to create detailed and intricate models, allowing me to prove my skills in various different ways. As a huge fan of anything automotive, I love to make tons of different vehicle projects: sometimes I choose to be as detailed as possible, and other times I allow my creativity to flow free. I like to experiment with weapons and props on the side, sometimes for a breath of fresh air or just when I want to try something else.",
-        "I'm hugely inspired by games like The Witcher 3, Kingdom Come: Deliverance 2, Assassin's Creed Black Flag, and anything history related. Whilst a lot of my artwork is mostly cars, I do have a massive passion for ancient history. I love learning about history by watching films, documentaries and podcasts, or even reading about it. I can say with confidence that had I not been a 3D artist, I would have been an archaeologist."
-      ],
-      "favourite": "turtle",
-      "askMeAbout": null,
-      "knowsAbout": [
-        "Video Game Development",
-        "3D Art",
-        "Hard Surface Modelling",
-        "Vehicle Art",
-        "Prop Art"
-      ],
-      "socials": [
-        { "label": "ArtStation", "url": "https://www.artstation.com/nathan_hopwood" }
       ],
       "thumbClass": null,
       "thumbStyle": null
@@ -226,26 +195,29 @@
       "thumbStyle": "object-position: center 10%"
     },
     {
-      "id": "charlie-p",
-      "slug": "charlie-pelling",
-      "name": "Charlie Pelling",
-      "role": "Narrative Designer",
-      "metaDescription": "Charlie Pelling - Narrative Designer at Shiverbug Studios. Narrative designer focused on immersive storytelling and characters players remember.",
-      "photo": "assets/img/team-charlie-p.jpg",
-      "initials": "CP",
+      "id": "oliver",
+      "slug": "oliver-neal",
+      "name": "Oliver Neal",
+      "role": "Gameplay Programmer",
+      "photo": "assets/img/team-oliver.webp",
+      "initials": "ON",
       "pronouns": "he/him",
-      "tagline": "It's bread",
+      "tagline": "Programming Department",
       "about": [
-        "I'm an aspiring Narrative Designer with a passion for creating immersive storytelling and loveable characters for people to enjoy. I've always loved playing through games and being left with a bittersweet feeling. That's how you know a game is great.",
-        "My love for narrative began when I first played The Walking Dead Telltale series and realised how much one decision could spin a story and impact the future of your journey.",
-        "At Shiverbug I write the voice lines for our characters, move the narrative forward and make the journey worth experiencing.",
-        "Some of my all time favourite games are Silent Hill 2/3, Red Dead Redemption 1/2 and Cyberpunk 2077."
+        "I'm a games developer working in Unity and C#. I graduated from Teesside University in July 2026 with First Class Honours in BSc (Hons) Games Development, where my final-year project won the Best Games Programming award, and I joined Shiverbug Studios as a gameplay programmer straight after.",
+        "At Shiverbug I write the gameplay: player systems, AI, and the general plumbing that makes the game feel good to play. I also built this website, and I co-run our social media with <a href='madi-freck.html'>Madi Freck</a>.",
+        "I love automation games, tactical shooters like Valorant, and a good co-op session. Beyond playing them, I really enjoy game design itself and thinking about what makes games fun."
       ],
-      "favourite": "turtle",
+      "favourite": "seagull",
       "askMeAbout": null,
-      "socials": null,
-      "thumbClass": null,
-      "thumbStyle": null
+      "socials": [
+        { "label": "Website", "url": "https://oliverneal.dev" },
+        { "label": "GitHub", "url": "https://github.com/OliverNealDev" },
+        { "label": "itch.io", "url": "https://olivernealdev.itch.io" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/oliver-neal-197b74290" }
+      ],
+      "thumbClass": "is-zoomed",
+      "thumbStyle": "--zx:6%; --zy:-20%"
     },
     {
       "id": "martin",
@@ -321,6 +293,35 @@
 
   "talent": [
     {
+      "id": "nathan",
+      "slug": "nathan-hopwood",
+      "name": "Nathan Hopwood",
+      "role": "3D Artist",
+      "photo": "assets/img/team-nathan.webp",
+      "initials": "NH",
+      "pronouns": "he/him",
+      "status": "active",
+      "tagline": "Had I not been a 3D artist, I would have been an archaeologist",
+      "about": [
+        "I'm a dedicated Hard Surface 3D Artist who specialises in Vehicles, Weapons and Props. I primarily use Maya, Blender, Substance Painter, Unreal Engine and Unity. One of my favourite things about being a 3D Artist is that I get to create detailed and intricate models, allowing me to prove my skills in various different ways. As a huge fan of anything automotive, I love to make tons of different vehicle projects: sometimes I choose to be as detailed as possible, and other times I allow my creativity to flow free. I like to experiment with weapons and props on the side, sometimes for a breath of fresh air or just when I want to try something else.",
+        "I'm hugely inspired by games like The Witcher 3, Kingdom Come: Deliverance 2, Assassin's Creed Black Flag, and anything history related. Whilst a lot of my artwork is mostly cars, I do have a massive passion for ancient history. I love learning about history by watching films, documentaries and podcasts, or even reading about it. I can say with confidence that had I not been a 3D artist, I would have been an archaeologist."
+      ],
+      "favourite": "turtle",
+      "askMeAbout": null,
+      "knowsAbout": [
+        "Video Game Development",
+        "3D Art",
+        "Hard Surface Modelling",
+        "Vehicle Art",
+        "Prop Art"
+      ],
+      "socials": [
+        { "label": "ArtStation", "url": "https://www.artstation.com/nathan_hopwood" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
       "id": "josh",
       "slug": "josh-cairns",
       "name": "Josh Cairns",
@@ -345,30 +346,6 @@
       "thumbStyle": "--zy:-16%; --zs:2.1"
     },
     {
-      "id": "madi",
-      "slug": "madi-freck",
-      "name": "Madi Freck",
-      "role": "Social Media",
-      "photo": "assets/img/team-madi.webp",
-      "initials": "MF",
-      "pronouns": "they/them",
-      "status": "active",
-      "tagline": "Sweet treat provider",
-      "about": [
-        "Hello, I'm Madi Freck, a 3rd Year 2D Animation and Stop-motion student at Teesside University.",
-        "I specialise in stop-motion puppet making, frame-by-frame animation and creating 2D character rigs. I'm currently using my background in graphics design to co-run Shiverbug's social media and branding with <a href='oliver-neal.html'>Oliver Neal</a>."
-      ],
-      "favourite": "seagull",
-      "askMeAbout": null,
-      "socials": [
-        { "label": "Website", "url": "https://madifreck.com" },
-        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/madi-freck-b45116370" },
-        { "label": "Instagram", "url": "https://www.instagram.com/madi.freck" }
-      ],
-      "thumbClass": null,
-      "thumbStyle": null
-    },
-    {
       "id": "max",
       "slug": "max-breeze",
       "name": "Max Breeze",
@@ -388,6 +365,30 @@
       "socials": [
         { "label": "ArtStation", "url": "https://www.artstation.com/maxbreeze" },
         { "label": "LinkedIn", "url": "https://www.linkedin.com/in/max-breeze-b2b593281/" }
+      ],
+      "thumbClass": null,
+      "thumbStyle": null
+    },
+    {
+      "id": "madi",
+      "slug": "madi-freck",
+      "name": "Madi Freck",
+      "role": "Social Media",
+      "photo": "assets/img/team-madi.webp",
+      "initials": "MF",
+      "pronouns": "they/them",
+      "status": "active",
+      "tagline": "Sweet treat provider",
+      "about": [
+        "Hello, I'm Madi Freck, a 3rd Year 2D Animation and Stop-motion student at Teesside University.",
+        "I specialise in stop-motion puppet making, frame-by-frame animation and creating 2D character rigs. I'm currently using my background in graphics design to co-run Shiverbug's social media and branding with <a href='oliver-neal.html'>Oliver Neal</a>."
+      ],
+      "favourite": "seagull",
+      "askMeAbout": null,
+      "socials": [
+        { "label": "Website", "url": "https://madifreck.com" },
+        { "label": "LinkedIn", "url": "https://www.linkedin.com/in/madi-freck-b45116370" },
+        { "label": "Instagram", "url": "https://www.instagram.com/madi.freck" }
       ],
       "thumbClass": null,
       "thumbStyle": null
