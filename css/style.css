@@ -1940,13 +1940,36 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .join-figure figcaption {
   font-size: .88rem; color: var(--text-soft); margin-top: .7rem;
 }
-/* Exactly four tiles, so this grid has to divide by four or leave an orphan on a
-   row of its own. The shared .team__grid steps 4 -> 3 -> 2 for the home page,
-   where nine tiles make the 3 step look right; here the 3 step is the one width
-   that breaks. Skipping straight to 2 keeps the rows even at every size. */
-.join-faces .team__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-@media (max-width: 980px) {
-  .join-faces .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* A row each rather than a grid of tiles. The point of this section is what these
+   people did, and a tile can only hold a name and a role, so the photo sits beside
+   the sentence instead of on top of a caption. */
+.join-people { list-style: none; margin: 0; padding: 0; max-width: 68ch; }
+.join-person {
+  display: flex; align-items: flex-start; gap: 1.1rem;
+  margin-bottom: 1.6rem;
+}
+/* .member__photo brings the square, the crop and the .is-zoomed transform with it,
+   so these faces are framed exactly as they are everywhere else on the site and
+   this only has to set the size. */
+.join-person__photo { width: 96px; flex: none; margin-bottom: 0; }
+.join-person__copy { min-width: 0; }
+.join-person__copy h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.05rem; margin: 0 0 .1rem;
+}
+.join-person__copy h3 a { color: var(--sea-ink); }
+.join-person__copy h3 a:hover { text-decoration: underline; }
+.join-person__role {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--text-soft); margin: 0 0 .5rem;
+}
+.join-person__copy p:last-child { color: var(--text-soft); margin: 0; }
+/* Under the photo rather than beside it, once beside it leaves the sentence
+   setting three or four words to a line. */
+@media (max-width: 560px) {
+  .join-person { flex-direction: column; gap: .8rem; }
+  .join-person__photo { width: 120px; }
 }
 
 /* footer (mini) for profile pages */

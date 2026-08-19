@@ -738,30 +738,73 @@ Write-Host "Updated the team grids in index.html"
 
 # ---------- the intake faces on join.html ----------
 #
-# The join page argues that most of the studio arrived through the Teesside intake,
-# and these four tiles are the evidence for it. Generated rather than hand written
-# for the same reason every other tile is: a photo, a name or a role that changes
-# in data/team.json then has exactly one place to change.
+# The join page argues that most of the studio arrived through the Teesside
+# intake, and these people are the evidence for it. A row each: the photo and the
+# role come from data/team.json like every other face on the site, so a new photo
+# has one place to change, and the sentence beside it lives here because it is
+# written for this page and exists nowhere else.
 #
-# Change who appears by editing this list. A slug that is not in the roster fails
-# the build rather than quietly leaving a gap on the page.
-$joinSlugs = @('kyle-kerr', 'charlie-ashall', 'evan-atherton-elphick', 'oliver-neal')
-$joinPeople = foreach ($s in $joinSlugs) {
-  $found = $all | Where-Object { $_.slug -eq $s } | Select-Object -First 1
-  if (-not $found) { throw "join.html face '$s' is not in data/team.json" }
-  $found
+# Keep the notes to things a reader can verify from the profile it links to. A
+# slug that is not in the roster fails the build rather than quietly leaving a
+# gap on the page.
+$joinFaces = @(
+  @{ slug = 'kyle-kerr'
+     note = "Shipped Fallout 76: Burning Springs as a placement level designer in 2025, then graduated from Teesside in 2026. He had been building levels for a decade before that, starting in Halo: Reach's Forge." },
+  @{ slug = 'charlie-ashall'
+     note = 'First Class Honours in Game Design, working in Unreal and Unity, and taking a masters in Game Design alongside the job.' },
+  @{ slug = 'evan-atherton-elphick'
+     note = 'First Class Honours and straight off the course, making characters in 3D that are expressive rather than merely accurate.' },
+  @{ slug = 'oliver-neal'
+     note = "First Class Honours in Games Development, and a final-year project that won Teesside's Best Games Programming award. Writes the gameplay in Unity and C#." }
+)
+
+$joinRows = @()
+foreach ($face in $joinFaces) {
+  $person = $all | Where-Object { $_.slug -eq $face.slug } | Select-Object -First 1
+  if (-not $person) { throw "join.html face '$($face.slug)' is not in data/team.json" }
+
+  # .member__photo carries the square, the crop and the .is-zoomed transform that
+  # every other thumbnail on the site already uses. Reusing it means these faces
+  # are framed exactly as they are elsewhere instead of being cropped a second
+  # way here, and .join-person__photo only has to set the size.
+  $zoomed = $person.thumbClass -match 'is-zoomed'
+  $imgCls = ''
+  if ($person.thumbClass) { $imgCls = ' class="' + $person.thumbClass + '"' }
+  $imgStyle = ''
+  if ($person.thumbStyle) { $imgStyle = ' style="' + $person.thumbStyle + '"' }
+  # 96px box, so 240 covers 2x and 320 covers 3x. A zoomed photo is painted at
+  # 1.5x its box, so it is told to ask for double.
+  $set = SrcSetFor $person.photo @(240, 320)
+  $src = $person.photo
+  $responsive = ''
+  if ($set) {
+    $src = $set.src
+    $sizes = if ($zoomed) { '192px' } else { '96px' }
+    $responsive = ' srcset="' + $set.srcset + '" sizes="' + $sizes + '"'
+  }
+
+  $joinRows += '          <li class="join-person">'
+  $joinRows += '            <div class="member__photo join-person__photo">'
+  $joinRows += '              <img src="' + $src + '"' + $responsive + ' alt="" loading="lazy" decoding="async"' + $imgCls + $imgStyle + '>'
+  $joinRows += '            </div>'
+  $joinRows += '            <div class="join-person__copy">'
+  $joinRows += '              <h3><a href="team/' + $person.slug + '.html">' + (HtmlEnc $person.name) + '</a></h3>'
+  $joinRows += '              <p class="join-person__role">' + (HtmlEnc (RoleDisplay $person)) + '</p>'
+  $joinRows += '              <p>' + (HtmlEnc $face.note) + '</p>'
+  $joinRows += '            </div>'
+  $joinRows += '          </li>'
 }
 $joinHtml = @(
-  '        <div class="team__grid">',
-  (@($joinPeople | ForEach-Object { MemberTile $_ $false }) -join "`n"),
-  '        </div>'
+  '        <ul class="join-people">',
+  ($joinRows -join "`n"),
+  '        </ul>'
 ) -join "`n"
 
 $joinPath = Join-Path $root 'join.html'
 $joinText = Get-Content $joinPath -Raw -Encoding UTF8
 $joinPattern = '(?s)(<!-- BUILD:JOIN:START -->).*?(<!-- BUILD:JOIN:END -->)'
 if ($joinText -notmatch $joinPattern) {
-  throw "Marker BUILD:JOIN not found in join.html - add the marker pair around the tile grid."
+  throw "Marker BUILD:JOIN not found in join.html - add the marker pair around the people list."
 }
 $joinText = [regex]::Replace($joinText, $joinPattern, {
   param($m) $m.Groups[1].Value + "`n" + $joinHtml + "`n        " + $m.Groups[2].Value
