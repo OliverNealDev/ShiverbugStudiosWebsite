@@ -114,45 +114,115 @@
   /* ---- surfaces, deepest first ----
      --ink is the band, --paper-2 the alternate section, --paper the page
      and --plate a card raised off it. The wave dividers name --paper and
-     --paper-2 inline in the markup, so those two keep their names. */
-  --ink: #040a12;
-  --paper-2: #08111d;
-  --paper: #0c1727;
-  --plate: #16253a;
-  --ink-2: #0a1526;
+     --paper-2 inline in the markup, so those two keep their names.
+
+     These went DOWN in lightness and UP in saturation at the same time,
+     which is the only combination that gets you a darker page without
+     getting you a greyer one. The page was hue 216 at 53% saturation; it
+     is now hue 207 at 77%, and about a quarter darker. Less indigo, more
+     sea, and unmistakably a colour rather than a dimmed neutral.
+
+     Both halves of that matter and the reason is worth writing down,
+     because a version of this file went the other way and was much worse.
+     Darkening alone lands on near-black, and four near-blacks in a row are
+     one flat slab. Neutralising as well - dropping the cast to a true grey
+     - looks like the safe move and is the trap: the accents here are all
+     cyan, so a blue-grey surface at least shares a family with them, and a
+     neutral one leaves them floating on nothing. Do not neutralise these
+     to make the accents pop. It does the opposite.
+
+     Card separation improved on the way down: --plate against --paper is
+     1.28 where it was 1.17, because --plate gained the saturation too. */
+  --ink: #020a11;
+  --paper-2: #03101a;
+  --paper: #04131f;
+  --plate: #0d2b40;
+  --ink-2: #041220;
 
   /* ---- type ----
-     Measured against --plate, the lightest surface on the site and so
-     the worst case: heading 13.6, body 10.4, soft 5.9, faint 4.8. */
+     Heading and body are unchanged and are a cool off-white; they were
+     never the problem.
+
+     THE SOFT TIER WAS THE PROBLEM. --text-soft and --text-faint used to
+     sit at hue 207 and 18% saturation, which is air-force blue - a
+     desaturated steel that is the single most tired colour you can put on
+     a dark page, and it was carrying every lede, every caption and every
+     bit of small print on the site. They are the same lightness now at
+     hue 200 and roughly 35% saturation, so they belong to the sea instead
+     of to the grey. Nothing else about them moved: this is a saturation
+     fix, not a brightness one, and turning them UP would flatten the gap
+     to body copy that is the only reason the tier exists.
+
+     Measured against --plate, the lightest surface and so the worst case:
+     heading 12.9, body 9.9, soft 6.5, faint 5.2. */
   --heading: #eaf2f8;
   --text-ink: #c9d6e2;
-  --text-soft: #8fa3b5;
-  --text-faint: #7f92a5;
-  /* type on a band. The bands are darker still, so these ride up. */
+  --text-soft: #85b3c9;
+  --text-faint: #6fa0b8;
+  /* type on a band. The bands are darker still, so these ride up.
+
+     --text-paper is the brand cream and it STAYS warm. It is the only warm
+     type on the site and it is doing real work: a cold page whose bands
+     carry warm type has somewhere for the eye to go, and one that is cool
+     all the way down is a mood board. Its soft partner used to be a
+     neutral #b9bcc4 sitting directly under it, which read as two unrelated
+     colours stacked rather than one voice at two strengths - so it is a
+     dimmed cream now instead of a grey. */
   --text-paper: #f2ecdd;
-  --text-paper-soft: #b9bcc4;
+  --text-paper-soft: #cbc3b3;
 
   /* ---- accents ----
-     No separate accessible tier is needed going this dark: on --plate
-     the brand accents measure sea 5.07, leaf 5.91, sand 7.21, all clear
-     of 4.5 untouched, so links are the real brand teal. Crab alone is
-     short at 4.17 and is lifted just past the bar. */
-  --sea-ink: var(--sea);
-  --leaf-ink: var(--leaf);
-  --sand-ink: var(--sand);
-  --crab-ink: #f06a58;
+     This is where the colour on this site lives, and it is the tier that
+     was pulling its punches. These used to be aliased straight to the
+     brand constants above - the muted print values - and a muted teal on
+     a dark page is a teal you have to look for.
+
+     They are lifted, and the direction was not a guess. The press kit two
+     hundred lines down ships the brand's own blues as #05CDF2 and #08E2F2,
+     vivid cyan, and the site's --sea is a print-safe reduction of them. So
+     going brighter here goes TOWARD the brand rather than away from it,
+     and --sea-ink is now essentially that cyan. The constants themselves
+     do not move: they are what the kit hands out, these are what the site
+     paints.
+
+     Measured on --plate, the worst case: sea 7.7, leaf 8.1, sand 8.1,
+     crab 5.7, all well clear of 4.5 - the deeper page bought the headroom
+     that paid for this.
+
+     --focus is separate from --sea-chip and has to be. The chips are sized
+     so #fff clears 4.5 on them, so they cannot brighten with the page; a
+     3px focus ring wants to be the loudest thing on screen. Two jobs
+     pulling opposite ways, so two values. */
+  --sea-ink: #24cdf2;
+  --leaf-ink: #5fd975;
+  --sand-ink: #ffb055;
+  --crab-ink: #ff7a66;
+  --focus: #3ad8f5;
 
   /* ---- elevation ----
-     --line is a rim, not an outline: one pixel of light along the edge
-     of a raised surface. --line-strong is the exception, for controls
-     drawn as an icon in a circle with no text to identify them - there
-     the boundary IS the control, so 1.4.11 applies and it clears 3:1 on
-     both --plate and --paper. --hard is the one genuinely black value,
-     for the sticker's outline and drop. */
-  --line: rgba(255, 255, 255, .09);
-  --line-hover: rgba(255, 255, 255, .20);
-  --line-strong: #55748c;
-  --hard: #02060c;
+     --line is a rim, not an outline: one pixel of light along the edge of
+     a raised surface. The light is cyan rather than white now. White at
+     9% over a blue surface composites to a dusty grey hairline, and that
+     hairline is on every card on every page - one slightly wrong colour
+     repeated eighty times, which is a bigger contribution to how a page
+     feels than any single element it outlines.
+
+     --line-strong is the exception, for controls drawn as an icon in a
+     circle with no text to identify them: there the boundary IS the
+     control, so 1.4.11 applies, and it measures 6.0 on --plate against
+     the 3 it needs. It was #55748c, which is air-force blue by any name -
+     the exact colour the whole of this pass exists to get rid of. It is
+     frankly cyan now, which reads as a violation of the colour rules at
+     the top of the file, and is not: these two controls are the one place
+     on the site where the border is the interactive element, so teal is
+     the honest colour for them rather than a borrowed one.
+
+     --hard is the one genuinely black value, for the sticker's outline and
+     drop, and went blacker to stay clear of --ink. */
+  --line: rgba(140, 230, 252, .12);
+  --line-hover: rgba(140, 230, 252, .30);
+  --line-strong: #2fb4d6;
+  --hard: #01050a;
   --rim: inset 0 1px 0 rgba(255, 255, 255, .06);
   --lift: 0 10px 28px -14px rgba(0, 0, 0, .9);
   --lift-hover: 0 18px 40px -16px rgba(0, 0, 0, .95);
@@ -165,12 +235,13 @@
   --invert-bg-hover: #ffffff;
 
   /* ---- the four index accents at tick weight ----
-     The bright tier, not the -deep one: -deep exists to survive a light
-     background and is mud on this one. */
-  --tick-sea: var(--sea);
-  --tick-sand: var(--sand);
-  --tick-leaf: var(--leaf);
-  --tick-crab: var(--crab);
+     Pointed at the on-dark tier rather than at the constants, so a tick
+     and the link beside it are the same colour. -deep is never right here:
+     it exists to survive a light background and is mud on this one. */
+  --tick-sea: var(--sea-ink);
+  --tick-sand: var(--sand-ink);
+  --tick-leaf: var(--leaf-ink);
+  --tick-crab: var(--crab-ink);
 
   color-scheme: dark;
 
@@ -274,7 +345,7 @@ h1, h2, h3 {
    against the ink sections). Both colours clear 3:1 on their own backdrop.
    Component-level rules with higher specificity still win where they exist. */
 :focus-visible {
-  outline: 3px solid var(--sea-chip);
+  outline: 3px solid var(--focus);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -498,9 +569,9 @@ h1, h2, h3 {
 .hero {
   position: relative;
   background:
-    radial-gradient(1100px 620px at 85% -15%, rgba(15, 163, 177, .30), transparent 68%),
-    radial-gradient(900px 520px at -8% 112%, rgba(237, 161, 77, .18), transparent 64%),
-    radial-gradient(700px 500px at 50% 120%, rgba(85, 179, 104, .10), transparent 70%),
+    radial-gradient(1100px 620px at 85% -15%, rgba(36, 205, 242, .30), transparent 68%),
+    radial-gradient(900px 520px at -8% 112%, rgba(255, 176, 85, .18), transparent 64%),
+    radial-gradient(700px 500px at 50% 120%, rgba(95, 217, 117, .10), transparent 70%),
     var(--ink);
   color: #fff;
   /* a touch more ink above and below the introduction - the logo needs room to
@@ -702,7 +773,7 @@ h1, h2, h3 {
 .creds__list a:hover .creds__mark { transform: translateY(-4px); }
 /* No box to hang a ring on any more, so it goes on the anchor and stands off
    far enough to clear the artwork. */
-.creds__list a:focus-visible { outline: 3px solid var(--sea-chip); outline-offset: 6px; border-radius: var(--radius-sm); }
+.creds__list a:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; border-radius: var(--radius-sm); }
 @media (prefers-reduced-motion: reduce) {
   .creds__list a:hover .creds__mark { transform: none; }
 }
@@ -874,8 +945,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .community {
   position: relative; /* anchors the wave dividers on both edges */
   background:
-    radial-gradient(760px 480px at 8% 0%, rgba(15, 163, 177, .26), transparent 64%),
-    radial-gradient(700px 450px at 92% 100%, rgba(237, 161, 77, .17), transparent 64%),
+    radial-gradient(760px 480px at 8% 0%, rgba(36, 205, 242, .26), transparent 64%),
+    radial-gradient(700px 450px at 92% 100%, rgba(255, 176, 85, .17), transparent 64%),
     var(--ink);
   color: var(--text-paper);
   text-align: center;
@@ -912,9 +983,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .newsletter__form input[type="email"]:focus-visible {
   border-color: var(--sea-ink);
-  /* --sea-chip, matching the global :focus-visible ring. This was the only
-     focus ring on the site painted in --sea-deep. */
-  outline: 3px solid var(--sea-chip); outline-offset: 2px;
+  /* --focus, matching the global :focus-visible ring. */
+  outline: 3px solid var(--focus); outline-offset: 2px;
 }
 
 .newsletter .form-note { flex-basis: 100%; margin-bottom: 0; }
@@ -1065,8 +1135,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---------- services (dark band) ---------- */
 .services {
   background:
-    radial-gradient(880px 500px at 100% 0%, rgba(237, 161, 77, .18), transparent 64%),
-    radial-gradient(760px 500px at 0% 100%, rgba(15, 163, 177, .26), transparent 64%),
+    radial-gradient(880px 500px at 100% 0%, rgba(255, 176, 85, .18), transparent 64%),
+    radial-gradient(760px 500px at 0% 100%, rgba(36, 205, 242, .26), transparent 64%),
     var(--ink);
   color: var(--text-paper);
 }
@@ -1193,7 +1263,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .member__photo--empty {
   display: grid; place-items: center;
   background:
-    radial-gradient(200px 200px at 70% 20%, rgba(15,163,177,.22), transparent 70%),
+    radial-gradient(200px 200px at 70% 20%, rgba(36, 205, 242,.22), transparent 70%),
     var(--plate);
 }
 /* :not() so this only ever dresses the initials, never the "No profile yet"
@@ -1280,8 +1350,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .footer {
   position: relative;
   background:
-    radial-gradient(1000px 580px at 50% 0%, rgba(15, 163, 177, .26), transparent 68%),
-    radial-gradient(700px 400px at 88% 90%, rgba(237, 161, 77, .10), transparent 62%),
+    radial-gradient(1000px 580px at 50% 0%, rgba(36, 205, 242, .26), transparent 68%),
+    radial-gradient(700px 400px at 88% 90%, rgba(255, 176, 85, .10), transparent 62%),
     var(--ink);
   color: var(--text-paper);
   padding: clamp(6rem, 11vw, 9rem) 0 2.5rem;
@@ -1411,7 +1481,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   aspect-ratio: 3/4;
   display: grid; place-items: center;
   background:
-    radial-gradient(300px 300px at 70% 20%, rgba(15,163,177,.22), transparent 70%),
+    radial-gradient(300px 300px at 70% 20%, rgba(36, 205, 242,.22), transparent 70%),
     var(--plate);
 }
 .profile__photo--empty span {
@@ -1587,7 +1657,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .pkg:hover .pkg__cta { color: var(--heading); }
 .pkg:hover .pkg__cta svg { transform: translateX(3px); }
 /* the ring belongs on the card, not on the two words at the bottom of it */
-.pkg:has(.pkg__cta:focus-visible) { outline: 3px solid var(--sea-chip); outline-offset: 3px; }
+.pkg:has(.pkg__cta:focus-visible) { outline: 3px solid var(--focus); outline-offset: 3px; }
 /* Only take the ring off the link where :has() is around to put it back on the
    card. Unconditionally, a browser without :has() gets the outline:none and no
    replacement, which leaves these three CTAs with no focus indicator at all. */
@@ -2075,8 +2145,8 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .proof {
   position: relative; /* anchors the wave dividers on both edges */
   background:
-    radial-gradient(880px 500px at 0% 0%, rgba(15, 163, 177, .26), transparent 64%),
-    radial-gradient(760px 480px at 100% 100%, rgba(237, 161, 77, .17), transparent 64%),
+    radial-gradient(880px 500px at 0% 0%, rgba(36, 205, 242, .26), transparent 64%),
+    radial-gradient(760px 480px at 100% 100%, rgba(255, 176, 85, .17), transparent 64%),
     var(--ink);
   color: var(--text-paper);
 }
@@ -2263,31 +2333,38 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   .steps { grid-template-columns: 1fr; gap: 1.4rem; }
 }
 
-/* ---------- light spilling out of the bands ---------- */
-/* A pale section painted one flat colour edge to edge is half of why a
-   dark page can read as a switched-off light one: there is nothing for
-   the eye to travel over between one heading and the next. This is the
-   other half of the fix, and it is deliberately almost invisible - five
-   hundredths of the sea at its centre, over about 460px.
+/* ---------- the wash that used to live here ----------
+   There was a radial tint on the section directly under each band - five
+   hundredths of the sea, 460px tall, centred just above the section's top
+   edge - to stop a flat section reading as a switched-off light one. It is
+   deleted, and it should not come back in that form, because the idea has a
+   flaw that no amount of tuning fixes.
 
-   It hangs off the BANDS rather than off a list of section names, so it
-   only ever lands where there is a reason for it: the section directly
-   under a band gets the light that band is throwing, and a page that
-   opens on a section instead of a hero gets it at the top. Two pale
-   sections in a row means only the first is lit, which is what stops the
-   wash repeating down the page and banding.
+   THE WAVE CANNOT CARRY IT. The divider is an svg path in the markup filled
+   with a flat var(--paper) or var(--paper-2), so the wave has no wash on it
+   by construction. The wash was at close to full strength at y=0 - its
+   centre was only 8% above the top edge - so the boundary was flat colour
+   above and tinted colour below, meeting in a dead straight line across the
+   full width of the page, immediately under a shape whose entire job is to
+   not be a straight line. Measured, that step was 1.09, which is small and
+   completely visible, because a hairline running the whole width of a page
+   is the easiest thing in the world for an eye to find.
 
-   It has to live here, after every section background in the file. Those
-   are all `background` shorthands at the same specificity, so declared
-   any earlier this is simply reset to none - which is exactly what
-   happened on the first attempt. Do not move it up. */
-.hero + .section,
-.services + .section,
-.proof + .section,
-.community + .section,
-main > .section:first-child {
-  background-image: radial-gradient(1300px 460px at 50% -8%, rgba(15, 163, 177, .055), transparent 72%);
-}
+   Any value above zero at the top edge draws that line. A gradient that
+   ramps up from nothing instead would not, but then it is a glow in the
+   middle of a section rather than light coming off a band, which is a
+   different and worse idea.
+
+   It also had a side effect nobody had noticed. It set background-image on
+   `.community + .section`, which on games.html is .pub - and .pub declares
+   its paper-to-plate fade as a `background` shorthand EARLIER in the file,
+   at the same specificity. So this rule silently replaced it, and the
+   publishers section had been rendering with no gradient and no background
+   colour at all, just the wash over the body. Deleting this restores it.
+
+   The saturation in the surface tokens is what carries this job now: the
+   sections are a colour rather than a dimmed neutral, so they do not need
+   help to look like something. */
 
 /* ============================================================
    MOTION POLISH
@@ -2346,11 +2423,11 @@ main > .section:first-child {
 }
 .wave::before {
   z-index: 0; opacity: .32;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,52 C240,92 480,12 720,40 C960,68 1200,24 1440,52 L1440,90 L0,90 Z' fill='%230fa3b1'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,52 C240,92 480,12 720,40 C960,68 1200,24 1440,52 L1440,90 L0,90 Z' fill='%2324cdf2'/%3E%3C/svg%3E");
 }
 .wave::after {
   z-index: 1; opacity: .16;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C180,30 360,88 540,58 C720,28 900,86 1080,56 C1260,26 1350,60 1440,60 L1440,90 L0,90 Z' fill='%23eda14d'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C180,30 360,88 540,58 C720,28 900,86 1080,56 C1260,26 1350,60 1440,60 L1440,90 L0,90 Z' fill='%23ffb055'/%3E%3C/svg%3E");
 }
 /* The footer divider is the same shape upside down, so its drift layers are too.
    The flip is baked into the keyframes as well as sitting on the element,
