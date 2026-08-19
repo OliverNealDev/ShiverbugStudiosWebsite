@@ -1054,6 +1054,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 .codev-form .field { display: grid; gap: .35rem; min-width: 0; }
 .codev-form .field--wide { grid-column: 1 / -1; }
+/* The co-development group is hidden until the topic picker asks for it. It needs
+   saying explicitly: .field is display:grid and .field--check is display:flex, and
+   either one beats the [hidden] display:none the browser would otherwise apply. */
+.codev-form .field[hidden], .codev-form .field--check[hidden] { display: none; }
 .codev-form label {
   font-family: var(--font-display); font-weight: 700; font-size: .82rem;
   letter-spacing: .06em; text-transform: uppercase;
@@ -1198,6 +1202,11 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 
 /* ---------- team ---------- */
 .team { background: var(--paper-2); }
+.team__join {
+  text-align: center; margin-top: 2.6rem;
+  font-size: .95rem; color: var(--text-soft);
+}
+.team__join a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 .team__pool-head { margin-top: clamp(6rem, 11vw, 9rem); }
 .team__grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.3rem;
@@ -1906,9 +1915,39 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .legal .section__head h2 { font-size: clamp(2.1rem, 4.2vw, 3.3rem); margin-bottom: 1.1rem; }
 .legal__body { max-width: 68ch; }
 .legal__body p { color: var(--text-soft); margin-bottom: .9rem; }
-.legal__body p a { color: var(--sea-ink); font-weight: 600; }
-.legal__body p a:hover { text-decoration: underline; }
+/* The join page brought the first prose list onto one of these pages. The global
+   reset strips ul of its marker and indent, and the link rule below was scoped to
+   `p a`, so a link inside a list item came out as plain body text - the one thing
+   a link must never look like. Both are fixed here rather than by avoiding lists. */
+.legal__body ul { margin: 0 0 .9rem; padding-left: 1.4rem; list-style: disc; }
+.legal__body li { color: var(--text-soft); margin-bottom: .5rem; }
+.legal__body li::marker { color: var(--sand); }
+.legal__body p a, .legal__body li a { color: var(--sea-ink); font-weight: 600; }
+.legal__body p a:hover, .legal__body li a:hover { text-decoration: underline; }
 .legal__body strong { color: var(--text-ink); }
+
+/* ---------- join page ---------- */
+/* The face grid breaks out of .legal__body's 68ch measure deliberately, so the
+   tiles get the shell's full width and read at the same size as the team grid on
+   the home page rather than as thumbnails in a paragraph. */
+.join-faces { margin: clamp(2.6rem, 5vw, 4rem) 0; }
+.join-faces__lede { color: var(--text-soft); max-width: 68ch; margin-bottom: 1.8rem; }
+.join-figure { margin: 1.6rem 0; }
+.join-figure img {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius);
+}
+.join-figure figcaption {
+  font-size: .88rem; color: var(--text-soft); margin-top: .7rem;
+}
+/* Exactly four tiles, so this grid has to divide by four or leave an orphan on a
+   row of its own. The shared .team__grid steps 4 -> 3 -> 2 for the home page,
+   where nine tiles make the 3 step look right; here the 3 step is the one width
+   that breaks. Skipping straight to 2 keeps the rows even at every size. */
+.join-faces .team__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 980px) {
+  .join-faces .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* footer (mini) for profile pages */
 .footer--mini { padding-top: 3rem; }

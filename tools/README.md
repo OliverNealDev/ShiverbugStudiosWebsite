@@ -2,7 +2,7 @@
 
 Three PowerShell scripts. The two that run in CI need nothing installed: they
 use the Windows PowerShell that's already on the machine. The third,
-`make-variants.ps1`, resizes images and is the one exception — see below.
+`make-variants.ps1`, resizes images and is the one exception. See below.
 
 **Order matters when you add art:**
 
@@ -62,12 +62,12 @@ download *more*.
 Notes:
 - **This is the one script that needs something installed**: the .NET SDK. It
   builds a throwaway console app in `%TEMP%` against SixLabors.ImageSharp. CI
-  does not run it — variants are committed like any other asset.
+  does not run it, and variants are committed like any other asset.
 - The width list per image group lives at the top of the script. Two team widths
   are conditional and are read from where the condition actually lives: `640`
   from the `is-zoomed` entries in `data/team.json`, `160` from the avatar chips
   in `co-dev.html`. Nothing generates a file no page can request.
-- **It cannot resize animated GIFs** — ImageSharp flattens them to one frame.
+- **It cannot resize animated GIFs**. ImageSharp flattens them to one frame.
   `assets/img/art/codev-char-shell-sockets.gif` is therefore still full size at
   1.8 MB, and wants converting to a silent looping MP4 with ffmpeg instead.
 

@@ -102,7 +102,7 @@ is pushed. `.gitignore` blocks the usual suspects; the habit matters more.
 This has already happened once. A `docs/` folder of transcribed feedback was
 committed and served at `/docs/`, naming individual people and what was wrong
 with their photos and their work, with nothing in `robots.txt` to stop a crawler
-reading it — that file explicitly invites every AI and search crawler in.
+reading it, and that file explicitly invites every AI and search crawler in.
 `docs/` is ignored now. Notes about the site do not live on the site.
 
 **The repo path is hardcoded in two places.** `$baseUrl` in

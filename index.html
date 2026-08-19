@@ -260,7 +260,7 @@
                                      "@id":  "https://shiverbugstudios.com/#studio"
                                  },
                        "primaryImageOfPage":  "https://shiverbugstudios.com/assets/img/out-of-water-screenshot.jpg",
-                       "dateModified":  "2026-08-18",
+                       "dateModified":  "2026-08-19",
                        "inLanguage":  "en-GB"
                    },
                    {
@@ -323,8 +323,9 @@
         <a href="games.html">Our Games</a>
         <a href="#studio">Studio</a>
         <a href="#team">Team</a>
+        <a href="join.html">Join Us</a>
         <a href="press.html">Press</a>
-        <a class="nav__cta" href="#contact" data-cta="Co-development">Get in touch</a>
+        <a class="nav__cta" href="#contact" data-cta="Get in touch">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -349,7 +350,7 @@
             Out of Water.
           </p>
           <div class="hero__actions">
-            <a class="btn btn--sand" href="#contact" data-cta="Co-development">
+            <a class="btn btn--sand" href="#contact" data-cta="Co-development" data-topic="Co-development enquiry">
               Start a conversation
               <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3.5 13.5 8 9 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
@@ -640,7 +641,7 @@
         </article>
 
         <p class="codev__note reveal">
-          None of that quite what you need? <a href="#contact" data-cta="Co-development">Reach out anyway</a>.
+          None of that quite what you need? <a href="#contact" data-cta="Co-development" data-topic="Co-development enquiry">Reach out anyway</a>.
           Between the core team and our <a href="index.html#talent-pool">talent pool</a> of guest contributors,
           there's a good chance we know someone who can help.
         </p>
@@ -803,7 +804,7 @@
         <p class="packages__note reveal">
           Pricing is per project, after scoping: fixed-price milestones or a day
           rate, whichever suits how your production runs.
-          <a href="#contact" data-cta="Co-development">Tell us what you're building</a>
+          <a href="#contact" data-cta="Co-development" data-topic="Co-development enquiry">Tell us what you're building</a>
           and we'll come back with a shape and a number.
         </p>
       </div>
@@ -944,6 +945,14 @@
         <!-- No link to /team/ on purpose. Every person is already on this page, and
              the hub is a plain roster kept for crawlers and llms.txt, not for people. -->
 
+        <!-- The one link a student or graduate is here to find, placed under the grid
+             rather than in the lede because the grid is the argument: most of the
+             faces they have just scrolled past arrived the same way they would. -->
+        <p class="team__join reveal">
+          Most of the people above joined us as interns.
+          <a href="join.html">Here's how that works</a>.
+        </p>
+
         <header class="section__head reveal team__pool-head" id="talent-pool">
           <p class="kicker kicker--sand">The talent pool</p>
           <h2>Friends of the <span class="underline-sand">Studio</span></h2>
@@ -993,30 +1002,57 @@
       <div class="container footer__inner">
         <div class="footer__main reveal">
           <img class="footer__logo" src="assets/img/logo.svg" width="260" height="260" loading="lazy" decoding="async" alt="Shiverbug Studios logo: an ornate moth with a skull motif">
-          <h2 id="contact" tabindex="-1">Got a Project That Needs <span class="squiggle">a Hand?</span></h2>
-          <p>Tell us what you're building and where it's hurting. We'll come back with honest thoughts, even if the answer is "you don't need us".</p>
-          <a class="footer__email" href="mailto:contact@shiverbugstudios.com?subject=Co-development">contact@shiverbugstudios.com</a>
+          <h2 id="contact" tabindex="-1">Got Something to <span class="squiggle">Tell Us?</span></h2>
+          <p>A project that needs a hand, a question about the game, a portfolio you'd like us to see. Say which below and we'll come back with honest thoughts, even if the answer is "you don't need us".</p>
+          <a class="footer__email" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
 
           <form class="codev-form" id="codevForm" action="https://formspree.io/f/xgogzlpv" method="POST">
-            <input type="hidden" name="_subject" value="Co-development enquiry">
             <!-- honeypot: hidden from people, catnip to bots. Formspree drops anything that fills it. -->
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden">
+
+            <!-- The topic picker goes first because it used to be implied, and the
+                 implication was wrong. This was a co-development brief and nothing
+                 else, and it is the only form on the home page, so anyone writing for
+                 a different reason - a graduate, a publisher, someone asking about the
+                 game - had to invent a studio name and a discipline before it would
+                 let them send. It doubles as Formspree's _subject, so a message still
+                 arrives in the inbox labelled with what it is. -->
+            <div class="field field--wide">
+              <label for="cdTopic">What's this about?</label>
+              <select id="cdTopic" name="_subject" required>
+                <option value="">Pick one</option>
+                <option value="Co-development enquiry">Co-development or work-for-hire</option>
+                <option value="Games enquiry">Out of Water, or our own games</option>
+                <option value="Joining the studio">Freelance, internships and joining us</option>
+                <option value="Press enquiry">Press</option>
+                <option value="General enquiry">Something else</option>
+              </select>
+            </div>
 
             <div class="field">
               <label for="cdName">Your name</label>
               <input id="cdName" type="text" name="name" autocomplete="name" required>
             </div>
             <div class="field">
-              <label for="cdStudio">Studio or company</label>
-              <input id="cdStudio" type="text" name="studio" autocomplete="organization" required>
-            </div>
-            <div class="field">
-              <label for="cdEmail">Work email</label>
+              <!-- "Work email" was part of the same assumption as the studio field. -->
+              <label for="cdEmail">Your email</label>
               <input id="cdEmail" type="email" name="email" autocomplete="email" required>
             </div>
-            <div class="field">
+
+            <!-- Co-development only, and deliberately not `required` in the markup:
+                 the script adds that attribute when co-dev is picked and strips it
+                 again when the group is hidden, because a required control that is
+                 display:none blocks submission with a validation bubble nobody can
+                 see. With no JS the group stays visible and stays optional, which is
+                 the right way round to fail - a visitor is never held at a field they
+                 cannot answer. -->
+            <div class="field field--codev">
+              <label for="cdStudio">Studio or company</label>
+              <input id="cdStudio" type="text" name="studio" autocomplete="organization">
+            </div>
+            <div class="field field--codev">
               <label for="cdHelp">What do you need?</label>
-              <select id="cdHelp" name="discipline" required>
+              <select id="cdHelp" name="discipline">
                 <option value="">Pick one</option>
                 <option>Concept art</option>
                 <option>Stylised 3D art</option>
@@ -1026,7 +1062,7 @@
                 <option>Not sure yet</option>
               </select>
             </div>
-            <div class="field">
+            <div class="field field--codev">
               <label for="cdPackage">Rough size <span class="label-optional">(optional)</span></label>
               <select id="cdPackage" name="package">
                 <option value="">Not sure yet</option>
@@ -1035,7 +1071,7 @@
                 <option>Large &ndash; Full Co-Development</option>
               </select>
             </div>
-            <div class="field">
+            <div class="field field--codev">
               <label for="cdEngine">Engine <span class="label-optional">(optional)</span></label>
               <select id="cdEngine" name="engine">
                 <option value="">No preference or N/A</option>
@@ -1044,17 +1080,26 @@
                 <option>Something else</option>
               </select>
             </div>
+
             <div class="field field--wide">
-              <label for="cdMsg">Tell us about the project</label>
-              <textarea id="cdMsg" name="message" rows="5" placeholder="What you're building, what you need a hand with, and anything else that helps us scope it." required></textarea>
+              <label for="cdMsg">Your message</label>
+              <textarea id="cdMsg" name="message" rows="5" placeholder="A paragraph is plenty." required></textarea>
             </div>
-            <div class="field--check">
+            <!-- A link, never an upload. Formspree cannot take attachments on this
+                 plan anyway, and keeping CVs out of the inbox is the difference
+                 between a contact message and a pile of recruitment data with a
+                 retention policy attached to it. -->
+            <div class="field field--wide">
+              <label for="cdLink">Portfolio, reel or website <span class="label-optional">(optional)</span></label>
+              <input id="cdLink" type="url" name="link" inputmode="url" placeholder="https://">
+            </div>
+            <div class="field--check field--codev">
               <input id="cdNda" type="checkbox" name="nda" value="Yes">
               <label for="cdNda">We'd like an NDA in place before sharing details</label>
             </div>
 
-            <button class="btn btn--sand" type="submit">Send enquiry</button>
-            <p class="form-privacy">A paragraph is plenty. Messages reach us via Formspree and we only use this to reply. See our <a href="privacy.html">privacy policy</a>.</p>
+            <button class="btn btn--sand" type="submit">Send message</button>
+            <p class="form-privacy">Messages reach us via Formspree and we only use them to reply. Send a link rather than an attachment &ndash; we can't receive files here. See our <a href="privacy.html">privacy policy</a>.</p>
           </form>
 
           <!-- Direct links, not a Linktree hop. A crawler following one hop to a

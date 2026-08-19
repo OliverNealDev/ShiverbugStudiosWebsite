@@ -321,6 +321,7 @@ $template = @'
         <a href="../games.html">Our Games</a>
         <a href="../index.html#studio">Studio</a>
         <a href="../index.html#team">Team</a>
+        <a href="../join.html">Join Us</a>
         <a href="../press.html">Press</a>
         <a class="nav__cta" href="../index.html#contact">Get in touch</a>
       </nav>
@@ -735,6 +736,39 @@ $index = ReplaceBlock $index 'TALENT' $talentHtml
 WriteFileUtf8 $indexPath $index
 Write-Host "Updated the team grids in index.html"
 
+# ---------- the intake faces on join.html ----------
+#
+# The join page argues that most of the studio arrived through the Teesside intake,
+# and these four tiles are the evidence for it. Generated rather than hand written
+# for the same reason every other tile is: a photo, a name or a role that changes
+# in data/team.json then has exactly one place to change.
+#
+# Change who appears by editing this list. A slug that is not in the roster fails
+# the build rather than quietly leaving a gap on the page.
+$joinSlugs = @('kyle-kerr', 'charlie-ashall', 'evan-atherton-elphick', 'oliver-neal')
+$joinPeople = foreach ($s in $joinSlugs) {
+  $found = $all | Where-Object { $_.slug -eq $s } | Select-Object -First 1
+  if (-not $found) { throw "join.html face '$s' is not in data/team.json" }
+  $found
+}
+$joinHtml = @(
+  '        <div class="team__grid">',
+  (@($joinPeople | ForEach-Object { MemberTile $_ $false }) -join "`n"),
+  '        </div>'
+) -join "`n"
+
+$joinPath = Join-Path $root 'join.html'
+$joinText = Get-Content $joinPath -Raw -Encoding UTF8
+$joinPattern = '(?s)(<!-- BUILD:JOIN:START -->).*?(<!-- BUILD:JOIN:END -->)'
+if ($joinText -notmatch $joinPattern) {
+  throw "Marker BUILD:JOIN not found in join.html - add the marker pair around the tile grid."
+}
+$joinText = [regex]::Replace($joinText, $joinPattern, {
+  param($m) $m.Groups[1].Value + "`n" + $joinHtml + "`n        " + $m.Groups[2].Value
+})
+WriteFileUtf8 $joinPath $joinText
+Write-Host "Updated the intake faces in join.html"
+
 # ---------- legacy ?p= redirect shim ----------
 
 # The slug map is a real .js file, not an inline <script>, so team-member.html can
@@ -821,6 +855,7 @@ $teamIndexTemplate = @'
         <a href="../games.html">Our Games</a>
         <a href="../index.html#studio">Studio</a>
         <a href="index.html" aria-current="page">Team</a>
+        <a href="../join.html">Join Us</a>
         <a href="../press.html">Press</a>
         <a class="nav__cta" href="../index.html#contact">Get in touch</a>
       </nav>
@@ -969,6 +1004,7 @@ $llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
 $llms += ("- [Co-development and work-for-hire]({0}/): services, galleries, packages, process, FAQ - this is the home page" -f $baseUrl)
 $llms += ("- [Our games]({0}/games.html): Out of Water - a 2-player split-screen collectathon platformer built in Unity, targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch. In development, no release date announced. Features, screenshots and development news" -f $baseUrl)
 $llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
+$llms += ("- [Join us]({0}/join.html): how the Teesside University internship intake works, who came through it, and how speculative approaches from everyone else are handled. Applications for the intake go through the university, not this site" -f $baseUrl)
 $llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
 $llms += ("- [Accessibility statement]({0}/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem" -f $baseUrl)
 $llms += ''
@@ -1154,7 +1190,7 @@ foreach ($gp in $gamePages) {
   Write-Host "Wrote the Out of Water node into $($gp.file)"
 }
 
-# ---------- WebPage graphs for the policy pages ----------
+# ---------- WebPage graphs for the flat pages ----------
 #
 # privacy.html and accessibility.html carried no structured data at all, so they
 # sat outside the graph the rest of the site builds: nothing tied them to the
@@ -1164,7 +1200,14 @@ foreach ($gp in $gamePages) {
 #
 # The descriptions here must stay in step with each page's own meta description.
 # validate-site.ps1 fails the build if they drift.
-$policyPages = @(
+$flatPages = @(
+  @{
+    file  = 'page-join'
+    path  = 'join.html'
+    name  = 'Join Us | Shiverbug Studios'
+    crumb = 'Join Us'
+    desc  = "Nearly everyone at Shiverbug who isn't a founder joined as an intern. How the Teesside intake works, and how to approach us if you're not on it."
+  },
   @{
     file  = 'policy-privacy'
     path  = 'privacy.html'
@@ -1180,7 +1223,7 @@ $policyPages = @(
     desc  = "How accessible the Shiverbug Studios website is, what we've tested, what we know isn't perfect yet, and how to tell us if something doesn't work for you."
   }
 )
-foreach ($pp in $policyPages) {
+foreach ($pp in $flatPages) {
   $path = Join-Path $root $pp.path
   $text = Get-Content $path -Raw -Encoding UTF8
   if ($text -notmatch '<!-- BUILD:PAGE:START -->') {
@@ -1225,6 +1268,7 @@ $pages = @(
   @{ loc = "$baseUrl/games.html";    pri = '0.9'; file = 'games.html' },
   @{ loc = "$baseUrl/team/";         pri = '0.8'; file = 'team/index.html' },
   @{ loc = "$baseUrl/press.html";    pri = '0.7'; file = 'press.html' },
+  @{ loc = "$baseUrl/join.html";     pri = '0.6'; file = 'join.html' },
   @{ loc = "$baseUrl/privacy.html";  pri = '0.3'; file = 'privacy.html' },
   @{ loc = "$baseUrl/accessibility.html"; pri = '0.3'; file = 'accessibility.html' }
 )

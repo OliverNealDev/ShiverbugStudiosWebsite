@@ -10,6 +10,7 @@ Team of 12 people plus a talent pool of 4 regular collaborators. Contact: contac
 - [Co-development and work-for-hire](https://shiverbugstudios.com/): services, galleries, packages, process, FAQ - this is the home page
 - [Our games](https://shiverbugstudios.com/games.html): Out of Water - a 2-player split-screen collectathon platformer built in Unity, targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch. In development, no release date announced. Features, screenshots and development news
 - [Press kit](https://shiverbugstudios.com/press.html): fact sheet, logos, screenshots, trailer
+- [Join us](https://shiverbugstudios.com/join.html): how the Teesside University internship intake works, who came through it, and how speculative approaches from everyone else are handled. Applications for the intake go through the university, not this site
 - [Privacy policy](https://shiverbugstudios.com/privacy.html)
 - [Accessibility statement](https://shiverbugstudios.com/accessibility.html): WCAG 2.2 AA conformance, known gaps, how to report a problem
 

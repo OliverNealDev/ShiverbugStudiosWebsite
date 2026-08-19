@@ -523,6 +523,55 @@ const countEvent = (name) => {
 
 const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+// ----- contact form: show the co-development fields only when they apply -----
+// The picker is also the form's _subject, so one control decides both what the
+// visitor is asked for and what the email is labelled in the inbox.
+//
+// `required` is added and removed alongside the fields rather than sitting in the
+// markup, because a required control inside a display:none block refuses to submit
+// and points its validation bubble at something nobody can see. If this script
+// never runs, the group stays visible and stays optional - the right way round to
+// fail, since a visitor is then never held at a question they can't answer.
+const CODEV_TOPIC = 'Co-development enquiry';
+const topicSelect = document.getElementById('cdTopic');
+const codevFields = [...document.querySelectorAll('#codevForm .field--codev')];
+const codevRequired = ['cdStudio', 'cdHelp'];
+
+const syncCodevFields = () => {
+  if (!topicSelect) return;
+  const on = topicSelect.value === CODEV_TOPIC;
+  codevFields.forEach((f) => {
+    f.hidden = !on;
+    // Disabled as well as hidden, because FormData still collects a hidden input.
+    // Without this every message about joining the studio arrives with four empty
+    // co-development fields stapled to it.
+    f.querySelectorAll('input, select, textarea').forEach((el) => { el.disabled = !on; });
+  });
+  codevRequired.forEach((id) => {
+    document.getElementById(id)?.toggleAttribute('required', on);
+  });
+  const msg = document.getElementById('cdMsg');
+  if (msg) {
+    msg.placeholder = on
+      ? "What you're building, what you need a hand with, and anything else that helps us scope it."
+      : 'A paragraph is plenty.';
+  }
+};
+
+if (topicSelect) {
+  topicSelect.addEventListener('change', syncCodevFields);
+  syncCodevFields();
+}
+
+// Set from a link that already knows what it is about - the package cards and the
+// co-dev buttons. It never overwrites a topic the visitor has already picked.
+const setTopic = (value) => {
+  if (!topicSelect || !value) return;
+  if (topicSelect.value && topicSelect.value !== value) return;
+  topicSelect.value = value;
+  syncCodevFields();
+};
+
 document.addEventListener('click', (e) => {
   const a = e.target.closest('a[href]');
   if (!a) return;
@@ -536,6 +585,7 @@ document.addEventListener('click', (e) => {
     // the general form has a single _subject covering everything that lands in it.
     // The co-dev form sets its own, more specific subject and is left alone.
     countEvent('cta-' + slug(a.dataset.cta));
+    setTopic(a.dataset.topic);
     const subject = document.querySelector('#contactForm input[name="_subject"]');
     if (subject) subject.value = a.dataset.cta;
     // Same bargain the package cards make: arrive with the opening line already
@@ -550,6 +600,9 @@ document.addEventListener('click', (e) => {
     // and an opening line written, so nobody lands on a blank form wondering
     // which of the three they were just reading about.
     countEvent('package-' + slug(a.dataset.package));
+    // A package card is a co-development enquiry by definition, so the picker above
+    // it should already say so by the time the scroll lands.
+    setTopic(CODEV_TOPIC);
     const form = document.getElementById('codevForm');
     if (form) {
       const size = form.querySelector('select[name="package"]');
@@ -592,10 +645,13 @@ const enhanceForm = (form, sentMsg, errorMsg, eventName) => {
         headers: { 'Accept': 'application/json' }
       });
       if (res.ok) {
+        // Both are read before reset(), or they would describe an empty form.
+        const sent = typeof sentMsg === 'function' ? sentMsg() : sentMsg;
+        const label = typeof eventName === 'function' ? eventName() : eventName;
         note.className = 'form-note form-sent';
-        note.textContent = sentMsg;
+        note.textContent = sent;
         form.reset();
-        if (eventName) countEvent(eventName);
+        if (label) countEvent(label);
       } else {
         note.className = 'form-note form-error';
         note.textContent = errorMsg;
@@ -617,11 +673,16 @@ enhanceForm(
   'contact-form-sent'
 );
 
+// One form, five topics. The two working days is a promise worth making to a
+// studio with a budget and a deadline; it is not one to make to someone sending a
+// portfolio speculatively, so that path gets a warm answer without a clock on it.
 enhanceForm(
   document.getElementById('codevForm'),
-  "Thanks. That's with us, and you'll hear back within a couple of working days.",
+  () => (topicSelect && topicSelect.value === CODEV_TOPIC
+    ? "Thanks. That's with us, and you'll hear back within a couple of working days."
+    : "Thanks, that's with us. We read everything that lands here."),
   "Hmm, that didn't send. Try again, or email us directly above.",
-  'codev-enquiry-sent'
+  () => 'enquiry-sent-' + slug((topicSelect && topicSelect.value) || 'unspecified')
 );
 
 enhanceForm(
