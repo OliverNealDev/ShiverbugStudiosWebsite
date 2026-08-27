@@ -469,8 +469,11 @@ h1, h2, h3 {
 .nav {
   position: fixed; inset-inline: 0; top: 0; z-index: 100;
   pointer-events: none;
-  background: color-mix(in srgb, var(--ink) 93%, transparent);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  /* Solid, not frosted. This was --ink at 93% over a 12px backdrop blur, which
+     is the stock header recipe and, at 93% opaque, a compositing layer buying
+     about seven percent of blur nobody can see. The bar is opaque ink now: the
+     content scrolls under it and stops, rather than smearing through it. */
+  background: var(--ink);
   box-shadow: 0 1px 0 rgba(255,255,255,.09);
   transition: background .3s var(--ease-out), box-shadow .3s;
 }
@@ -492,7 +495,6 @@ h1, h2, h3 {
    behind the bar it hangs from. */
 .nav--hero:not(.is-scrolled):not(.is-open) {
   background: transparent;
-  backdrop-filter: none; -webkit-backdrop-filter: none;
   box-shadow: none;
 }
 .nav--hero:not(.is-scrolled):not(.is-open) .nav__inner { padding: 1.55rem 0; }
@@ -948,7 +950,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: relative; /* anchors the wave dividers on both edges */
   background:
     radial-gradient(760px 480px at 8% 0%, rgba(36, 205, 242, .26), transparent 64%),
-    radial-gradient(700px 450px at 92% 100%, rgba(255, 176, 85, .17), transparent 64%),
     var(--ink);
   color: var(--text-paper);
   text-align: center;
@@ -1141,7 +1142,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---------- services (dark band) ---------- */
 .services {
   background:
-    radial-gradient(880px 500px at 100% 0%, rgba(255, 176, 85, .18), transparent 64%),
     radial-gradient(760px 500px at 0% 100%, rgba(36, 205, 242, .26), transparent 64%),
     var(--ink);
   color: var(--text-paper);
@@ -1332,8 +1332,9 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   padding: .4rem .5rem;
   font-family: var(--font-display); font-weight: 700; font-size: .68rem;
   letter-spacing: .06em; text-align: center;
-  background: rgba(20, 23, 28, .88); color: var(--text-paper);
-  backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+  /* No backdrop blur: 2px under an .88 fill is invisible, and it put a
+     compositing layer on every tile in the roster. Opaquer instead. */
+  background: rgba(20, 23, 28, .92); color: var(--text-paper);
 }
 .team__grid--pool .member__flag { font-size: .6rem; padding: .3rem .4rem; }
 .member__soon {
@@ -1362,7 +1363,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: relative;
   background:
     radial-gradient(1000px 580px at 50% 0%, rgba(36, 205, 242, .26), transparent 68%),
-    radial-gradient(700px 400px at 88% 90%, rgba(255, 176, 85, .10), transparent 62%),
     var(--ink);
   color: var(--text-paper);
   padding: clamp(6rem, 11vw, 9rem) 0 2.5rem;
@@ -2134,8 +2134,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   /* 2.5.5: the credit chip is a link, so it needs 44px of height too */
   min-height: 44px;
   padding: .45rem .8rem .45rem .3rem;
-  background: rgba(10, 12, 15, .72);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  background: rgba(10, 12, 15, .88);
   border: 1px solid rgba(255,255,255,.3); border-radius: 999px;
   font-size: .72rem; font-weight: 600; color: #fff;
   text-decoration: none; white-space: nowrap;
@@ -2156,8 +2155,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: absolute; right: .55rem; bottom: .55rem; z-index: 1;
   width: 44px; height: 44px; border-radius: 50%;
   display: grid; place-items: center;
-  background: rgba(10, 12, 15, .72);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  background: rgba(10, 12, 15, .88);
   border: 1px solid rgba(255,255,255,.3);
   color: #fff; cursor: pointer;
   transition: background .2s, border-color .2s;
@@ -2210,7 +2208,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   position: relative; /* anchors the wave dividers on both edges */
   background:
     radial-gradient(880px 500px at 0% 0%, rgba(36, 205, 242, .26), transparent 64%),
-    radial-gradient(760px 480px at 100% 100%, rgba(255, 176, 85, .17), transparent 64%),
     var(--ink);
   color: var(--text-paper);
 }
@@ -2510,30 +2507,16 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 }
 
 /* ---------- 2. buttons ---------- */
-/* A slow wash of light crosses the button on hover, and the arrow nudges. That
-   is all. The colour change underneath it is the pre-existing --sand to
-   --sand-deep swap, which is the part that was working already and is
-   deliberately untouched.
+/* The arrow nudges. That is all.
 
-   Every number here is a second attempt. The first pass swept a hard white
-   streak at .42 alpha over .55s, scaled the button on hover, squashed it on
-   press and dropped a ripple from the pointer - which together made a button
-   press feel like an event. The band is now wide and faint enough to read as
-   a sheen rather than a highlight passing over, and the geometry is left
-   completely alone. */
-.btn { position: relative; overflow: hidden; }
-.btn::before {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,.16) 50%, transparent 80%);
-  transform: translateX(-130%);
-  transition: transform .75s var(--ease-out);
-  pointer-events: none;
-}
-.btn:hover::before { transform: translateX(130%); }
-/* white over near-black reads as a glitch, so the ink buttons get a warm wash */
-/* .btn--ink is a light plate, so its sheen goes dark - white over white would
-   be invisible, which is the mirror of why the sand buttons get a white one. */
-.btn--ink::before { background: linear-gradient(105deg, transparent 20%, rgba(20,23,28,.10) 50%, transparent 80%); }
+   There used to be a diagonal band of light that swept across the button on
+   hover, twice reworked to stop it reading as a highlight. It is gone, and the
+   reason is not that the tuning failed: a light sweep across a button is on
+   every third site on the web, so however carefully it is judged it can only
+   ever say "this is a button on a website". The colour change underneath it -
+   --sand to --sand-deep - was always the part doing the work, it reads faster
+   than a .75s sweep, and it is the whole hover state now. */
+.btn { position: relative; }
 .btn svg { transition: transform .3s var(--ease-out); }
 .btn:hover svg { transform: translateX(2px); }
 
