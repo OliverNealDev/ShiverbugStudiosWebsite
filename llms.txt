@@ -6,9 +6,9 @@ Team of 11 people plus a talent pool of 5 regular collaborators. Contact: contac
 
 ## Studio
 
-- [Home](https://shiverbugstudios.com/): studio overview, Out of Water, the team
-- [Co-development and work-for-hire](https://shiverbugstudios.com/): services, galleries, packages, process, FAQ - this is the home page
+- [Home](https://shiverbugstudios.com/): co-development and work-for-hire - the four services with galleries, how it works, the three engagement sizes, and the contact form
 - [Our games](https://shiverbugstudios.com/games.html): Out of Water - a 2-player split-screen collectathon platformer built in Unity, targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch. In development, no release date announced. Features, screenshots and development news
+- [FAQ](https://shiverbugstudios.com/faq.html): engagement types, pricing, engines and tools, location, NDAs
 - [Press kit](https://shiverbugstudios.com/press.html): fact sheet, logos, screenshots, trailer
 - [Join us](https://shiverbugstudios.com/join.html): how the Teesside University internship intake works, who came through it, and how speculative approaches from everyone else are handled. Applications for the intake go through the university, not this site
 - [Privacy policy](https://shiverbugstudios.com/privacy.html)
@@ -16,7 +16,7 @@ Team of 11 people plus a talent pool of 5 regular collaborators. Contact: contac
 
 ## Team
 
-- [Full roster](https://shiverbugstudios.com/team/): all 16 people, 11 in the studio plus 5 in the talent pool
+- [Full roster](https://shiverbugstudios.com/team/): the studio story, then all 16 people, 11 in the studio plus 5 in the talent pool
 - [Lewis Mennim - CEO](https://shiverbugstudios.com/team/lewis-mennim.html): Turtle-obsessed CEO. I founded the studio back in 2025, and I'll do anything to make it successful.
 - [Ryan Hughes - CFO](https://shiverbugstudios.com/team/ryan-hughes.html): Video games became so much more than just a hobby for me very early on. There's just no other medium like it. One day you're playing a deeply...
 - [Garrett Windus - 3D Artist](https://shiverbugstudios.com/team/garrett-windus.html): Before Lewis reached out about starting a studio, I was a Realistic Vehicle artist and had to quickly adapt to making stylised environments.

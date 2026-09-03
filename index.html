@@ -28,14 +28,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <!-- The hero logo is the largest thing painted above the fold now, so it's what
-       gets preloaded. The Out of Water screenshot that used to be here moved down
-       into the games section and loads lazily with the rest of it. -->
-  <link rel="preload" as="image" href="assets/img/logo.svg" fetchpriority="high">
+  <!-- The hero shows work rather than the logo, so the widest of its three tiles
+       is what gets preloaded. The other two are half its size and can wait for
+       the parser to reach them. -->
+  <link rel="preload" as="image" href="assets/img/art/codev-concept-elder-turtle-760.webp" imagesrcset="assets/img/art/codev-concept-elder-turtle-360.webp 360w, assets/img/art/codev-concept-elder-turtle-560.webp 560w, assets/img/art/codev-concept-elder-turtle-760.webp 760w" imagesizes="(max-width: 980px) 92vw, 44vw" fetchpriority="high">
   <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
-  <!-- The co-dev Service and FAQ entities, moved here when co-dev.html folded
-       into this page. Deliberately OUTSIDE the BUILD:SCHEMA markers below, which
-       tools/build-team.ps1 rewrites wholesale from data/team.json. -->
+  <!-- The co-dev Service entity. Deliberately OUTSIDE the BUILD:SCHEMA markers
+       below, which tools/build-team.ps1 rewrites wholesale from data/team.json.
+       The FAQPage node that used to sit beside it moved to faq.html with the
+       questions: structured data has to describe what is on the page it is on. -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -58,37 +59,6 @@
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Design and Development", "description": "Level design, game design and gameplay programming, including AI, multiplayer, optimisation and narrative design." } }
           ]
         }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://shiverbugstudios.com/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "What kinds of engagement do you take on?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Three flavours: full co-development (we embed alongside your team for the long haul), standalone art or design packages (a prop kit, a set of character concepts, a level), and short bursts of extra capacity around a crunch point or vertical slice. If you're not sure which you need, that's exactly what the first call is for." }
-          },
-          {
-            "@type": "Question",
-            "name": "How do you price work?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Per project, after scoping. Either fixed-price milestones or a day rate, whichever suits how your production runs. We'd rather quote accurately on a real brief than publish a rate card that fits nobody." }
-          },
-          {
-            "@type": "Question",
-            "name": "Which engines and tools do you work in?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Unity and Unreal Engine 5 on the engine side, with gameplay programmers covering both. Art runs through Blender, ZBrush, the Substance 3D suite and Photoshop. If your pipeline has house quirks, we adapt to yours, not the other way round." }
-          },
-          {
-            "@type": "Question",
-            "name": "Where are you based, and how do you communicate?",
-            "acceptedAnswer": { "@type": "Answer", "text": "North East England, on UK time, working remote-first. You get one point of contact, regular check-ins in your tools (Slack, Discord, whatever you run), and honest progress updates, including the unglamorous ones." }
-          },
-          {
-            "@type": "Question",
-            "name": "Will you sign an NDA?",
-            "acceptedAnswer": { "@type": "Answer", "text": "Happily, and before you share anything you'd rather keep quiet. Confidential projects stay confidential. You'll notice the galleries on this page show our own game plus personal portfolio work by the team, never client work." }
-          }
-        ]
       }
     ]
   }
@@ -253,7 +223,7 @@
                                      "@id":  "https://shiverbugstudios.com/#studio"
                                  },
                        "primaryImageOfPage":  "https://shiverbugstudios.com/assets/img/out-of-water-screenshot.jpg",
-                       "dateModified":  "2026-08-22",
+                       "dateModified":  "2026-09-03",
                        "inLanguage":  "en-GB"
                    },
                    {
@@ -308,14 +278,11 @@
     <div class="nav__inner">
       <a class="nav__brand" href="#top" aria-label="Shiverbug Studios, home"><img src="assets/img/nav-wordmark.webp" alt="" class="nav__wordmark" width="316" height="138"></a>
       <!-- Co-dev leads: it's what the studio sells, and the games follow it.
-           The games section keeps id="game" rather than becoming #games - the
-           VideoGame entity in the JSON-LD above and every subpage nav point at
-           that fragment, and only the label needed to change. -->
+           Team goes to the hub at /team/ now that the grids have left this page. -->
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="#services">Co-Dev</a>
         <a href="games.html">Our Games</a>
-        <a href="#studio">Studio</a>
-        <a href="#team">Team</a>
+        <a href="team/">Team</a>
         <a href="join.html">Join Us</a>
         <a href="press.html">Press</a>
         <a class="nav__cta" href="#contact" data-cta="Get in touch">Get in touch</a>
@@ -329,12 +296,17 @@
   <main id="top">
 
     <!-- ======= HERO ======= -->
+    <!-- Copy one side, work the other. The logo that used to fill the right half
+         is in the nav and the footer; for a co-dev studio the first screen has to
+         show what the studio makes, and a logo shows a logo. The three tiles are
+         one piece per audience - concept, hard surface, the game - and each one
+         is a link down to the service it belongs to. -->
     <section class="hero">
       <div class="hero__inner">
         <div class="hero__copy">
           <p class="kicker kicker--sand">Co-development &amp; our own games</p>
           <h1 class="hero__title">
-            We Build Games. <span class="squiggle">Yours&nbsp;and&nbsp;Ours.</span>
+            We Build Games. <span class="underline-sand">Yours&nbsp;and&nbsp;Ours.</span>
           </h1>
           <p class="hero__sub">
             Shiverbug is eleven designers, artists and programmers in North East
@@ -349,22 +321,37 @@
             </a>
             <a class="btn btn--ghost" href="#services">What we do</a>
           </div>
+          <p class="hero__proofline">
+            Public Vote Winner, Tranzfuser ProtoPlay 2025. Part of UK Games Fund,
+            Game Republic and the Entrepreneurs&rsquo; Forum.
+          </p>
         </div>
 
-        <!-- The logo, at the size it deserves. The Out of Water screenshot that
-             used to sit here now leads games.html, where the game lives; it was
-             the same file twice on one page, which made this read thinner than
-             it is and put the game above the co-dev offer. -->
-        <div class="hero__art">
-          <!-- The transparent primary mark straight off the 2026 brand pack, as
-               vector. It replaces the black-plate raster that used to sit here:
-               the plate cut a hard square out of the hero gradient, which is the
-               feedback this fixes. Vector also retires the old sharpness problem
-               - there is no source width to outrun, so it stays crisp at any size
-               and on any DPI, and needs no srcset. -->
-          <img class="hero__logo" src="assets/img/logo.svg"
-               width="400" height="400" fetchpriority="high" decoding="async"
-               alt="Shiverbug Studios logo: an ornate moth with a skull motif">
+        <div class="hero__mosaic reveal">
+          <a class="hero__tile hero__tile--wide" href="#svc-concept">
+            <img src="assets/img/art/codev-concept-elder-turtle-760.webp"
+                 srcset="assets/img/art/codev-concept-elder-turtle-360.webp 360w, assets/img/art/codev-concept-elder-turtle-560.webp 560w, assets/img/art/codev-concept-elder-turtle-760.webp 760w"
+                 sizes="(max-width: 980px) 92vw, 44vw"
+                 alt="Concept board for the Elder Turtle: an ethereal blue spirit turtle holding a glowing trident, beside two views of the statue it becomes"
+                 width="1600" height="900" fetchpriority="high" decoding="async">
+            <span class="hero__tag hero__tag--sea">Concept art</span>
+          </a>
+          <a class="hero__tile" href="#svc-hard">
+            <img src="assets/img/art/codev-3d-delorean-560.webp"
+                 srcset="assets/img/art/codev-3d-delorean-360.webp 360w, assets/img/art/codev-3d-delorean-560.webp 560w"
+                 sizes="(max-width: 980px) 46vw, 22vw"
+                 alt="A brushed stainless steel DeLorean DMC-12 on a sunlit woodland road"
+                 width="1600" height="900" loading="lazy" decoding="async">
+            <span class="hero__tag hero__tag--leaf">Hard surface</span>
+          </a>
+          <a class="hero__tile" href="games.html">
+            <img src="assets/img/out-of-water-screenshot-480.webp"
+                 srcset="assets/img/out-of-water-screenshot-480.webp 480w, assets/img/out-of-water-screenshot-760.webp 760w"
+                 sizes="(max-width: 980px) 46vw, 22vw"
+                 alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove"
+                 width="1916" height="1080" loading="lazy" decoding="async">
+            <span class="hero__tag hero__tag--sand">Out of Water</span>
+          </a>
         </div>
       </div>
 
@@ -374,268 +361,201 @@
       </div>
     </section>
 
-    <!-- The scrolling word ticker used to sit here. The pause button lived inside
-         it, and it can't go with it: the gallery clips further down loop for well
-         over five seconds on their own, which is exactly what 2.2.2 Pause, Stop,
-         Hide asks for a control over. It now sits with the galleries it governs,
-         in the services header below. -->
-
-    <!-- ======= RECOGNITION & PROGRAMMES ======= -->
-    <!-- Names as type, not logos: we don't hold usage rights to any of these
-         marks, and a text credit needs none.
-
-         This is the proof band's shape - framed photo one side, kicker, heading
-         and copy the other - because that is what the page does everywhere an
-         image has to carry a point. It was a bare strip of four names before the
-         Tranzfuser photo existed, and putting the picture beside those four names
-         never balanced: a photograph outweighs a short list at any size. The copy
-         is what earns the picture its half of the band.
-
-         Alt text names no one, matching the studio photo below: every other group
-         shot on the site is described rather than captioned with a roster, and a
-         name list here would go stale as the team changes. -->
-    <section class="section creds">
-      <div class="container creds__inner">
-        <figure class="creds__frame reveal">
-          <!-- 795w is the whole file, not a step on the way to a bigger one: it
-               is a crop out of the middle of a 1620px frame, and the three of
-               them only take up about half of that. The column renders at about
-               513 CSS px, so this still has something in hand on a 2x screen.
-               The old founders photo has not gone anywhere - the press media
-               grid still shows it and still links its full-size .jpg. -->
-          <img src="assets/img/tranzfuser-award-600.webp"
-               srcset="assets/img/tranzfuser-award-400.webp 400w, assets/img/tranzfuser-award-600.webp 600w, assets/img/tranzfuser-award.webp 795w"
-               sizes="(max-width: 980px) min(92vw, 520px), 48vw"
-               alt="Shiverbug Studios' three co-founders on stage at Tranzfuser 2025, holding an oversized Public Vote Winner certificate between them, beneath a large lit Tranzfuser sign."
-               width="795" height="530" loading="lazy" decoding="async">
-          <figcaption class="sticker sticker--sand">Public Vote Winner</figcaption>
-        </figure>
-        <div class="creds__copy reveal">
-          <p class="kicker kicker--leaf">Recognition</p>
-          <h2>The Public Vote Went <span class="underline-leaf">Our Way</span></h2>
-          <p>
-            We took Out of Water to ProtoPlay 2025 as a Tranzfuser team, and came
-            home with the Public Vote Winner award: the highest number of votes of
-            any team in the competition. That's our three founders on the stage,
-            turtle included.
-          </p>
-        </div>
-
-        <!-- Four marks, out of the copy column and across the whole band. They
-             need the width: the Entrepreneurs' Forum and Tranzfuser lockups are
-             single lines six and a half times wider than they are tall, and at
-             any width a half-page column allows, their letters come out smaller
-             than the type beside them. Spanning the band gives each tile ~240px
-             of usable width, which is where all four sit at the same size.
-
-             The name is the alt text on every one, so the list says the same
-             four things whether you see it, hear it or crawl it - and if a mark
-             fails to load, the alt falls back into an item still styled to hold
-             a name. That is why .creds__list keeps its font rules with no text
-             left in it.
-
-             Game Republic is the only one linked, because a membership page for
-             this studio is the only destination any of the four gave us. -->
-        <div class="creds__part">
-          <h3 class="creds__label">Part of</h3>
-          <ul class="creds__list">
-            <li>
-              <img class="creds__mark creds__mark--ukgf" src="assets/img/partner-uk-games-fund.webp"
-                   alt="UK Games Fund" width="320" height="98" loading="lazy" decoding="async">
-            </li>
-            <li>
-              <a href="https://gamerepublic.net/member/shiverbug-studios/" target="_blank" rel="noopener">
-                <img class="creds__mark creds__mark--gr" src="assets/img/partner-game-republic.webp"
-                     alt="Game Republic" width="360" height="128" loading="lazy" decoding="async">
-              </a>
-            </li>
-            <li>
-              <img class="creds__mark creds__mark--ef" src="assets/img/partner-entrepreneurs-forum.webp"
-                   alt="Entrepreneurs&rsquo; Forum" width="480" height="74" loading="lazy" decoding="async">
-            </li>
-            <li>
-              <img class="creds__mark creds__mark--tf" src="assets/img/partner-tranzfuser.webp"
-                   alt="Tranzfuser" width="400" height="60" loading="lazy" decoding="async">
-            </li>
-          </ul>
-        </div>
+    <!-- ======= PART OF ======= -->
+    <!-- The four marks on one quiet strip. The Tranzfuser photo and the copy that
+         used to sit beside them now open the team hub, where the studio story is;
+         the hero above already says the vote went our way, in one line. The
+         sizing and the per-mark filters are the ones tuned for the old band -
+         see .creds__list in the stylesheet before touching them. -->
+    <section class="partners" aria-label="Programmes we are part of">
+      <div class="container partners__inner reveal">
+        <p class="partners__label">Part of</p>
+        <ul class="creds__list">
+          <li>
+            <img class="creds__mark creds__mark--ukgf" src="assets/img/partner-uk-games-fund.webp"
+                 alt="UK Games Fund" width="320" height="98" loading="lazy" decoding="async">
+          </li>
+          <li>
+            <a href="https://gamerepublic.net/member/shiverbug-studios/" target="_blank" rel="noopener">
+              <img class="creds__mark creds__mark--gr" src="assets/img/partner-game-republic.webp"
+                   alt="Game Republic" width="360" height="128" loading="lazy" decoding="async">
+            </a>
+          </li>
+          <li>
+            <img class="creds__mark creds__mark--ef" src="assets/img/partner-entrepreneurs-forum.webp"
+                 alt="Entrepreneurs&rsquo; Forum" width="480" height="74" loading="lazy" decoding="async">
+          </li>
+          <li>
+            <img class="creds__mark creds__mark--tf" src="assets/img/partner-tranzfuser.webp"
+                 alt="Tranzfuser" width="400" height="60" loading="lazy" decoding="async">
+          </li>
+        </ul>
       </div>
     </section>
 
     <!-- ======= SERVICES ======= -->
+    <!-- Four cards in a two-by-two grid, one gallery each. The lead piece is
+         large and the rest sit under it as thumbnails; all of them open the same
+         viewer, so nothing that was in the old carousels has gone, it just no
+         longer needs dragging to reach. -->
     <section class="section codev" id="services">
       <div class="container">
-        <header class="section__head reveal">
-          <p class="kicker kicker--sea">What we do</p>
-          <h2>Four Things, Done <span class="underline-sea">Properly</span></h2>
-          <p class="section__lede">
-            We'd rather be brilliant at a few things than average at everything.
-            Every service comes with the actual humans who'll do the work. Click
-            anyone to see their portfolio and say hello.
-          </p>
+        <header class="section__head section__head--row reveal">
+          <div>
+            <p class="kicker kicker--sea">What we do</p>
+            <h2>Four Things, Done <span class="underline-sea">Properly</span></h2>
+            <p class="section__lede">
+              We'd rather be brilliant at a few things than average at everything.
+              Every service comes with the actual humans who'll do the work. Click
+              anyone to see their portfolio and say hello.
+            </p>
+          </div>
           <p class="section__note">
-            Everything in the galleries below is our team's own work: Out of Water
-            and personal portfolio pieces, credited to whoever made it. Client work
+            Everything in the galleries is our team's own work: Out of Water and
+            personal portfolio pieces, credited to whoever made it. Client work
             stays confidential.
           </p>
         </header>
 
-        <article class="svc reveal">
-          <div class="svc__body">
-            <h3>Concept Art</h3>
-            <p>
-              Characters, creatures, props and places with real charm, designed to
-              express gameplay and world-building, not just look pretty in a folio.
-              Led by an award-winning character concept artist with a decade of
-              professional art experience. The gallery below follows one design from
-              first character sketch to finished relic set.
-            </p>
-            <ul class="svc__list">
-              <li>Exploration, thumbnails and rapid iteration</li>
-              <li>Character, creature, costume and prop design</li>
-              <li>Production-ready sheets and turnarounds your team can build from</li>
-              <li>Fantasy, historical and sci-fi specialisms, stylized or grounded</li>
-            </ul>
-          </div>
-          <div>
-            <p class="svc__crew-label">The people behind it</p>
-            <div class="svc__crew">
-              <a class="person" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Sarah Childs</strong><span>Character Concept Artist</span></span></a>
+        <div class="svc-grid">
+          <article class="svc reveal" id="svc-concept">
+            <div class="carousel svc__gallery" role="group" aria-label="Concept art gallery">
+              <div class="carousel__track">
+                <div class="carousel__slot carousel__slot--lead" data-title="The Elder Turtle: Character Design" data-desc="The player's guide, designed as an ethereal spirit turtle carrying a glowing trident. The board carries the statue form it takes in game, alongside notes on its role and an invented ancient script."><a href="assets/img/art/codev-concept-elder-turtle.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-elder-turtle-560.webp" srcset="assets/img/art/codev-concept-elder-turtle-360.webp 360w, assets/img/art/codev-concept-elder-turtle-560.webp 560w, assets/img/art/codev-concept-elder-turtle-760.webp 760w" sizes="(max-width: 900px) 92vw, 560px" alt="Concept board for the Elder Turtle: an ethereal blue spirit turtle holding a glowing trident, beside two views of the statue it becomes, with notes on its role as the player's guide and an invented ancient script" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+                <div class="carousel__slot" data-title="The Elder Turtle Statue: Design Process" data-desc="Rough pose thumbnails through refined iterations to a settled design. The final statue is presented in the three states the game moves it through: mossy and overgrown, cracked, and fully restored."><a href="assets/img/art/codev-concept-statue-process.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-statue-process-360.webp" srcset="assets/img/art/codev-concept-statue-process-360.webp 360w, assets/img/art/codev-concept-statue-process-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Design process board for the Elder Turtle statue: rough pose thumbnails, refined iterations, and the final design shown in mossy, cracked and restored states" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+                <div class="carousel__slot" data-title="Accessories and Collectibles: Design Sheet" data-desc="A glowing sargassum wreath, a crown-shaped head pattern, biofluorescent shell markings and a set of barnacle and pearl collectibles. Each one is designed against the sea turtle photo reference behind it."><a href="assets/img/art/codev-concept-accessories.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-accessories-360.webp" srcset="assets/img/art/codev-concept-accessories-360.webp 360w, assets/img/art/codev-concept-accessories-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Accessory design board: a glowing sargassum wreath, a crown-shaped head pattern, biofluorescent shell markings and a set of barnacle and pearl collectibles, each beside the sea turtle photo reference behind it" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+                <div class="carousel__slot" data-title="Shell Iconography and Boss Crystals" data-desc="The Elder Turtle's shell pattern numbered one to five, tying five gold boss crystals to the beach, forest, poison, lava and cave levels. Hand-painted opal texture and clean line work complete the set."><a href="assets/img/art/codev-concept-iconography.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-iconography-360.webp" srcset="assets/img/art/codev-concept-iconography-360.webp 360w, assets/img/art/codev-concept-iconography-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Iconography board: the Elder Turtle's shell pattern numbered one to five, five gold boss crystals for the beach, forest, poison, lava and cave levels, a hand-painted opal texture and line drawings of the shell" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+                <div class="carousel__slot" data-title="Statue Construction Sheet" data-desc="A production-ready sheet the 3D team can build straight from: plinth turnaround, base and archway patterns, and the spinning keyhole mechanism, with the plinth in ruined, cleaned and restored states."><a href="assets/img/art/codev-concept-statue-sheet.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-statue-sheet-360.webp" srcset="assets/img/art/codev-concept-statue-sheet-360.webp 360w, assets/img/art/codev-concept-statue-sheet-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Statue construction sheet: plinth turnaround, base platform and archway patterns, the spinning keyhole mechanism, and the plinth shown as ruined stone, cleaned stone and restored marble" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+                <div class="carousel__slot" data-title="The Crystal Key: Animated Concept" data-desc="An animated concept pass showing the crystal key seating into the statue and the mechanism turning. Motion tests like this settle timing and readability before a single asset goes into the engine."><video src="assets/video/codev-statue-key.mp4" muted loop playsinline preload="metadata" aria-label="Animated concept of the Elder Turtle statue's crystal key"></video><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+              </div>
             </div>
-          </div>
-          <div class="carousel" role="group" aria-label="Concept art gallery">
-            <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Scroll gallery back">&lsaquo;</button>
-            <div class="carousel__track" tabindex="0">
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="The Elder Turtle: Character Design" data-desc="The player's guide, designed as an ethereal spirit turtle carrying a glowing trident. The board carries the statue form it takes in game, alongside notes on its role and an invented ancient script."><a href="assets/img/art/codev-concept-elder-turtle.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-elder-turtle-560.webp" srcset="assets/img/art/codev-concept-elder-turtle-360.webp 360w, assets/img/art/codev-concept-elder-turtle-560.webp 560w, assets/img/art/codev-concept-elder-turtle-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Concept board for the Elder Turtle: an ethereal blue spirit turtle holding a glowing trident, beside two views of the statue it becomes, with notes on its role as the player's guide and an invented ancient script" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="The Elder Turtle Statue: Design Process" data-desc="Rough pose thumbnails through refined iterations to a settled design. The final statue is presented in the three states the game moves it through: mossy and overgrown, cracked, and fully restored."><a href="assets/img/art/codev-concept-statue-process.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-statue-process-560.webp" srcset="assets/img/art/codev-concept-statue-process-360.webp 360w, assets/img/art/codev-concept-statue-process-560.webp 560w, assets/img/art/codev-concept-statue-process-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Design process board for the Elder Turtle statue: rough pose thumbnails, refined iterations, and the final design shown in mossy, cracked and restored states" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Accessories and Collectibles: Design Sheet" data-desc="A glowing sargassum wreath, a crown-shaped head pattern, biofluorescent shell markings and a set of barnacle and pearl collectibles. Each one is designed against the sea turtle photo reference behind it."><a href="assets/img/art/codev-concept-accessories.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-accessories-560.webp" srcset="assets/img/art/codev-concept-accessories-360.webp 360w, assets/img/art/codev-concept-accessories-560.webp 560w, assets/img/art/codev-concept-accessories-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Accessory design board: a glowing sargassum wreath, a crown-shaped head pattern, biofluorescent shell markings and a set of barnacle and pearl collectibles, each beside the sea turtle photo reference behind it" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Shell Iconography and Boss Crystals" data-desc="The Elder Turtle's shell pattern numbered one to five, tying five gold boss crystals to the beach, forest, poison, lava and cave levels. Hand-painted opal texture and clean line work complete the set."><a href="assets/img/art/codev-concept-iconography.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-iconography-560.webp" srcset="assets/img/art/codev-concept-iconography-360.webp 360w, assets/img/art/codev-concept-iconography-560.webp 560w, assets/img/art/codev-concept-iconography-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Iconography board: the Elder Turtle's shell pattern numbered one to five, five gold boss crystals for the beach, forest, poison, lava and cave levels, a hand-painted opal texture and line drawings of the shell" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Statue Construction Sheet" data-desc="A production-ready sheet the 3D team can build straight from: plinth turnaround, base and archway patterns, and the spinning keyhole mechanism, with the plinth in ruined, cleaned and restored states."><a href="assets/img/art/codev-concept-statue-sheet.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-concept-statue-sheet-560.webp" srcset="assets/img/art/codev-concept-statue-sheet-360.webp 360w, assets/img/art/codev-concept-statue-sheet-560.webp 560w, assets/img/art/codev-concept-statue-sheet-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Statue construction sheet: plinth turnaround, base platform and archway patterns, the spinning keyhole mechanism, and the plinth shown as ruined stone, cleaned stone and restored marble" loading="lazy"></a><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 2420 / 1668" data-title="The Crystal Key: Animated Concept" data-desc="An animated concept pass showing the crystal key seating into the statue and the mechanism turning. Motion tests like this settle timing and readability before a single asset goes into the engine."><video src="assets/video/codev-statue-key.mp4" muted loop playsinline preload="metadata" aria-label="Animated concept of the Elder Turtle statue's crystal key"></video><a class="carousel__credit" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy">Sarah Childs</a></div>
+            <div class="svc__body">
+              <h3>Concept Art</h3>
+              <p>
+                Characters, creatures, props and places with real charm, designed to
+                express gameplay and world-building, not just look pretty in a folio.
+                Led by an award-winning character concept artist with a decade of
+                professional art experience.
+              </p>
+              <ul class="svc__list">
+                <li>Exploration, thumbnails and rapid iteration</li>
+                <li>Character, creature, costume and prop design</li>
+                <li>Production-ready sheets and turnarounds your team can build from</li>
+                <li>Fantasy, historical and sci-fi specialisms, stylized or grounded</li>
+              </ul>
+              <p class="svc__crew-label">The people behind it</p>
+              <div class="svc__crew">
+                <a class="person" href="team/sarah-childs.html"><img src="assets/img/team-sarah-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Sarah Childs</strong><span>Character Concept Artist</span></span></a>
+              </div>
             </div>
-            <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
-          </div>
-        </article>
+          </article>
 
-        <article class="svc reveal">
-          <div class="svc__body">
-            <h3>Stylised 3D Art</h3>
-            <p>
-              Environments, props and characters with personality: strong shape
-              language, exaggerated forms and silhouettes that read at a glance.
-              Vibrant in engine, not just in renders.
-            </p>
-            <ul class="svc__list">
-              <li>Blockouts and greybox dressing through to final polish</li>
-              <li>Modular environment kits and hero props</li>
-              <li>Stylised character and creature art</li>
-              <li>Complete scenes: terrain, foliage and set dressing</li>
-              <li>Game-ready assets with sensible budgets, for Unity or Unreal</li>
-            </ul>
-          </div>
-          <div>
-            <p class="svc__crew-label">The people behind it</p>
-            <div class="svc__crew">
-              <a class="person" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Garrett Windus</strong><span>3D Artist</span></span></a>
-              <a class="person" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Martin Wilkinson</strong><span>3D Artist</span></span></a>
-              <a class="person" href="team/josh-cairns.html"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Josh Cairns</strong><span>3D Artist</span></span></a>
-              <a class="person" href="team/max-breeze.html"><img src="assets/img/team-max-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Max Breeze</strong><span>Character Artist</span></span></a>
-              <a class="person" href="team/evan-atherton-elphick.html"><img src="assets/img/team-evan-160.jpg" alt="" width="34" height="34" loading="lazy"><span><strong>Evan Atherton-Elphick</strong><span>Character Artist</span></span></a>
+          <article class="svc reveal" id="svc-stylised">
+            <div class="carousel svc__gallery" role="group" aria-label="Stylised 3D art gallery">
+              <div class="carousel__track">
+                <div class="carousel__slot carousel__slot--lead" data-title="Enchanted Witch's Hut: Stylised Environment" data-desc="A team project built to AAA optimisation standards. Martin handled the whole environment bar the lighting: hut structure, composition, scene dressing and texturing. 35k triangles, 2K and 1K textures, modular throughout."><a href="assets/img/art/codev-3d-night-house.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-night-house-560.webp" srcset="assets/img/art/codev-3d-night-house-360.webp 360w, assets/img/art/codev-3d-night-house-560.webp 560w, assets/img/art/codev-3d-night-house-760.webp 760w" sizes="(max-width: 900px) 92vw, 560px" alt="A witch's hut built like a giant cauldron, topped with a slumping witch's hat roof and wrapped in pale tree roots. It stands on a wooden jetty lined with lit lanterns, its round door and window glowing warm against dark blue forest mist" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
+                <div class="carousel__slot" data-title="Coral Quarters: Stylised Environment" data-desc="A stylised beach shack built as a hero location: strong shape language, exaggerated proportions and a silhouette that reads at a glance. Hand-painted timber and shingle materials keep it vibrant in engine."><a href="assets/img/art/codev-3d-coral-quarters.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-quarters-360.webp" srcset="assets/img/art/codev-3d-coral-quarters-360.webp 360w, assets/img/art/codev-3d-coral-quarters-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Coral Quarters: a stylised wooden beach shack on stilts with a purple shingle roof and a painted dolphin sign, palm trees and rocks behind it" loading="lazy"></a><a class="carousel__credit" href="team/josh-cairns.html"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</a></div>
+                <div class="carousel__slot" data-title="Coral Quarters: Prop Set" data-desc="The modular prop set that dresses the location, from crates and noticeboards to a kayak, paddles and the painted dolphin sign. Every piece is game-ready, on budget and reusable across the environment."><a href="assets/img/art/codev-3d-coral-props.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-props-360.webp" srcset="assets/img/art/codev-3d-coral-props-360.webp 360w, assets/img/art/codev-3d-coral-props-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="The Coral Quarters prop set laid out on a beach: a wooden frame, solar panel, life ring, rope, noticeboards, crates, a kayak with paddles and the painted dolphin sign" loading="lazy"></a><a class="carousel__credit" href="team/josh-cairns.html"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</a></div>
+                <div class="carousel__slot" data-title="Wasteland Hunter: Stylised Character" data-desc="Wandering the wastes, this hunter wears her proudest kill: the mighty basilisk. Concepted in Photoshop with Yvonne Veka, sculpted in ZBrush with hard surface work in Maya, textured in Substance Painter."><a href="assets/img/art/codev-3d-hunter.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-hunter-360.webp" srcset="assets/img/art/codev-3d-hunter-360.webp 360w, assets/img/art/codev-3d-hunter-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Front and back views of a stylised wasteland hunter: short brown hair, a dark waistcoat and trousers with buckled leather straps, a bone claw in one hand and a horned basilisk skull on her shoulder" loading="lazy"></a><a class="carousel__credit" href="team/evan-atherton-elphick.html"><img src="assets/img/team-evan-160.jpg" alt="" width="34" height="34" loading="lazy">Evan Atherton-Elphick</a></div>
+                <div class="carousel__slot" data-title="Grimgrin the Ha-Bringer: Stylised Character" data-desc="A Borderlands-style fortune teller taken from concept art through to final render. Modelled in Maya, textured in Substance Painter and rendered in Unreal Engine 5, with the inked outlines the style lives on."><a href="assets/img/art/codev-3d-grimgrin.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-grimgrin-360.webp" srcset="assets/img/art/codev-3d-grimgrin-360.webp 360w, assets/img/art/codev-3d-grimgrin-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Grimgrin the Ha-Bringer, a grinning cel-shaded jester automaton in a blue and gold harlequin hat, lit by a glowing crystal ball inside a shuttered fortune teller's booth at night" loading="lazy"></a><a class="carousel__credit" href="team/evan-atherton-elphick.html"><img src="assets/img/team-evan-160.jpg" alt="" width="34" height="34" loading="lazy">Evan Atherton-Elphick</a></div>
+              </div>
             </div>
-          </div>
-          <div class="carousel" role="group" aria-label="Stylised 3D art gallery">
-            <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Scroll gallery back">&lsaquo;</button>
-            <div class="carousel__track" tabindex="0">
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 772" data-title="Coral Quarters: Stylised Environment" data-desc="A stylised beach shack built as a hero location: strong shape language, exaggerated proportions and a silhouette that reads at a glance. Hand-painted timber and shingle materials keep it vibrant in engine."><a href="assets/img/art/codev-3d-coral-quarters.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-quarters-560.webp" srcset="assets/img/art/codev-3d-coral-quarters-360.webp 360w, assets/img/art/codev-3d-coral-quarters-560.webp 560w, assets/img/art/codev-3d-coral-quarters-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Coral Quarters: a stylised wooden beach shack on stilts with a purple shingle roof and a painted dolphin sign, palm trees and rocks behind it" loading="lazy"></a><a class="carousel__credit" href="team/josh-cairns.html"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 772" data-title="Coral Quarters: Prop Set" data-desc="The modular prop set that dresses the location, from crates and noticeboards to a kayak, paddles and the painted dolphin sign. Every piece is game-ready, on budget and reusable across the environment."><a href="assets/img/art/codev-3d-coral-props.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-coral-props-560.webp" srcset="assets/img/art/codev-3d-coral-props-360.webp 360w, assets/img/art/codev-3d-coral-props-560.webp 560w, assets/img/art/codev-3d-coral-props-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="The Coral Quarters prop set laid out on a beach: a wooden frame, solar panel, life ring, rope, noticeboards, crates, a kayak with paddles and the painted dolphin sign" loading="lazy"></a><a class="carousel__credit" href="team/josh-cairns.html"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy">Josh Cairns</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 828" data-title="Enchanted Witch's Hut: Stylised Environment" data-desc="A team project built to AAA optimisation standards. Martin handled the whole environment bar the lighting: hut structure, composition, scene dressing and texturing. 35k triangles, 2K and 1K textures, modular throughout."><a href="assets/img/art/codev-3d-night-house.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-night-house-560.webp" srcset="assets/img/art/codev-3d-night-house-360.webp 360w, assets/img/art/codev-3d-night-house-560.webp 560w, assets/img/art/codev-3d-night-house-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="A witch's hut built like a giant cauldron, topped with a slumping witch's hat roof and wrapped in pale tree roots. It stands on a wooden jetty lined with lit lanterns, its round door and window glowing warm against dark blue forest mist" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Wasteland Hunter: Stylised Character" data-desc="Wandering the wastes, this hunter wears her proudest kill: the mighty basilisk. Concepted in Photoshop with Yvonne Veka, sculpted in ZBrush with hard surface work in Maya, textured in Substance Painter."><a href="assets/img/art/codev-3d-hunter.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-hunter-560.webp" srcset="assets/img/art/codev-3d-hunter-360.webp 360w, assets/img/art/codev-3d-hunter-560.webp 560w, assets/img/art/codev-3d-hunter-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Front and back views of a stylised wasteland hunter: short brown hair, a dark waistcoat and trousers with buckled leather straps, a bone claw in one hand and a horned basilisk skull on her shoulder" loading="lazy"></a><a class="carousel__credit" href="team/evan-atherton-elphick.html"><img src="assets/img/team-evan-160.jpg" alt="" width="34" height="34" loading="lazy">Evan Atherton-Elphick</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 870" data-title="Grimgrin the Ha-Bringer: Stylised Character" data-desc="A Borderlands-style fortune teller taken from concept art through to final render. Modelled in Maya, textured in Substance Painter and rendered in Unreal Engine 5, with the inked outlines the style lives on."><a href="assets/img/art/codev-3d-grimgrin.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-grimgrin-560.webp" srcset="assets/img/art/codev-3d-grimgrin-360.webp 360w, assets/img/art/codev-3d-grimgrin-560.webp 560w, assets/img/art/codev-3d-grimgrin-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Grimgrin the Ha-Bringer, a grinning cel-shaded jester automaton in a blue and gold harlequin hat, lit by a glowing crystal ball inside a shuttered fortune teller's booth at night" loading="lazy"></a><a class="carousel__credit" href="team/evan-atherton-elphick.html"><img src="assets/img/team-evan-160.jpg" alt="" width="34" height="34" loading="lazy">Evan Atherton-Elphick</a></div>
+            <div class="svc__body">
+              <h3>Stylised 3D Art</h3>
+              <p>
+                Environments, props and characters with personality: strong shape
+                language, exaggerated forms and silhouettes that read at a glance.
+                Vibrant in engine, not just in renders.
+              </p>
+              <ul class="svc__list">
+                <li>Blockouts and greybox dressing through to final polish</li>
+                <li>Modular environment kits and hero props</li>
+                <li>Stylised character and creature art</li>
+                <li>Game-ready assets with sensible budgets, for Unity or Unreal</li>
+              </ul>
+              <p class="svc__crew-label">The people behind it</p>
+              <div class="svc__crew">
+                <a class="person" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Garrett Windus</strong><span>3D Artist</span></span></a>
+                <a class="person" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Martin Wilkinson</strong><span>3D Artist</span></span></a>
+                <a class="person" href="team/josh-cairns.html"><img src="assets/img/team-josh-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Josh Cairns</strong><span>3D Artist</span></span></a>
+                <a class="person" href="team/max-breeze.html"><img src="assets/img/team-max-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Max Breeze</strong><span>Character Artist</span></span></a>
+                <a class="person" href="team/evan-atherton-elphick.html"><img src="assets/img/team-evan-160.jpg" alt="" width="34" height="34" loading="lazy"><span><strong>Evan Atherton-Elphick</strong><span>Character Artist</span></span></a>
+              </div>
             </div>
-            <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
-          </div>
-        </article>
+          </article>
 
-        <article class="svc reveal">
-          <div class="svc__body">
-            <h3>Hard Surface Art</h3>
-            <p>
-              Vehicles, weapons and mechanical props built to a grounded target.
-              Accurate panel work, clean topology and materials that hold up when
-              the camera gets close.
-            </p>
-            <ul class="svc__list">
-              <li>Vehicles, from blockout to showroom-ready</li>
-              <li>Weapons and mechanical hero props</li>
-              <li>High-to-low bakes with clean, predictable topology</li>
-              <li>PBR materials and 4K texture sets</li>
-              <li>Game-ready assets with sensible budgets, for Unity or Unreal</li>
-            </ul>
-          </div>
-          <div>
-            <p class="svc__crew-label">The people behind it</p>
-            <div class="svc__crew">
-              <a class="person" href="team/connor-milburn.html"><img src="assets/img/team-connor-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Connor Milburn</strong><span>3D Artist</span></span></a>
-              <a class="person" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Nathan Hopwood</strong><span>3D Artist</span></span></a>
-              <a class="person" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Martin Wilkinson</strong><span>3D Artist</span></span></a>
-              <a class="person" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Garrett Windus</strong><span>3D Artist</span></span></a>
+          <article class="svc reveal" id="svc-hard">
+            <div class="carousel svc__gallery" role="group" aria-label="Hard surface art gallery">
+              <div class="carousel__track">
+                <div class="carousel__slot carousel__slot--lead" data-title="1973 Datsun 240Z: Vehicle Art" data-desc="A 1973 Datsun 240Z, and the culmination of a final year vehicle art project. The focus was reading shapes accurately from reference and modelling them efficiently, from blockout through to finished render."><a href="assets/img/art/codev-3d-datsun-240z.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-datsun-240z-560.webp" srcset="assets/img/art/codev-3d-datsun-240z-360.webp 360w, assets/img/art/codev-3d-datsun-240z-560.webp 560w, assets/img/art/codev-3d-datsun-240z-760.webp 760w" sizes="(max-width: 900px) 92vw, 560px" alt="A metallic blue 1973 Datsun 240Z parked across the double yellow lines of a wooded road, its chrome bumper and bonnet scoop catching the light" loading="lazy"></a><a class="carousel__credit" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy">Garrett Windus</a></div>
+                <div class="carousel__slot" data-title="DeLorean DMC-12: Vehicle Retexture" data-desc="A DeLorean DMC-12 retextured from scratch, replacing an off-the-shelf automotive material pack. Base materials were authored in Substance Designer and detailed in Substance Painter, giving a set reusable on later work."><a href="assets/img/art/codev-3d-delorean.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-delorean-360.webp" srcset="assets/img/art/codev-3d-delorean-360.webp 360w, assets/img/art/codev-3d-delorean-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="A brushed stainless steel DeLorean DMC-12 on a sunlit woodland road, wildflowers in the foreground and its DMC 12 number plate in view" loading="lazy"></a><a class="carousel__credit" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy">Garrett Windus</a></div>
+                <div class="carousel__slot" data-title="Pagani Huayra: Realistic Vehicle Model" data-desc="A highly detailed model of the Pagani Huayra, built with an emphasis on realism and accuracy. Made through a full industry-grade pipeline: high-density geometry, 4K texture sets and physically accurate materials."><a href="assets/img/art/codev-3d-hypercar-street.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-hypercar-street-360.webp" srcset="assets/img/art/codev-3d-hypercar-street-360.webp 360w, assets/img/art/codev-3d-hypercar-street-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="A black Pagani Huayra with gold alloy wheels and a thin gold pinstripe, parked on a city street at dusk outside a bank, its headlights lit" loading="lazy"></a><a class="carousel__credit" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy">Nathan Hopwood</a></div>
+                <div class="carousel__slot" data-title="Off-Road Vehicle: Studio Render" data-desc="The same vehicle pipeline with the scene stripped away: a clean studio pass on a plain backdrop, where panel gaps, trim and paint finish have nowhere to hide. Built game-ready to a grounded polygon budget."><a href="assets/img/art/codev-3d-defender-studio.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-defender-studio-360.webp" srcset="assets/img/art/codev-3d-defender-studio-360.webp 360w, assets/img/art/codev-3d-defender-studio-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="A blue off-road vehicle, rendered as a clean studio shot on a plain grey backdrop" loading="lazy"></a><a class="carousel__credit" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy">Nathan Hopwood</a></div>
+                <div class="carousel__slot" data-title="Tactical Sci-Fi Helmet: Hard Surface Study" data-desc="Heavily inspired by the Cyberpunk 2077: Trauma Team comics, pairing a tactical visor with a respirator and satellite communications. Shown as a turnaround so the panel work and layered plating read from every angle."><a href="assets/img/art/codev-3d-cyber-helmet.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-cyber-helmet-360.webp" srcset="assets/img/art/codev-3d-cyber-helmet-360.webp 360w, assets/img/art/codev-3d-cyber-helmet-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="Six views of a dark sci-fi helmet on a mannequin bust: a bulbous tinted visor under angular armour plating, a ribbed respirator over the mouth, and a headlamp and comms unit mounted at the temple" loading="lazy"></a><a class="carousel__credit" href="team/connor-milburn.html"><img src="assets/img/team-connor-160.webp" alt="" width="34" height="34" loading="lazy">Connor Milburn</a></div>
+                <div class="carousel__slot" data-title="Relic: Stylised Robot Character" data-desc="A personal character project built around a robot with a playful personality, worn mechanical materials and a deliberately asymmetrical design. Storytelling details run through the asset, optimised for real-time rendering."><a href="assets/img/art/codev-3d-robot.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-robot-360.webp" srcset="assets/img/art/codev-3d-robot-360.webp 360w, assets/img/art/codev-3d-robot-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="A friendly orange robot character shown from three angles, with a cartoon face on a boxy television head and slim jointed legs" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
+              </div>
             </div>
-          </div>
-          <div class="carousel" role="group" aria-label="Hard surface art gallery">
-            <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Scroll gallery back">&lsaquo;</button>
-            <div class="carousel__track" tabindex="0">
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Relic: Stylised Robot Character" data-desc="A personal character project built around a robot with a playful personality, worn mechanical materials and a deliberately asymmetrical design. Storytelling details run through the asset, optimised for real-time rendering."><a href="assets/img/art/codev-3d-robot.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-robot-560.webp" srcset="assets/img/art/codev-3d-robot-360.webp 360w, assets/img/art/codev-3d-robot-560.webp 560w, assets/img/art/codev-3d-robot-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="A friendly orange robot character shown from three angles, with a cartoon face on a boxy television head and slim jointed legs" loading="lazy"></a><a class="carousel__credit" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy">Martin Wilkinson</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 776" data-title="Pagani Huayra: Realistic Vehicle Model" data-desc="A highly detailed model of the Pagani Huayra, built with an emphasis on realism and accuracy. Made through a full industry-grade pipeline: high-density geometry, 4K texture sets and physically accurate materials."><a href="assets/img/art/codev-3d-hypercar-street.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-hypercar-street-560.webp" srcset="assets/img/art/codev-3d-hypercar-street-360.webp 360w, assets/img/art/codev-3d-hypercar-street-560.webp 560w, assets/img/art/codev-3d-hypercar-street-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="A black Pagani Huayra with gold alloy wheels and a thin gold pinstripe, parked on a city street at dusk outside a bank, its headlights lit" loading="lazy"></a><a class="carousel__credit" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy">Nathan Hopwood</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 750" data-title="Off-Road Vehicle: Studio Render" data-desc="The same vehicle pipeline with the scene stripped away: a clean studio pass on a plain backdrop, where panel gaps, trim and paint finish have nowhere to hide. Built game-ready to a grounded polygon budget."><a href="assets/img/art/codev-3d-defender-studio.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-defender-studio-560.webp" srcset="assets/img/art/codev-3d-defender-studio-360.webp 360w, assets/img/art/codev-3d-defender-studio-560.webp 560w, assets/img/art/codev-3d-defender-studio-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="A blue off-road vehicle, rendered as a clean studio shot on a plain grey backdrop" loading="lazy"></a><a class="carousel__credit" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy">Nathan Hopwood</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Tactical Sci-Fi Helmet: Hard Surface Study" data-desc="Heavily inspired by the Cyberpunk 2077: Trauma Team comics, pairing a tactical visor with a respirator and satellite communications. Shown as a turnaround so the panel work and layered plating read from every angle."><a href="assets/img/art/codev-3d-cyber-helmet.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-cyber-helmet-560.webp" srcset="assets/img/art/codev-3d-cyber-helmet-360.webp 360w, assets/img/art/codev-3d-cyber-helmet-560.webp 560w, assets/img/art/codev-3d-cyber-helmet-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="Six views of a dark sci-fi helmet on a mannequin bust: a bulbous tinted visor under angular armour plating, a ribbed respirator over the mouth, and a headlamp and comms unit mounted at the temple" loading="lazy"></a><a class="carousel__credit" href="team/connor-milburn.html"><img src="assets/img/team-connor-160.webp" alt="" width="34" height="34" loading="lazy">Connor Milburn</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="1973 Datsun 240Z: Vehicle Art" data-desc="A 1973 Datsun 240Z, and the culmination of a final year vehicle art project. The focus was reading shapes accurately from reference and modelling them efficiently, from blockout through to finished render."><a href="assets/img/art/codev-3d-datsun-240z.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-datsun-240z-560.webp" srcset="assets/img/art/codev-3d-datsun-240z-360.webp 360w, assets/img/art/codev-3d-datsun-240z-560.webp 560w, assets/img/art/codev-3d-datsun-240z-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="A metallic blue 1973 Datsun 240Z parked across the double yellow lines of a wooded road, its chrome bumper and bonnet scoop catching the light" loading="lazy"></a><a class="carousel__credit" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy">Garrett Windus</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="DeLorean DMC-12: Vehicle Retexture" data-desc="A DeLorean DMC-12 retextured from scratch, replacing an off-the-shelf automotive material pack. Base materials were authored in Substance Designer and detailed in Substance Painter, giving a set reusable on later work."><a href="assets/img/art/codev-3d-delorean.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-3d-delorean-560.webp" srcset="assets/img/art/codev-3d-delorean-360.webp 360w, assets/img/art/codev-3d-delorean-560.webp 560w, assets/img/art/codev-3d-delorean-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="A brushed stainless steel DeLorean DMC-12 on a sunlit woodland road, wildflowers in the foreground and its DMC 12 number plate in view" loading="lazy"></a><a class="carousel__credit" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy">Garrett Windus</a></div>
+            <div class="svc__body">
+              <h3>Hard Surface Art</h3>
+              <p>
+                Vehicles, weapons and mechanical props built to a grounded target.
+                Accurate panel work, clean topology and materials that hold up when
+                the camera gets close.
+              </p>
+              <ul class="svc__list">
+                <li>Vehicles, from blockout to showroom-ready</li>
+                <li>Weapons and mechanical hero props</li>
+                <li>High-to-low bakes with clean, predictable topology</li>
+                <li>PBR materials and 4K texture sets</li>
+              </ul>
+              <p class="svc__crew-label">The people behind it</p>
+              <div class="svc__crew">
+                <a class="person" href="team/connor-milburn.html"><img src="assets/img/team-connor-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Connor Milburn</strong><span>3D Artist</span></span></a>
+                <a class="person" href="team/nathan-hopwood.html"><img src="assets/img/team-nathan-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Nathan Hopwood</strong><span>3D Artist</span></span></a>
+                <a class="person" href="team/martin-wilkinson.html"><img src="assets/img/team-martin-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Martin Wilkinson</strong><span>3D Artist</span></span></a>
+                <a class="person" href="team/garrett-windus.html"><img src="assets/img/team-garrett-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Garrett Windus</strong><span>3D Artist</span></span></a>
+              </div>
             </div>
-            <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
-          </div>
-        </article>
+          </article>
 
-        <article class="svc reveal">
-          <div class="svc__body">
-            <h3>Design &amp; Development</h3>
-            <p>
-              Level design, game design and gameplay programming for teams that need
-              hands-on help shaping how a game actually plays. From AI and multiplayer
-              to graphics and audio, we prototype fast, iterate honestly, and obsess
-              over feel.
-            </p>
-            <ul class="svc__list">
-              <li>Level design in Unreal and Unity, blockout to scripted polish</li>
-              <li>Gameplay programming in Unity (C#) and Unreal Engine</li>
-              <li>AI, simulation and performance optimisation</li>
-              <li>Multiplayer and online play</li>
-              <li>Systems and mechanics design, documented properly</li>
-              <li>Narrative design, worldbuilding and player-experience passes</li>
-            </ul>
-          </div>
-          <div>
-            <p class="svc__crew-label">The people behind it</p>
-            <div class="svc__crew">
-              <a class="person" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Oliver Neal</strong><span>Gameplay Programmer · Unity</span></span></a>
-              <a class="person" href="team/lewis-mennim.html"><img src="assets/img/team-lewis-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Lewis Mennim</strong><span>CEO · Unity &amp; Unreal</span></span></a>
-              <a class="person" href="team/ryan-hughes.html"><img src="assets/img/team-ryan-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Ryan Hughes</strong><span>CFO · Unreal</span></span></a>
-              <a class="person" href="team/charlie-ashall.html"><img src="assets/img/team-charlie-a-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Charlie Ashall</strong><span>Level Designer</span></span></a>
-              <a class="person" href="team/charlie-pelling.html"><img src="assets/img/team-charlie-p-160.jpg" alt="" width="34" height="34" loading="lazy"><span><strong>Charlie Pelling</strong><span>Narrative Designer</span></span></a>
+          <article class="svc reveal" id="svc-design">
+            <div class="carousel svc__gallery" role="group" aria-label="Design and development gallery">
+              <div class="carousel__track">
+                <div class="carousel__slot carousel__slot--lead" data-title="CyberStation: Systems and Gameplay" data-desc="An isometric neon station management game, shown here with its systems running end to end. Gameplay programming, simulation and the systems design behind them, built and tuned for feel in Unity."><video src="assets/video/codev-cyberstation.mp4" poster="assets/img/art/codev-dev-cyberstation-560.webp" muted loop playsinline preload="none" aria-label="Gameplay of CyberStation, an isometric neon station management game, showing its systems in action"></video><a class="carousel__credit" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy">Oliver Neal</a></div>
+                <div class="carousel__slot" data-title="Gridlock: Minimalist RTS" data-desc="A minimalist real-time strategy game where coloured houses send streams of units across the map. Unit flow, pathfinding and opposing AI, kept readable at a glance and tuned for feel over spectacle."><a href="assets/img/art/codev-dev-gridlock.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-dev-gridlock-360.webp" srcset="assets/img/art/codev-dev-gridlock-360.webp 360w, assets/img/art/codev-dev-gridlock-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="In-game shot of Gridlock, a minimalist RTS where coloured houses send streams of units across the map" loading="lazy"></a><a class="carousel__credit" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy">Oliver Neal</a></div>
+                <div class="carousel__slot" data-title="Lux Mortis: Level Layout" data-desc="A level layout for Lux Mortis, dressed in engine: a lantern-lit stone hall of pillars and scattered wooden pews, with the player character mid-scene."><a href="assets/img/art/codev-design-luxmortis.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-design-luxmortis-360.webp" srcset="assets/img/art/codev-design-luxmortis-360.webp 360w, assets/img/art/codev-design-luxmortis-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="A lantern-lit stone hall in Lux Mortis, with rows of pillars, scattered wooden pews and a character standing in the middle distance" loading="lazy"></a><a class="carousel__credit" href="team/charlie-ashall.html"><img src="assets/img/team-charlie-a-160.webp" alt="" width="34" height="34" loading="lazy">Charlie Ashall</a></div>
+                <div class="carousel__slot" data-title="Rebel X: Level Blockout" data-desc="A greybox blockout for Rebel X: grid-textured geometry with orange and yellow accents marking out rooms, doorways and cover, the stage before any art goes in."><a href="assets/img/art/codev-design-rebelx.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-design-rebelx-360.webp" srcset="assets/img/art/codev-design-rebelx-360.webp 360w, assets/img/art/codev-design-rebelx-560.webp 560w" sizes="(max-width: 900px) 30vw, 180px" alt="A greybox level blockout for Rebel X: grid-textured grey blocks and walls with orange and yellow accents, sunlight falling through a doorway" loading="lazy"></a><a class="carousel__credit" href="team/charlie-ashall.html"><img src="assets/img/team-charlie-a-160.webp" alt="" width="34" height="34" loading="lazy">Charlie Ashall</a></div>
+              </div>
             </div>
-          </div>
-          <div class="carousel" role="group" aria-label="Design and development gallery">
-            <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Scroll gallery back">&lsaquo;</button>
-            <div class="carousel__track" tabindex="0">
-              <div class="carousel__slot" style="aspect-ratio: 1920 / 1080" data-title="CyberStation: Systems and Gameplay" data-desc="An isometric neon station management game, shown here with its systems running end to end. Gameplay programming, simulation and the systems design behind them, built and tuned for feel in Unity."><video src="assets/video/codev-cyberstation.mp4" poster="assets/img/art/codev-dev-cyberstation-560.webp" muted loop playsinline preload="none" aria-label="Gameplay of CyberStation, an isometric neon station management game, showing its systems in action"></video><a class="carousel__credit" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy">Oliver Neal</a></div>
-              <div class="carousel__slot" style="aspect-ratio: 1600 / 900" data-title="Gridlock: Minimalist RTS" data-desc="A minimalist real-time strategy game where coloured houses send streams of units across the map. Unit flow, pathfinding and opposing AI, kept readable at a glance and tuned for feel over spectacle."><a href="assets/img/art/codev-dev-gridlock.webp" target="_blank" rel="noopener"><img src="assets/img/art/codev-dev-gridlock-560.webp" srcset="assets/img/art/codev-dev-gridlock-360.webp 360w, assets/img/art/codev-dev-gridlock-560.webp 560w, assets/img/art/codev-dev-gridlock-760.webp 760w" sizes="(max-width: 700px) 270px, 400px" alt="In-game shot of Gridlock, a minimalist RTS where coloured houses send streams of units across the map" loading="lazy"></a><a class="carousel__credit" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy">Oliver Neal</a></div>
+            <div class="svc__body">
+              <h3>Design &amp; Development</h3>
+              <p>
+                Level design, game design and gameplay programming for teams that need
+                hands-on help shaping how a game actually plays. From AI and multiplayer
+                to graphics and audio, we prototype fast, iterate honestly, and obsess
+                over feel.
+              </p>
+              <ul class="svc__list">
+                <li>Level design in Unreal and Unity, blockout to scripted polish</li>
+                <li>Gameplay programming in Unity (C#) and Unreal Engine</li>
+                <li>AI, simulation, multiplayer and performance optimisation</li>
+                <li>Systems, mechanics and narrative design, documented properly</li>
+              </ul>
+              <p class="svc__crew-label">The people behind it</p>
+              <div class="svc__crew">
+                <a class="person" href="team/oliver-neal.html"><img src="assets/img/team-oliver-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Oliver Neal</strong><span>Gameplay Programmer · Unity</span></span></a>
+                <a class="person" href="team/lewis-mennim.html"><img src="assets/img/team-lewis-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Lewis Mennim</strong><span>CEO · Unity &amp; Unreal</span></span></a>
+                <a class="person" href="team/ryan-hughes.html"><img src="assets/img/team-ryan-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Ryan Hughes</strong><span>CFO · Unreal</span></span></a>
+                <a class="person" href="team/charlie-ashall.html"><img src="assets/img/team-charlie-a-160.webp" alt="" width="34" height="34" loading="lazy"><span><strong>Charlie Ashall</strong><span>Level Designer</span></span></a>
+                <a class="person" href="team/charlie-pelling.html"><img src="assets/img/team-charlie-p-160.jpg" alt="" width="34" height="34" loading="lazy"><span><strong>Charlie Pelling</strong><span>Narrative Designer</span></span></a>
+              </div>
             </div>
-            <button class="carousel__btn carousel__btn--next" type="button" aria-label="Scroll gallery forward">&rsaquo;</button>
-          </div>
-        </article>
+          </article>
+        </div>
 
         <p class="codev__note reveal">
           None of that quite what you need? <a href="#contact" data-cta="Co-development" data-topic="Co-development enquiry">Reach out anyway</a>.
-          Between the core team and our <a href="index.html#talent-pool">talent pool</a> of guest contributors,
+          Between the core team and our <a href="team/#talent-pool">talent pool</a> of guest contributors,
           there's a good chance we know someone who can help.
         </p>
 
@@ -657,22 +577,19 @@
 
     <!-- ======= PROOF / CASE STUDY ======= -->
     <section class="section proof">
-      <!-- Same divider as the hero, the footer and the Discord band, worn on
-           both edges. Each svg is filled with the colour of the section it
-           touches, and the two are NOT the same cream: .codev above is --paper,
-           .how below is --paper-2. Filling both with --paper would leave a seam
-           along the bottom edge where the wave meets a darker cream. -->
+      <!-- Same divider as the hero and the contact band, worn on both edges.
+           Each svg is filled with the colour of the section it touches, and the
+           two are NOT the same: .codev above is --paper, .how below is --paper-2. -->
       <div class="wave wave--top" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
       </div>
       <div class="container proof__inner">
         <figure class="proof__frame reveal">
           <img src="assets/img/out-of-water-screenshot-760.webp" srcset="assets/img/out-of-water-screenshot-480.webp 480w, assets/img/out-of-water-screenshot-760.webp 760w, assets/img/out-of-water-screenshot-1100.webp 1100w" sizes="(max-width: 980px) min(92vw, 520px), 48vw" alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove of crates and palm trees" width="1916" height="1080" loading="lazy" decoding="async">
-          <figcaption class="sticker sticker--sand">Built in-house</figcaption>
         </figure>
         <div class="proof__copy reveal">
           <p class="kicker kicker--sand">Proof, not promises</p>
-          <h2>The Same Team Building <span class="squiggle">Out of Water</span></h2>
+          <h2>The Same Team Is Building <span class="underline-sand">Out of Water</span></h2>
           <p>
             Everything on this page is the team currently building our own game, a
             2-player split-screen collectathon platformer, from first concept sketch
@@ -731,16 +648,14 @@
 
 
     <!-- ======= PACKAGES ======= -->
-    <!-- CONCEPT DRAFT. The three sizes are the three engagement types already
-         described in the FAQ below, given names and shapes so a client can point
-         at one. Deliberately no prices: the page says elsewhere that we quote on
-         a real brief rather than publish a rate card, and inventing numbers here
-         would contradict that. Lewis and Ryan to refine the contents. -->
+    <!-- The three sizes are the three engagement types described on the FAQ
+         page, given names and shapes so a client can point at one. Deliberately
+         no prices: the site says elsewhere that we quote on a real brief rather
+         than publish a rate card, and inventing numbers here would contradict
+         that. -->
     <section class="section packages" id="packages">
       <div class="container">
         <header class="section__head reveal">
-          <!-- --sea, not --sand: this section is on paper, and sand on a light
-               background measures 2.4:1. See the note by .kicker--sand in the CSS. -->
           <p class="kicker kicker--sand">Ways to work with us</p>
           <h2>Pick a <span class="underline-sand">Size</span></h2>
           <p class="section__lede">
@@ -798,309 +713,128 @@
           Pricing is per project, after scoping: fixed-price milestones or a day
           rate, whichever suits how your production runs.
           <a href="#contact" data-cta="Co-development" data-topic="Co-development enquiry">Tell us what you're building</a>
-          and we'll come back with a shape and a number.
+          and we'll come back with a shape and a number. Questions about NDAs,
+          engines and where we're based are answered on the <a href="faq.html">FAQ page</a>.
         </p>
       </div>
     </section>
 
 
-    <!-- ======= FAQ ======= -->
-    <section class="section faq">
-      <div class="container">
-        <header class="section__head reveal">
-          <p class="kicker kicker--sea">Questions, answered</p>
-          <h2>The Stuff You'd <span class="underline-sea">Ask Anyway</span></h2>
-        </header>
-
-        <div class="faq__list reveal">
-          <details name="faq">
-            <summary>What kinds of engagement do you take on?</summary>
-            <p>Three flavours: full co-development (we embed alongside your team for the long haul), standalone art or design packages (a prop kit, a set of character concepts, a level), and short bursts of extra capacity around a crunch point or vertical slice. If you're not sure which you need, that's exactly what the first call is for.</p>
-          </details>
-          <details name="faq">
-            <summary>How do you price work?</summary>
-            <p>Per project, after scoping. Either fixed-price milestones or a day rate, whichever suits how your production runs. We'd rather quote accurately on a real brief than publish a rate card that fits nobody.</p>
-          </details>
-          <details name="faq">
-            <summary>Which engines and tools do you work in?</summary>
-            <p>Unity and Unreal Engine 5 on the engine side, with gameplay programmers covering both. Art runs through Blender, ZBrush, the Substance 3D suite and Photoshop. If your pipeline has house quirks, we adapt to yours, not the other way round.</p>
-          </details>
-          <details name="faq">
-            <summary>Where are you based, and how do you communicate?</summary>
-            <p>North East England, on UK time, working remote-first. You get one point of contact, regular check-ins in your tools (Slack, Discord, whatever you run), and honest progress updates, including the unglamorous ones.</p>
-          </details>
-          <details name="faq">
-            <summary>Will you sign an NDA?</summary>
-            <p>Happily, and before you share anything you'd rather keep quiet. Confidential projects stay confidential. You'll notice the galleries on this page show our own game plus personal portfolio work by the team, never client work.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ======= STUDIO / MISSION ======= -->
-    <section class="section studio" id="studio">
-      <div class="container studio__inner">
-        <figure class="studio__photo reveal">
-          <img src="assets/img/founders-800.webp" srcset="assets/img/founders-400.webp 400w, assets/img/founders-600.webp 600w, assets/img/founders-800.webp 800w, assets/img/founders-1080.webp 1080w, assets/img/founders.webp 1440w" sizes="(max-width: 980px) min(92vw, 480px), 36vw" alt="Three Shiverbug Studios team members on Brighton seafront in studio t-shirts" width="1440" height="1080" loading="lazy" decoding="async">
-          <figcaption class="sticker sticker--sand">Develop:Brighton 2026</figcaption>
-        </figure>
-        <div class="studio__copy reveal">
-          <p class="kicker kicker--leaf">The studio</p>
-          <h2>Games Are Better <span class="underline-leaf">Together</span></h2>
-          <p>
-            Shiverbug started with a simple idea: games should be joyful, shared,
-            and welcoming for players of all ages. The kind of thing a whole
-            household can pile onto the sofa for.
-          </p>
-          <p>
-            We're designers, artists and programmers based in North East England.
-            You'll find us at Gamebridge, GameNext, and anywhere else the region's
-            dev scene gets together. Occasionally we even venture down south.
-          </p>
-          <ul class="studio__facts">
-            <li><strong>11</strong><span>people &amp; growing</span></li>
-            <li><strong>NE</strong><span>England, UK</span></li>
-            <li><strong>1</strong><span>debut title in the works</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- ======= TEAM ======= -->
-    <section class="section team" id="team">
-      <div class="container">
-        <header class="section__head reveal">
-          <p class="kicker kicker--sand">The shiverbugs</p>
-          <h2>Meet the <span class="underline-sand">Team</span></h2>
-          <p class="section__lede">Click anyone to say hello properly.</p>
-        </header>
-
-        <!-- BUILD:TEAM:START -->
-        <h2 class="team__label reveal">Founders</h2>
-        <div class="team__grid team__grid--founders">
-          <a class="member reveal" href="team/lewis-mennim.html">
-            <div class="member__photo"><img src="assets/img/team-lewis-640.webp" srcset="assets/img/team-lewis-240.webp 240w, assets/img/team-lewis-320.webp 320w, assets/img/team-lewis-480.webp 480w, assets/img/team-lewis-640.webp 640w" sizes="(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed" style="--zy:-15%"></div>
-            <h3>Lewis Mennim</h3><p>CEO</p>
-          </a>
-          <a class="member reveal" href="team/ryan-hughes.html">
-            <div class="member__photo"><img src="assets/img/team-ryan-640.webp" srcset="assets/img/team-ryan-240.webp 240w, assets/img/team-ryan-320.webp 320w, assets/img/team-ryan-480.webp 480w, assets/img/team-ryan-640.webp 640w" sizes="(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed"></div>
-            <h3>Ryan Hughes</h3><p>CFO</p>
-          </a>
-          <a class="member reveal" href="team/garrett-windus.html">
-            <div class="member__photo"><img src="assets/img/team-garrett-640.webp" srcset="assets/img/team-garrett-240.webp 240w, assets/img/team-garrett-320.webp 320w, assets/img/team-garrett-480.webp 480w, assets/img/team-garrett-640.webp 640w" sizes="(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed" style="--zy:-22%"></div>
-            <h3>Garrett Windus</h3><p>3D Artist</p>
-          </a>
-        </div>
-
-        <h2 class="team__label reveal">The studio</h2>
-        <div class="team__grid">
-          <a class="member reveal" href="team/sarah-childs.html">
-            <div class="member__photo"><img src="assets/img/team-sarah-480.webp" srcset="assets/img/team-sarah-240.webp 240w, assets/img/team-sarah-320.webp 320w, assets/img/team-sarah-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Sarah Childs</h3><p>Character Concept Artist</p>
-          </a>
-          <a class="member reveal" href="team/charlie-pelling.html">
-            <div class="member__photo"><img src="assets/img/team-charlie-p-480.jpg" srcset="assets/img/team-charlie-p-240.jpg 240w, assets/img/team-charlie-p-320.jpg 320w, assets/img/team-charlie-p-480.jpg 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Charlie Pelling</h3><p>Narrative Designer</p>
-          </a>
-          <a class="member reveal" href="team/connor-milburn.html">
-            <div class="member__photo"><img src="assets/img/team-connor-480.webp" srcset="assets/img/team-connor-240.webp 240w, assets/img/team-connor-320.webp 320w, assets/img/team-connor-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Connor Milburn</h3><p>3D Artist</p>
-          </a>
-          <a class="member reveal" href="team/charlie-ashall.html">
-            <div class="member__photo"><img src="assets/img/team-charlie-a-480.webp" srcset="assets/img/team-charlie-a-240.webp 240w, assets/img/team-charlie-a-320.webp 320w, assets/img/team-charlie-a-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy" style="object-position: center 10%"></div>
-            <h3>Charlie Ashall</h3><p>Level Designer</p>
-          </a>
-          <a class="member reveal" href="team/oliver-neal.html">
-            <div class="member__photo"><img src="assets/img/team-oliver-640.webp" srcset="assets/img/team-oliver-240.webp 240w, assets/img/team-oliver-320.webp 320w, assets/img/team-oliver-480.webp 480w, assets/img/team-oliver-640.webp 640w" sizes="(max-width: 760px) 92vw, (max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed" style="--zx:6%; --zy:-20%"></div>
-            <h3>Oliver Neal</h3><p>Gameplay Programmer</p>
-          </a>
-          <a class="member reveal" href="team/martin-wilkinson.html">
-            <div class="member__photo"><img src="assets/img/team-martin-480.webp" srcset="assets/img/team-martin-240.webp 240w, assets/img/team-martin-320.webp 320w, assets/img/team-martin-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Martin Wilkinson</h3><p>3D Artist</p>
-          </a>
-          <a class="member reveal" href="team/evan-atherton-elphick.html">
-            <div class="member__photo"><img src="assets/img/team-evan-480.jpg" srcset="assets/img/team-evan-240.jpg 240w, assets/img/team-evan-320.jpg 320w, assets/img/team-evan-480.jpg 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Evan Atherton-Elphick</h3><p>Character Artist</p>
-          </a>
-          <a class="member reveal" href="team/kyle-kerr.html">
-            <div class="member__photo"><img src="assets/img/team-kyle-480.webp" srcset="assets/img/team-kyle-240.webp 240w, assets/img/team-kyle-320.webp 320w, assets/img/team-kyle-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy" style="object-position: center top"></div>
-            <h3>Kyle Kerr</h3><p>Level Designer</p>
-          </a>
-        </div>
-        <!-- BUILD:TEAM:END -->
-
-        <!-- No link to /team/ on purpose. Every person is already on this page, and
-             the hub is a plain roster kept for crawlers and llms.txt, not for people. -->
-
-        <!-- The one link a student or graduate is here to find, placed under the grid
-             rather than in the lede because the grid is the argument: most of the
-             faces they have just scrolled past arrived the same way they would. -->
-        <p class="team__join reveal">
-          Most of the people above joined us as interns.
-          <a href="join.html">Here's how that works</a>.
-        </p>
-
-        <header class="section__head reveal team__pool-head" id="talent-pool">
-          <p class="kicker kicker--sand">The talent pool</p>
-          <h2>Friends of the <span class="underline-sand">Studio</span></h2>
-          <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
-        </header>
-
-        <!-- BUILD:TALENT:START -->
-        <div class="team__grid team__grid--pool">
-          <a class="member reveal" href="team/nathan-hopwood.html">
-            <span class="member__status member__status--active">Active</span>
-            <div class="member__photo"><img src="assets/img/team-nathan-480.webp" srcset="assets/img/team-nathan-240.webp 240w, assets/img/team-nathan-320.webp 320w, assets/img/team-nathan-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Nathan Hopwood</h3><p>3D Artist</p>
-          </a>
-          <a class="member reveal" href="team/josh-cairns.html">
-            <span class="member__status member__status--active">Active</span>
-            <div class="member__photo"><img src="assets/img/team-josh-640.webp" srcset="assets/img/team-josh-240.webp 240w, assets/img/team-josh-320.webp 320w, assets/img/team-josh-480.webp 480w, assets/img/team-josh-640.webp 640w" sizes="(max-width: 760px) 92vw, (max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed" style="--zy:-16%; --zs:2.1"></div>
-            <h3>Josh Cairns</h3><p>3D Artist</p>
-          </a>
-          <a class="member reveal" href="team/max-breeze.html">
-            <span class="member__status member__status--active">Active</span>
-            <div class="member__photo"><img src="assets/img/team-max-480.webp" srcset="assets/img/team-max-240.webp 240w, assets/img/team-max-320.webp 320w, assets/img/team-max-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Max Breeze</h3><p>Character Artist</p>
-          </a>
-          <a class="member reveal" href="team/madi-freck.html">
-            <span class="member__status member__status--active">Active</span>
-            <div class="member__photo"><img src="assets/img/team-madi-480.webp" srcset="assets/img/team-madi-240.webp 240w, assets/img/team-madi-320.webp 320w, assets/img/team-madi-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Madi Freck</h3><p>Social Media</p>
-          </a>
-          <a class="member reveal" href="team/aidan-hendry.html">
-            <span class="member__status member__status--former">Former</span>
-            <div class="member__photo"><img src="assets/img/team-aidan-480.webp" srcset="assets/img/team-aidan-240.webp 240w, assets/img/team-aidan-320.webp 320w, assets/img/team-aidan-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
-            <h3>Aidan Hendry</h3><p>Sound Designer</p>
-          </a>
-        </div>
-        <!-- BUILD:TALENT:END -->
-      </div>
-    </section>
-
-
-  </main>
-
-  <!-- ======= CONTACT / FOOTER ======= -->
-  <!-- outside <main> on purpose: a <footer> nested in main is not exposed as a
-       contentinfo landmark, so screen reader users lose 'skip to footer'. -->
-  <!-- The #contact anchor is on the heading below, not here. Landing on the
-       <footer> put the 260px logo at the top of the screen and pushed the
-       enquiry form off the bottom. -->
-  <footer class="footer">
+    <!-- ======= CONTACT ======= -->
+    <!-- The form lives here, four screens from the top, instead of at the foot
+         of a page it used to take fifteen screens to reach. Six fields: the topic
+         (which is also the email subject), name, email, message, an optional link
+         and the NDA box. The discipline, size and engine pickers went - a first
+         message does not need to be a brief, and the package cards still write
+         the size into the opening line. -->
+    <section class="section contact" id="contact-band">
       <div class="wave wave--top" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper-2)"/></svg>
       </div>
-      <div class="container footer__inner">
-        <div class="footer__main reveal">
-          <img class="footer__logo" src="assets/img/logo.svg" width="260" height="260" loading="lazy" decoding="async" alt="Shiverbug Studios logo: an ornate moth with a skull motif">
-          <h2 id="contact" tabindex="-1">Got Something to <span class="squiggle">Tell Us?</span></h2>
-          <p>A project that needs a hand, a question about the game, a portfolio you'd like us to see. Say which below and we'll come back with honest thoughts, even if the answer is "you don't need us".</p>
-          <a class="footer__email" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+      <div class="container contact__inner">
+        <div class="contact__copy reveal">
+          <p class="kicker kicker--sand">Get in touch</p>
+          <h2 id="contact" tabindex="-1">Got Something to <span class="underline-sand">Tell Us?</span></h2>
+          <p>A project that needs a hand, a question about the game, a portfolio you'd like us to see. Say which and we'll come back with honest thoughts, even if the answer is "you don't need us".</p>
+          <a class="email-link" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+          <p class="contact__note">Happy to sign an NDA before you share anything sensitive. Send a link rather than an attachment: we can't receive files here.</p>
+        </div>
 
-          <form class="codev-form" id="codevForm" action="https://formspree.io/f/xgogzlpv" method="POST">
-            <!-- honeypot: hidden from people, catnip to bots. Formspree drops anything that fills it. -->
-            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden">
+        <!-- The wrapper is where js/main.js drops the sent/failed note, so the
+             note lands above the form rather than becoming a grid cell of its own. -->
+        <div class="contact__form reveal">
+        <form class="codev-form" id="codevForm" action="https://formspree.io/f/xgogzlpv" method="POST">
+          <!-- honeypot: hidden from people, catnip to bots. Formspree drops anything that fills it. -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden">
 
-            <!-- The topic picker goes first because it used to be implied, and the
-                 implication was wrong. This was a co-development brief and nothing
-                 else, and it is the only form on the home page, so anyone writing for
-                 a different reason - a graduate, a publisher, someone asking about the
-                 game - had to invent a studio name and a discipline before it would
-                 let them send. It doubles as Formspree's _subject, so a message still
-                 arrives in the inbox labelled with what it is. -->
-            <div class="field field--wide">
-              <label for="cdTopic">What's this about?</label>
-              <select id="cdTopic" name="_subject" required>
-                <option value="">Pick one</option>
-                <option value="Co-development enquiry">Co-development or work-for-hire</option>
-                <option value="Games enquiry">Out of Water, or our own games</option>
-                <option value="Joining the studio">Freelance, internships and joining us</option>
-                <option value="Press enquiry">Press</option>
-                <option value="General enquiry">Something else</option>
-              </select>
-            </div>
+          <!-- The topic picker goes first because it used to be implied, and the
+               implication was wrong. It doubles as Formspree's _subject, so a
+               message arrives in the inbox labelled with what it is. -->
+          <div class="field field--wide">
+            <label for="cdTopic">What's this about?</label>
+            <select id="cdTopic" name="_subject" required>
+              <option value="">Pick one</option>
+              <option value="Co-development enquiry">Co-development or work-for-hire</option>
+              <option value="Games enquiry">Out of Water, or our own games</option>
+              <option value="Joining the studio">Freelance, internships and joining us</option>
+              <option value="Press enquiry">Press</option>
+              <option value="General enquiry">Something else</option>
+            </select>
+          </div>
 
-            <div class="field">
-              <label for="cdName">Your name</label>
-              <input id="cdName" type="text" name="name" autocomplete="name" required>
-            </div>
-            <div class="field">
-              <!-- "Work email" was part of the same assumption as the studio field. -->
-              <label for="cdEmail">Your email</label>
-              <input id="cdEmail" type="email" name="email" autocomplete="email" required>
-            </div>
+          <div class="field">
+            <label for="cdName">Your name</label>
+            <input id="cdName" type="text" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="cdEmail">Your email</label>
+            <input id="cdEmail" type="email" name="email" autocomplete="email" required>
+          </div>
 
-            <!-- Co-development only, and deliberately not `required` in the markup:
-                 the script adds that attribute when co-dev is picked and strips it
-                 again when the group is hidden, because a required control that is
-                 display:none blocks submission with a validation bubble nobody can
-                 see. With no JS the group stays visible and stays optional, which is
-                 the right way round to fail - a visitor is never held at a field they
-                 cannot answer. -->
-            <div class="field field--codev">
-              <label for="cdStudio">Studio or company</label>
-              <input id="cdStudio" type="text" name="studio" autocomplete="organization">
-            </div>
-            <div class="field field--codev">
-              <label for="cdHelp">What do you need?</label>
-              <select id="cdHelp" name="discipline">
-                <option value="">Pick one</option>
-                <option>Concept art</option>
-                <option>Stylised 3D art</option>
-                <option>Hard surface art</option>
-                <option>Design &amp; development</option>
-                <option>A mix of the above</option>
-                <option>Not sure yet</option>
-              </select>
-            </div>
-            <div class="field field--codev">
-              <label for="cdPackage">Rough size <span class="label-optional">(optional)</span></label>
-              <select id="cdPackage" name="package">
-                <option value="">Not sure yet</option>
-                <option>Small &ndash; Extra Capacity</option>
-                <option>Medium &ndash; Standalone Package</option>
-                <option>Large &ndash; Full Co-Development</option>
-              </select>
-            </div>
-            <div class="field field--codev">
-              <label for="cdEngine">Engine <span class="label-optional">(optional)</span></label>
-              <select id="cdEngine" name="engine">
-                <option value="">No preference or N/A</option>
-                <option>Unity</option>
-                <option>Unreal Engine 5</option>
-                <option>Something else</option>
-              </select>
-            </div>
+          <div class="field field--wide">
+            <label for="cdMsg">Your message</label>
+            <textarea id="cdMsg" name="message" rows="5" placeholder="A paragraph is plenty." required></textarea>
+          </div>
+          <!-- A link, never an upload. Formspree cannot take attachments on this
+               plan anyway, and keeping CVs out of the inbox is the difference
+               between a contact message and a pile of recruitment data with a
+               retention policy attached to it. -->
+          <div class="field field--wide">
+            <label for="cdLink">Portfolio, reel or website <span class="label-optional">(optional)</span></label>
+            <input id="cdLink" type="url" name="link" inputmode="url" placeholder="https://">
+          </div>
+          <!-- Co-development only: js/main.js shows this row when that topic is
+               picked. With no JS it stays visible and stays optional. -->
+          <div class="field--check field--codev">
+            <input id="cdNda" type="checkbox" name="nda" value="Yes">
+            <label for="cdNda">We'd like an NDA in place before sharing details</label>
+          </div>
 
-            <div class="field field--wide">
-              <label for="cdMsg">Your message</label>
-              <textarea id="cdMsg" name="message" rows="5" placeholder="A paragraph is plenty." required></textarea>
-            </div>
-            <!-- A link, never an upload. Formspree cannot take attachments on this
-                 plan anyway, and keeping CVs out of the inbox is the difference
-                 between a contact message and a pile of recruitment data with a
-                 retention policy attached to it. -->
-            <div class="field field--wide">
-              <label for="cdLink">Portfolio, reel or website <span class="label-optional">(optional)</span></label>
-              <input id="cdLink" type="url" name="link" inputmode="url" placeholder="https://">
-            </div>
-            <div class="field--check field--codev">
-              <input id="cdNda" type="checkbox" name="nda" value="Yes">
-              <label for="cdNda">We'd like an NDA in place before sharing details</label>
-            </div>
-
+          <div class="codev-form__foot">
+            <p class="form-privacy">Messages reach us via Formspree and we only use them to reply. See our <a href="privacy.html">privacy policy</a>.</p>
             <button class="btn btn--sand" type="submit">Send message</button>
-            <p class="form-privacy">Messages reach us via Formspree and we only use them to reply. Send a link rather than an attachment &ndash; we can't receive files here. See our <a href="privacy.html">privacy policy</a>.</p>
-          </form>
+          </div>
+        </form>
+        </div>
+      </div>
+    </section>
 
-          <!-- Direct links, not a Linktree hop. A crawler following one hop to a
-               redirect page learns nothing about who we are; these give it the
-               profiles themselves, and rel="me" claims them as ours. Generated
-               by tools/build-team.ps1 from $studioSocials - edit it there. -->
-          <!-- BUILD:SOCIALS:START -->
+  </main>
+
+  <!-- ======= FOOTER ======= -->
+  <!-- outside <main> on purpose: a <footer> nested in main is not exposed as a
+       contentinfo landmark, so screen reader users lose 'skip to footer'. -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img class="footer__wordmark" src="assets/img/nav-wordmark.webp" alt="Shiverbug Studios" width="316" height="138" loading="lazy" decoding="async">
+          <p>Designers, artists and programmers in North East England. Co-development for studios, and a couch co-op game of our own.</p>
+          <a class="email-link" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+        </div>
+        <nav class="footer__nav" aria-label="Site">
+          <div class="footer__col">
+            <p class="footer__label">Studio</p>
+            <a href="#services">Co-development</a>
+            <a href="games.html">Out of Water</a>
+            <a href="team/">Team</a>
+            <a href="join.html">Join us</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer__col">
+            <p class="footer__label">Small print</p>
+            <a href="press.html">Press kit</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="accessibility.html">Accessibility</a>
+          </div>
+        </nav>
+      </div>
+
+      <!-- Direct links, not a Linktree hop. A crawler following one hop to a
+           redirect page learns nothing about who we are; these give it the
+           profiles themselves, and rel="me" claims them as ours. Generated
+           by tools/build-team.ps1 from $studioSocials - edit it there. -->
+      <!-- BUILD:SOCIALS:START -->
         <nav class="footer__socials" aria-label="Shiverbug Studios elsewhere">
           <ul>
             <li><a href="https://bsky.app/profile/shiverbugstudios.bsky.social" target="_blank" rel="me noopener" title="Bluesky"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.913 8.686 7.954 4.747 5.202 2.805 2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg><span class="visually-hidden">Shiverbug Studios on Bluesky</span></a></li>
@@ -1114,13 +848,13 @@
           </ul>
         </nav>
         <!-- BUILD:SOCIALS:END -->
-        </div>
-        <div class="footer__meta">
-          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a> &middot; <a class="footer__press" href="accessibility.html">Accessibility</a></p>
-          <p class="footer__tag">Bringing family game night back to the sofa.</p>
-          <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
-        </div>
+
+      <div class="footer__meta">
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK</p>
+        <p class="footer__tag">Bringing family game night back to the sofa.</p>
+        <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
       </div>
+    </div>
   </footer>
 
 

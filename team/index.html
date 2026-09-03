@@ -40,7 +40,7 @@
     "about":  {
                   "@id":  "https://shiverbugstudios.com/#studio"
               },
-    "dateModified":  "2026-08-19",
+    "dateModified":  "2026-09-03",
     "inLanguage":  "en-GB",
     "breadcrumb":  {
                        "@type":  "BreadcrumbList",
@@ -254,7 +254,6 @@
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="../index.html#services">Co-Dev</a>
         <a href="../games.html">Our Games</a>
-        <a href="../index.html#studio">Studio</a>
         <a href="index.html" aria-current="page">Team</a>
         <a href="../join.html">Join Us</a>
         <a href="../press.html">Press</a>
@@ -266,22 +265,66 @@
     </div>
   </header>
 
-  <main class="profile team" id="top">
-    <div class="container">
-      <a class="backlink" href="../index.html">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Back to home
-      </a>
-      <header class="section__head">
+  <main id="top" class="page">
+    <header class="page-head">
+      <div class="container">
+        <a class="backlink" href="../index.html">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to home
+        </a>
         <p class="kicker kicker--sand">The shiverbugs</p>
         <h1>Meet the <span class="underline-sand">Team</span></h1>
-        <p class="section__lede">
-          Everyone who makes Shiverbug work. Click anyone to read their story, see their portfolio and find them elsewhere.
-        </p>
-      </header>
+        <p class="page-head__lede">Everyone who makes Shiverbug work. Click anyone to read their story, see their portfolio and find them elsewhere.</p>
+      </div>
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,90 L0,90 Z" fill="var(--paper)"/></svg>
+      </div>
+    </header>
 
-      <h2 class="team__label">Founders</h2>
-      <div class="team__grid team__grid--founders">
+    <!-- The studio story and the Tranzfuser photo. Both lived on the home page
+         until the September 2026 redesign; in a co-dev studio the people are
+         the pitch, so this is where the story about them goes. -->
+    <section class="section studio" id="studio">
+      <div class="container studio__inner">
+        <figure class="studio__photo reveal">
+          <img src="../assets/img/tranzfuser-award-600.webp"
+               srcset="../assets/img/tranzfuser-award-400.webp 400w, ../assets/img/tranzfuser-award-600.webp 600w, ../assets/img/tranzfuser-award.webp 795w"
+               sizes="(max-width: 980px) min(92vw, 480px), 36vw"
+               alt="Shiverbug Studios' three co-founders on stage at Tranzfuser 2025, holding an oversized Public Vote Winner certificate between them, beneath a large lit Tranzfuser sign."
+               width="795" height="530" loading="lazy" decoding="async">
+        </figure>
+        <div class="studio__copy reveal">
+          <p class="kicker kicker--leaf">The studio</p>
+          <h2>Games Are Better <span class="underline-leaf">Together</span></h2>
+          <p>
+            Shiverbug started with a simple idea: games should be joyful, shared,
+            and welcoming for players of all ages. The kind of thing a whole
+            household can pile onto the sofa for.
+          </p>
+          <p>
+            We took Out of Water to ProtoPlay 2025 as a Tranzfuser team, and came
+            home with the Public Vote Winner award: the highest number of votes of
+            any team in the competition. That's our three founders on the stage,
+            turtle included.
+          </p>
+          <p>
+            We're designers, artists and programmers based in North East England.
+            You'll find us at Gamebridge, GameNext, and anywhere else the region's
+            dev scene gets together. Occasionally we even venture down south.
+          </p>
+          <ul class="studio__facts">
+            <li><strong>11</strong><span>people &amp; growing</span></li>
+            <li><strong>NE</strong><span>England, UK</span></li>
+            <li><strong>1</strong><span>debut title in the works</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section team-roster" id="roster">
+      <div class="container">
+        <h2 class="team__label">Founders</h2>
+        <div class="team__grid team__grid--founders">
           <a class="member reveal" href="lewis-mennim.html">
             <div class="member__photo"><img src="../assets/img/team-lewis-640.webp" srcset="../assets/img/team-lewis-240.webp 240w, ../assets/img/team-lewis-320.webp 320w, ../assets/img/team-lewis-480.webp 480w, ../assets/img/team-lewis-640.webp 640w" sizes="(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed" style="--zy:-15%"></div>
             <h3>Lewis Mennim</h3><p>CEO</p>
@@ -294,10 +337,10 @@
             <div class="member__photo"><img src="../assets/img/team-garrett-640.webp" srcset="../assets/img/team-garrett-240.webp 240w, ../assets/img/team-garrett-320.webp 320w, ../assets/img/team-garrett-480.webp 480w, ../assets/img/team-garrett-640.webp 640w" sizes="(max-width: 980px) 60vw, (max-width: 1260px) 44vw, 548px" alt="" loading="lazy" class="is-zoomed" style="--zy:-22%"></div>
             <h3>Garrett Windus</h3><p>3D Artist</p>
           </a>
-      </div>
+        </div>
 
-      <h2 class="team__label">The studio</h2>
-      <div class="team__grid">
+        <h2 class="team__label">The studio</h2>
+        <div class="team__grid">
           <a class="member reveal" href="sarah-childs.html">
             <div class="member__photo"><img src="../assets/img/team-sarah-480.webp" srcset="../assets/img/team-sarah-240.webp 240w, ../assets/img/team-sarah-320.webp 320w, ../assets/img/team-sarah-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
             <h3>Sarah Childs</h3><p>Character Concept Artist</p>
@@ -330,15 +373,24 @@
             <div class="member__photo"><img src="../assets/img/team-kyle-480.webp" srcset="../assets/img/team-kyle-240.webp 240w, ../assets/img/team-kyle-320.webp 320w, ../assets/img/team-kyle-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy" style="object-position: center top"></div>
             <h3>Kyle Kerr</h3><p>Level Designer</p>
           </a>
-      </div>
+        </div>
 
-      <header class="section__head team__pool-head">
-        <p class="kicker kicker--sand">The talent pool</p>
-        <h2>Friends of the <span class="underline-sand">Studio</span></h2>
-        <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
-      </header>
+        <!-- The one link a student or graduate is here to find, placed under the
+             grid rather than in the lede because the grid is the argument: most
+             of the faces they have just scrolled past arrived the same way they
+             would. -->
+        <p class="team__join">
+          Most of the people above joined us as interns.
+          <a href="../join.html">Here's how that works</a>.
+        </p>
 
-      <div class="team__grid team__grid--pool">
+        <header class="section__head team__pool-head" id="talent-pool">
+          <p class="kicker kicker--sand">The talent pool</p>
+          <h2>Friends of the <span class="underline-sand">Studio</span></h2>
+          <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
+        </header>
+
+        <div class="team__grid team__grid--pool">
           <a class="member reveal" href="nathan-hopwood.html">
             <span class="member__status member__status--active">Active</span>
             <div class="member__photo"><img src="../assets/img/team-nathan-480.webp" srcset="../assets/img/team-nathan-240.webp 240w, ../assets/img/team-nathan-320.webp 320w, ../assets/img/team-nathan-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
@@ -364,12 +416,36 @@
             <div class="member__photo"><img src="../assets/img/team-aidan-480.webp" srcset="../assets/img/team-aidan-240.webp 240w, ../assets/img/team-aidan-320.webp 320w, ../assets/img/team-aidan-480.webp 480w" sizes="(max-width: 760px) 46vw, (max-width: 980px) 30vw, (max-width: 1260px) 22vw, 274px" alt="" loading="lazy"></div>
             <h3>Aidan Hendry</h3><p>Sound Designer</p>
           </a>
+        </div>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer class="footer footer--mini">
+  <footer class="footer">
     <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img class="footer__wordmark" src="../assets/img/nav-wordmark.webp" alt="Shiverbug Studios" width="316" height="138" loading="lazy" decoding="async">
+          <p>Designers, artists and programmers in North East England. Co-development for studios, and a couch co-op game of our own.</p>
+          <a class="email-link" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+        </div>
+        <nav class="footer__nav" aria-label="Site">
+          <div class="footer__col">
+            <p class="footer__label">Studio</p>
+            <a href="../index.html#services">Co-development</a>
+            <a href="../games.html">Out of Water</a>
+            <a href="../team/" aria-current="page">Team</a>
+            <a href="../join.html">Join us</a>
+            <a href="../faq.html">FAQ</a>
+          </div>
+          <div class="footer__col">
+            <p class="footer__label">Small print</p>
+            <a href="../press.html">Press kit</a>
+            <a href="../privacy.html">Privacy</a>
+            <a href="../accessibility.html">Accessibility</a>
+          </div>
+        </nav>
+      </div>
       <nav class="footer__socials" aria-label="Shiverbug Studios elsewhere">
         <ul>
           <li><a href="https://bsky.app/profile/shiverbugstudios.bsky.social" target="_blank" rel="me noopener" title="Bluesky"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.913 8.686 7.954 4.747 5.202 2.805 2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg><span class="visually-hidden">Shiverbug Studios on Bluesky</span></a></li>
@@ -383,7 +459,7 @@
         </ul>
       </nav>
       <div class="footer__meta">
-        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK</p>
         <p class="footer__tag">Bringing family game night back to the sofa.</p>
         <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
       </div>

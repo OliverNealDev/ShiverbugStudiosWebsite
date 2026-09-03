@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Shiverbug Studios stylesheet
    Palette: ink (logo black), warm paper, sea blue / turtle
    green / sandy-shores orange
@@ -87,9 +87,10 @@
    instead: a lighter fill, a one-pixel rim catching light along the
    top, and a soft shadow underneath.
 
-   The sticker survives in one place, .sticker itself, because it is
-   sand on a photograph rather than a surface on a surface, and a hard
-   dark outline is still exactly right there.
+   The stickers and the rotated photo frames went with the September
+   2026 redesign (see DIRECTION A at the foot of this file): every
+   photograph on the site now sits flat in a one-pixel rim, like every
+   other raised surface.
    ============================================================ */
 
 :root {
@@ -349,9 +350,9 @@ h1, h2, h3 {
   outline-offset: 2px;
   border-radius: 2px;
 }
-.nav :focus-visible, .hero :focus-visible, .services :focus-visible,
+.nav :focus-visible, .hero :focus-visible, .contact :focus-visible,
 .proof :focus-visible, .footer :focus-visible, .lightbox :focus-visible,
-.community :focus-visible {
+.community :focus-visible, .page-head :focus-visible, .game-hero :focus-visible {
   outline-color: var(--sand);
 }
 
@@ -405,7 +406,9 @@ h1, h2, h3 {
 .hero .kicker--sand,
 .proof .kicker--sand,
 .community .kicker--sand,
-.footer .kicker--sand { color: var(--sand); }
+.contact .kicker--sand,
+.page-head .kicker--sand,
+.game-hero .kicker--sand { color: var(--sand); }
 
 /* marker-style underline accents */
 /* The band used to be .3em tall sitting .06em up, which put its top edge 31% of
@@ -423,12 +426,6 @@ h1, h2, h3 {
 .underline-sand::after { background: color-mix(in srgb, var(--sand) 80%, transparent); }
 .underline-leaf::after { background: color-mix(in srgb, var(--leaf) 60%, transparent); }
 
-.squiggle { position: relative; display: inline-block; }
-.squiggle::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -.18em; height: .22em;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 8 Q 12 2, 22 8 T 42 8 T 62 8 T 82 8 T 102 8 T 122 8' fill='none' stroke='%23eda14d' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
-  background-size: auto 100%;
-}
 
 .dot {
   display: inline-block; width: 9px; height: 9px; border-radius: 50%;
@@ -440,19 +437,6 @@ h1, h2, h3 {
   50% { box-shadow: 0 0 0 7px rgba(85, 179, 104, 0); }
 }
 
-.sticker {
-  position: absolute;
-  font-family: var(--font-display); font-weight: 700; font-size: .85rem;
-  padding: .45rem 1rem; border-radius: var(--radius-sm);
-  border: 2px solid var(--hard);
-  box-shadow: 0 3px 0 var(--hard);
-  transform: rotate(-4deg);
-}
-/* One sticker colour, on purpose. A sticker is always shouting about something
-   we want you to notice, which makes it sand by definition; the teal variant
-   that used to sit here was never placed on a page and only ever offered a
-   second answer to a question that has one. */
-.sticker--sand { background: var(--sand); color: var(--ink); }
 
 /* ---------- nav ---------- */
 /* The bare edge. There is no bar over the hero at all: the wordmark sits large
@@ -580,7 +564,7 @@ h1, h2, h3 {
   color: #fff;
   /* a touch more ink above and below the introduction - the logo needs room to
      breathe now it is the first thing on the page rather than a nav trinket */
-  padding: clamp(9rem, 17vh, 12rem) 0 clamp(7rem, 14vh, 9.5rem);
+  padding: clamp(8rem, 15vh, 10.5rem) 0 clamp(6.5rem, 12vh, 9rem);
   overflow: hidden;
 }
 .hero__inner {
@@ -598,205 +582,12 @@ h1, h2, h3 {
 }
 .hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; }
 
-.hero__frame {
-  position: relative;
-  border-radius: var(--radius-lg);
-  transform: rotate(2deg);
-  transition: transform .4s var(--ease-out);
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,.55);
-}
-.hero__frame:hover { transform: rotate(.5deg) translateY(-6px); }
-.hero__frame img {
-  border-radius: var(--radius-lg);
-  border: 3px solid rgba(255,255,255,.14);
-  aspect-ratio: 16/10; object-fit: cover; width: 100%;
-}
-.hero__frame .sticker--sand { top: -14px; left: -10px; }
 
-/* The logo, at a size where the linework reads. It's transparent white vector
-   on the dark hero, so it needs no plate behind it, and 400px is a layout
-   choice rather than a sharpness ceiling now that the source is an SVG. */
-.hero__logo {
-  width: min(400px, 100%); height: auto;
-  margin-inline: auto;
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .45));
-}
 
 .wave { position: absolute; inset-inline: 0; bottom: -1px; line-height: 0; }
 .wave svg { width: 100%; height: clamp(40px, 7vw, 90px); }
 .wave--top { top: -1px; bottom: auto; }
 
-/* ---------- recognition & programmes ---------- */
-/* Names as type, not logos: we don't hold usage rights to any of these marks,
-   and a text credit needs none.
-
-   This band spent a long time as a bare strip of four programme names. When the
-   Tranzfuser win finally had a photograph, the picture was bolted on beside them
-   - and four short names have nothing like the visual weight of a photograph, so
-   the band read as lopsided at every width no matter how the two were sized
-   against each other. It now takes the shape the rest of the page already uses
-   whenever an image has to carry a point: framed photo one side, kicker, heading
-   and copy the other, exactly like the proof band and the studio band below.
-   Giving the picture real copy to sit against is the thing that fixes the
-   balance; sizing the two halves against each other only moved it around. */
-.creds { background: var(--paper); padding-top: clamp(2.5rem, 5vw, 4rem); }
-/* The section that follows is on the same paper and opens with its own heading,
-   so it doesn't need a full section's worth of run-up on top of this one's. */
-.creds + .section { padding-top: clamp(2rem, 4vw, 3.25rem); }
-.creds__inner {
-  display: grid; grid-template-columns: .95fr 1.05fr;
-  gap: clamp(2.5rem, 6vw, 5rem); align-items: center;
-}
-.creds__frame { position: relative; }
-.creds__frame img {
-  width: 100%; height: auto; display: block;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-pop);
-  transform: rotate(-2deg);
-  transition: transform .35s var(--ease-out);
-}
-.creds__frame:hover img { transform: rotate(-.5deg) translateY(-5px); }
-/* Bottom-left, matching the proof and studio frames. It used to have to be this
-   side because bottom-right was where the crocheted turtle was; that photo has
-   been replaced by the certificate shot, which has nothing in either bottom
-   corner, so this is now just the house position. */
-.creds__frame .sticker { bottom: -10px; left: 20px; }
-.creds__copy h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin-bottom: 1.1rem; }
-/* :not(.kicker) because the kicker is a <p> too, and ".creds__copy p" outweighs
-   ".kicker--leaf" - so the Recognition eyebrow has been rendering in body grey
-   this whole time while the class on it said leaf. Same story in .studio__copy.
-   Any new section rule that colours a bare <p> needs this exclusion. */
-.creds__copy p:not(.kicker) { color: var(--text-soft); margin-bottom: 1.5rem; max-width: 56ch; }
-/* The "Part of" block used to close this column, so the last paragraph's margin
-   had something to push against. It is its own band now, and the leftover
-   24px was quietly pulling the copy off centre against the photo. */
-.creds__copy > p:last-child { margin-bottom: 0; }
-/* The "Part of" block spans the band rather than sitting in the copy column -
-   see the note on it in index.html for why the two lockups need the width. */
-.creds__part {
-  grid-column: 1 / -1;
-  margin-top: clamp(2rem, 4vw, 3rem);
-  padding-top: clamp(1.5rem, 3vw, 2.2rem);
-  border-top: 1px solid rgba(255, 255, 255, .12);
-}
-/* The label sits ABOVE the list rather than inline beside it - inline pushed the
-   names to a left edge nothing else on the page shared. */
-.creds__label {
-  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
-  text-transform: uppercase; letter-spacing: .14em;
-  color: var(--leaf-ink);
-  margin-bottom: .7rem;
-}
-/* Four equal columns, not a wrapping row. The marks sit straight on the paper
-   with no plate behind them, so the even columns and the gap are the only thing
-   holding them together as one row - which is why the sizing below matters more
-   here than it did when each had a box to be centred in. Two columns from
-   1080px down, where four would squeeze the two single-line lockups below the
-   size of the other two. */
-.creds__list {
-  list-style: none;
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: clamp(1.25rem, 2.5vw, 2rem);
-  /* Rows size themselves, so once this wraps to 2x2 the row holding the tallest
-     lockup came out deeper than the row below it, and the marks stopped sitting
-     on an even rhythm. 1fr equalises the rows; each mark is then centred in an
-     identical band. */
-  grid-auto-rows: 1fr;
-  /* No text left in here, and these stay anyway: every item is an image, so
-     these rules are what a failed load falls back into. */
-  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
-  color: var(--text-ink);
-}
-.creds__list li { display: flex; align-items: center; justify-content: center; text-align: center; }
-/* Every mark is a multiple of ONE shared width, so the four stay in step at any
-   size: all of them are on the percentage below ~230px of column, all of them
-   are on the pixel cap above it, and they cross over together. Change --mark
-   and the other three follow. The percentage is also what stops the wide ones
-   overflowing on a phone, so none of them needs a max-width escape hatch.
-
-   The multiples are not arithmetic. These four are wildly different shapes -
-   3.28:1 for UK Games Fund, 2.85:1 for Game Republic, 6.48:1 and 6.71:1 for the
-   two single-line ones - and their lettering takes up anywhere from 0.20 to 0.40
-   of their artwork, because Game Republic's is a small wordmark under a tall
-   badge while the Forum's fills its box. Matching any single dimension leaves
-   one of them visibly wrong, and matching cap heights exactly - which is what
-   the previous pair did - shrinks Tranzfuser to a 13px whisper, since it is one
-   short line of thin, pale strokes rather than two of solid caps. These were
-   set by rendering all four together and comparing, which is the only thing
-   that works once a set is this mixed. Re-render before changing one.
-
-   Both numbers came down when the plates came off. The percentage was measured
-   against a tile's content box, inside 1rem of padding; with no plate there is
-   no padding, so 65 would have run the widest mark almost edge to edge of its
-   column - 58 leaves the Forum at ~84%, which is the margin the padding used to
-   provide. And a mark with a plate behind it reads smaller than the same mark
-   bare, because the plate gives the eye an edge to measure it against, so the
-   cap came down from 144 to keep the row at the weight it had in boxes. */
-.creds__list { --mark: min(132px, 58%); }
-/* No plates. These four sit straight on the page like everything else.
-   Getting there took a different answer per mark, because they are supplied
-   artwork drawn for a light ground and we cannot redraw them:
-
-   Game Republic ships a dark-mode lockup of its own now, so it just works.
-
-   The Entrepreneurs' Forum mark is the one that can be inverted, and the
-   only one: sampling the pixels, 100% of its ink is dark and 0% of it is
-   chromatic, so it is pure monochrome and flipping it produces white rather
-   than somebody else's brand in the wrong colour. Inverted, all of its ink
-   clears 3:1 on --paper, worst case 3.62.
-
-   Tranzfuser needs nothing. None of its ink is dark and 95% of it already
-   clears 3:1 here.
-
-   UK Games Fund is the awkward one and gets brightened rather than
-   inverted. Its ink is entirely chromatic - magenta, pink and green - so an
-   invert would print the wrong brand colours, but left alone only 40% of it
-   clears 3:1 and over half sits in the 2-3:1 band, which reads as a smudge.
-   A straight brightness lift keeps the hue (measured: about 3 degrees of
-   drift at 1.5) and takes it to roughly 96% passing. It is a workaround for
-   a mark we do not have a dark version of, not a house style - if the UK
-   Games Fund ever supplies one, drop the filter and use it. */
-.creds__mark--ef { filter: invert(1); }
-.creds__mark--ukgf { filter: brightness(1.55); }
-.creds__mark { width: var(--mark); height: auto; }
-.creds__mark--gr { width: calc(var(--mark) * 1.100); }
-.creds__mark--ef { width: calc(var(--mark) * 1.444); }
-.creds__mark--tf { width: calc(var(--mark) * 1.250); }
-/* Width has to be definite on the one mark that is wrapped in a link, or the
-   percentage above resolves against the anchor's own shrink-to-fit width -
-   which depends on the image - and the mark lands at its intrinsic size. It
-   also gives the one clickable thing in the row a full-column hit area rather
-   than a logo-sized one. */
-.creds__list a { display: flex; align-items: center; justify-content: center; width: 100%; }
-/* With the plates gone there is no border or background left to light up, so
-   the lift does the whole job - the same move the Tranzfuser photo above makes
-   on hover. It is on the mark, not the anchor, because the anchor is a full
-   column wide and moving that would drag empty paper around with it. */
-.creds__list a .creds__mark { transition: transform .3s var(--ease-out); }
-.creds__list a:hover .creds__mark { transform: translateY(-4px); }
-/* No box to hang a ring on any more, so it goes on the anchor and stands off
-   far enough to clear the artwork. */
-.creds__list a:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; border-radius: var(--radius-sm); }
-@media (prefers-reduced-motion: reduce) {
-  .creds__list a:hover .creds__mark { transform: none; }
-}
-@media (max-width: 1080px) {
-  .creds__list { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-  .creds__list { font-size: .92rem; }
-}
-/* One column, not a 2x2, on a phone. The Forum lockup is already at ~84% of its
-   column - the rest is the breathing room the marks need with nothing behind
-   them - so in two columns below this width its letters drop to around 8px, and
-   "ENTREPRENEURS' FORUM" stops being readable long before it stops fitting.
-   Tranzfuser, thinner and paler, goes first. Full width puts all four back on
-   their pixel cap at the cost of ~350px of scroll, which is the right trade for
-   marks you are meant to recognise. */
-@media (max-width: 480px) {
-  .creds__list { grid-template-columns: 1fr; }
-}
 
 /* ---------- sections ---------- */
 /* Every section carried this top AND bottom, so consecutive sections put 230px
@@ -821,85 +612,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .section__head--light .section__lede { color: var(--text-paper-soft); }
 .section__head--light .section__note { color: var(--text-paper-soft); }
 
-/* ---------- game ---------- */
-.game { background: var(--paper); padding-top: 3.5rem; }
-
-/* Deliberately narrower than the shots below it. Full width, this clip reads as
-   the trailer it isn't - it's two characters standing still while the camera
-   drifts, and at hero size the lack of anything happening is the loudest thing
-   on the page. Small enough to be an aside, it plays as one. */
-.game__player {
-  position: relative; border-radius: var(--radius-lg); overflow: hidden;
-  background: var(--ink);
-  box-shadow: var(--shadow-pop);
-  max-width: 680px; margin-inline: auto;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-/* The img rule stays for whatever ends up in here next - a still, the trailer,
-   or this clip again. */
-.game__player video,
-.game__player img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-.game__trailer-note {
-  font-size: .93rem; font-style: italic;
-  color: var(--text-soft);
-  margin: 1rem auto 2.5rem; max-width: 60ch;
-}
-
-/* features: plain editorial list, no boxes */
-.game__features {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 2rem 2.5rem;
-  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
-}
-.game__features li {
-  border-top: 3px solid var(--line);
-  padding-top: 1.1rem;
-  font-size: .97rem; color: var(--text-soft);
-}
-/* sea, sand, leaf, crab - the same order as .svc and .step. This row used to
-   swap the middle two, which is invisible on its own page and obvious the
-   moment you tab between this and the co-dev services. */
-.game__features li:nth-child(1) { border-top-color: var(--sea); }
-.game__features li:nth-child(2) { border-top-color: var(--sand); }
-.game__features li:nth-child(3) { border-top-color: var(--leaf); }
-.game__features li:nth-child(4) { border-top-color: var(--crab); }
-.game__features strong {
-  display: block; font-family: var(--font-display); font-weight: 700;
-  color: var(--heading); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
-}
-
-/* Two shots across on desktop, stacked on a phone. The clip above does the
-   establishing work; these are the ones that show it's a whole world. */
-.game__shots {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
-  margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
-}
-.game__shots a {
-  display: block; border-radius: var(--radius); overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, .12);
-  transition: border-color .25s, box-shadow .25s, transform .25s var(--ease-out);
-}
-.game__shots a:hover {
-  border-color: var(--line); box-shadow: var(--shadow-pop); transform: translateY(-3px);
-}
-.game__shots img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-@media (max-width: 760px) {
-  .game__shots { grid-template-columns: 1fr; }
-}
-
-.game__cta {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, .15);
-  border-bottom: 1px solid rgba(255, 255, 255, .15);
-  padding: 1.8rem .2rem;
-}
-.game__status {
-  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
-  display: flex; align-items: center; gap: .6rem;
-}
-.game__note { color: var(--text-soft); font-size: .98rem; }
-.game__cta-buttons { display: flex; flex-wrap: wrap; gap: .8rem; }
 
 /* ---------- for publishers ---------- */
 /* A different audience to everything above it, so it gets a shift in background
@@ -971,24 +683,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   margin: -1px; padding: 0; overflow: hidden;
   clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
-.newsletter {
-  padding: 1.8rem .2rem 0;
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
-  gap: 1.2rem 2rem;
-}
-.newsletter__copy h3 { font-size: 1.2rem; margin-bottom: .3rem; }
-.newsletter__copy p { color: var(--text-soft); font-size: .95rem; max-width: 44ch; }
-.newsletter__form { display: flex; flex-wrap: wrap; gap: .7rem; }
-.newsletter__form input[type="email"] {
-  font: inherit; padding: .8rem 1rem; min-width: 240px;
-  border: 2px solid rgba(255, 255, 255, .25); border-radius: var(--radius);
-  background: var(--plate); color: var(--text-ink);
-}
-.newsletter__form input[type="email"]:focus-visible {
-  border-color: var(--sea-ink);
-  /* --focus, matching the global :focus-visible ring. */
-  outline: 3px solid var(--focus); outline-offset: 2px;
-}
 
 .newsletter .form-note { flex-basis: 100%; margin-bottom: 0; }
 .form-note {
@@ -1007,51 +701,29 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   background: color-mix(in srgb, var(--crab) 12%, transparent);
   border: 2px solid var(--crab-deep);
 }
-.footer .form-sent {
+.contact .form-sent {
   color: #b9e8c3;
   background: rgba(85,179,104,.15);
   border-color: rgba(85,179,104,.6);
-  max-width: 480px; margin-inline: auto;
 }
-.footer .form-error {
+.contact .form-error {
   color: #f3b0a7;
   background: rgba(224,88,74,.15);
   border-color: rgba(224,88,74,.6);
-  max-width: 480px; margin-inline: auto;
 }
 
-/* ---------- footer contact form ---------- */
-.footer__form {
-  max-width: 480px; margin: 0 auto 2.4rem;
-  display: grid; gap: .8rem; text-align: left;
-}
-.footer__form input, .footer__form textarea {
-  font: inherit; padding: .85rem 1rem;
-  border: 2px solid rgba(255,255,255,.18); border-radius: var(--radius);
-  background: rgba(255,255,255,.06); color: var(--text-paper);
-  resize: vertical;
-}
-.footer__form input::placeholder, .footer__form textarea::placeholder { color: var(--text-paper-soft); }
-.footer__form input:focus-visible, .footer__form textarea:focus-visible {
-  border-color: var(--sand);
-  background: rgba(255,255,255,.1);
-  outline: 3px solid var(--sand); outline-offset: 2px;
-}
-.footer__form .btn { justify-self: center; }
-/* honeypot: in the DOM for bots, genuinely zero-size for people. Without this the
-   shared input padding above would inflate it back to a 36x31 box. */
-.footer__form input[name="_gotcha"] { padding: 0; border: 0; }
 
-/* ---------- co-dev enquiry form ----------
-   Wider than the general contact form and split into two columns, because it
-   asks the qualifying questions we would otherwise have to email back for:
-   discipline, size, engine. Labels are visible rather than placeholder-only:
-   this form is long enough that a placeholder disappearing on focus loses the
-   question, and 3.3.2 wants the label to survive typing. */
+/* ---------- the enquiry form ----------
+   A card on the contact band, two columns. Six fields: the topic picker (which
+   is also the email subject), name, email, message, an optional link and the
+   NDA box. Labels are visible rather than placeholder-only: 3.3.2 wants the
+   label to survive typing. */
 .codev-form {
-  max-width: 640px; margin: 0 auto 2.4rem;
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem; text-align: left;
+  background: var(--plate); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  box-shadow: var(--rim), var(--lift);
+  padding: clamp(1.3rem, 3vw, 1.8rem);
 }
 .codev-form .field { display: grid; gap: .35rem; min-width: 0; }
 .codev-form .field--wide { grid-column: 1 / -1; }
@@ -1068,7 +740,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .codev-form input, .codev-form select, .codev-form textarea {
   font: inherit; padding: .8rem 1rem; width: 100%;
   border: 2px solid rgba(255,255,255,.18); border-radius: var(--radius);
-  background: rgba(255,255,255,.06); color: var(--text-paper);
+  background: var(--paper); color: var(--text-paper);
   resize: vertical;
 }
 .codev-form input::placeholder, .codev-form textarea::placeholder { color: var(--text-paper-soft); }
@@ -1109,18 +781,20 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   display: block; min-height: 44px;
   padding: calc((44px - 1.5em) / 2) 0 calc((44px - 1.5em) / 2) .7rem;
 }
-.codev-form .btn { grid-column: 1 / -1; justify-self: center; }
-.codev-form .form-privacy {
+/* the note and the button share the last row: note left, button right */
+.codev-form__foot {
   grid-column: 1 / -1;
-  color: var(--text-paper-soft); text-align: center; max-width: none; margin-top: -.4rem;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1rem; margin-top: .2rem;
 }
+.codev-form .form-privacy { color: var(--text-paper-soft); max-width: 40ch; margin: 0; }
 .codev-form .form-privacy a:hover { color: #fff; }
 /* The honeypot is .visually-hidden, but the rule above is more specific and was
    winning: width:100% on an absolutely positioned input resolved against the
    footer and pushed the page 147px wider than the viewport. Re-state the three
    properties .visually-hidden cares about that leak through. */
 .codev-form input[name="_gotcha"] { padding: 0; border: 0; width: 1px; }
-.footer .codev-form + .form-sent, .footer .codev-form + .form-error { max-width: 640px; }
+.contact__form .form-note { margin-bottom: 1rem; }
 @media (max-width: 620px) {
   .codev-form { grid-template-columns: 1fr; }
 }
@@ -1133,44 +807,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   max-width: 46ch; margin-top: -.1rem;
 }
 .form-privacy a { text-decoration: underline; text-underline-offset: 2px; }
-.footer__form .form-privacy {
-  color: var(--text-paper-soft);
-  text-align: center; max-width: none; margin-top: -.4rem;
-}
-.footer__form .form-privacy a:hover { color: #fff; }
 
-/* ---------- services (dark band) ---------- */
-.services {
-  background:
-    radial-gradient(760px 500px at 0% 100%, rgba(36, 205, 242, .26), transparent 64%),
-    var(--ink);
-  color: var(--text-paper);
-}
-.services__grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 3rem;
-  border-top: 1px solid rgba(255,255,255,.15);
-}
-.card {
-  padding: 1.9rem 1.7rem 1.9rem 0;
-  border-right: 1px solid rgba(255,255,255,.15);
-  transition: transform .25s var(--ease-out);
-}
-.card:last-child { border-right: 0; }
-.card:nth-child(2) { padding-left: 1.7rem; }
-.card:nth-child(3) { padding-left: 1.7rem; padding-right: 0; }
-.card:hover { transform: translateY(-4px); }
-.card__num {
-  font-family: var(--font-display); font-weight: 800; font-size: .9rem;
-  color: var(--sand); letter-spacing: .1em; margin-bottom: 1.1rem;
-}
-.card h3 { color: #fff; font-size: 1.35rem; margin-bottom: .7rem; }
-.card p { color: var(--text-paper-soft); font-size: .98rem; }
-
-.services__cta {
-  display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem;
-}
-.services__cta p { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: #fff; }
 
 /* ---------- studio ---------- */
 .studio { background: var(--paper); }
@@ -1183,11 +820,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-pop);
-  transform: rotate(-2deg);
-  transition: transform .35s var(--ease-out);
 }
-.studio__photo:hover img { transform: rotate(-.5deg) translateY(-4px); }
-.studio__photo .sticker { bottom: -8px; left: 22px; }
 .studio__copy h2 { font-size: clamp(2rem, 3.8vw, 3rem); margin-bottom: 1.2rem; }
 .studio__copy p:not(.kicker) { color: var(--text-soft); margin-bottom: 1.1rem; max-width: 56ch; }
 .studio__facts {
@@ -1207,7 +840,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   font-size: .95rem; color: var(--text-soft);
 }
 .team__join a { font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-.team__pool-head { margin-top: clamp(6rem, 11vw, 9rem); }
+.team__pool-head { margin-top: clamp(3.5rem, 7vw, 5.5rem); }
 .team__grid {
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.3rem;
 }
@@ -1358,93 +991,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .carousel__credit--unfinished { pointer-events: none; }
 .svc__crew-note { max-width: 42ch; margin-top: .8rem; }
 
-/* ---------- footer ---------- */
-.footer {
-  position: relative;
-  background:
-    radial-gradient(1000px 580px at 50% 0%, rgba(36, 205, 242, .26), transparent 68%),
-    var(--ink);
-  color: var(--text-paper);
-  padding: clamp(6rem, 11vw, 9rem) 0 2.5rem;
-  text-align: center;
-}
-/* No border-radius any more: the mark is transparent vector, so there is no
-   black plate whose corners need softening. */
-.footer__logo { width: 130px; height: auto; margin: 0 auto 1.6rem; }
-.footer__main h2 {
-  font-size: clamp(2.1rem, 4.5vw, 3.4rem); color: #fff; margin-bottom: 1.1rem;
-}
-/* "Get in touch" sends focus here (the heading carries #contact), and the ring
-   was landing straight through the squiggle under "a Hand?" - same sand colour,
-   same couple of pixels, so the underline read as broken. The squiggle hangs
-   .18em below the heading box, so the offset is in em to clear it at every step
-   of the clamp above, and the ring goes white to stay off the squiggle's colour. */
-#contact:focus-visible {
-  outline: 3px solid #fff;
-  outline-offset: .3em;
-  border-radius: 6px;
-}
-.footer__main > p { color: var(--text-paper-soft); max-width: 46ch; margin: 0 auto 2rem; }
-.footer__email {
-  display: inline-block; position: relative;
-  font-family: var(--font-display); font-weight: 700;
-  font-size: clamp(1.15rem, 2.6vw, 1.7rem);
-  color: var(--sand);
-  border-bottom: 3px solid color-mix(in srgb, var(--sand) 45%, transparent);
-  margin-bottom: 2.2rem;
-  transition: border-color .2s, color .2s;
-}
-/* This is a standalone link on its own line, not one inside a sentence, so the
-   44px promise applies to it. At the small end of the clamp the text box is
-   only 32 tall. Padding would work, but it would drag the underline away from
-   the address it underlines; an overlay grows the target and leaves the type
-   exactly where it is. */
-.footer__email::after {
-  content: ''; position: absolute; left: 0; right: 0;
-  top: 50%; transform: translateY(-50%); height: 44px;
-}
-.footer__email:hover { color: #fff; border-color: #fff; }
-/* The direct social row, generated into every footer by tools/build-team.ps1.
-   The profile-page treatment (white plate, hard ink drop shadow) has nothing to
-   sit against down here on the ink, so these invert: a translucent disc that
-   fills with sand on hover. 44px square is the target size, so the icon can
-   stay small without the tap area following it down. */
-.footer__socials { margin-bottom: 3.5rem; }
-.footer__socials ul {
-  list-style: none; padding: 0; margin: 0;
-  display: flex; flex-wrap: wrap; justify-content: center; gap: .7rem;
-}
-.footer__socials a {
-  width: 44px; height: 44px; border-radius: 50%;
-  display: grid; place-items: center;
-  color: var(--text-paper);
-  background: rgba(255, 255, 255, .07);
-  border: 1px solid rgba(255, 255, 255, .18);
-  transition: transform .2s var(--ease-out), background .2s, border-color .2s, color .2s;
-}
-.footer__socials svg { width: 20px; height: 20px; }
-.footer__socials a:hover {
-  transform: translateY(-3px);
-  background: var(--sand); border-color: var(--sand); color: var(--ink);
-}
-/* The mini footer has no form above it, so the row sits much closer to the
-   legal line and does not need the full gap the home page one carries. */
-.footer--mini .footer__socials { margin-bottom: 2rem; }
-.footer__meta {
-  border-top: 1px solid rgba(255,255,255,.1);
-  padding-top: 1.6rem;
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem;
-  font-size: .9rem; color: var(--text-paper-soft);
-}
-.footer__tag { font-style: italic; }
-/* Companies Act trading disclosure - required, so quiet but present on every page */
-.footer__legal {
-  flex-basis: 100%;
-  font-size: .78rem; line-height: 1.5;
-  color: var(--text-paper-soft); opacity: .75;
-}
-.footer__press { text-decoration: underline; text-underline-offset: 3px; }
-.footer__press:hover { color: #fff; }
 
 /* back button (2.4.8 Location). This replaced a Home / Team / Name crumb trail:
    the trail spent three small targets telling you where you'd been, when the
@@ -1485,7 +1031,6 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   overflow: hidden;
   border: 1px solid var(--line);
   box-shadow: var(--shadow-pop);
-  transform: rotate(-1.5deg);
 }
 .profile__photo img { width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: center 10%; }
 .profile__photo--empty {
@@ -1940,41 +1485,7 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .join-figure figcaption {
   font-size: .88rem; color: var(--text-soft); margin-top: .7rem;
 }
-/* A row each rather than a grid of tiles. The point of this section is what these
-   people did, and a tile can only hold a name and a role, so the photo sits beside
-   the sentence instead of on top of a caption. */
-.join-people { list-style: none; margin: 0; padding: 0; max-width: 68ch; }
-.join-person {
-  display: flex; align-items: flex-start; gap: 1.1rem;
-  margin-bottom: 1.6rem;
-}
-/* .member__photo brings the square, the crop and the .is-zoomed transform with it,
-   so these faces are framed exactly as they are everywhere else on the site and
-   this only has to set the size. */
-.join-person__photo { width: 96px; flex: none; margin-bottom: 0; }
-.join-person__copy { min-width: 0; }
-.join-person__copy h3 {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: 1.05rem; margin: 0 0 .1rem;
-}
-.join-person__copy h3 a { color: var(--sea-ink); }
-.join-person__copy h3 a:hover { text-decoration: underline; }
-.join-person__role {
-  font-family: var(--font-display); font-weight: 700;
-  font-size: .72rem; text-transform: uppercase; letter-spacing: .1em;
-  color: var(--text-soft); margin: 0 0 .5rem;
-}
-.join-person__copy p:last-child { color: var(--text-soft); margin: 0; }
-/* Under the photo rather than beside it, once beside it leaves the sentence
-   setting three or four words to a line. */
-@media (max-width: 560px) {
-  .join-person { flex-direction: column; gap: .8rem; }
-  .join-person__photo { width: 120px; }
-}
 
-/* footer (mini) for profile pages */
-.footer--mini { padding-top: 3rem; }
-.footer--mini .footer__meta { border-top: 0; padding-top: 0; }
 
 /* ---------- reveal on scroll ---------- */
 .reveal {
@@ -1986,20 +1497,14 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 /* ---------- responsive ---------- */
 @media (max-width: 980px) {
   .hero__inner { grid-template-columns: 1fr; }
-  .hero__art { max-width: 560px; }
-  .game__features { grid-template-columns: repeat(2, 1fr); }
-  .services__grid { grid-template-columns: 1fr; border-top: 0; }
-  .card { border-right: 0; border-top: 1px solid rgba(255,255,255,.15); padding-left: 0 !important; padding-right: 0; }
+  .hero__mosaic { max-width: 620px; }
   .studio__inner { grid-template-columns: 1fr; }
   .studio__photo { max-width: 480px; }
-  .creds__inner { grid-template-columns: 1fr; }
-  .creds__frame { max-width: 520px; }
   .team__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .team__grid--founders { width: 100%; }
   /* stays one column ahead of the studio grid, or the pool stops reading as the
      smaller thing the moment the breakpoint lands */
   .team__grid--pool { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .news__grid { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; margin-bottom: 2.8rem; }
   .profile__inner { grid-template-columns: 1fr; }
   .profile__photo { position: static; max-width: 380px; }
 }
@@ -2030,157 +1535,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   .team__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .team__grid--founders { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
   .team__grid--pool { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .7rem; }
-  .game__features { grid-template-columns: 1fr; gap: 1.4rem; }
-  .game__cta { flex-direction: column; align-items: flex-start; }
-  .footer__meta { justify-content: center; text-align: center; }
 }
 
-/* ---------- co-dev page ---------- */
-.hero--codev .hero__inner { display: block; max-width: 820px; }
-.hero--codev .hero__sub { max-width: 58ch; }
 
-.codev { background: var(--paper); }
-.svc {
-  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
-  gap: clamp(2rem, 5vw, 4rem);
-  border-top: 3px solid var(--line);
-  padding: clamp(2.2rem, 4vw, 3.2rem) 0;
-}
-.svc:nth-of-type(1) { border-top-color: var(--sea); }
-.svc:nth-of-type(2) { border-top-color: var(--sand); }
-.svc:nth-of-type(3) { border-top-color: var(--leaf); }
-/* a fourth service appeared when 3D art split into stylised and hard surface;
-   without this it was the only one wearing the default ink rule */
-.svc:nth-of-type(4) { border-top-color: var(--crab); }
-.svc h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin-bottom: .9rem; }
-.svc__body > p { color: var(--text-soft); margin-bottom: 1.3rem; max-width: 54ch; }
-.svc__list { display: grid; gap: .55rem; }
-.svc__list li {
-  position: relative; padding-left: 1.6rem;
-  color: var(--text-ink); font-size: .98rem;
-}
-.svc__list li::before {
-  content: ""; position: absolute; left: 0; top: .45em;
-  width: .8em; height: .8em; border-radius: 3px;
-  background: var(--tick-sea);
-  clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 16%, 84% 0, 39% 70%);
-}
-/* Each tick matches the rule above its own service. The first was on the bright
-   --sea while the other two were on the deep tier, and the fourth service - the
-   one that appeared when 3D art split in two - had no rule at all, so it wore a
-   crab stripe over four teal ticks. Deep tier throughout: these are 0.8em marks
-   and the bright tier is a shade too thin at that size. */
-.svc:nth-of-type(2) .svc__list li::before { background: var(--tick-sand); }
-.svc:nth-of-type(3) .svc__list li::before { background: var(--tick-leaf); }
-.svc:nth-of-type(4) .svc__list li::before { background: var(--tick-crab); }
 
-/* gallery carousel: slots hold placeholders now, real <img> later */
-.carousel { grid-column: 1 / -1; position: relative; margin-top: 1.4rem; min-width: 0; max-width: 100%; }
-.carousel__track {
-  display: flex; gap: 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x proximity;
-  /* The top padding is what stops a hovered tile losing its border. overflow-x:
-     auto does not leave the other axis alone - a visible axis paired with a
-     scrolling one computes to auto - so this strip clips vertically as well as
-     horizontally, and a scroll container clips at its PADDING box. With no
-     padding here the tiles start flush with that edge, and the 3px lift on
-     hover pushed the tile's 2px top border straight through it, which read as
-     the artwork being sliced. 6px clears the lift with room to spare. */
-  padding-top: 6px;
-  padding-bottom: .5rem;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, .25) transparent;
-  cursor: grab;
-}
-.carousel__track.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
-.carousel__slot {
-  flex: 0 0 auto;
-  height: clamp(150px, 19vw, 205px);
-  aspect-ratio: 4 / 3;   /* placeholders; art tiles carry their image's real ratio inline */
-  scroll-snap-align: start;
-  border: 2px dashed rgba(255,255,255,.25);
-  border-radius: var(--radius);
-  background: var(--ink-2);
-  display: grid; place-items: center; align-content: center; gap: .25rem;
-}
-.carousel__slot a { display: block; width: 100%; height: 100%; }
-.carousel__slot img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  background: var(--ink);
-  border-radius: calc(var(--radius) - 2px);
-  -webkit-user-drag: none;
-}
-.carousel__slot video {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  background: var(--ink);
-  border-radius: calc(var(--radius) - 2px);
-}
-.carousel__slot a:not(.carousel__credit), .carousel__slot video { cursor: pointer; }
-.carousel__slot:has(img), .carousel__slot:has(video) {
-  display: block;   /* the link and media fill the tile even before the image loads */
-  border-style: solid; border-color: var(--line);
-  background: var(--ink); padding: 0;
-  position: relative;
-  transition: transform .25s var(--ease-out), box-shadow .25s;
-}
-.carousel__slot:has(img):hover, .carousel__slot:has(video):hover { transform: translateY(-3px); box-shadow: var(--shadow-pop); }
-
-/* artist credit chip on gallery art */
-.carousel__slot .carousel__credit {
-  position: absolute; left: .55rem; bottom: .55rem; z-index: 1;
-  width: auto; height: auto;
-  display: inline-flex; align-items: center; gap: .45rem;
-  /* 2.5.5: the credit chip is a link, so it needs 44px of height too */
-  min-height: 44px;
-  padding: .45rem .8rem .45rem .3rem;
-  background: rgba(10, 12, 15, .88);
-  border: 1px solid rgba(255,255,255,.3); border-radius: 999px;
-  font-size: .72rem; font-weight: 600; color: #fff;
-  text-decoration: none; white-space: nowrap;
-  transition: background .2s, border-color .2s;
-}
-.carousel__slot .carousel__credit img {
-  width: 22px; height: 22px; border-radius: 50%;
-  object-fit: cover; background: transparent;
-}
-.carousel__slot .carousel__credit:hover { background: rgba(10,12,15,.92); border-color: #fff; }
-
-/* 2.2.2 Pause, Stop, Hide. One control per clip, sitting on the clip it governs.
-   This used to be a single button under the section header, far enough from the
-   galleries that it read as unrelated furniture and nobody connected it to the
-   thing it stopped. Injected by js/main.js, so it only exists where something is
-   actually playing. Mirrors the credit chip opposite it, 44px target included. */
-.carousel__slot .clip-toggle {
-  position: absolute; right: .55rem; bottom: .55rem; z-index: 1;
-  width: 44px; height: 44px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: rgba(10, 12, 15, .88);
-  border: 1px solid rgba(255,255,255,.3);
-  color: #fff; cursor: pointer;
-  transition: background .2s, border-color .2s;
-}
-.carousel__slot .clip-toggle:hover { background: rgba(10,12,15,.92); border-color: #fff; }
-.carousel__slot .clip-toggle svg { width: 15px; height: 15px; }
-.clip-toggle .icon-play { display: none; }
-.clip-toggle[aria-pressed="true"] .icon-play { display: block; }
-.clip-toggle[aria-pressed="true"] .icon-pause { display: none; }
-.carousel__btn {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 2px solid var(--line-strong); background: var(--plate); color: var(--heading);
-  font-size: 1.5rem; line-height: 1; display: grid; place-items: center;
-  cursor: pointer; z-index: 2;
-  box-shadow: var(--lift);
-  transition: transform .2s var(--ease-out), border-color .2s, color .2s, opacity .2s;
-}
-.carousel__btn:hover { transform: translateY(calc(-50% - 2px)); border-color: var(--sand); color: var(--sand); }
-.carousel__btn:disabled {
-  opacity: 0; pointer-events: none; cursor: default;
-  transform: translateY(-50%);
-}
-.carousel__btn--prev { left: -12px; }
-.carousel__btn--next { right: -12px; }
 
 .svc__crew-label {
   font-family: var(--font-display); font-weight: 700; font-size: .85rem;
@@ -2223,14 +1581,10 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
 .proof__frame { position: relative; }
 .proof__frame img {
   border-radius: var(--radius-lg);
-  border: 3px solid rgba(255,255,255,.14);
-  box-shadow: 0 30px 60px -20px rgba(0,0,0,.55);
-  transform: rotate(-2deg);
-  transition: transform .35s var(--ease-out);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-pop);
   aspect-ratio: 16/10; object-fit: cover; width: 100%;
 }
-.proof__frame:hover img { transform: rotate(-.5deg) translateY(-5px); }
-.proof__frame .sticker { bottom: -10px; left: 20px; }
 .proof__copy h2 { color: #fff; font-size: clamp(1.9rem, 3.6vw, 2.9rem); margin-bottom: 1.1rem; }
 .proof__copy p { color: var(--text-paper-soft); margin-bottom: 1.1rem; max-width: 56ch; }
 .proof__copy .btn { margin-top: .8rem; }
@@ -2544,3 +1898,540 @@ main > .section:first-child { padding-top: clamp(7.5rem, 12vh, 9.5rem); }
   .reveal { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* ============================================================
+   DIRECTION A (September 2026)
+   The same brand, art first, five screens. Everything below is what the
+   redesign added or reshaped: the hero mosaic, the partner strip, the
+   service cards and the gallery grid inside them, the contact band, the
+   footer, the shared page head for inner pages, the join layout, the
+   games hero and the team hub's studio band. Components the redesign
+   kept - buttons, kickers, steps, packages, the proof band, member
+   tiles, the lightbox, the press kit - are unchanged above.
+
+   Why this shape: the old home page ran to about 12,200 CSS px at a
+   1280 viewport and put the contact form at the foot of it, behind the
+   FAQ, the studio story and three team grids. The first screen gave its
+   right half to the logo. Now the first screen shows three pieces of
+   work, the services are one grid, the form is four screens down, and
+   the team and the FAQ have pages of their own.
+   ============================================================ */
+
+/* ---------- hero: work on the right ---------- */
+.hero__proofline {
+  margin-top: 1.5rem; font-size: .88rem; line-height: 1.55;
+  color: var(--text-paper-soft); max-width: 52ch;
+}
+/* Three tiles: one wide across the top, two under it. The row height is
+   viewport-relative so the block stays level with the copy beside it. */
+.hero__mosaic {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: clamp(120px, 11.5vw, 166px); gap: 12px;
+}
+.hero__tile {
+  position: relative; display: block; overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line); background: var(--ink-2);
+  box-shadow: var(--lift);
+}
+.hero__tile--wide { grid-column: 1 / -1; }
+.hero__tile img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s var(--ease-out); }
+.hero__tile:hover img { transform: scale(1.04); }
+.hero__tile:focus-visible { outline: 3px solid var(--sand); outline-offset: 3px; }
+/* The label sits on an ink chip so it reads on any artwork. Each tile takes the
+   accent of the section it links to: sea for concept, leaf for hard surface,
+   sand for the game - the same order the service cards wear. */
+.hero__tag {
+  position: absolute; left: 12px; bottom: 12px;
+  font-family: var(--font-display); font-weight: 700; font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .3rem .6rem; border-radius: var(--radius-sm);
+  background: var(--ink); color: var(--sea-ink);
+}
+.hero__tag--sand { color: var(--sand); }
+.hero__tag--leaf { color: var(--leaf-ink); }
+
+/* ---------- partner strip ---------- */
+/* The four programme marks on one quiet row under the hero, in place of the
+   photo-and-copy band they used to share with the Tranzfuser story (which is
+   on the team hub now). The sizing below is the tuned set from that band:
+   every mark is a multiple of ONE shared width so the four stay in step, and
+   the multiples are not arithmetic because the lockups are wildly different
+   shapes (3.28:1, 2.85:1, 6.48:1 and 6.71:1). Re-render before changing one.
+   The filters exist because these are supplied marks drawn for a light ground:
+   the Forum's is pure monochrome so it inverts cleanly; UK Games Fund's is all
+   chromatic so it gets brightened rather than inverted; the other two need
+   nothing. */
+.partners { background: var(--paper); }
+.partners__inner {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 1.2rem clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(2rem, 4vw, 3rem) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+}
+.partners + .section { padding-top: clamp(2.5rem, 5vw, 4rem); }
+.partners__label {
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: var(--leaf-ink); flex: none;
+}
+.creds__list {
+  list-style: none; flex: 1;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 1rem clamp(1.5rem, 4vw, 3rem);
+  /* every item is an image, so these are what a failed load falls back into */
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  color: var(--text-ink);
+  --mark: min(120px, 30vw);
+}
+.creds__list li { display: flex; align-items: center; }
+.creds__mark { width: var(--mark); height: auto; }
+.creds__mark--gr { width: calc(var(--mark) * 1.100); }
+.creds__mark--ef { width: calc(var(--mark) * 1.444); filter: invert(1); }
+.creds__mark--tf { width: calc(var(--mark) * 1.250); }
+.creds__mark--ukgf { filter: brightness(1.55); }
+.creds__list a { display: flex; align-items: center; }
+.creds__list a .creds__mark { transition: transform .3s var(--ease-out); }
+.creds__list a:hover .creds__mark { transform: translateY(-3px); }
+.creds__list a:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; border-radius: var(--radius-sm); }
+@media (prefers-reduced-motion: reduce) {
+  .creds__list a:hover .creds__mark { transform: none; }
+}
+
+/* ---------- section head with a note beside it ---------- */
+.section__head--row {
+  max-width: none;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  gap: 1.5rem 3rem;
+}
+.section__head--row > div { max-width: 62ch; }
+.section__head--row .section__note { flex: none; max-width: 34ch; text-align: right; margin: 0; }
+@media (max-width: 900px) {
+  .section__head--row { flex-direction: column; align-items: flex-start; }
+  .section__head--row .section__note { text-align: left; max-width: 62ch; }
+}
+
+/* ---------- services: four cards, one gallery each ---------- */
+.codev { background: var(--paper); }
+.svc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.svc {
+  display: flex; flex-direction: column;
+  background: var(--plate);
+  border: 1px solid var(--line); border-top: 3px solid var(--line);
+  border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: var(--rim), var(--lift);
+}
+/* sea, sand, leaf, crab - the same index order as .step and .game__features */
+.svc:nth-of-type(1) { border-top-color: var(--sea); }
+.svc:nth-of-type(2) { border-top-color: var(--sand); }
+.svc:nth-of-type(3) { border-top-color: var(--leaf); }
+.svc:nth-of-type(4) { border-top-color: var(--crab); }
+.svc__gallery { padding: 12px 12px 0; }
+.svc__body { padding: 1.3rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: .9rem; }
+.svc h3 { font-size: clamp(1.4rem, 2.2vw, 1.7rem); color: #fff; }
+.svc__body > p { color: var(--text-soft); font-size: .98rem; }
+.svc__list { display: grid; gap: .45rem; }
+.svc__list li {
+  position: relative; padding-left: 1.6rem;
+  color: var(--text-ink); font-size: .95rem;
+}
+.svc__list li::before {
+  content: ""; position: absolute; left: 0; top: .45em;
+  width: .8em; height: .8em; border-radius: 3px;
+  background: var(--tick-sea);
+  clip-path: polygon(14% 44%, 0 60%, 40% 100%, 100% 16%, 84% 0, 39% 70%);
+}
+.svc:nth-of-type(2) .svc__list li::before { background: var(--tick-sand); }
+.svc:nth-of-type(3) .svc__list li::before { background: var(--tick-leaf); }
+.svc:nth-of-type(4) .svc__list li::before { background: var(--tick-crab); }
+.svc__crew-label {
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .12em; color: var(--text-soft);
+  margin-top: .3rem;
+}
+.svc__crew { display: flex; flex-wrap: wrap; gap: .6rem; }
+/* the chips sit on --plate here, so they drop to the page colour to stay raised */
+.svc .person { background: var(--paper); }
+@media (max-width: 900px) {
+  .svc-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- galleries: a lead piece and a row of thumbnails ---------- */
+/* This replaces the horizontal scrollers. Every piece is still here and every
+   one still opens the viewer (js/main.js reads the slots in document order);
+   the difference is that nothing needs dragging to reach. The lead slot spans
+   the row and carries the credit chip; the thumbnails hide theirs, because a
+   44px chip would cover most of a 120px tile. Clips in a thumbnail slot stay
+   on their first frame - only the lead clip autoplays, see main.js. */
+.carousel { position: relative; min-width: 0; }
+/* Flex rather than a fixed column count: the galleries hold three, four or five
+   thumbnails, and an equal share of the row is what keeps a five-piece gallery
+   from leaving one tile stranded on a second line. */
+.carousel__track { display: flex; flex-wrap: wrap; gap: 8px; }
+.carousel__slot {
+  position: relative; display: block; overflow: hidden;
+  flex: 1 1 0; min-width: 72px;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--ink);
+  transition: transform .25s var(--ease-out), box-shadow .25s, border-color .25s;
+}
+.carousel__slot--lead { flex-basis: 100%; }
+.carousel__slot a:not(.carousel__credit) { display: block; width: 100%; height: 100%; }
+.carousel__slot img, .carousel__slot video {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  background: var(--ink);
+  -webkit-user-drag: none;
+}
+.carousel__slot a:not(.carousel__credit), .carousel__slot video { cursor: pointer; }
+.carousel__slot:hover { transform: translateY(-2px); border-color: var(--line-hover); box-shadow: var(--shadow-pop); }
+/* artist credit chip on the lead piece */
+.carousel__credit {
+  position: absolute; left: .55rem; bottom: .55rem; z-index: 1;
+  display: inline-flex; align-items: center; gap: .45rem;
+  /* 2.5.5: the credit chip is a link, so it needs 44px of height too */
+  min-height: 44px;
+  padding: .45rem .8rem .45rem .3rem;
+  background: rgba(10, 12, 15, .88);
+  border: 1px solid rgba(255,255,255,.3); border-radius: 999px;
+  font-size: .72rem; font-weight: 600; color: #fff;
+  text-decoration: none; white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.carousel__credit img {
+  width: 22px; height: 22px; border-radius: 50%;
+  object-fit: cover; background: transparent;
+}
+.carousel__credit:hover { background: rgba(10,12,15,.92); border-color: #fff; }
+.carousel__slot:not(.carousel__slot--lead) .carousel__credit { display: none; }
+/* 2.2.2 Pause, Stop, Hide. One control on the lead clip, injected by js/main.js
+   so it only exists where something is actually playing. Mirrors the credit
+   chip opposite it, 44px target included. */
+.carousel__slot .clip-toggle {
+  position: absolute; right: .55rem; bottom: .55rem; z-index: 1;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(10, 12, 15, .88);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff; cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+.carousel__slot .clip-toggle:hover { background: rgba(10,12,15,.92); border-color: #fff; }
+.carousel__slot .clip-toggle svg { width: 15px; height: 15px; }
+.clip-toggle .icon-play { display: none; }
+.clip-toggle[aria-pressed="true"] .icon-play { display: block; }
+.clip-toggle[aria-pressed="true"] .icon-pause { display: none; }
+/* On a phone five thumbnails cannot share one row, and a lone one left to grow
+   stretched to the full width and read as a second lead. Three fixed per row. */
+@media (max-width: 600px) {
+  .carousel__slot:not(.carousel__slot--lead) { flex: 0 0 calc(33.333% - 5.34px); }
+}
+
+/* ---------- contact band ---------- */
+/* Copy one side, the form the other, on ink under a wave. Sand accent: it is
+   the ask, and sand is the accent that reads on ink. */
+.contact {
+  position: relative;
+  background: var(--ink);
+  color: var(--text-paper);
+}
+.section.contact { padding: clamp(6rem, 10vw, 8.5rem) 0 clamp(4.5rem, 8vw, 6.5rem); }
+.contact__inner {
+  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(2.5rem, 6vw, 4.5rem); align-items: start;
+}
+.contact__copy h2 { color: #fff; font-size: clamp(2rem, 3.8vw, 2.9rem); margin-bottom: 1.1rem; }
+.contact__copy > p:not(.kicker) { color: var(--text-paper-soft); max-width: 46ch; margin-bottom: 1.4rem; }
+.contact__note { font-size: .9rem; margin-top: 1.4rem; }
+/* "Get in touch" sends focus here (the heading carries #contact). White, so
+   the ring stays off the sand underline beneath the last word. */
+#contact:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: .3em;
+  border-radius: 6px;
+}
+/* The address, on the contact band and in the footer. A standalone link on its
+   own line, so the 44px promise applies: the overlay grows the target without
+   dragging the underline away from the text it underlines. */
+.email-link {
+  display: inline-block; position: relative;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  color: var(--sand);
+  border-bottom: 3px solid color-mix(in srgb, var(--sand) 45%, transparent);
+  transition: border-color .2s, color .2s;
+}
+.email-link::after {
+  content: ''; position: absolute; left: 0; right: 0;
+  top: 50%; transform: translateY(-50%); height: 44px;
+}
+.email-link:hover { color: #fff; border-color: #fff; }
+@media (max-width: 900px) {
+  .contact__inner { grid-template-columns: 1fr; }
+}
+
+/* ---------- footer ---------- */
+/* Wordmark and a line about the studio on the left, the site's pages on the
+   right, then the social row and the small print. One footer for every page
+   now - the home page's used to carry the contact form and a 260px logo, and
+   the rest had a stripped-down copy. */
+.footer {
+  background: var(--ink); color: var(--text-paper);
+  padding: clamp(3rem, 6vw, 4.5rem) 0 2rem;
+  border-top: 1px solid rgba(255, 255, 255, .09);
+}
+.footer__grid {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 2.5rem clamp(2rem, 6vw, 5rem);
+  margin-bottom: 2.4rem;
+}
+.footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: .9rem; max-width: 36ch; }
+.footer__wordmark { height: 30px; width: auto; }
+.footer__brand p { color: var(--text-paper-soft); font-size: .95rem; }
+.footer__brand .email-link { font-size: 1.1rem; }
+.footer__nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+.footer__col { display: flex; flex-direction: column; }
+.footer__label {
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .14em;
+  color: var(--text-soft); margin-bottom: .4rem;
+}
+.footer__col a {
+  color: var(--text-paper); font-size: .95rem;
+  display: inline-flex; align-items: center; min-height: 44px; align-self: flex-start;
+  transition: color .15s;
+}
+.footer__col a:hover, .footer__col a[aria-current="page"] { color: var(--sand); }
+/* The direct social row, generated into every footer by tools/build-team.ps1.
+   A translucent disc that fills with sand on hover. 44px square is the target
+   size, so the icon can stay small without the tap area following it down. */
+.footer__socials { margin-bottom: 2rem; }
+.footer__socials ul {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: .7rem;
+}
+.footer__socials a {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  color: var(--text-paper);
+  background: rgba(255, 255, 255, .07);
+  border: 1px solid rgba(255, 255, 255, .18);
+  transition: transform .2s var(--ease-out), background .2s, border-color .2s, color .2s;
+}
+.footer__socials svg { width: 20px; height: 20px; }
+.footer__socials a:hover {
+  transform: translateY(-3px);
+  background: var(--sand); border-color: var(--sand); color: var(--ink);
+}
+.footer__meta {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 1.4rem;
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: .8rem;
+  font-size: .9rem; color: var(--text-paper-soft);
+}
+.footer__tag { font-style: italic; }
+/* Companies Act trading disclosure - required, so quiet but present on every page */
+.footer__legal {
+  flex-basis: 100%;
+  font-size: .78rem; line-height: 1.5;
+  color: var(--text-paper-soft); opacity: .75;
+}
+@media (max-width: 760px) {
+  .footer__grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- page head: every inner page opens the same way ---------- */
+/* Kicker, title and lede on ink, a wave into the paper, then the page. The
+   backlink sits above the kicker where the page has one. */
+.page-head {
+  position: relative;
+  background: var(--ink); color: #fff;
+  padding: clamp(6.5rem, 12vh, 8.5rem) 0 clamp(5rem, 9vw, 7rem);
+}
+/* flex, not inline-flex: as an inline box it shared a line with the kicker */
+.page-head .backlink { display: flex; width: fit-content; margin-bottom: 1.8rem; }
+.page-head h1 { font-size: clamp(2.3rem, 4.6vw, 3.6rem); color: #fff; margin-bottom: 1rem; max-width: 22ch; }
+.page-head__lede { color: var(--text-paper-soft); font-size: 1.13rem; max-width: 62ch; }
+.page-head__lede a { color: var(--sand); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.page-head__lede a:hover { color: #fff; }
+.page-head .press__updated { color: var(--text-paper-soft); }
+.page-body { padding: clamp(2.5rem, 5vw, 4rem) 0 clamp(4rem, 7vw, 6rem); }
+.page-body__cta { margin-top: 2.5rem; color: var(--text-soft); max-width: 62ch; }
+.page-body__cta a { color: var(--sea-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.page-body__cta a:hover { color: var(--heading); }
+/* the press kit's own section rules assumed the page's top padding came from
+   .profile; the page head does that job now, so the first block sits flush */
+.page-body > .press__downloads { margin-top: 0; }
+
+/* ---------- join page: prose left, a sticky aside right ---------- */
+.join-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) 300px;
+  gap: clamp(2.5rem, 6vw, 5rem); align-items: start;
+}
+.join-aside { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 1.4rem; }
+.toc { display: flex; flex-direction: column; border-left: 1px solid rgba(255, 255, 255, .12); padding-left: 1rem; }
+.toc__label {
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
+  text-transform: uppercase; letter-spacing: .14em; color: var(--text-soft);
+  margin-bottom: .3rem;
+}
+.toc a { font-size: .92rem; color: var(--text-soft); display: inline-flex; align-items: center; min-height: 44px; transition: color .15s; }
+.toc a:hover { color: var(--heading); }
+.aside-card {
+  display: flex; flex-direction: column; gap: .7rem;
+  background: var(--plate); border: 1px solid var(--line); border-radius: var(--radius);
+  box-shadow: var(--rim), var(--lift);
+  padding: 1.3rem;
+}
+.aside-card__title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--heading); }
+.aside-card p:not(.aside-card__title) { font-size: .92rem; color: var(--text-soft); }
+.aside-card .btn { justify-content: center; font-size: .95rem; }
+/* A card each rather than a row: the point of this section is what these people
+   did, so the photo sits beside the sentence instead of over a caption. */
+.join-people {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem;
+}
+.join-person {
+  display: flex; align-items: flex-start; gap: 1rem;
+  background: var(--plate); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 1rem; margin: 0;
+}
+/* .member__photo brings the square, the crop and the .is-zoomed transform with it,
+   so these faces are framed exactly as they are everywhere else on the site. */
+.join-person__photo { width: 72px; flex: none; margin-bottom: 0; }
+.join-person__copy { min-width: 0; }
+.join-person__copy h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.02rem; margin: 0 0 .1rem;
+}
+.join-person__copy h3 a { color: var(--heading); }
+.join-person__copy h3 a:hover { color: var(--sea-ink); }
+.join-person__role {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .1em;
+  color: var(--text-soft); margin: 0 0 .45rem;
+}
+.join-person__copy p:last-child { color: var(--text-soft); font-size: .92rem; margin: 0; }
+/* Two cards across only when the prose column is wide enough for both to hold a
+   sentence; beside the aside at a laptop width they were four words a line. */
+@media (max-width: 1200px) {
+  .join-people { grid-template-columns: 1fr; }
+}
+@media (max-width: 900px) {
+  .join-layout { grid-template-columns: 1fr; }
+  .join-aside { position: static; }
+  .join-people { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .join-people { grid-template-columns: 1fr; }
+}
+
+/* ---------- games page ---------- */
+/* The one page whose subject is a picture, so the picture is the hero: title
+   and status in a row above it, the screenshot the full shell width under
+   them, sitting on the seam between the ink and the paper. */
+.game-hero {
+  position: relative;
+  background: var(--ink); color: #fff;
+  padding: clamp(6.5rem, 12vh, 8.5rem) 0 0;
+}
+.game-hero__head {
+  display: grid; grid-template-columns: minmax(0, 1.3fr) auto;
+  gap: 1.5rem 3rem; align-items: end;
+  margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
+}
+.game-hero h1 { font-size: clamp(3rem, 6.4vw, 4.75rem); color: #fff; margin-bottom: .9rem; }
+.game-hero__lede { color: var(--text-paper-soft); font-size: 1.15rem; max-width: 58ch; }
+.game-hero__side { display: flex; flex-direction: column; align-items: flex-end; gap: .7rem; }
+.game__status {
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  display: flex; align-items: center; gap: .6rem; color: var(--leaf-ink);
+}
+.game-hero__frame { position: relative; margin: 0; }
+.game-hero__frame img {
+  width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  border: 1px solid var(--line); border-bottom: 0;
+}
+.game-hero__caption {
+  position: absolute; left: 1rem; bottom: 1rem;
+  font-family: var(--font-display); font-weight: 700; font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  padding: .3rem .6rem; border-radius: var(--radius-sm);
+  background: var(--ink); color: var(--sand);
+}
+.game { background: var(--paper); }
+.section.game { padding-top: clamp(3rem, 5vw, 4rem); }
+.game__grid {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(2rem, 5vw, 4rem); align-items: start;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+/* features: plain editorial list, no boxes. sea, sand, leaf, crab - the same
+   order as .svc and .step. */
+.game__features {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem 2rem;
+}
+.game__features li {
+  border-top: 3px solid var(--line);
+  padding-top: 1.1rem;
+  font-size: .97rem; color: var(--text-soft);
+}
+.game__features li:nth-child(1) { border-top-color: var(--sea); }
+.game__features li:nth-child(2) { border-top-color: var(--sand); }
+.game__features li:nth-child(3) { border-top-color: var(--leaf); }
+.game__features li:nth-child(4) { border-top-color: var(--crab); }
+.game__features strong {
+  display: block; font-family: var(--font-display); font-weight: 700;
+  color: var(--heading); font-size: 1.1rem; margin-bottom: .5rem; line-height: 1.25;
+}
+/* the newsletter is a card beside the features, not a strip under them */
+.newsletter {
+  display: flex; flex-direction: column; gap: 1rem;
+  padding: 1.6rem;
+  background: var(--plate); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  box-shadow: var(--rim), var(--lift);
+}
+.newsletter__copy h2 { font-size: 1.35rem; margin-bottom: .4rem; }
+.newsletter__copy p { color: var(--text-soft); font-size: .95rem; }
+.newsletter__form { display: flex; flex-wrap: wrap; gap: .7rem; }
+.newsletter__form input[type="email"] {
+  font: inherit; padding: .8rem 1rem; flex: 1; min-width: 200px;
+  border: 2px solid rgba(255, 255, 255, .25); border-radius: var(--radius);
+  background: var(--paper); color: var(--text-ink);
+}
+.newsletter__form input[type="email"]:focus-visible {
+  border-color: var(--sea-ink);
+  outline: 3px solid var(--focus); outline-offset: 2px;
+}
+.newsletter .form-note { flex-basis: 100%; margin-bottom: 0; }
+/* the clip and the two press shots in one row; full size opens in a tab */
+.game__media { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.game__media > a, .game__player {
+  display: block; border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--line); background: var(--ink);
+  transition: border-color .25s, box-shadow .25s, transform .25s var(--ease-out);
+}
+.game__media img, .game__player video { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.game__media > a:hover { border-color: var(--line-hover); box-shadow: var(--shadow-pop); transform: translateY(-3px); }
+.game__trailer-note {
+  font-size: .93rem; font-style: italic;
+  color: var(--text-soft);
+  margin: 1rem 0 0;
+}
+@media (max-width: 980px) {
+  .game__grid { grid-template-columns: 1fr; }
+  .game-hero__head { grid-template-columns: 1fr; align-items: start; }
+  .game-hero__side { flex-direction: row; flex-wrap: wrap; align-items: center; }
+}
+@media (max-width: 760px) {
+  .game__media { grid-template-columns: 1fr; }
+  .game__features { grid-template-columns: 1fr; gap: 1.4rem; }
+}
+
+/* ---------- team hub ---------- */
+/* The studio story (and the Tranzfuser photo) open the hub; the roster sits
+   under it on the alternate paper. */
+.team-roster { background: var(--paper-2); }

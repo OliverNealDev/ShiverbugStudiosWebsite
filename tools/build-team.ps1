@@ -245,6 +245,55 @@ function FooterSocialsHtml([string]$indent) {
   ) -join "`n"
 }
 
+# ---------- the site footer ----------
+#
+# One footer for every page since the September 2026 redesign: wordmark and a
+# line about the studio, the site's pages in two columns, the social row and
+# the small print. The hand-written pages carry their own copy of this markup
+# (with the social row injected through BUILD:SOCIALS); the two templates in
+# this file take it from here so the generated pages cannot drift from them.
+# $prefix is the relative path back to the site root ('' or '../'), $current
+# names the column link that gets aria-current on this page.
+function FooterHtml([string]$prefix, [string]$current) {
+  $cur = { param($key) if ($key -eq $current) { ' aria-current="page"' } else { '' } }
+  $lines = @(
+    '  <footer class="footer">',
+    '    <div class="container">',
+    '      <div class="footer__grid">',
+    '        <div class="footer__brand">',
+    ('          <img class="footer__wordmark" src="' + $prefix + 'assets/img/nav-wordmark.webp" alt="Shiverbug Studios" width="316" height="138" loading="lazy" decoding="async">'),
+    '          <p>Designers, artists and programmers in North East England. Co-development for studios, and a couch co-op game of our own.</p>',
+    '          <a class="email-link" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>',
+    '        </div>',
+    '        <nav class="footer__nav" aria-label="Site">',
+    '          <div class="footer__col">',
+    '            <p class="footer__label">Studio</p>',
+    ('            <a href="' + $prefix + 'index.html#services">Co-development</a>'),
+    ('            <a href="' + $prefix + 'games.html">Out of Water</a>'),
+    ('            <a href="' + $prefix + 'team/"' + (& $cur 'team') + '>Team</a>'),
+    ('            <a href="' + $prefix + 'join.html">Join us</a>'),
+    ('            <a href="' + $prefix + 'faq.html">FAQ</a>'),
+    '          </div>',
+    '          <div class="footer__col">',
+    '            <p class="footer__label">Small print</p>',
+    ('            <a href="' + $prefix + 'press.html">Press kit</a>'),
+    ('            <a href="' + $prefix + 'privacy.html">Privacy</a>'),
+    ('            <a href="' + $prefix + 'accessibility.html">Accessibility</a>'),
+    '          </div>',
+    '        </nav>',
+    '      </div>',
+    (FooterSocialsHtml '      '),
+    '      <div class="footer__meta">',
+    '        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK</p>',
+    '        <p class="footer__tag">Bringing family game night back to the sofa.</p>',
+    ('        <p class="footer__legal">' + (HtmlEnc $legal) + '</p>'),
+    '      </div>',
+    '    </div>',
+    '  </footer>'
+  )
+  return ($lines -join "`n")
+}
+
 # lastmod / dateModified both answer "has this changed?", and neither is the
 # build date: stamping every page with today on every build tells search engines
 # the whole site changes daily, which is the fastest way to have the field
@@ -319,8 +368,7 @@ $template = @'
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="../index.html#services">Co-Dev</a>
         <a href="../games.html">Our Games</a>
-        <a href="../index.html#studio">Studio</a>
-        <a href="../index.html#team">Team</a>
+        <a href="index.html">Team</a>
         <a href="../join.html">Join Us</a>
         <a href="../press.html">Press</a>
         <a class="nav__cta" href="../index.html#contact">Get in touch</a>
@@ -333,7 +381,7 @@ $template = @'
 
   <main class="profile" id="top">
     <div class="container">
-      <a class="backlink" href="../index.html#team">
+      <a class="backlink" href="index.html">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Back to the team
       </a>
@@ -357,22 +405,13 @@ $template = @'
       </div>
       <nav class="profile__nav" aria-label="Team">
         <a href="{{PREVHREF}}">&larr; {{PREVNAME}}</a>
-        <a class="is-back" href="../index.html#team">All shiverbugs</a>
+        <a class="is-back" href="index.html">All shiverbugs</a>
         <a href="{{NEXTHREF}}">{{NEXTNAME}} &rarr;</a>
       </nav>
     </div>
   </main>
 
-  <footer class="footer footer--mini">
-    <div class="container">
-{{SOCIALSROW}}
-      <div class="footer__meta">
-        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
-        <p class="footer__tag">Bringing family game night back to the sofa.</p>
-        <p class="footer__legal">{{LEGAL}}</p>
-      </div>
-    </div>
-  </footer>
+{{FOOTER}}
 
   <script src="../js/main.js"></script>
   <script src="../js/profile.js"></script>
@@ -555,8 +594,8 @@ foreach ($list in @($team, $talent)) {
     $html = $template.
       Replace('{{ROBOTS}}',    $robots).
       Replace('{{CSP}}',       (HtmlEnc $csp)).
+      Replace('{{FOOTER}}',    (FooterHtml '../' 'team')).
       Replace('{{LEGAL}}',     (HtmlEnc $legal)).
-      Replace('{{SOCIALSROW}}', (FooterSocialsHtml '      ')).
       Replace('{{NAME}}',      (HtmlEnc $p.name)).
       Replace('{{ROLE}}',      (HtmlEnc $roleDisp)).
       Replace('{{ROLELINE}}',  $roleLine).
@@ -697,31 +736,11 @@ function MemberTile($p, [bool]$withStatus, [string]$grid = 'main', [bool]$forceL
 $founders = @($team | Where-Object { $_.role -match '(?i)co-founder' })
 $rest     = @($team | Where-Object { $_.role -notmatch '(?i)co-founder' })
 
-$teamBlock = @()
-$teamBlock += '        <h2 class="team__label reveal">Founders</h2>'
-$teamBlock += '        <div class="team__grid team__grid--founders">'
-$teamBlock += (@($founders | ForEach-Object { MemberTile $_ $false 'founders' }) -join "`n")
-$teamBlock += '        </div>'
-$teamBlock += ''
-# Without this second label the nine studio tiles below sit under "Founders" in
-# the heading outline, which is what a screen reader announces them as.
-$teamBlock += '        <h2 class="team__label reveal">The studio</h2>'
-$teamBlock += '        <div class="team__grid">'
-$teamBlock += (@($rest | ForEach-Object { MemberTile $_ $false }) -join "`n")
-$teamBlock += '        </div>'
-$teamHtml = $teamBlock -join "`n"
-
-# The talent pool is guest contributors and former shiverbugs, not the studio
-# roster, and it was rendering at the same tile size as the people who work here.
-# --pool packs them tighter so the hierarchy reads at a glance.
-$talentHtml = @(
-  '        <div class="team__grid team__grid--pool">',
-  (@($talent | ForEach-Object { MemberTile $_ $true }) -join "`n"),
-  '        </div>'
-) -join "`n"
-
+# The team grids used to be written into index.html as well, between BUILD:TEAM
+# and BUILD:TALENT markers. The September 2026 redesign took the roster off the
+# home page - the hub at team/ is the one place it renders now - so those
+# markers are gone and only the structured data below still touches index.html.
 $indexPath = Join-Path $root 'index.html'
-$index = Get-Content $indexPath -Raw -Encoding UTF8
 
 function ReplaceBlock([string]$text, [string]$marker, [string]$body) {
   $pattern = '(?s)(<!-- BUILD:' + $marker + ':START -->).*?(<!-- BUILD:' + $marker + ':END -->)'
@@ -730,11 +749,6 @@ function ReplaceBlock([string]$text, [string]$marker, [string]$body) {
   }
   return [regex]::Replace($text, $pattern, { param($m) $m.Groups[1].Value + "`n" + $body + "`n        " + $m.Groups[2].Value })
 }
-
-$index = ReplaceBlock $index 'TEAM' $teamHtml
-$index = ReplaceBlock $index 'TALENT' $talentHtml
-WriteFileUtf8 $indexPath $index
-Write-Host "Updated the team grids in index.html"
 
 # ---------- the intake faces on join.html ----------
 #
@@ -903,7 +917,6 @@ $teamIndexTemplate = @'
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="../index.html#services">Co-Dev</a>
         <a href="../games.html">Our Games</a>
-        <a href="../index.html#studio">Studio</a>
         <a href="index.html" aria-current="page">Team</a>
         <a href="../join.html">Join Us</a>
         <a href="../press.html">Press</a>
@@ -915,52 +928,97 @@ $teamIndexTemplate = @'
     </div>
   </header>
 
-  <main class="profile team" id="top">
-    <div class="container">
-      <a class="backlink" href="../index.html">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Back to home
-      </a>
-      <header class="section__head">
+  <main id="top" class="page">
+    <header class="page-head">
+      <div class="container">
+        <a class="backlink" href="../index.html">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to home
+        </a>
         <p class="kicker kicker--sand">The shiverbugs</p>
         <h1>Meet the <span class="underline-sand">Team</span></h1>
-        <p class="section__lede">
-          {{LEDE}}
-        </p>
-      </header>
+        <p class="page-head__lede">{{LEDE}}</p>
+      </div>
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,90 L0,90 Z" fill="var(--paper)"/></svg>
+      </div>
+    </header>
 
-      <h2 class="team__label">Founders</h2>
-      <div class="team__grid team__grid--founders">
+    <!-- The studio story and the Tranzfuser photo. Both lived on the home page
+         until the September 2026 redesign; in a co-dev studio the people are
+         the pitch, so this is where the story about them goes. -->
+    <section class="section studio" id="studio">
+      <div class="container studio__inner">
+        <figure class="studio__photo reveal">
+          <img src="../assets/img/tranzfuser-award-600.webp"
+               srcset="../assets/img/tranzfuser-award-400.webp 400w, ../assets/img/tranzfuser-award-600.webp 600w, ../assets/img/tranzfuser-award.webp 795w"
+               sizes="(max-width: 980px) min(92vw, 480px), 36vw"
+               alt="Shiverbug Studios' three co-founders on stage at Tranzfuser 2025, holding an oversized Public Vote Winner certificate between them, beneath a large lit Tranzfuser sign."
+               width="795" height="530" loading="lazy" decoding="async">
+        </figure>
+        <div class="studio__copy reveal">
+          <p class="kicker kicker--leaf">The studio</p>
+          <h2>Games Are Better <span class="underline-leaf">Together</span></h2>
+          <p>
+            Shiverbug started with a simple idea: games should be joyful, shared,
+            and welcoming for players of all ages. The kind of thing a whole
+            household can pile onto the sofa for.
+          </p>
+          <p>
+            We took Out of Water to ProtoPlay 2025 as a Tranzfuser team, and came
+            home with the Public Vote Winner award: the highest number of votes of
+            any team in the competition. That's our three founders on the stage,
+            turtle included.
+          </p>
+          <p>
+            We're designers, artists and programmers based in North East England.
+            You'll find us at Gamebridge, GameNext, and anywhere else the region's
+            dev scene gets together. Occasionally we even venture down south.
+          </p>
+          <ul class="studio__facts">
+            <li><strong>{{TEAMCOUNT}}</strong><span>people &amp; growing</span></li>
+            <li><strong>NE</strong><span>England, UK</span></li>
+            <li><strong>1</strong><span>debut title in the works</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section team-roster" id="roster">
+      <div class="container">
+        <h2 class="team__label">Founders</h2>
+        <div class="team__grid team__grid--founders">
 {{FOUNDERS}}
-      </div>
+        </div>
 
-      <h2 class="team__label">The studio</h2>
-      <div class="team__grid">
+        <h2 class="team__label">The studio</h2>
+        <div class="team__grid">
 {{CORE}}
-      </div>
+        </div>
 
-      <header class="section__head team__pool-head">
-        <p class="kicker kicker--sand">The talent pool</p>
-        <h2>Friends of the <span class="underline-sand">Studio</span></h2>
-        <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
-      </header>
+        <!-- The one link a student or graduate is here to find, placed under the
+             grid rather than in the lede because the grid is the argument: most
+             of the faces they have just scrolled past arrived the same way they
+             would. -->
+        <p class="team__join">
+          Most of the people above joined us as interns.
+          <a href="../join.html">Here's how that works</a>.
+        </p>
 
-      <div class="team__grid team__grid--pool">
+        <header class="section__head team__pool-head" id="talent-pool">
+          <p class="kicker kicker--sand">The talent pool</p>
+          <h2>Friends of the <span class="underline-sand">Studio</span></h2>
+          <p class="section__lede">Brilliant people who've helped shape our games, from guest contributors to former shiverbugs.</p>
+        </header>
+
+        <div class="team__grid team__grid--pool">
 {{TALENT}}
+        </div>
       </div>
-    </div>
+    </section>
   </main>
 
-  <footer class="footer footer--mini">
-    <div class="container">
-{{SOCIALSROW}}
-      <div class="footer__meta">
-        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="../press.html">Press kit</a> &middot; <a class="footer__press" href="../privacy.html">Privacy</a> &middot; <a class="footer__press" href="../accessibility.html">Accessibility</a></p>
-        <p class="footer__tag">Bringing family game night back to the sofa.</p>
-        <p class="footer__legal">{{LEGAL}}</p>
-      </div>
-    </div>
-  </footer>
+{{FOOTER}}
 
   <script src="../js/main.js"></script>
   <!-- Analytics: GoatCounter. Cookieless, no personal data, no consent banner needed. -->
@@ -1020,8 +1078,8 @@ $hubLd = [ordered]@{
 
 $hubHtml = $teamIndexTemplate.
   Replace('{{CSP}}',    (HtmlEnc $csp)).
-  Replace('{{LEGAL}}',  (HtmlEnc $legal)).
-  Replace('{{SOCIALSROW}}', (FooterSocialsHtml '      ')).
+  Replace('{{FOOTER}}', (FooterHtml '../' 'team')).
+  Replace('{{TEAMCOUNT}}', [string]$teamCount).
   Replace('{{BASE}}',   $baseUrl).
   Replace('{{DESC}}',   (HtmlEnc $hubDesc)).
   Replace('{{LEDE}}',   (HtmlEnc $hubLede)).
@@ -1030,9 +1088,11 @@ $hubHtml = $teamIndexTemplate.
   Replace('{{CORE}}',     (@($rest     | ForEach-Object { MemberTile $_ $false }) -join "`n")).
   Replace('{{TALENT}}',   (@($talent   | ForEach-Object { MemberTile $_ $true  }) -join "`n"))
 
-# MemberTile emits root-relative paths for index.html; inside team/ they need one
-# level up. A srcset holds several of them, so the comma-separated entries after
-# the first need the same treatment as the one in the attribute's opening quote.
+# MemberTile emits root-relative paths (it also serves team-member.html at the
+# root); inside team/ they need one level up. A srcset holds several of them, so
+# the comma-separated entries after the first need the same treatment as the one
+# in the attribute's opening quote. The template's own paths already carry the
+# ../ so neither pattern touches them.
 $hubHtml = $hubHtml.Replace('href="team/', 'href="').
                     Replace('="assets/', '="../assets/').
                     Replace(', assets/', ', ../assets/')
@@ -1050,9 +1110,9 @@ $llms += ("Team of {0} people plus a talent pool of {1} regular collaborators. C
 $llms += ''
 $llms += '## Studio'
 $llms += ''
-$llms += ("- [Home]({0}/): studio overview, Out of Water, the team" -f $baseUrl)
-$llms += ("- [Co-development and work-for-hire]({0}/): services, galleries, packages, process, FAQ - this is the home page" -f $baseUrl)
+$llms += ("- [Home]({0}/): co-development and work-for-hire - the four services with galleries, how it works, the three engagement sizes, and the contact form" -f $baseUrl)
 $llms += ("- [Our games]({0}/games.html): Out of Water - a 2-player split-screen collectathon platformer built in Unity, targeting PC (Steam and Steam Deck), Xbox, PlayStation and Nintendo Switch. In development, no release date announced. Features, screenshots and development news" -f $baseUrl)
+$llms += ("- [FAQ]({0}/faq.html): engagement types, pricing, engines and tools, location, NDAs" -f $baseUrl)
 $llms += ("- [Press kit]({0}/press.html): fact sheet, logos, screenshots, trailer" -f $baseUrl)
 $llms += ("- [Join us]({0}/join.html): how the Teesside University internship intake works, who came through it, and how speculative approaches from everyone else are handled. Applications for the intake go through the university, not this site" -f $baseUrl)
 $llms += ("- [Privacy policy]({0}/privacy.html)" -f $baseUrl)
@@ -1060,7 +1120,7 @@ $llms += ("- [Accessibility statement]({0}/accessibility.html): WCAG 2.2 AA conf
 $llms += ''
 $llms += '## Team'
 $llms += ''
-$llms += ("- [Full roster]({0}/team/): all {1} people, {2} in the studio plus {3} in the talent pool" -f $baseUrl, $all.Count, $teamCount, $talentCount)
+$llms += ("- [Full roster]({0}/team/): the studio story, then all {1} people, {2} in the studio plus {3} in the talent pool" -f $baseUrl, $all.Count, $teamCount, $talentCount)
 # Unfinished profiles stay on the roster - they are real people on the team -
 # but without a link, because the page behind it is noindexed and empty.
 foreach ($p in $team) {
@@ -1259,6 +1319,13 @@ $flatPages = @(
     desc  = "Nearly everyone at Shiverbug who isn't a founder joined as an intern. How the Teesside intake works, and how to approach us if you're not on it."
   },
   @{
+    file  = 'page-faq'
+    path  = 'faq.html'
+    name  = 'FAQ | Shiverbug Studios'
+    crumb = 'FAQ'
+    desc  = 'How co-development with Shiverbug Studios works: the kinds of engagement we take on, how we price, which engines we use, where we are based and NDAs.'
+  },
+  @{
     file  = 'policy-privacy'
     path  = 'privacy.html'
     name  = 'Privacy | Shiverbug Studios'
@@ -1319,6 +1386,7 @@ $pages = @(
   @{ loc = "$baseUrl/team/";         pri = '0.8'; file = 'team/index.html' },
   @{ loc = "$baseUrl/press.html";    pri = '0.7'; file = 'press.html' },
   @{ loc = "$baseUrl/join.html";     pri = '0.6'; file = 'join.html' },
+  @{ loc = "$baseUrl/faq.html";      pri = '0.6'; file = 'faq.html' },
   @{ loc = "$baseUrl/privacy.html";  pri = '0.3'; file = 'privacy.html' },
   @{ loc = "$baseUrl/accessibility.html"; pri = '0.3'; file = 'accessibility.html' }
 )

@@ -43,7 +43,7 @@
                        "about":  {
                                      "@id":  "https://shiverbugstudios.com/#studio"
                                  },
-                       "dateModified":  "2026-08-19",
+                       "dateModified":  "2026-09-03",
                        "inLanguage":  "en-GB"
                    },
                    {
@@ -78,8 +78,7 @@
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="index.html#services">Co-Dev</a>
         <a href="games.html">Our Games</a>
-        <a href="index.html#studio">Studio</a>
-        <a href="index.html#team">Team</a>
+        <a href="team/">Team</a>
         <a href="join.html" aria-current="page">Join Us</a>
         <a href="press.html">Press</a>
         <a class="nav__cta" href="index.html#contact">Get in touch</a>
@@ -90,34 +89,37 @@
     </div>
   </header>
 
-  <main id="top" class="profile legal">
-    <div class="container">
-
-      <a class="backlink" href="index.html">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Back to home
-      </a>
-
-      <header class="section__head">
+  <main id="top" class="page">
+    <header class="page-head">
+      <div class="container">
+        <a class="backlink" href="index.html">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M14 8H3M7 3.5 2.5 8 7 12.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to home
+        </a>
         <p class="kicker kicker--sand">Students, graduates and freelancers</p>
         <h1>Most of Us <span class="underline-sand">Started Here</span></h1>
-        <p class="section__lede">
+        <p class="page-head__lede">
           Apart from the three founders, everyone at Shiverbug came in through our
           internship intake with Teesside University, and most of them are on it right
           now. If you're a Teesside student or graduate weighing up where to put your
           name, this page is the honest version of how that works.
         </p>
-      </header>
+      </div>
+      <div class="wave" aria-hidden="true">
+        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,90 L0,90 Z" fill="var(--paper)"/></svg>
+      </div>
+    </header>
 
-      <div class="legal__body">
+    <div class="container page-body join-layout">
+      <div class="legal__body join-body">
 
-        <h2 class="press__h">The Teesside Route</h2>
+        <h2 class="press__h" id="route">The Teesside Route</h2>
         <p>
           We take students and graduates from Teesside University through the
           university's own placements and internships scheme, and we've done it every
           year we've existed, which, to be straight with you, is not yet very many
           years. The studio was founded in 2025. Nearly everyone on the
-          <a href="team/index.html">team page</a> came in this way.
+          <a href="team/">team page</a> came in this way.
         </p>
         <p>
           The route runs through the university rather than through us. We tell Teesside
@@ -128,21 +130,18 @@
           <a href="https://www.tees.ac.uk/depts/studentfutures/opportunities.cfm" target="_blank" rel="noopener">Student Futures</a>
           and apply there when something of ours appears.
         </p>
-      </div>
 
-      <!-- Out of the 68ch prose column on purpose. Four faces are the whole argument
-           this page makes, and an argument that fits in a paragraph's width reads as
-           a footnote to it. The tiles are generated from data/team.json by
-           tools/build-team.ps1, like every other tile on the site, so a photo or a
-           role that changes has one place to change. Edit $joinSlugs in that script
-           to change who appears. -->
-      <section class="join-faces">
-        <h2 class="press__h">Who's Here Through It</h2>
-        <p class="join-faces__lede">
-          These aren't testimonials. They're people on the intake right now, with a line
-          each about what they brought and a profile a click away.
-        </p>
-        <!-- BUILD:JOIN:START -->
+        <!-- Four faces are the whole argument this page makes. The rows are
+             generated from data/team.json by tools/build-team.ps1, like every other
+             face on the site, so a photo or a role that changes has one place to
+             change. Edit $joinFaces in that script to change who appears. -->
+        <section class="join-faces">
+          <h2 class="press__h" id="faces">Who's Here Through It</h2>
+          <p class="join-faces__lede">
+            These aren't testimonials. They're people on the intake right now, with a line
+            each about what they brought and a profile a click away.
+          </p>
+          <!-- BUILD:JOIN:START -->
         <ul class="join-people">
           <li class="join-person">
             <div class="member__photo join-person__photo">
@@ -186,11 +185,9 @@
           </li>
         </ul>
         <!-- BUILD:JOIN:END -->
-      </section>
+        </section>
 
-      <div class="legal__body">
-
-        <h2 class="press__h">What You'd Actually Be Doing</h2>
+        <h2 class="press__h" id="work">What You'd Actually Be Doing</h2>
         <p>
           Real work on what we're actually making, credited to you by name. We're
           building <a href="games.html">Out of Water</a>, a two-player split-screen
@@ -218,7 +215,7 @@
           a two-hundred-person studio, and both of those are reasonable.
         </p>
 
-        <h2 class="press__h">Applying</h2>
+        <h2 class="press__h" id="applying">Applying</h2>
         <p>
           <strong>Don't send us a CV through this website.</strong> Not because we're
           precious about it, but because the university runs the shortlist for the intern
@@ -228,7 +225,7 @@
           when a Shiverbug role is listed and it lands in the right pile.
         </p>
 
-        <h2 class="press__h">Not a Teesside Student?</h2>
+        <h2 class="press__h" id="everyone-else">Not a Teesside Student?</h2>
         <p>
           Then there's no scheme to point you at, but we'd still rather hear from you than
           not. Use the <a href="index.html#contact">contact form</a>, pick
@@ -244,12 +241,52 @@
 
       </div>
 
+      <!-- The one thing a student is here to find, kept in view while they read:
+           the door in is Student Futures, not this site. -->
+      <aside class="join-aside">
+        <nav class="toc" aria-label="On this page">
+          <p class="toc__label">On this page</p>
+          <a href="#route">The Teesside route</a>
+          <a href="#faces">Who's here through it</a>
+          <a href="#work">What you'd be doing</a>
+          <a href="#applying">Applying</a>
+          <a href="#everyone-else">Not a Teesside student?</a>
+        </nav>
+        <div class="aside-card">
+          <p class="aside-card__title">Teesside student or graduate?</p>
+          <p>Roles are listed on Student Futures when we have them. That is the only door in for the intake.</p>
+          <a class="btn btn--sand" href="https://www.tees.ac.uk/depts/studentfutures/opportunities.cfm" target="_blank" rel="noopener">Open Student Futures</a>
+        </div>
+      </aside>
     </div>
   </main>
 
-  <footer class="footer footer--mini">
+  <footer class="footer">
     <div class="container">
-        <!-- BUILD:SOCIALS:START -->
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img class="footer__wordmark" src="assets/img/nav-wordmark.webp" alt="Shiverbug Studios" width="316" height="138" loading="lazy" decoding="async">
+          <p>Designers, artists and programmers in North East England. Co-development for studios, and a couch co-op game of our own.</p>
+          <a class="email-link" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+        </div>
+        <nav class="footer__nav" aria-label="Site">
+          <div class="footer__col">
+            <p class="footer__label">Studio</p>
+            <a href="index.html#services">Co-development</a>
+            <a href="games.html">Out of Water</a>
+            <a href="team/">Team</a>
+            <a href="join.html" aria-current="page">Join us</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer__col">
+            <p class="footer__label">Small print</p>
+            <a href="press.html">Press kit</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="accessibility.html">Accessibility</a>
+          </div>
+        </nav>
+      </div>
+      <!-- BUILD:SOCIALS:START -->
         <nav class="footer__socials" aria-label="Shiverbug Studios elsewhere">
           <ul>
             <li><a href="https://bsky.app/profile/shiverbugstudios.bsky.social" target="_blank" rel="me noopener" title="Bluesky"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.913 8.686 7.954 4.747 5.202 2.805 2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg><span class="visually-hidden">Shiverbug Studios on Bluesky</span></a></li>
@@ -264,7 +301,8 @@
         </nav>
         <!-- BUILD:SOCIALS:END -->
       <div class="footer__meta">
-        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK &middot; <a class="footer__press" href="press.html">Press kit</a> &middot; <a class="footer__press" href="privacy.html">Privacy</a> &middot; <a class="footer__press" href="accessibility.html">Accessibility</a></p>
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK</p>
+        <p class="footer__tag">Bringing family game night back to the sofa.</p>
         <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
       </div>
     </div>

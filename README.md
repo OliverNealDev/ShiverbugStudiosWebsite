@@ -16,13 +16,19 @@ script produces:
 | Generated | From |
 | --- | --- |
 | `team/*.html` (one page per person) | `data/team.json` |
-| `team/index.html` (the roster hub) | `data/team.json` |
-| The team grids in `index.html`, between the `BUILD:TEAM` / `BUILD:TALENT` markers | `data/team.json` |
+| `team/index.html` (the studio story and the roster) | `data/team.json` |
 | The structured-data block in `index.html`, between the `BUILD:SCHEMA` markers | `data/team.json` |
+| The intake faces in `join.html`, between the `BUILD:JOIN` markers | `data/team.json` and `$joinFaces` in the script |
+| The footer social row on every hand-written page, between the `BUILD:SOCIALS` markers | `$studioSocials` in the script |
+| The `WebPage` and `VideoGame` graphs on the flat pages, between the `BUILD:PAGE` / `BUILD:GAME` markers | the script |
 | The roster in `team-member.html`, between the `BUILD:REDIRECT-LIST` markers | `data/team.json` |
 | `js/legacy-redirect.js` | `data/team.json` |
 | `llms.txt` | `data/team.json` |
-| `sitemap.xml` | the page list in the script, plus git history for `lastmod` |
+| `sitemap.xml` | the page list in the script, plus `dateModified` in `data/team.json` |
+
+The team grids used to be written into `index.html` too. Since the September 2026
+redesign the roster renders in one place, `team/index.html`, and the home page
+carries no `BUILD:TEAM` / `BUILD:TALENT` markers.
 
 The three press archives in `assets/press/` are generated too, by
 `tools/build-press-kit.ps1`, from files already in the repo:
@@ -40,9 +46,14 @@ input produces a byte-identical zip, so `git status` stays quiet.
 `data/team.json` is the single source of truth for everyone on the site. Its
 `_readme` key documents every field.
 
-Everything else (`index.html` outside the markers, `co-dev.html`, `press.html`,
-`privacy.html`, `accessibility.html`, `404.html`, the CSS and the JS) is written
-by hand.
+Everything else (`index.html` outside the markers, `games.html`, `faq.html`,
+`join.html` outside its markers, `co-dev.html`, `press.html`, `privacy.html`,
+`accessibility.html`, `404.html`, the CSS and the JS) is written by hand.
+
+The nav and the footer are the same block on every page, hand-written on the
+flat pages and emitted by `FooterHtml` in `tools/build-team.ps1` for the two
+templates. Changing a footer link means changing it in both places; the flat
+pages have no marker for it.
 
 ## Working on it
 

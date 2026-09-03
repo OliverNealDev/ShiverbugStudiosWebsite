@@ -97,7 +97,7 @@
                    },
                    {
                        "@id":  "https://shiverbugstudios.com/games.html",
-                       "dateModified":  "2026-08-19"
+                       "dateModified":  "2026-09-03"
                    }
                ]
 }
@@ -115,11 +115,10 @@
       <nav class="nav__links" id="navLinks" aria-label="Primary">
         <a href="index.html#services">Co-Dev</a>
         <a href="games.html" aria-current="page">Our Games</a>
-        <a href="index.html#studio">Studio</a>
-        <a href="index.html#team">Team</a>
+        <a href="team/">Team</a>
         <a href="join.html">Join Us</a>
         <a href="press.html">Press</a>
-        <a class="nav__cta" href="#contact" data-cta="Games page enquiry">Get in touch</a>
+        <a class="nav__cta" href="index.html#contact" data-cta="Games page enquiry">Get in touch</a>
       </nav>
       <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -129,94 +128,98 @@
 
   <main id="top">
 
-    <!-- ======= GAME ======= -->
-    <section class="section game" id="out-of-water">
+    <!-- ======= GAME HERO ======= -->
+    <!-- The one page whose subject is a picture, so the picture is the hero: the
+         screenshot runs the full shell width under the title. The clip and the
+         two press shots sit further down as a media row, where a visitor who has
+         already decided to look at them will find them. -->
+    <section class="game-hero" id="out-of-water">
       <div class="container">
-        <header class="section__head reveal">
-          <p class="kicker kicker--sea">Our debut title</p>
-          <h1>Out of <span class="underline-sea">Water</span></h1>
-          <p class="section__lede">
-            A 2-player split-screen collectathon platformer. One of you is a turtle.
-            The other is a seagull. Together you explore a colourful world full of
-            charm, clever challenges and an army of crabs.
-          </p>
-        </header>
+        <div class="game-hero__head reveal">
+          <div>
+            <p class="kicker kicker--sand">Our debut title</p>
+            <h1>Out of Water</h1>
+            <p class="game-hero__lede">
+              A 2-player split-screen collectathon platformer. One of you is a turtle.
+              The other is a seagull. Together you explore a colourful world full of
+              charm, clever challenges and an army of crabs.
+            </p>
+          </div>
+          <div class="game-hero__side">
+            <p class="game__status"><span class="dot dot--pulse"></span> In development</p>
+            <a class="btn btn--sand" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
+            <a class="btn btn--ghost" href="https://discord.gg/gZDWdZEAxm" target="_blank" rel="noopener">Join the Discord</a>
+          </div>
+        </div>
+        <figure class="game-hero__frame reveal">
+          <img src="assets/img/out-of-water-screenshot-1100.webp"
+               srcset="assets/img/out-of-water-screenshot-480.webp 480w, assets/img/out-of-water-screenshot-760.webp 760w, assets/img/out-of-water-screenshot-1100.webp 1100w, assets/img/out-of-water-screenshot-1520.webp 1520w, assets/img/out-of-water-screenshot.webp 1916w"
+               sizes="min(92vw, 1160px)"
+               alt="Out of Water screenshot: a turtle and a seagull exploring a sunny beach cove of crates and palm trees"
+               width="1916" height="1080" fetchpriority="high" decoding="async">
+          <figcaption class="game-hero__caption">Screenshot from the current build. Work in progress.</figcaption>
+        </figure>
+      </div>
+    </section>
 
-        <div class="game__player reveal">
-          <video id="trailer" poster="assets/img/out-of-water-gameplay-poster.webp" preload="none" muted loop playsinline controls
-                 aria-label="Out of Water gameplay: the turtle and the seagull on a sunlit beach, with palm trees, tall orange cliffs and the sea beyond">
-            <!-- WebM first so every browser that can decode VP9 takes the smaller
-                 file; the type attribute lets the ones that cannot skip it without
-                 downloading anything. Safari had no WebM support at all before 14.1
-                 on macOS and 17.4 on iOS, and an older iPhone would otherwise get
-                 the poster and a play button that does nothing, so H.264 follows as
-                 a fallback rather than as the primary. -->
-            <source src="assets/video/out-of-water-gameplay.webm" type="video/webm">
-            <source src="assets/video/out-of-water-gameplay.mp4" type="video/mp4">
-          </video>
+    <!-- ======= GAME ======= -->
+    <section class="section game">
+      <div class="container">
+        <div class="game__grid reveal">
+          <ul class="game__features">
+            <li><strong>Two players, one sofa</strong>Split-screen co-op made for couch play. Siblings, parents, grandparents, whoever's around.</li>
+            <li><strong>A turtle &amp; a seagull</strong>Two very different heroes with two very different ways of getting about.</li>
+            <li><strong>Collect everything</strong>A proper collectathon in the spirit of the classics we grew up on.</li>
+            <li><strong>An army of crabs</strong>Yes, an army. Of crabs.</li>
+          </ul>
+
+          <div class="newsletter">
+            <div class="newsletter__copy">
+              <h2>Hear It From Us First</h2>
+              <p>A Steam page is on the way. Leave your email and we'll write when there's real Out of Water news. No spam, no weekly waffle.</p>
+            </div>
+            <form class="newsletter__form" id="newsletterForm" action="https://buttondown.com/api/emails/embed-subscribe/oliverjn04" method="POST">
+              <label class="visually-hidden" for="newsEmail">Email address</label>
+              <input id="newsEmail" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+              <button class="btn btn--sand" type="submit">Keep me posted</button>
+              <p class="form-privacy">Your address goes to Buttondown, who send our emails. Unsubscribe any time. See our <a href="privacy.html">privacy policy</a>.</p>
+            </form>
+          </div>
+        </div>
+
+        <!-- The clip and the two press screenshots. Full-size opens in a tab, the
+             same bargain press.html makes. The clip keeps its native controls, so
+             2.2.2 Pause, Stop, Hide is covered without a custom button. -->
+        <div class="game__media reveal">
+          <div class="game__player">
+            <video id="trailer" poster="assets/img/out-of-water-gameplay-poster.webp" preload="none" muted loop playsinline controls
+                   aria-label="Out of Water gameplay: the turtle and the seagull on a sunlit beach, with palm trees, tall orange cliffs and the sea beyond">
+              <!-- WebM first so every browser that can decode VP9 takes the smaller
+                   file; the type attribute lets the ones that cannot skip it without
+                   downloading anything. H.264 follows as a fallback for older Safari. -->
+              <source src="assets/video/out-of-water-gameplay.webm" type="video/webm">
+              <source src="assets/video/out-of-water-gameplay.mp4" type="video/mp4">
+            </video>
+          </div>
+          <a href="assets/press/oow-screenshot-cove.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-cove-640.jpg" srcset="assets/press/oow-screenshot-cove-400.jpg 400w, assets/press/oow-screenshot-cove-640.jpg 640w, assets/press/oow-screenshot-cove-900.jpg 900w" sizes="(max-width: 760px) 92vw, 30vw" alt="Out of Water screenshot: the turtle and the seagull exploring a sunny beach cove" loading="lazy"></a>
+          <a href="assets/press/oow-screenshot-characters.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-characters-640.jpg" srcset="assets/press/oow-screenshot-characters-400.jpg 400w, assets/press/oow-screenshot-characters-640.jpg 640w" sizes="(max-width: 760px) 92vw, 30vw" alt="Out of Water screenshot: the turtle in a sombrero and the seagull in a top hat" loading="lazy"></a>
         </div>
         <p class="game__trailer-note reveal">
           Koopa and Kiko are waiting for the trailer, just like you.
         </p>
-
-        <!-- These already lived in the press kit and nowhere a player would ever
-             look. One screenshot was never going to sell a world this colourful.
-             Full-size opens in a tab, the same bargain press.html makes. -->
-        <div class="game__shots reveal">
-          <a href="assets/press/oow-screenshot-cove.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-cove-640.jpg" srcset="assets/press/oow-screenshot-cove-400.jpg 400w, assets/press/oow-screenshot-cove-640.jpg 640w, assets/press/oow-screenshot-cove-900.jpg 900w" sizes="(max-width: 760px) 92vw, 46vw" alt="Out of Water screenshot: the turtle and the seagull exploring a sunny beach cove" loading="lazy"></a>
-          <a href="assets/press/oow-screenshot-characters.jpg" target="_blank" rel="noopener"><img src="assets/press/oow-screenshot-characters-640.jpg" srcset="assets/press/oow-screenshot-characters-400.jpg 400w, assets/press/oow-screenshot-characters-640.jpg 640w" sizes="(max-width: 760px) 92vw, 46vw" alt="Out of Water screenshot: the turtle in a sombrero and the seagull in a top hat" loading="lazy"></a>
-        </div>
-
-        <ul class="game__features">
-          <li class="reveal"><strong>Two players, one sofa</strong>Split-screen co-op made for couch play. Siblings, parents, grandparents, whoever's around.</li>
-          <li class="reveal"><strong>A turtle &amp; a seagull</strong>Two very different heroes with two very different ways of getting about.</li>
-          <li class="reveal"><strong>Collect everything</strong>A proper collectathon in the spirit of the classics we grew up on.</li>
-          <li class="reveal"><strong>An army of crabs</strong>Yes, an army. Of crabs.</li>
-        </ul>
-
-        <div class="game__cta reveal">
-          <div>
-            <p class="game__status"><span class="dot dot--pulse"></span> In development</p>
-            <p class="game__note">A Steam page is on the way. Leave your email below and you'll hear the day it goes live.</p>
-          </div>
-          <div class="game__cta-buttons">
-            <a class="btn btn--ink" href="https://linktr.ee/shiverbugstudios" target="_blank" rel="noopener">Follow development</a>
-            <a class="btn btn--sand" href="#publishers">For publishers</a>
-          </div>
-        </div>
-
-        <div class="newsletter reveal">
-          <div class="newsletter__copy">
-            <h3>Hear It From Us First</h3>
-            <p>Leave your email and we'll write when there's real Out of Water news. No spam, no weekly waffle.</p>
-          </div>
-          <form class="newsletter__form" id="newsletterForm" action="https://buttondown.com/api/emails/embed-subscribe/oliverjn04" method="POST">
-            <label class="visually-hidden" for="newsEmail">Email address</label>
-            <input id="newsEmail" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
-            <button class="btn btn--ink" type="submit">Keep me posted</button>
-            <p class="form-privacy">Your address goes to Buttondown, who send our emails. Unsubscribe any time. See our <a href="privacy.html">privacy policy</a>.</p>
-          </form>
-        </div>
       </div>
     </section>
 
     <!-- ======= DISCORD / COMMUNITY ======= -->
     <!-- Sits between the game and the publishers pitch on purpose: the Discord ask
-         is aimed at players, so it has to land before the page switches audience.
-         An ink band rather than another strip of the game section - the newsletter
-         above already collects "keep me posted" emails, and a second look-alike
-         strip would read as the same ask twice. The pub section keeps this and the
-         dark footer from sitting back to back. -->
+         is aimed at players, so it has to land before the page switches audience. -->
     <section class="section community">
-      <!-- Same divider as the hero and footer, worn on both edges. Each svg is
-           filled with the colour of the section it touches: paper above (the
-           game section) and paper below (the pub gradient starts on paper). -->
       <div class="wave wave--top" aria-hidden="true">
         <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--paper)"/></svg>
       </div>
       <div class="container community__inner reveal">
         <p class="kicker kicker--sand">The community</p>
-        <h2>Come Hang Out on <span class="squiggle">Discord</span></h2>
+        <h2>Come Hang Out on <span class="underline-sand">Discord</span></h2>
         <p class="community__pitch">
           Development happens out loud on our Discord: work-in-progress shots, dev
           chatter, and first looks at things long before they're trailer-ready.
@@ -238,8 +241,7 @@
          page and no date to give, a dedicated /publishers URL would mostly advertise
          how early we are. As a section it still has its own address to paste into a
          pitch email, and it sits after the player-facing pitch so it interrupts
-         nobody who came here for the game. Revisit when there's a trailer and a
-         playable slice to put behind it. -->
+         nobody who came here for the game. -->
     <section class="section pub">
       <div class="container">
         <header class="section__head reveal">
@@ -263,7 +265,7 @@
             <dt>Studio</dt><dd>Shiverbug Studios Ltd, founded 2025</dd>
             <dt>Team</dt><dd>Eleven, plus a talent pool of regular collaborators</dd>
             <dt>Based</dt><dd>North East England, UK</dd>
-            <dt>Part of</dt><dd>UK Games Fund, Games Republic and the Entrepreneurs Forum, and Tranzfuser, where we won the public vote</dd>
+            <dt>Part of</dt><dd>UK Games Fund, Game Republic and the Entrepreneurs&rsquo; Forum, and Tranzfuser, where we won the public vote</dd>
           </dl>
 
           <div class="pub__ask">
@@ -273,8 +275,8 @@
               need is your name and a line about who you are.
             </p>
             <div class="pub__buttons">
-              <a class="btn btn--sand" href="#contact" data-cta="Pitch deck request" data-prefill="I&rsquo;d like the Out of Water pitch deck. Here&rsquo;s who I am: ">Request the pitch deck</a>
-              <a class="btn btn--ghost-ink" href="#contact" data-cta="Publishing enquiry">Start a conversation</a>
+              <a class="btn btn--sand" href="index.html#contact" data-cta="Pitch deck request" data-topic="Games enquiry" data-prefill="I&rsquo;d like the Out of Water pitch deck. Here&rsquo;s who I am: ">Request the pitch deck</a>
+              <a class="btn btn--ghost-ink" href="index.html#contact" data-cta="Publishing enquiry" data-topic="Games enquiry">Start a conversation</a>
             </div>
             <p class="pub__note">
               Screenshots, logos and a fact sheet are all in the
@@ -286,40 +288,32 @@
     </section>
   </main>
 
-
-
-  <!-- ======= CONTACT / FOOTER ======= -->
-  <!-- outside <main> on purpose: a <footer> nested in main is not exposed as a
-       contentinfo landmark, so screen reader users lose 'skip to footer'. -->
-  <!-- The #contact anchor is on the heading below, not here. Landing on the
-       <footer> put the 260px logo at the top of the screen and pushed the form
-       off the bottom, so "Get in touch" looked like it had done nothing. -->
   <footer class="footer">
-      <div class="wave wave--top" aria-hidden="true">
-        <svg viewBox="0 0 1440 90" preserveAspectRatio="none"><path d="M0,48 C240,96 480,0 720,32 C960,64 1200,16 1440,48 L1440,0 L0,0 Z" fill="var(--plate)"/></svg>
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <img class="footer__wordmark" src="assets/img/nav-wordmark.webp" alt="Shiverbug Studios" width="316" height="138" loading="lazy" decoding="async">
+          <p>Designers, artists and programmers in North East England. Co-development for studios, and a couch co-op game of our own.</p>
+          <a class="email-link" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
+        </div>
+        <nav class="footer__nav" aria-label="Site">
+          <div class="footer__col">
+            <p class="footer__label">Studio</p>
+            <a href="index.html#services">Co-development</a>
+            <a href="games.html" aria-current="page">Out of Water</a>
+            <a href="team/">Team</a>
+            <a href="join.html">Join us</a>
+            <a href="faq.html">FAQ</a>
+          </div>
+          <div class="footer__col">
+            <p class="footer__label">Small print</p>
+            <a href="press.html">Press kit</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="accessibility.html">Accessibility</a>
+          </div>
+        </nav>
       </div>
-      <div class="container footer__inner">
-        <div class="footer__main reveal">
-          <img class="footer__logo" src="assets/img/logo.svg" width="260" height="260" loading="lazy" decoding="async" alt="Shiverbug Studios logo: an ornate moth with a skull motif">
-          <h2 id="contact" tabindex="-1">Let's Make Something <span class="squiggle">Joyful.</span></h2>
-          <p>Developer, publisher, platform holder, or you just fancy chatting about games. We'd love to hear from you.</p>
-          <a class="footer__email" href="mailto:contact@shiverbugstudios.com">contact@shiverbugstudios.com</a>
-
-          <form class="footer__form" id="contactForm" action="https://formspree.io/f/xgogzlpv" method="POST">
-            <input type="hidden" name="_subject" value="Website contact form">
-            <!-- honeypot: hidden from people, catnip to bots. Formspree drops anything that fills it. -->
-            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" class="visually-hidden">
-            <label class="visually-hidden" for="cfName">Your name</label>
-            <input id="cfName" type="text" name="name" placeholder="Your name" autocomplete="name" required>
-            <label class="visually-hidden" for="cfEmail">Your email</label>
-            <input id="cfEmail" type="email" name="email" placeholder="Your email" autocomplete="email" required>
-            <label class="visually-hidden" for="cfMsg">Message</label>
-            <textarea id="cfMsg" name="message" rows="4" placeholder="Tell us what you're thinking about…" required></textarea>
-            <button class="btn btn--sand" type="submit">Send it our way</button>
-            <p class="form-privacy">We'll only use this to reply to you. Messages reach us via Formspree. See our <a href="privacy.html">privacy policy</a>.</p>
-          </form>
-
-          <!-- BUILD:SOCIALS:START -->
+      <!-- BUILD:SOCIALS:START -->
         <nav class="footer__socials" aria-label="Shiverbug Studios elsewhere">
           <ul>
             <li><a href="https://bsky.app/profile/shiverbugstudios.bsky.social" target="_blank" rel="me noopener" title="Bluesky"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 10.8C10.913 8.686 7.954 4.747 5.202 2.805 2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.815 2.736 3.713 3.66 6.383 3.364-3.912.58-7.387 2.005-2.83 7.078 5.013 5.19 6.87-1.113 7.823-4.308.953 3.195 2.05 9.271 7.733 4.308 4.267-4.308 1.172-6.498-2.74-7.078 2.67.297 5.568-.628 6.383-3.364.246-.828.624-5.79.624-6.478 0-.69-.139-1.861-.902-2.206-.659-.298-1.664-.62-4.3 1.24C16.046 4.748 13.087 8.687 12 10.8Z"/></svg><span class="visually-hidden">Shiverbug Studios on Bluesky</span></a></li>
@@ -333,13 +327,12 @@
           </ul>
         </nav>
         <!-- BUILD:SOCIALS:END -->
-        </div>
-        <div class="footer__meta">
-          <p>© <span id="year">2026</span> Shiverbug Studios Ltd · North East England, UK · <a class="footer__press" href="press.html">Press kit</a> · <a class="footer__press" href="privacy.html">Privacy</a> &middot; <a class="footer__press" href="accessibility.html">Accessibility</a></p>
-          <p class="footer__tag">Bringing family game night back to the sofa.</p>
-          <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
-        </div>
+      <div class="footer__meta">
+        <p>&copy; <span id="year">2026</span> Shiverbug Studios Ltd &middot; North East England, UK</p>
+        <p class="footer__tag">Bringing family game night back to the sofa.</p>
+        <p class="footer__legal">Shiverbug Studios Ltd is registered in England and Wales, company no. 16485763. Registered office: Victoria Building, Victoria Road, Middlesbrough, TS1 3AP, United Kingdom.</p>
       </div>
+    </div>
   </footer>
 
   <script src="js/main.js"></script>

@@ -240,8 +240,11 @@ document.querySelectorAll('.carousel').forEach((carousel) => {
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const behavior = reduceMotion ? 'auto' : 'smooth';
 
-  // looping clips only load and play while on screen (and never with reduced motion)
-  const vids = track.querySelectorAll('video');
+  // looping clips only load and play while on screen (and never with reduced motion).
+  // Only the LEAD slot of each gallery plays in place: the thumbnails under it are
+  // too small to carry the 44px pause control, so a clip sitting in one stays on
+  // its first frame and plays in the viewer, with controls, when it is opened.
+  const vids = track.querySelectorAll('.carousel__slot--lead video');
   if (vids.length && !reduceMotion && 'IntersectionObserver' in window) {
     const vio = new IntersectionObserver((entries) => {
       entries.forEach(({ isIntersecting, target }) => {
@@ -535,7 +538,11 @@ const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g
 const CODEV_TOPIC = 'Co-development enquiry';
 const topicSelect = document.getElementById('cdTopic');
 const codevFields = [...document.querySelectorAll('#codevForm .field--codev')];
-const codevRequired = ['cdStudio', 'cdHelp'];
+// The studio, discipline, size and engine pickers went with the redesign: a first
+// message does not need to be a brief. Only the NDA row is co-dev-specific now, and
+// nothing in that group is required, so this list is empty - kept so the mechanism
+// is still here if a required co-dev field ever comes back.
+const codevRequired = [];
 
 const syncCodevFields = () => {
   if (!topicSelect) return;
